@@ -6,4 +6,4 @@
     android:divider="@android:color/transparent"
     android:dividerHeight="0dp"
     android:background="#cccc"
-    tools:context="net.brainail.everboxing.NavigationDrawerFragment" />
+    tools:context="net.brainail.everboxing.windows.fragments.NavigationDrawerFragment" />
