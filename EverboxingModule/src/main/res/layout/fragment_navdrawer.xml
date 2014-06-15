@@ -1,0 +1,11 @@
+<ListView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:choiceMode="singleChoice"
+    android:divider="?android:attr/listDivider"
+    android:dividerHeight="2dp"
+    android:gravity="center_vertical"
+    android:background="#DDDDDD"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" />
