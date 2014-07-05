@@ -1,4 +1,4 @@
-package org.brainail.everboxing.windows.fragments;
+package org.brainail.Everboxing.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.brainail.everboxing.windows.activities.NavDrawerActivity;
-import org.brainail.everboxing.R;
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.activities.NavDrawerActivity;
 
 public class PlaceholderFragment extends Fragment {
 

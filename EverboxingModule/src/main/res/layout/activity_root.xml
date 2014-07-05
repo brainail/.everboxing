@@ -13,6 +13,6 @@
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:name="org.brainail.everboxing.windows.fragments.NavDrawerFragment"/>
+        android:name="org.brainail.Everboxing.ui.fragments.NavDrawerFragment"/>
 
 </android.support.v4.widget.DrawerLayout>

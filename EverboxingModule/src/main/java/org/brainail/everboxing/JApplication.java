@@ -1,4 +1,4 @@
-package org.brainail.everboxing;
+package org.brainail.Everboxing;
 
 import android.annotation.TargetApi;
 import android.app.Application;

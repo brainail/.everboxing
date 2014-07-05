@@ -1,4 +1,4 @@
-package org.brainail.everboxing.windows.activities;
+package org.brainail.Everboxing.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,9 +9,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.brainail.everboxing.R;
-import org.brainail.everboxing.windows.fragments.NavDrawerFragment;
-import org.brainail.everboxing.windows.fragments.PlaceholderFragment;
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.fragments.NavDrawerFragment;
+import org.brainail.Everboxing.ui.fragments.PlaceholderFragment;
 
 public class NavDrawerActivity extends ActionBarActivity implements NavDrawerFragment.NavigationDrawerCallbacks {
 
