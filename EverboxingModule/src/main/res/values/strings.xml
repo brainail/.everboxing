@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Everboxing</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
+    <!-- General -->
+    <string name="app_name">EVERBOXING</string>
+
+    <!-- Action Bar Menu -->
     <string name="action_settings">Settings</string>
+
+    <!-- Settings -->
+    <string name="settings_activity_title">SETTINGS</string>
+    <string name="settings_account_header">ACCOUNT</string>
+    <string name="settings_add_account_title">Add account</string>
+    <string name="settings_category_account_key">settings_category_account</string>
+    <string name="settings_add_account_key">settings_add_account</string>
+    <string name="settings_add_account_summary">Add a new Google Drive account</string>
+    <string name="settings_ringtone_silent_summary">Silent</string>
 
 </resources>

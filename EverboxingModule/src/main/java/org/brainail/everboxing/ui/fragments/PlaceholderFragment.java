@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.activities.NavDrawerActivity;
-
 public class PlaceholderFragment extends Fragment {
 
     // The fragment argument representing the section number for this fragment.
@@ -28,8 +25,8 @@ public class PlaceholderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_test, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+        View rootView=null;//inflater.inflate(R.layout.fragment_test, container, false);
+        TextView textView = null;//(TextView) rootView.findViewById(R.id.section_label);
         textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
         return rootView;
     }
@@ -37,7 +34,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((NavDrawerActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
+        // ((HomeActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
 }
