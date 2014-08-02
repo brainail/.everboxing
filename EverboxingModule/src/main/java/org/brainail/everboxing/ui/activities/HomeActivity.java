@@ -45,7 +45,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case android.R.id.home:
                 mMenuDrawer.toggleMenu();
                 return true;
@@ -56,7 +55,6 @@ public class HomeActivity extends BaseActivity {
 
             default:
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);

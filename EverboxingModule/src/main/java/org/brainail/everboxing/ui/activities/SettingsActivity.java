@@ -1,7 +1,9 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
@@ -21,7 +24,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.DeviceUtils;
+import org.brainail.Everboxing.auth.AuthorizationFlow;
+import org.brainail.Everboxing.utils.PhoneUtils;
 import org.brainail.Everboxing.utils.Sdk;
 import org.brainail.Everboxing.utils.StringUtils;
 
@@ -32,7 +36,7 @@ import java.util.List;
  * Date: 06.07.14<br/>
  * Time: 16:19<br/>
  */
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener {
 
     /**
      * Determines whether to always show the simplified settings UI, where
@@ -42,10 +46,14 @@ public class SettingsActivity extends PreferenceActivity {
      */
     private static final boolean SINGLE_PANE_MODE = true;
 
+    private AuthorizationFlow mAuthorizationFlow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+
+        mAuthorizationFlow = new AuthorizationFlow(this);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -76,7 +84,12 @@ public class SettingsActivity extends PreferenceActivity {
     private void setupSimplePreferencesScreen() {
         if (!isSimplePreferences(this)) return;
 
+        addPreferencesFromResource(R.xml.settings_general);
+
         // Add 'account' settings.
+        final PreferenceCategory settingsAccountHeader = new PreferenceCategory(this);
+        settingsAccountHeader.setTitle(R.string.settings_account_header);
+        getPreferenceScreen().addPreference(settingsAccountHeader);
         addPreferencesFromResource(R.xml.settings_account);
 
         // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
@@ -84,13 +97,16 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
         // bindPreferenceSummaryToValue(findPreference(<KEY>));
 
-        fixTopPadding();
+        // Set click listeners
+        preferenceWithClickListener(this, getString(R.string.settings_add_account_key));
+
+        topPaddingWorkaround();
     }
 
-    private void fixTopPadding() {
+    private void topPaddingWorkaround() {
         try {
             final ListView allPreferences = (ListView) findViewById(android.R.id.list);
-            ViewGroup parent = (ViewGroup) allPreferences.getParent();
+            final ViewGroup parent = (ViewGroup) allPreferences.getParent();
             parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), parent.getPaddingBottom());
         } catch (Exception exception) {
             // Do nothing
@@ -99,7 +115,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public boolean onIsMultiPane() {
-        return DeviceUtils.isXLTablet(this) && !isSimplePreferences(this);
+        return PhoneUtils.isXLTablet(this) && !isSimplePreferences(this);
     }
 
     /**
@@ -110,7 +126,7 @@ public class SettingsActivity extends PreferenceActivity {
      * "simplified" settings UI should be shown.
      */
     private static boolean isSimplePreferences(Context context) {
-        return SINGLE_PANE_MODE || !Sdk.isSdkSupported(Sdk.HONEYCOMB) || !DeviceUtils.isXLTablet(context);
+        return SINGLE_PANE_MODE || !Sdk.isSdkSupported(Sdk.HONEYCOMB) || !PhoneUtils.isXLTablet(context);
     }
 
     @Override
@@ -136,15 +152,9 @@ public class SettingsActivity extends PreferenceActivity {
                 if (TextUtils.isEmpty(value.toString())) {
                     preference.setSummary(R.string.settings_ringtone_silent_summary);
                 } else {
-                    final Ringtone ringtoneManager
-                            = RingtoneManager.getRingtone(preference.getContext(), Uri.parse(value.toString()));
-
-                    if (null == ringtoneManager) {
-                        preference.setSummary(null);
-                    } else {
-                        final String summary = ringtoneManager.getTitle(preference.getContext());
-                        preference.setSummary(summary);
-                    }
+                    final Context context = preference.getContext();
+                    final Ringtone ringMgr = RingtoneManager.getRingtone(context, Uri.parse(value.toString()));
+                    preference.setSummary(null == ringMgr ? null : ringMgr.getTitle(preference.getContext()));
                 }
             } else {
                 preference.setSummary(value.toString());
@@ -169,10 +179,36 @@ public class SettingsActivity extends PreferenceActivity {
         preference.setOnPreferenceChangeListener(SUMMARY_BINDER);
 
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-        final String value = preferences.getString(preference.getKey(), StringUtils.EMPTY_STRING);
+        final String value = preferences.getString(preference.getKey(), StringUtils.EMPTY);
 
         // Trigger the listener immediately with the preference's current value.
         SUMMARY_BINDER.onPreferenceChange(preference, value);
+    }
+
+    private static void preferenceWithClickListener(final Activity activity, final String preferenceKey) {
+        if (activity instanceof PreferenceActivity) {
+            final PreferenceActivity preferenceActivity = (PreferenceActivity) activity;
+            final Preference preference = preferenceActivity.findPreference(preferenceKey);
+
+            if (null != preference && activity instanceof Preference.OnPreferenceClickListener) {
+                preference.setOnPreferenceClickListener((Preference.OnPreferenceClickListener) activity);
+            }
+        }
+    }
+
+    @Override
+    public boolean onPreferenceClick(final Preference preference) {
+        if (getString(R.string.settings_add_account_key).equals(preference.getKey())) {
+            mAuthorizationFlow.authorize();
+        }
+
+        return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mAuthorizationFlow.handleOnActivityResult(requestCode, resultCode, data)) return;
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -187,6 +223,9 @@ public class SettingsActivity extends PreferenceActivity {
             // their values. When their values change, their summaries are updated
             // to reflect the new value, per the Android Design guidelines.
             // bindPreferenceSummaryToValue(findPreference(<KEY>));
+
+            // Set click listeners
+            preferenceWithClickListener(getActivity(), getString(R.string.settings_add_account_key));
         }
 
     }

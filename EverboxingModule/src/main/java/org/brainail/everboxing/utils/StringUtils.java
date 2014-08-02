@@ -6,5 +6,6 @@ package org.brainail.Everboxing.utils;
  * Time: 14:58<br/>
  */
 public final class StringUtils {
-    public static String EMPTY_STRING = "";
+    public static String EMPTY = "";
+    public static String SPACE = " ";
 }
