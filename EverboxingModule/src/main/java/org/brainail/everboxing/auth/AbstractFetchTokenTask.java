@@ -44,6 +44,7 @@ public abstract class AbstractFetchTokenTask extends AsyncTask<Void, Void, Void>
         final String authToken = fetchToken();
         if (null != authToken) {
             UIUtils.showToast(mAuthFlow.getActivity(), "Hello " + mEmail + "! I'm glad to see you!");
+            mAuthFlow.onAuthTokenFetched(authToken);
         }
     }
 

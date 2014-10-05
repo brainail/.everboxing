@@ -15,7 +15,6 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
@@ -27,7 +26,7 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
 import org.brainail.Everboxing.utils.PhoneUtils;
 import org.brainail.Everboxing.utils.Sdk;
-import org.brainail.Everboxing.utils.StringUtils;
+import org.brainail.Everboxing.utils.SettingsManager;
 
 import java.util.List;
 
@@ -36,7 +35,9 @@ import java.util.List;
  * Date: 06.07.14<br/>
  * Time: 16:19<br/>
  */
-public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener {
+public class SettingsActivity
+        extends PreferenceActivity
+        implements Preference.OnPreferenceClickListener, AuthorizationFlow.Callback {
 
     /**
      * Determines whether to always show the simplified settings UI, where
@@ -95,7 +96,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        // bindPreferenceSummaryToValue(findPreference(<KEY>));
+        final String defSummary = getString(R.string.settings_add_account_summary);
+        bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defSummary);
 
         // Set click listeners
         preferenceWithClickListener(this, getString(R.string.settings_add_account_key));
@@ -174,12 +176,12 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
      *
      * @see #SUMMARY_BINDER
      */
-    private static void bindPreferenceSummaryToValue(final Preference preference) {
+    private static void bindPreferenceSummary(final Preference preference, final String defSummary) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(SUMMARY_BINDER);
 
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());
-        final String value = preferences.getString(preference.getKey(), StringUtils.EMPTY);
+        final SharedPreferences preferences = SettingsManager.getInstance().defaultPreferences();
+        final String value = preferences.getString(preference.getKey(), defSummary);
 
         // Trigger the listener immediately with the preference's current value.
         SUMMARY_BINDER.onPreferenceChange(preference, value);
@@ -211,6 +213,21 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onAuthSucceed(final AuthorizationFlow.UserAuthInfo userInfo) {
+        SettingsManager.getInstance().saveAccountDetails(userInfo);
+
+        // To ensure that it will happen on the UI thread
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // Trigger the listener immediately with the preference's current value.
+                final Preference preference = findPreference(getString(R.string.settings_add_account_key));
+                SUMMARY_BINDER.onPreferenceChange(preference, userInfo.email);
+            }
+        });
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class AccountPreferenceFragment extends PreferenceFragment {
 
@@ -222,7 +239,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
             // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
             // their values. When their values change, their summaries are updated
             // to reflect the new value, per the Android Design guidelines.
-            // bindPreferenceSummaryToValue(findPreference(<KEY>));
+            final String defSummary = getString(R.string.settings_add_account_summary);
+            bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defSummary);
 
             // Set click listeners
             preferenceWithClickListener(getActivity(), getString(R.string.settings_add_account_key));

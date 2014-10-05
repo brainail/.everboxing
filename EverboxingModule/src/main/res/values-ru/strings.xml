@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name">EVERBOXING</string>
+    <string name="action_settings">Настройки</string>
+
+    <!-- Settings Window -->
+    <string name="settings_activity_title">Настройки</string>
+    <string name="settings_account_header">Настройки Аккаунта</string>
+    <string name="settings_add_account_title">Google Drive аккаунт</string>
+    <string name="settings_add_account_key">settings_add_account</string>
+    <string name="settings_add_account_summary">Войдите в систему</string>
+    <string name="settings_ringtone_silent_summary">Тишина</string>
+
+</resources>

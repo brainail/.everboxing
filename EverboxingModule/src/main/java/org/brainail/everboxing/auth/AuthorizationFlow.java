@@ -25,6 +25,20 @@ import static org.brainail.Everboxing.utils.Plogger.LogScope;
  */
 public class AuthorizationFlow {
 
+    public static class UserAuthInfo {
+
+        public String email;
+
+        public UserAuthInfo(final String email) {
+            this.email = email;
+        }
+
+    }
+
+    public interface Callback {
+        public void onAuthSucceed(final UserAuthInfo userInfo);
+    }
+
     private final static String [] ACCOUNT_TYPES = {"com.google"};
 
     public static final class RequestCodes {
@@ -164,6 +178,12 @@ public class AuthorizationFlow {
             Plogger.logW(LogScope.AUTH, "Unknown error after error recover");
             // FIXME: Get string from the resources
             UIUtils.showToast(mActivity, "Unknown error, click the button again");
+        }
+    }
+
+    void onAuthTokenFetched(final String authToken) {
+        if (mActivity instanceof Callback) {
+            ((Callback) mActivity).onAuthSucceed(new UserAuthInfo(mEmail));
         }
     }
 
