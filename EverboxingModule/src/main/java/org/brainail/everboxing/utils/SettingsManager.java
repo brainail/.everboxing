@@ -5,7 +5,7 @@ import android.preference.PreferenceManager;
 
 import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.auth.AuthorizationFlow;
+import org.brainail.Everboxing.auth.AuthUserInfo;
 
 /**
  * User: brainail<br/>
@@ -42,8 +42,16 @@ public final class SettingsManager {
         return mDefaultPreferences;
     }
 
-    public void saveAccountDetails(final AuthorizationFlow.UserAuthInfo userInfo) {
+    public void saveAccountDetails(final AuthUserInfo userInfo) {
         mDefaultPreferences.edit().putString(mAccountPfKey, userInfo.email).apply();
+    }
+
+    public void removeAccountDetails() {
+        mDefaultPreferences.edit().remove(mAccountPfKey).apply();
+    }
+
+    public String retrieveAccountEmail() {
+        return mDefaultPreferences.getString(mAccountPfKey, null);
     }
 
 }

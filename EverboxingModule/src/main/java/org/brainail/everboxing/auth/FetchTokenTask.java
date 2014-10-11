@@ -1,5 +1,7 @@
 package org.brainail.Everboxing.auth;
 
+import android.app.Activity;
+
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -20,13 +22,16 @@ public class FetchTokenTask extends AbstractFetchTokenTask {
     @Override
     protected String fetchToken() throws IOException {
         try {
-            return GoogleAuthUtil.getToken(mAuthFlow.getActivity(), mEmail, mScope);
+            final Activity activity = mAuthFlow.getActivity();
+            if (null != activity) {
+                return GoogleAuthUtil.getToken(activity, mEmail, mScope);
+            }
         } catch (UserRecoverableAuthException exception) {
             // GooglePlayServices.apk is either old, disabled, or not present, which is
             // recoverable, so we need to show the user some UI through the activity.
             mAuthFlow.handleError(exception);
         } catch (GoogleAuthException exception) {
-            onError("Unrecoverable error " + exception.getMessage(), exception);
+            onError("Unrecoverable error " + exception.getLocalizedMessage(), exception);
         }
 
         return null;

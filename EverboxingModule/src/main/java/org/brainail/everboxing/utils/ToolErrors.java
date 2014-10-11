@@ -9,7 +9,7 @@ import java.io.Writer;
  * Date: 02.08.14<br/>
  * Time: 18:07<br/>
  */
-public final class ErrorUtils {
+public final class ToolErrors {
 
     public static String toString(final Throwable error) {
         final Writer errorWriter = new StringWriter();
@@ -24,7 +24,7 @@ public final class ErrorUtils {
             printWriter.close();
         }
 
-        return StringUtils.EMPTY;
+        return ToolStrings.EMPTY;
     }
 
 }

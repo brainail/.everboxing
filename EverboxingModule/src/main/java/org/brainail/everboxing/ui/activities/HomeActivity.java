@@ -9,7 +9,7 @@ import net.simonvt.menudrawer.MenuDrawer;
 import net.simonvt.menudrawer.Position;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.UIUtils;
+import org.brainail.Everboxing.utils.ToolUI;
 
 /**
  * User: brainail<br/>
@@ -62,7 +62,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (UIUtils.isMenuDrawerOpened(mMenuDrawer.getDrawerState())) {
+        if (ToolUI.isMenuDrawerOpened(mMenuDrawer.getDrawerState())) {
             mMenuDrawer.closeMenu();
             return;
         }

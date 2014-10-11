@@ -8,7 +8,7 @@ import java.util.Collections;
  * Date: 27.07.14<br/>
  * Time: 11:59<br/>
  */
-public final class CollectionUtils {
+public final class ToolCollections {
 
     public static <T> Iterable<T> emptyIfNull(final Iterable<T> iterable) {
         return null == iterable ? Collections.<T>emptyList() : iterable;

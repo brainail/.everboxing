@@ -6,4 +6,8 @@
         android:title="@string/settings_add_account_title"
         android:summary="@string/settings_add_account_summary"/>
 
+    <Preference
+        android:key="@string/settings_sign_out_account_key"
+        android:title="@string/settings_sign_out_account_title"/>
+
 </PreferenceScreen>

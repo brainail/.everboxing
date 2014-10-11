@@ -23,10 +23,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.auth.AuthUserInfo;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
-import org.brainail.Everboxing.utils.PhoneUtils;
+import org.brainail.Everboxing.utils.ToolPhone;
 import org.brainail.Everboxing.utils.Sdk;
 import org.brainail.Everboxing.utils.SettingsManager;
+import org.brainail.Everboxing.utils.ToolStrings;
 
 import java.util.List;
 
@@ -96,11 +98,13 @@ public class SettingsActivity
         // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        final String defSummary = getString(R.string.settings_add_account_summary);
-        bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defSummary);
+        final String defAddAccountSummary = getString(R.string.settings_add_account_summary);
+        bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defAddAccountSummary);
+        bindPreferenceSummary(findPreference(getString(R.string.settings_sign_out_account_key)), ToolStrings.EMPTY);
 
         // Set click listeners
         preferenceWithClickListener(this, getString(R.string.settings_add_account_key));
+        preferenceWithClickListener(this, getString(R.string.settings_sign_out_account_key));
 
         topPaddingWorkaround();
     }
@@ -117,7 +121,7 @@ public class SettingsActivity
 
     @Override
     public boolean onIsMultiPane() {
-        return PhoneUtils.isXLTablet(this) && !isSimplePreferences(this);
+        return ToolPhone.isXLTablet(this) && !isSimplePreferences(this);
     }
 
     /**
@@ -128,7 +132,7 @@ public class SettingsActivity
      * "simplified" settings UI should be shown.
      */
     private static boolean isSimplePreferences(Context context) {
-        return SINGLE_PANE_MODE || !Sdk.isSdkSupported(Sdk.HONEYCOMB) || !PhoneUtils.isXLTablet(context);
+        return SINGLE_PANE_MODE || !Sdk.isSdkSupported(Sdk.HONEYCOMB) || !ToolPhone.isXLTablet(context);
     }
 
     @Override
@@ -202,6 +206,9 @@ public class SettingsActivity
     public boolean onPreferenceClick(final Preference preference) {
         if (getString(R.string.settings_add_account_key).equals(preference.getKey())) {
             mAuthorizationFlow.authorize();
+        } else if (getString(R.string.settings_sign_out_account_key).equals(preference.getKey())) {
+            mAuthorizationFlow.unauthorize();
+            changeAccount(getString(R.string.settings_add_account_summary));
         }
 
         return false;
@@ -214,18 +221,21 @@ public class SettingsActivity
     }
 
     @Override
-    public void onAuthSucceed(final AuthorizationFlow.UserAuthInfo userInfo) {
+    public void onAuthSucceed(final AuthUserInfo userInfo) {
         SettingsManager.getInstance().saveAccountDetails(userInfo);
 
         // To ensure that it will happen on the UI thread
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // Trigger the listener immediately with the preference's current value.
-                final Preference preference = findPreference(getString(R.string.settings_add_account_key));
-                SUMMARY_BINDER.onPreferenceChange(preference, userInfo.email);
+                changeAccount(userInfo.email);
             }
         });
+    }
+
+    private void changeAccount(final String email) {
+        final Preference preference = findPreference(getString(R.string.settings_add_account_key));
+        SUMMARY_BINDER.onPreferenceChange(preference, email);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -239,11 +249,13 @@ public class SettingsActivity
             // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
             // their values. When their values change, their summaries are updated
             // to reflect the new value, per the Android Design guidelines.
-            final String defSummary = getString(R.string.settings_add_account_summary);
-            bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defSummary);
+            final String defAddAccountSummary = getString(R.string.settings_add_account_summary);
+            bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defAddAccountSummary);
+            bindPreferenceSummary(findPreference(getString(R.string.settings_sign_out_account_key)), ToolStrings.EMPTY);
 
             // Set click listeners
             preferenceWithClickListener(getActivity(), getString(R.string.settings_add_account_key));
+            preferenceWithClickListener(getActivity(), getString(R.string.settings_sign_out_account_key));
         }
 
     }
