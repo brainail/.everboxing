@@ -1,10 +1,22 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- colorPrimary is used for the default action bar background -->
+    <style name="AppTheme" parent="AppTheme.Blue">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="AppTheme.Blue" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">#455ede</item>
         <item name="colorPrimaryDark">#3b50ce</item>
     </style>
 
+    <style name="AppToolbar" parent="AppToolbar.Primary">
+        <!-- ... -->
+    </style>
+
+    <style name="AppToolbar.Primary" parent="Widget.AppCompat.Toolbar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
 
 </resources>

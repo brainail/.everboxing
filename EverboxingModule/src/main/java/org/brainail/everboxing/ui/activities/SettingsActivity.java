@@ -14,7 +14,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import android.widget.ListView;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthUserInfo;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
-import org.brainail.Everboxing.utils.Sdk;
 import org.brainail.Everboxing.utils.SettingsManager;
 import org.brainail.Everboxing.utils.ToolStrings;
 
@@ -33,27 +31,24 @@ import org.brainail.Everboxing.utils.ToolStrings;
  * Time: 16:19<br/>
  */
 public class SettingsActivity
-        extends ActionBarActivity
+        extends BaseActivity
         implements AuthorizationFlow.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initActionBar();
         initSettingsBox();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void initActionBar() {
-        if (Sdk.isSdkSupported(Sdk.HONEYCOMB)) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    protected Integer getLayoutResourceId() {
+        return R.layout.activity_settings;
     }
 
     private void initSettingsBox() {
         // Display the fragment as the main content
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
     }
 
     @Override

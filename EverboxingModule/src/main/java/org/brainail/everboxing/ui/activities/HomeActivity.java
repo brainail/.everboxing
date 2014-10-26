@@ -3,17 +3,14 @@ package org.brainail.Everboxing.ui.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
-import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
-
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.ToolUI;
 
 /**
  * User: brainail<br/>
@@ -22,78 +19,42 @@ import org.brainail.Everboxing.R;
  */
 public class HomeActivity extends BaseActivity {
 
-    // private MenuDrawer mMenuDrawer;
-    DrawerArrowDrawable mDrawerArrow;
-    ActionBarDrawerToggle mDrawerToggle;
-    DrawerLayout mDrawerLayout;
-    View mDrawerActions;
-
-    // http://www.google.com/design/spec/style/color.html#color-ui-color-palette
-    // // Read: http://antonioleiva.com/material-design-everywhere/
-    // http://stackoverflow.com/questions/26434504/how-to-implement-drawerarrowtoggle-from-android-appcompat-v7-21-library/26447144#26447144
-    // http://stackoverflow.com/questions/26440879/how-do-i-use-drawerlayout-to-display-over-the-actionbar-toolbar-and-under-the-st
-    // http://stackoverflow.com/questions/26430974/drawer-indicator-in-lollipop-play-store
-    // // http://stackoverflow.com/questions/26476837/android-5-0-material-design-style-navigation-drawer-for-kitkat
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private View mDrawerActions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
 
-        initActionbar();
-        initMenuDrawer2();
+        initMenuDrawer();
     }
 
-//    private void initMenuDrawer() {
-//        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.OVERLAY, Position.START);
-//        mMenuDrawer.setMenuSize(getResources().getDimensionPixelSize(R.dimen.menu_drawer_home_width));
-//        mMenuDrawer.setMenuView(R.layout.menu_drawer_home);
-//        mMenuDrawer.setContentView(R.layout.activity_home);
-//        mMenuDrawer.setSlideDrawable(R.drawable.ic_drawer);
-//        mMenuDrawer.setDrawerIndicatorEnabled(true);
-//        // mMenuDrawer.peekDrawer(1000, 0);
-//    }
-
-    private void initActionbar() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+    @Override
+    protected Integer getLayoutResourceId() {
+        return R.layout.activity_home;
     }
 
-    private void initMenuDrawer2() {
-        // mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.OVERLAY, Position.START);
-        // mMenuDrawer.setMenuSize(getResources().getDimensionPixelSize(R.dimen.menu_drawer_home_width));
-        // mMenuDrawer.setMenuView(R.layout.menu_drawer_home);
-        // mMenuDrawer.setContentView(R.layout.activity_home);
-        // mMenuDrawer.setSlideDrawable(R.drawable.ic_drawer);
-        // mMenuDrawer.setDrawerIndicatorEnabled(true);
-        // mMenuDrawer.peekDrawer(1000, 0);
-
+    private void initMenuDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.home_drawer_layout);
-        mDrawerActions = findViewById(R.id.nav_drawer);
-
-        mDrawerArrow = new DrawerArrowDrawable(this) {
-            @Override
-            public boolean isLayoutRtl() {
-                return false;
-            }
-        };
+        mDrawerActions = findViewById(R.id.menu_drawer_primary);
 
         mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mDrawerArrow,
-                R.string.drawer_open, R.string.drawer_close) {
+                this, mDrawerLayout, getPrimaryToolbar(), R.string.drawer_open, R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
-            }
+           }
 
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu();
+           public void onDrawerOpened(View view) {
+               super.onDrawerOpened(view);
+               invalidateOptionsMenu();
             }
 
         };
 
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
     }
@@ -106,14 +67,13 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerLayout.closeDrawer(mDrawerActions);
-                } else {
-                    mDrawerLayout.openDrawer(mDrawerActions);
-                }
-                // mMenuDrawer.toggleMenu();
+                ToolUI.toggleMenuDrawer(mDrawerLayout, true);
                 return true;
 
             case R.id.action_settings:
@@ -141,11 +101,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(mDrawerLayout.isDrawerOpen(Gravity.START|Gravity.LEFT)){
-            mDrawerLayout.closeDrawers();
-            return;
-        }
-
+        if (ToolUI.toggleMenuDrawer(mDrawerLayout, false)) return;
         super.onBackPressed();
     }
 

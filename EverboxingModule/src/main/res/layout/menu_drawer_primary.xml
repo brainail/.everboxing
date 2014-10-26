@@ -1,6 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/nav_drawer"
+    android:id="@+id/menu_drawer_primary"
     android:layout_width="@dimen/menu_drawer_home_width"
     android:layout_height="match_parent"
     android:layout_gravity="start"

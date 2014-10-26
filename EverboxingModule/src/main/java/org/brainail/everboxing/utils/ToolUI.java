@@ -1,6 +1,8 @@
 package org.brainail.Everboxing.utils;
 
 import android.app.Activity;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -10,9 +12,17 @@ import android.widget.Toast;
  */
 public final class ToolUI {
 
-//    public static boolean isMenuDrawerOpened(final int drawerState) {
-//        return drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING;
-//    }
+    public static boolean toggleMenuDrawer(final DrawerLayout drawerLayout, final boolean twoDirections) {
+        if (drawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.START | Gravity.LEFT);
+            return true;
+        } else if (twoDirections) {
+            drawerLayout.openDrawer(Gravity.START | Gravity.LEFT);
+            return true;
+        }
+
+        return false;
+    }
 
     public static void showToast(final Activity activity, final String message) {
         activity.runOnUiThread(new Runnable() {
