@@ -3,8 +3,6 @@ package org.brainail.Everboxing.utils;
 import android.app.Activity;
 import android.widget.Toast;
 
-import net.simonvt.menudrawer.MenuDrawer;
-
 /**
  * User: brainail<br/>
  * Date: 06.07.14<br/>
@@ -12,9 +10,9 @@ import net.simonvt.menudrawer.MenuDrawer;
  */
 public final class ToolUI {
 
-    public static boolean isMenuDrawerOpened(final int drawerState) {
-        return drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING;
-    }
+//    public static boolean isMenuDrawerOpened(final int drawerState) {
+//        return drawerState == MenuDrawer.STATE_OPEN || drawerState == MenuDrawer.STATE_OPENING;
+//    }
 
     public static void showToast(final Activity activity, final String message) {
         activity.runOnUiThread(new Runnable() {

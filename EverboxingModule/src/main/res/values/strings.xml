@@ -15,4 +15,8 @@
     <string name="settings_add_account_summary">Sign In</string>
     <string name="settings_ringtone_silent_summary">Silent</string>
 
+    <!-- Drawer -->
+    <string name="drawer_open">Drawer is opened</string>
+    <string name="drawer_close">Drawer is closed</string>
+
 </resources>
