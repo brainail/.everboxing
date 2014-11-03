@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.content.res.Configuration.SCREENLAYOUT_SIZE_MASK;
 import static android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
 
@@ -13,7 +14,7 @@ import static android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
  * Date: 13.07.14<br/>
  * Time: 14:45<br/>
  */
-public final class PhoneUtils {
+public final class ToolPhone {
 
     public static boolean isXLTablet(final Context context) {
         final Configuration configuration = context.getResources().getConfiguration();
@@ -21,9 +22,13 @@ public final class PhoneUtils {
     }
 
     public static boolean hasNetworkConnection(final Context context) {
-        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return null != networkInfo && networkInfo.isConnected();
+        try {
+            final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+            final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+            return null != networkInfo && networkInfo.isConnected();
+        } catch (Exception exception) {
+            return true;
+        }
     }
 
 }

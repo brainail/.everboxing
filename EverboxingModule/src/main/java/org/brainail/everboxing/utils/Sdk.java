@@ -64,6 +64,11 @@ public final class Sdk {
      */
     public static final int KITKAT = Build.VERSION_CODES.KITKAT;
 
+    /**
+     * @see android.os.Build.VERSION_CODES#LOLLIPOP
+     */
+    public static final int LOLLIPOP = Build.VERSION_CODES.LOLLIPOP;
+
     public static boolean isSdkSupported(final int sdkVersion) {
         return Build.VERSION.SDK_INT >= sdkVersion;
     }

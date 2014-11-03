@@ -1,10 +1,8 @@
 package org.brainail.Everboxing.auth;
 
-import android.os.AsyncTask;
-
-import org.brainail.Everboxing.utils.ErrorUtils;
 import org.brainail.Everboxing.utils.Plogger;
-import org.brainail.Everboxing.utils.UIUtils;
+import org.brainail.Everboxing.utils.ToolErrors;
+import org.brainail.Everboxing.utils.ToolUI;
 
 import java.io.IOException;
 
@@ -13,14 +11,13 @@ import java.io.IOException;
  * Date: 02.08.14<br/>
  * Time: 17:48<br/>
  */
-public abstract class AbstractFetchTokenTask extends AsyncTask<Void, Void, Void> {
+public abstract class AbstractFetchTokenTask extends AbstractAuthTask {
 
-    protected final AuthorizationFlow mAuthFlow;
     protected final String mScope;
     protected final String mEmail;
 
     AbstractFetchTokenTask(final AuthorizationFlow authFlow, final String email, final String scope) {
-        mAuthFlow = authFlow;
+        super(authFlow);
         mScope = scope;
         mEmail = email;
     }
@@ -34,7 +31,7 @@ public abstract class AbstractFetchTokenTask extends AsyncTask<Void, Void, Void>
         try {
             fetchUserInfo();
         } catch (IOException exception) {
-            onError("Following Error occurred, please try again. " + exception.getMessage(), exception);
+            onError("Following Error occurred, please try again. " + exception.getLocalizedMessage(), exception);
         }
 
         return null;
@@ -43,13 +40,14 @@ public abstract class AbstractFetchTokenTask extends AsyncTask<Void, Void, Void>
     private void fetchUserInfo() throws IOException {
         final String authToken = fetchToken();
         if (null != authToken) {
-            UIUtils.showToast(mAuthFlow.getActivity(), "Hello " + mEmail + "! I'm glad to see you!");
+            ToolUI.showToast(mAuthFlow.getActivity(), "Hello " + mEmail + "! I'm glad to see you!");
+            mAuthFlow.onAuthTokenFetched(authToken);
         }
     }
 
     protected void onError(final String errorMessage, final Exception error) {
-        UIUtils.showToast(mAuthFlow.getActivity(), errorMessage);
-        Plogger.logE(Plogger.LogScope.AUTH_TOKEN, ErrorUtils.toString(error));
+        ToolUI.showToast(mAuthFlow.getActivity(), errorMessage);
+        Plogger.logE(Plogger.LogScope.AUTH_TOKEN, ToolErrors.toString(error));
     }
 
 }

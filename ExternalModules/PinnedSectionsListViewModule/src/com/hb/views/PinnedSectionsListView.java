@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hb.views;
+package org.brainail.Everboxing.ui.views;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -37,12 +37,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 
-import com.hb.views.pinnedsection.BuildConfig;
+import org.brainail.Everboxing.BuildConfig;
 
 /**
  * ListView, which is capable to pin section views at its top while the rest is still scrolled.
  */
-public class PinnedSectionListView extends ListView {
+public class PinnedSectionsListView extends ListView {
 
     //-- inner classes
 
@@ -146,12 +146,12 @@ public class PinnedSectionListView extends ListView {
 
 	//-- constructors
 
-    public PinnedSectionListView(Context context, AttributeSet attrs) {
+    public PinnedSectionsListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public PinnedSectionListView(Context context, AttributeSet attrs, int defStyle) {
+    public PinnedSectionsListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initView();
     }
@@ -199,7 +199,7 @@ public class PinnedSectionListView extends ListView {
 		// create new shadow, if needed
 		if (pinnedShadow == null) pinnedShadow = new PinnedSection();
 		// request new view using recycled view, if such
-		View pinnedView = getAdapter().getView(position, pinnedShadow.view, PinnedSectionListView.this);
+		View pinnedView = getAdapter().getView(position, pinnedShadow.view, PinnedSectionsListView.this);
 
 		// read layout parameters
 		LayoutParams layoutParams = (LayoutParams) pinnedView.getLayoutParams();
@@ -587,7 +587,7 @@ public class PinnedSectionListView extends ListView {
                     // do additional scrolling if a pinned view is displayed
                     int pinnedOffset = (mPinnedSection == null ? 0 : mPinnedSection.view.getBottom() + getDividerHeight());
                     if (pinnedOffset > 0) {
-                        PinnedSectionListView.super.setSelectionFromTop(position, y + pinnedOffset);
+                        PinnedSectionsListView.super.setSelectionFromTop(position, y + pinnedOffset);
                     }
                 }
             });

@@ -1,15 +1,16 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import net.simonvt.menudrawer.MenuDrawer;
-import net.simonvt.menudrawer.Position;
+import android.view.View;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.UIUtils;
+import org.brainail.Everboxing.utils.ToolUI;
 
 /**
  * User: brainail<br/>
@@ -18,22 +19,44 @@ import org.brainail.Everboxing.utils.UIUtils;
  */
 public class HomeActivity extends BaseActivity {
 
-    private MenuDrawer mMenuDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private View mDrawerActions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initMenuDrawer();
     }
 
+    @Override
+    protected Integer getLayoutResourceId() {
+        return R.layout.activity_home;
+    }
+
     private void initMenuDrawer() {
-        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.Type.OVERLAY, Position.START);
-        mMenuDrawer.setMenuSize(getResources().getDimensionPixelSize(R.dimen.menu_drawer_home_width));
-        mMenuDrawer.setMenuView(R.layout.menu_drawer_home);
-        mMenuDrawer.setContentView(R.layout.activity_home);
-        mMenuDrawer.setSlideDrawable(R.drawable.ic_drawer);
-        mMenuDrawer.setDrawerIndicatorEnabled(true);
-        mMenuDrawer.peekDrawer(1000, 0);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.home_drawer_layout);
+        mDrawerActions = findViewById(R.id.menu_drawer_primary);
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, getPrimaryToolbar(), R.string.drawer_open, R.string.drawer_close) {
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu();
+           }
+
+           public void onDrawerOpened(View view) {
+               super.onDrawerOpened(view);
+               invalidateOptionsMenu();
+            }
+
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
     }
 
     @Override
@@ -44,9 +67,13 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case android.R.id.home:
-                mMenuDrawer.toggleMenu();
+                ToolUI.toggleMenuDrawer(mDrawerLayout, true);
                 return true;
 
             case R.id.action_settings:
@@ -61,12 +88,20 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if (UIUtils.isMenuDrawerOpened(mMenuDrawer.getDrawerState())) {
-            mMenuDrawer.closeMenu();
-            return;
-        }
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (ToolUI.toggleMenuDrawer(mDrawerLayout, false)) return;
         super.onBackPressed();
     }
 
