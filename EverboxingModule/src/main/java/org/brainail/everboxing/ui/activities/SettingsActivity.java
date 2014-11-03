@@ -141,7 +141,7 @@ public class SettingsActivity
     }
 
     private SettingsFragment findSettingsFragment() {
-        return (SettingsFragment) getFragmentManager().findFragmentById(android.R.id.content);
+        return (SettingsFragment) getFragmentManager().findFragmentById(R.id.container);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

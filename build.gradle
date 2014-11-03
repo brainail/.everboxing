@@ -2,16 +2,27 @@
 
 buildscript {
     repositories {
+        // Maven Central
         mavenCentral()
+
+        // Jcenter - superset of Maven Central
+        jcenter()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.1'
+
+        // Required for tests
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.12.0'
     }
 }
 
 allprojects {
     repositories {
+        // Maven Central
         mavenCentral()
+
+        // Jcenter - superset of Maven Central
+        jcenter()
     }
 }
