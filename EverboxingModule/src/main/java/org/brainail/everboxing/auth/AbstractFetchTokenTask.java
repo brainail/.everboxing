@@ -41,6 +41,8 @@ public abstract class AbstractFetchTokenTask extends AbstractAuthTask {
         final String authToken = fetchToken();
         if (null != authToken) {
             ToolUI.showToast(mAuthFlow.getActivity(), "Hello " + mEmail + "! I'm glad to see you!");
+            // STUFF: http://stackoverflow.com/questions/23493556/authorizing-my-application-to-use-an-existing-folder
+            // STUFF: https://developers.google.com/drive/web/appdata
             mAuthFlow.onAuthTokenFetched(authToken);
         }
     }

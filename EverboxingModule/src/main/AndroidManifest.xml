@@ -32,8 +32,7 @@
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="@string/settings_activity_title"
-            android:parentActivityName=".ui.activities.HomeActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize">
+            android:parentActivityName=".ui.activities.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.brainail.Everboxing.ui.activities.HomeActivity"/>

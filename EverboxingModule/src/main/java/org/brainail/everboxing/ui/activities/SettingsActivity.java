@@ -179,9 +179,9 @@ public class SettingsActivity
             return false;
         }
 
-        private void onChangeAccount(final String email) {
+        private void onChangeAccount(final String accountDescription) {
             final Preference preference = findPreference(getString(R.string.settings_add_account_key));
-            SUMMARY_BINDER.onPreferenceChange(preference, email);
+            SUMMARY_BINDER.onPreferenceChange(preference, accountDescription);
         }
 
         private void setOnClickListener(final String preferenceKey) {
