@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Theme colors -->
+    <color name="primary_default">#C2185B</color>
+    <color name="primary_default_dark">#AD1457</color>
+    <color name="accent_default">#9FA8DA</color>
+    <color name="drawer_default">#DDFFFFFF</color>
+    <color name="content_bg_default">#CCCCCC</color>
+
+</resources>

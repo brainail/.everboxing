@@ -1,13 +1,16 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/menu_drawer_primary"
     android:layout_width="@dimen/menu_drawer_home_width"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
+    android:layout_gravity="start|left"
     android:choiceMode="singleChoice"
     android:divider="?android:attr/listDivider"
     android:dividerHeight="2dp"
     android:drawSelectorOnTop="false"
-    android:gravity="center_vertical"
-    android:background="#ff5677fc"
-    android:orientation="vertical"/>
+    android:background="@color/drawer_default"
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded">
+
+    </RelativeLayout>

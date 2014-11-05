@@ -7,6 +7,6 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:icon="@android:drawable/ic_menu_preferences"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
 </menu>

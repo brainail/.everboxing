@@ -5,7 +5,7 @@
     <string name="app_name">EVERBOXING</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Settings Window -->
+    <!-- Settings window -->
     <string name="settings_activity_title">SETTINGS</string>
     <string name="settings_account_header">ACCOUNT SETTINGS</string>
     <string name="settings_add_account_title">Google Drive account</string>
@@ -15,7 +15,7 @@
     <string name="settings_add_account_summary">Sign In</string>
     <string name="settings_ringtone_silent_summary">Silent</string>
 
-    <!-- Drawer -->
+    <!-- Nav drawer -->
     <string name="drawer_open">Drawer is opened</string>
     <string name="drawer_close">Drawer is closed</string>
 

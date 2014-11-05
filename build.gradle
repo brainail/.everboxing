@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.1'
+        classpath 'com.android.tools.build:gradle:0.14.0'
 
         // Required for tests
         classpath 'org.robolectric:robolectric-gradle-plugin:0.12.0'

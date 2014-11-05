@@ -1,5 +1,6 @@
 package org.brainail.Everboxing.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -12,6 +13,7 @@ import android.widget.Toast;
  */
 public final class ToolUI {
 
+    @SuppressLint("RtlHardcoded")
     public static boolean toggleMenuDrawer(final DrawerLayout drawerLayout, final boolean twoDirections) {
         if (drawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
             drawerLayout.closeDrawer(Gravity.START | Gravity.LEFT);
