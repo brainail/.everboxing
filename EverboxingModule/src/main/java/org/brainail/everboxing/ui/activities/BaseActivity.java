@@ -50,7 +50,7 @@ public class BaseActivity extends ActionBarActivity {
         isDrawerPresented = initMenuDrawer();
     }
 
-    private boolean initMenuDrawer() {
+    protected boolean initMenuDrawer() {
         Integer resourceId;
 
         // Try to find drawer layout
@@ -95,14 +95,14 @@ public class BaseActivity extends ActionBarActivity {
     }
 
 
-    private void initContent() {
+    protected void initContent() {
         final Integer resourceId = getLayoutResourceId();
         if (null != resourceId) {
             setContentView(resourceId);
         }
     }
 
-    private void initToolbar() {
+    protected void initToolbar() {
         final Integer resourceId = getPrimaryToolbarLayoutResourceId();
         if (null != resourceId) {
             mPrimaryToolbar = (Toolbar) findViewById(resourceId);
@@ -165,6 +165,10 @@ public class BaseActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    protected boolean drawerCanHandleMenuItem(final MenuItem item) {
+        return isDrawerPresented && mDrawerToggle.onOptionsItemSelected(item);
     }
 
 }

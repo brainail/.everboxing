@@ -2,7 +2,7 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name">EVERBOXING</string>
+    <string name="app_name" translatable="false">EVERBOXING</string>
     <string name="action_settings">Settings</string>
 
     <!-- Settings window -->

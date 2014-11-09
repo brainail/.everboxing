@@ -6,6 +6,19 @@
 
 apply plugin: 'com.android.application'
 
+repositories {
+    // Maven Central
+    mavenCentral()
+
+    // Jcenter is superset of Maven Central
+    jcenter()
+
+    // Local
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.0.2"

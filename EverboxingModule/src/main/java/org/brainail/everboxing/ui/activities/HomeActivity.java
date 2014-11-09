@@ -59,7 +59,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (isDrawerPresented && mDrawerToggle.onOptionsItemSelected(item)) return true;
+        if (drawerCanHandleMenuItem(item)) return true;
         return super.onOptionsItemSelected(item);
     }
 

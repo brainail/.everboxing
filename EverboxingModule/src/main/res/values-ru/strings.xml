@@ -2,7 +2,6 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name">EVERBOXING</string>
     <string name="action_settings">Настройки</string>
 
     <!-- Settings Window -->
