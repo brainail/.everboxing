@@ -1,6 +1,7 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.annotation.TargetApi;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,19 +17,31 @@ import android.preference.RingtonePreference;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthUserInfo;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
 import org.brainail.Everboxing.utils.SettingsManager;
 import org.brainail.Everboxing.utils.ToolStrings;
+import org.brainail.Everboxing.utils.ToolUI;
 
 /**
- * User: brainail<br/>
- * Date: 06.07.14<br/>
- * Time: 16:19<br/>
+ * This file is part of Everboxing modules. <br/><br/>
+ *
+ * &copy; 2014 brainail <br/><br/>
+ *
+ * This program is free software: you can redistribute it and/or modify <br/>
+ * it under the terms of the GNU General Public License as published by <br/>
+ * the Free Software Foundation, either version 3 of the License, or <br/>
+ * (at your option) any later version. <br/><br/>
+ *
+ * This program is distributed in the hope that it will be useful, <br/>
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of <br/>
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <br/>
+ * GNU General Public License for more details. <br/>
+ *
+ * You should have received a copy of the GNU General Public License <br/>
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 public class SettingsActivity
         extends BaseActivity
@@ -38,6 +51,7 @@ public class SettingsActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Display the fragment as the main content
         initSettingsBox();
     }
 
@@ -46,9 +60,17 @@ public class SettingsActivity
         return R.layout.activity_settings;
     }
 
+    @Override
+    protected Integer getPrimaryToolbarLayoutResourceId() {
+        return R.id.toolbar_primary;
+    }
+
     private void initSettingsBox() {
-        // Display the fragment as the main content
-        getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+        // TIPS: http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
+        if (null == getFragmentManager().findFragmentByTag(SettingsFragment.MANAGER_TAG)) {
+            final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.container, new SettingsFragment(), SettingsFragment.MANAGER_TAG).commit();
+        }
     }
 
     @Override
@@ -66,17 +88,7 @@ public class SettingsActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        topPaddingWorkaround();
-    }
-
-    private void topPaddingWorkaround() {
-        try {
-            final ListView allPreferences = (ListView) findViewById(android.R.id.list);
-            final ViewGroup parent = (ViewGroup) allPreferences.getParent();
-            parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), parent.getPaddingBottom());
-        } catch (Exception exception) {
-            // Do nothing
-        }
+        ToolUI.fixSettingsTopPaddingWorkaround(this);
     }
 
     // A preference value change listener that updates the preference's summary to reflect its new value.
@@ -123,7 +135,8 @@ public class SettingsActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (findSettingsFragment().canHandleOnActivityResult(requestCode, resultCode, data)) return;
+        final SettingsFragment fragment = findSettingsFragment();
+        if (null != fragment && fragment.canHandleOnActivityResult(requestCode, resultCode, data)) return;
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -135,17 +148,20 @@ public class SettingsActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                findSettingsFragment().onChangeAccount(userInfo.email);
+                final SettingsFragment fragment = findSettingsFragment();
+                if (null != fragment) fragment.onChangeAccount(userInfo.email);
             }
         });
     }
 
     private SettingsFragment findSettingsFragment() {
-        return (SettingsFragment) getFragmentManager().findFragmentById(R.id.container);
+        return (SettingsFragment) getFragmentManager().findFragmentByTag(SettingsFragment.MANAGER_TAG);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+
+        public static final String MANAGER_TAG = "org.brainail.Everboxing.SettingsFragmentTag";
 
         private AuthorizationFlow mAuthorizationFlow;
 
