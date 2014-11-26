@@ -57,6 +57,8 @@ public final class ToolUI {
     public static void fixSettingsTopPaddingWorkaround(final Activity activity) {
         try {
             final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
+            allPreferences.setDivider(null);
+            allPreferences.setDividerHeight(0);
             final ViewGroup parent = (ViewGroup) allPreferences.getParent();
             parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), parent.getPaddingBottom());
         } catch (Exception exception) {

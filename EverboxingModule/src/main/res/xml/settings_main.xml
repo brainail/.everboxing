@@ -5,11 +5,13 @@
         android:title="@string/settings_account_header">
 
         <Preference
+            android:icon="@android:drawable/ic_menu_add"
             android:key="@string/settings_add_account_key"
             android:title="@string/settings_add_account_title"
             android:summary="@string/settings_add_account_summary"/>
 
         <Preference
+            android:icon="@android:drawable/ic_input_delete"
             android:key="@string/settings_sign_out_account_key"
             android:title="@string/settings_sign_out_account_title"/>
 

@@ -7,7 +7,7 @@
 
     <!-- Settings window -->
     <string name="settings_activity_title">SETTINGS</string>
-    <string name="settings_account_header">ACCOUNT SETTINGS</string>
+    <string name="settings_account_header">ACCOUNT</string>
     <string name="settings_add_account_title">Google Drive account</string>
     <string name="settings_add_account_key">settings_add_account</string>
     <string name="settings_sign_out_account_title">Sign Out</string>

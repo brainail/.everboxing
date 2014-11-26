@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="AppTheme.Default">
-    </style>
-
-    <style name="AppTheme.Default" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-
         <item name="colorPrimary">@color/primary_default</item>
         <item name="colorPrimaryDark">@color/primary_default_dark</item>
         <item name="colorAccent">@color/primary_default_dark</item>
+    </style>
+
+    <style name="AppTheme.Default">
     </style>
 
 </resources>

@@ -207,7 +207,7 @@ public class SettingsActivity
             }
         }
 
-        private boolean canHandleOnActivityResult(int requestCode, int resultCode, Intent data) {
+        private boolean canHandleOnActivityResult(final int requestCode, final int resultCode, final Intent data) {
             return mAuthorizationFlow.handleOnActivityResult(requestCode, resultCode, data);
         }
 
