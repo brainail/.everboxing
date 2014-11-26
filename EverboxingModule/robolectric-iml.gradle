@@ -1,0 +1,50 @@
+task prepareImlForTests() {
+    def imlFile = file(project.name + ".iml")
+    def TEST_CLASSES_PATH = 'file://$MODULE_DIR$/build/test-classes'
+
+    // Will work on 3rd invocation only, but it's "beta than nothing"
+    inputs.file(imlFile)
+    outputs.file(imlFile)
+
+    doLast {
+        project.logger.info "Updating ${imlFile} for robolectric tests"
+
+        try {
+            Node parsedXml = new XmlParser().parse(imlFile)
+            Node componentNode = parsedXml.component[1]
+            Node outputTestNode = componentNode.'output-test'[0]
+            def rewrite = false
+
+            // Move SDK entry to the end of the node
+            Node androidSdkEntry = componentNode.orderEntry.find { it.@type == "jdk" }
+            if (androidSdkEntry != null) {
+                componentNode.remove(androidSdkEntry)
+                componentNode.append(androidSdkEntry)
+                rewrite = true
+            }
+
+            // add 'output-test' property if not present
+            if (outputTestNode == null) {
+                new Node(componentNode, 'output-test', ['url': TEST_CLASSES_PATH])
+            } else {
+                if (outputTestNode.attributes['url'] != TEST_CLASSES_PATH) {
+                    outputTestNode.attributes = ['url': TEST_CLASSES_PATH]
+                    rewrite = true
+                }
+            }
+
+            if (rewrite) {
+                def writer = new StringWriter()
+                new XmlNodePrinter(new PrintWriter(writer)).print(parsedXml)
+                imlFile.text = writer.toString()
+            }
+        } catch (FileNotFoundException e) {
+            // iml not found, common on command line only builds
+        }
+    }
+}
+
+// always do the addtest on prebuild
+project.afterEvaluate {
+    preBuild.dependsOn prepareImlForTests
+}

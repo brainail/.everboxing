@@ -35,7 +35,7 @@ import static org.mockito.Mockito.when;
  * You should have received a copy of the GNU General Public License <br/>
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-@Config(emulateSdk = 18)
+@Config(emulateSdk = 18, manifest = Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 @SuppressLint("RtlHardcoded")
 public class ToolUITest {
