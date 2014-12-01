@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Theme colors. #Default Pink -->
+    <color name="primary_default">#C2185B</color>
+    <color name="primary_default_dark">#AD1457</color>
+    <color name="accent_default">#536DFE</color>
+
+    <!-- Theme colors. #Indigo -->
+    <color name="primary_indigo">#3F51B5</color>
+    <color name="primary_indigo_dark">#303F9F</color>
+    <color name="accent_indigo">#FF4081</color>
+
+    <!-- Theme colors. #Blue -->
+    <color name="primary_blue">#2196F3</color>
+    <color name="primary_blue_dark">#1976D2</color>
+    <color name="accent_blue">#ffd740</color>
+
+    <!-- Theme colors. #Cyan -->
+    <color name="primary_cyan">#00bcd4</color>
+    <color name="primary_cyan_dark">#0097a7</color>
+    <color name="accent_cyan">#ffab40</color>
+
+    <!-- Theme colors. #Teal -->
+    <color name="primary_teal">#009688</color>
+    <color name="primary_teal_dark">#00796b</color>
+    <color name="accent_teal">#ff5252</color>
+
+    <!-- Theme colors. #Green -->
+    <color name="primary_green">#4caf50</color>
+    <color name="primary_green_dark">#388e3c</color>
+    <color name="accent_green">#ff6e40</color>
+
+    <!-- Theme colors. #Light Green -->
+    <color name="primary_lgreen">#8bc34a</color>
+    <color name="primary_lgreen_dark">#689f38</color>
+    <color name="accent_lgreen">#ffd740</color>
+
+    <color name="drawer_default">#DDFFFFFF</color>
+    <color name="content_bg_default">#CCCCCC</color>
+
+</resources>

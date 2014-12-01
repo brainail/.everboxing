@@ -2,12 +2,11 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name">EVERBOXING</string>
     <string name="action_settings">Настройки</string>
 
     <!-- Settings Window -->
     <string name="settings_activity_title">Настройки</string>
-    <string name="settings_account_header">Настройки Аккаунта</string>
+    <string name="settings_account_header">Аккаунт</string>
     <string name="settings_add_account_title">Google Drive аккаунт</string>
     <string name="settings_sign_out_account_title">Выйти из аккаунта</string>
     <string name="settings_add_account_summary">Войдите в систему</string>

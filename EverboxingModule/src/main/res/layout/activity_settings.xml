@@ -1,16 +1,23 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="?attr/colorPrimaryDark"
     android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar_primary"/>
-
-    <FrameLayout
-        android:id="@+id/container"
+    <LinearLayout
+        android:id="@+id/main_parent_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/content_bg_default">
 
-</LinearLayout>
+        <!-- Toolbar -->
+        <include layout="@layout/toolbar_primary"/>
+
+        <!-- Box for fragments -->
+        <include layout="@layout/container_fragments"/>
+
+    </LinearLayout>
+
+</FrameLayout>

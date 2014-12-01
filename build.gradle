@@ -5,12 +5,12 @@ buildscript {
         // Maven Central
         mavenCentral()
 
-        // Jcenter - superset of Maven Central
+        // Jcenter is superset of Maven Central
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.1'
+        classpath 'com.android.tools.build:gradle:0.14.1'
 
         // Required for tests
         classpath 'org.robolectric:robolectric-gradle-plugin:0.12.0'
@@ -22,7 +22,7 @@ allprojects {
         // Maven Central
         mavenCentral()
 
-        // Jcenter - superset of Maven Central
+        // Jcenter is superset of Maven Central
         jcenter()
     }
 }

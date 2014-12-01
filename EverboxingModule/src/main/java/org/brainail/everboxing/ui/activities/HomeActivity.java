@@ -1,33 +1,34 @@
 package org.brainail.Everboxing.ui.activities;
 
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.ToolUI;
 
 /**
- * User: brainail<br/>
- * Date: 06.07.14<br/>
- * Time: 16:19<br/>
+ * This file is part of Everboxing modules. <br/><br/>
+ *
+ * &copy; 2014 brainail <br/><br/>
+ *
+ * This program is free software: you can redistribute it and/or modify <br/>
+ * it under the terms of the GNU General Public License as published by <br/>
+ * the Free Software Foundation, either version 3 of the License, or <br/>
+ * (at your option) any later version. <br/><br/>
+ *
+ * This program is distributed in the hope that it will be useful, <br/>
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of <br/>
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <br/>
+ * GNU General Public License for more details. <br/>
+ *
+ * You should have received a copy of the GNU General Public License <br/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 public class HomeActivity extends BaseActivity {
-
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private View mDrawerActions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        initMenuDrawer();
     }
 
     @Override
@@ -35,28 +36,19 @@ public class HomeActivity extends BaseActivity {
         return R.layout.activity_home;
     }
 
-    private void initMenuDrawer() {
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.home_drawer_layout);
-        mDrawerActions = findViewById(R.id.menu_drawer_primary);
+    @Override
+    protected Integer getPrimaryToolbarLayoutResourceId() {
+        return R.id.toolbar_primary;
+    }
 
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, getPrimaryToolbar(), R.string.drawer_open, R.string.drawer_close) {
+    @Override
+    protected Integer getDrawerLayoutResourceId() {
+        return R.id.home_drawer_layout;
+    }
 
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu();
-           }
-
-           public void onDrawerOpened(View view) {
-               super.onDrawerOpened(view);
-               invalidateOptionsMenu();
-            }
-
-        };
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+    @Override
+    protected Integer getDrawerActionsLayoutResourceId() {
+        return R.id.menu_drawer_primary;
     }
 
     @Override
@@ -67,42 +59,8 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                ToolUI.toggleMenuDrawer(mDrawerLayout, true);
-                return true;
-
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-
-            default:
-                break;
-        }
-
+        if (drawerCanHandleMenuItem(item)) return true;
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (ToolUI.toggleMenuDrawer(mDrawerLayout, false)) return;
-        super.onBackPressed();
     }
 
 }
