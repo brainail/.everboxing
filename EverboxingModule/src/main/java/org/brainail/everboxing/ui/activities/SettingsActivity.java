@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthUserInfo;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
+import org.brainail.Everboxing.ui.views.ThemeChooser;
 import org.brainail.Everboxing.utils.SettingsManager;
 import org.brainail.Everboxing.utils.ToolStrings;
 import org.brainail.Everboxing.utils.ToolUI;
@@ -41,7 +42,7 @@ import org.brainail.Everboxing.utils.ToolUI;
  * GNU General Public License for more details. <br/>
  *
  * You should have received a copy of the GNU General Public License <br/>
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 public class SettingsActivity
         extends BaseActivity
@@ -89,6 +90,7 @@ public class SettingsActivity
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         ToolUI.fixSettingsTopPaddingWorkaround(this);
+        ToolUI.fixSettingsDividersWorkaround(this);
     }
 
     // A preference value change listener that updates the preference's summary to reflect its new value.
@@ -177,10 +179,13 @@ public class SettingsActivity
             final String defAddAccountSummary = getString(R.string.settings_add_account_summary);
             bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defAddAccountSummary);
             bindPreferenceSummary(findPreference(getString(R.string.settings_sign_out_account_key)), ToolStrings.EMPTY);
+            final String defChangeThemeSummary = getString(R.string.settings_change_theme_summary);
+            bindPreferenceSummary(findPreference(getString(R.string.settings_change_theme_key)), defChangeThemeSummary);
 
             // Set click listeners
             setOnClickListener(getString(R.string.settings_add_account_key));
             setOnClickListener(getString(R.string.settings_sign_out_account_key));
+            setOnClickListener(getString(R.string.settings_change_theme_key));
         }
 
         @Override
@@ -190,6 +195,8 @@ public class SettingsActivity
             } else if (getString(R.string.settings_sign_out_account_key).equals(preference.getKey())) {
                 mAuthorizationFlow.unauthorize();
                 onChangeAccount(getString(R.string.settings_add_account_summary));
+            } else if (getString(R.string.settings_change_theme_key).equals(preference.getKey())) {
+                new ThemeChooser().show(getActivity().getFragmentManager(), ThemeChooser.MANAGER_TAG);
             }
 
             return false;

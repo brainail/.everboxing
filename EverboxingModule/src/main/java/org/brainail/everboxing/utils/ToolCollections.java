@@ -19,7 +19,7 @@ import java.util.Collections;
  * GNU General Public License for more details. <br/>
  *
  * You should have received a copy of the GNU General Public License <br/>
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 public final class ToolCollections {
 

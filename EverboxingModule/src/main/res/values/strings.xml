@@ -7,16 +7,32 @@
 
     <!-- Settings window -->
     <string name="settings_activity_title">SETTINGS</string>
+
     <string name="settings_account_header">ACCOUNT</string>
     <string name="settings_add_account_title">Google Drive account</string>
-    <string name="settings_add_account_key">settings_add_account</string>
-    <string name="settings_sign_out_account_title">Sign Out</string>
-    <string name="settings_sign_out_account_key">settings_sign_out_account</string>
     <string name="settings_add_account_summary">Sign In</string>
+    <string name="settings_add_account_key" translatable="false">settings_add_account</string>
+    <string name="settings_sign_out_account_title">Sign Out</string>
+    <string name="settings_sign_out_account_key" translatable="false">settings_sign_out_account</string>
+
+    <string name="settings_theme_header">THEME</string>
+    <string name="settings_change_theme_title">Decorate your theme</string>
+    <string name="settings_change_theme_summary">Default</string>
+    <string name="settings_change_theme_key" translatable="false">settings_change_theme</string>
+    <string name="settings_change_theme_dialog_title">Themes</string>
+    <string name="settings_change_theme_dialog_choose_btn">Choose</string>
+
     <string name="settings_ringtone_silent_summary">Silent</string>
 
     <!-- Nav drawer -->
     <string name="drawer_open">Drawer is opened</string>
     <string name="drawer_close">Drawer is closed</string>
+    <string name="theme_name_default">Pink</string>
+    <string name="theme_name_indigo">Indigo</string>
+    <string name="theme_name_blue">Blue</string>
+    <string name="theme_name_cyan">Cyan</string>
+    <string name="theme_name_teal">Teal</string>
+    <string name="theme_name_green">Green</string>
+    <string name="theme_name_lgreen">Light Green</string>
 
 </resources>

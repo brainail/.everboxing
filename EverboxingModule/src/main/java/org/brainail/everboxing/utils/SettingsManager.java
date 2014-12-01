@@ -7,6 +7,8 @@ import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthUserInfo;
 
+import static org.brainail.Everboxing.utils.ThemeManager.AppTheme;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -23,12 +25,14 @@ import org.brainail.Everboxing.auth.AuthUserInfo;
  * GNU General Public License for more details. <br/>
  *
  * You should have received a copy of the GNU General Public License <br/>
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 public final class SettingsManager {
 
     private SharedPreferences mDefaultPreferences;
     private String mAccountPfKey;
+    private String mAppThemePfKey;
+    private String mAppThemeNamePfKey;
 
     private SettingsManager() {
         initializePreferences();
@@ -37,6 +41,8 @@ public final class SettingsManager {
 
     private void initializePreferencesKeys() {
         mAccountPfKey = JApplication.appContext().getString(R.string.settings_add_account_key);
+        mAppThemePfKey = "app_theme";
+        mAppThemeNamePfKey = JApplication.appContext().getString(R.string.settings_change_theme_key);
     }
 
     private void initializePreferences() {
@@ -65,6 +71,18 @@ public final class SettingsManager {
 
     public String retrieveAccountEmail() {
         return mDefaultPreferences.getString(mAccountPfKey, null);
+    }
+
+    public void saveAppTheme(final AppTheme theme) {
+        final String themeName = JApplication.appContext().getString(theme.getNameResId());
+        mDefaultPreferences.edit()
+                .putString(mAppThemeNamePfKey, themeName)
+                .putString(mAppThemePfKey, theme.name()).apply();
+    }
+
+    public AppTheme retrieveAppTheme() {
+        final String sTheme = mDefaultPreferences.getString(mAppThemePfKey, AppTheme.PINK.name());
+        return AppTheme.valueOf(sTheme);
     }
 
 }

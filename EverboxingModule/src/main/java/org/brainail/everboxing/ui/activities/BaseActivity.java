@@ -11,8 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.ThemeManager;
 import org.brainail.Everboxing.utils.ToolCollections;
 import org.brainail.Everboxing.utils.ToolUI;
+
+import static org.brainail.Everboxing.utils.ThemeManager.AppTheme;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -30,24 +33,31 @@ import org.brainail.Everboxing.utils.ToolUI;
  * GNU General Public License for more details. <br/>
  *
  * You should have received a copy of the GNU General Public License <br/>
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 public class BaseActivity extends ActionBarActivity {
 
+    // Drawer
     protected ActionBarDrawerToggle mDrawerToggle;
     protected DrawerLayout mDrawerLayout;
     protected View mDrawerActions;
+    protected boolean mIsDrawerPresented = false;
+
+    // Toolbar
     protected Toolbar mPrimaryToolbar;
-    protected boolean isDrawerPresented = false;
+
+    // Theme. I use null to define that this is full recreating
+    protected AppTheme mTheme = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mTheme = ThemeManager.updateThemeOnCreate(this, mTheme);
 
         // Init main stuff
         initContent();
         initToolbar();
-        isDrawerPresented = initMenuDrawer();
+        mIsDrawerPresented = initMenuDrawer();
     }
 
     protected boolean initMenuDrawer() {
@@ -134,18 +144,18 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (isDrawerPresented) mDrawerToggle.syncState();
+        if (mIsDrawerPresented) mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (isDrawerPresented) mDrawerToggle.onConfigurationChanged(newConfig);
+        if (mIsDrawerPresented) mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onBackPressed() {
-        if (isDrawerPresented && ToolUI.toggleMenuDrawer(mDrawerLayout, false)) return;
+        if (mIsDrawerPresented && ToolUI.toggleMenuDrawer(mDrawerLayout, false)) return;
         super.onBackPressed();
     }
 
@@ -153,7 +163,7 @@ public class BaseActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (isDrawerPresented) ToolUI.toggleMenuDrawer(mDrawerLayout, true);
+                if (mIsDrawerPresented) ToolUI.toggleMenuDrawer(mDrawerLayout, true);
                 return true;
 
             case R.id.action_settings:
@@ -168,7 +178,7 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     protected boolean drawerCanHandleMenuItem(final MenuItem item) {
-        return isDrawerPresented && mDrawerToggle.onOptionsItemSelected(item);
+        return mIsDrawerPresented && mDrawerToggle.onOptionsItemSelected(item);
     }
 
 }

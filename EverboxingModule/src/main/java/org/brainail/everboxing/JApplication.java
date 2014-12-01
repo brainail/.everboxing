@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 
+import org.brainail.Everboxing.utils.ThemeManager;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -22,7 +24,7 @@ import android.os.Build;
  * GNU General Public License for more details. <br/>
  *
  * You should have received a copy of the GNU General Public License <br/>
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 public class JApplication extends Application {
 
@@ -34,6 +36,9 @@ public class JApplication extends Application {
 
         // Store for long use
         mAppContext = getApplicationContext();
+
+        // Initialize theme
+        ThemeManager.init();
     }
 
     @Override
