@@ -8,7 +8,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.ThemeManager;
+import org.brainail.Everboxing.utils.manager.ThemeManager;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

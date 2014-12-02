@@ -1,10 +1,4 @@
-package org.brainail.Everboxing.utils.tool;
-
-import android.content.Context;
-import android.content.res.TypedArray;
-
-import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.manager.ThemeManager;
+package org.brainail.Everboxing.network.auth;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -31,12 +25,5 @@ import org.brainail.Everboxing.utils.manager.ThemeManager;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ToolResources {
-
-    public static int retrievePrimaryColor(final Context context) {
-        final int [] attributes = new int [] {R.attr.colorPrimary};
-        final TypedArray typedArray = context.obtainStyledAttributes(ThemeManager.appTheme().getThemeResId(), attributes);
-        return typedArray.getColor(0, context.getResources().getColor(R.color.primary_default));
-    }
-
+public class FetchTokenRequest /* extends Request */ {
 }

@@ -1,10 +1,10 @@
-package org.brainail.Everboxing.utils.tool;
+package org.brainail.Everboxing.utils.manager;
 
-import android.content.Context;
-import android.content.res.TypedArray;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
-import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.manager.ThemeManager;
+import org.brainail.Everboxing.JApplication;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -31,12 +31,37 @@ import org.brainail.Everboxing.utils.manager.ThemeManager;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ToolResources {
+public final class VolleyManager {
 
-    public static int retrievePrimaryColor(final Context context) {
-        final int [] attributes = new int [] {R.attr.colorPrimary};
-        final TypedArray typedArray = context.obtainStyledAttributes(ThemeManager.appTheme().getThemeResId(), attributes);
-        return typedArray.getColor(0, context.getResources().getColor(R.color.primary_default));
+    public static class RequestTag {
+        public static final String AUTH = "org.brainail.Everboxing.authRequestTag";
+    }
+
+    private RequestQueue mAuthRequestQueue;
+
+    private VolleyManager() {
+        initializeQueues();
+    }
+
+    private static class LazyHolder {
+        private static final VolleyManager INSTANCE = new VolleyManager();
+    }
+
+    public static VolleyManager getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+
+    private void initializeQueues() {
+        mAuthRequestQueue = Volley.newRequestQueue(JApplication.appContext());
+    }
+
+    public <T> void addAuthRequest(final Request<T> request) {
+        request.setTag(RequestTag.AUTH);
+        mAuthRequestQueue.add(request);
+    }
+
+    public void cancelAuthRequests() {
+        mAuthRequestQueue.cancelAll(RequestTag.AUTH);
     }
 
 }

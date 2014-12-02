@@ -1,4 +1,4 @@
-package org.brainail.Everboxing.utils;
+package org.brainail.Everboxing.utils.manager;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -6,8 +6,6 @@ import android.preference.PreferenceManager;
 import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthUserInfo;
-
-import static org.brainail.Everboxing.utils.ThemeManager.AppTheme;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -80,16 +78,16 @@ public final class SettingsManager {
         return mDefaultPreferences.getString(mAccountPfKey, null);
     }
 
-    public void saveAppTheme(final AppTheme theme) {
+    public void saveAppTheme(final ThemeManager.AppTheme theme) {
         final String themeName = JApplication.appContext().getString(theme.getNameResId());
         mDefaultPreferences.edit()
                 .putString(mAppThemeNamePfKey, themeName)
                 .putString(mAppThemePfKey, theme.name()).apply();
     }
 
-    public AppTheme retrieveAppTheme() {
-        final String sTheme = mDefaultPreferences.getString(mAppThemePfKey, AppTheme.PINK.name());
-        return AppTheme.valueOf(sTheme);
+    public ThemeManager.AppTheme retrieveAppTheme() {
+        final String sTheme = mDefaultPreferences.getString(mAppThemePfKey, ThemeManager.AppTheme.PINK.name());
+        return ThemeManager.AppTheme.valueOf(sTheme);
     }
 
 }

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 
-import org.brainail.Everboxing.utils.ThemeManager;
+import org.brainail.Everboxing.utils.manager.ThemeManager;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

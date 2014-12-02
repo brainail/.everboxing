@@ -11,11 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.ThemeManager;
+import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolCollections;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
-import static org.brainail.Everboxing.utils.ThemeManager.AppTheme;
+import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

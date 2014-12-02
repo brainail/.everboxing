@@ -11,7 +11,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.brainail.Everboxing.utils.Plogger;
-import org.brainail.Everboxing.utils.SettingsManager;
+import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.tool.ToolAuth;
 import org.brainail.Everboxing.utils.tool.ToolDriveScope;
 import org.brainail.Everboxing.utils.tool.ToolPhone;

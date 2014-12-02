@@ -1,4 +1,4 @@
-package org.brainail.Everboxing.utils;
+package org.brainail.Everboxing.utils.manager;
 
 import android.app.Activity;
 import android.content.Context;

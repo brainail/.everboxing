@@ -1,6 +1,7 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +25,7 @@ import org.brainail.Everboxing.auth.AuthUserInfo;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
 import org.brainail.Everboxing.ui.views.PreferenceIcon;
 import org.brainail.Everboxing.ui.views.ThemeChooser;
-import org.brainail.Everboxing.utils.SettingsManager;
+import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.tool.ToolStrings;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
@@ -158,6 +159,12 @@ public class SettingsActivity
     }
 
     @Override
+    protected void onStop() {
+        // VolleyManager.getInstance().cancelAuthRequests();
+        super.onStop();
+    }
+
+    @Override
     public void onAuthSucceed(final AuthUserInfo userInfo) {
         SettingsManager.getInstance().saveAccountDetails(userInfo);
 
@@ -175,17 +182,29 @@ public class SettingsActivity
         return (SettingsFragment) getFragmentManager().findFragmentByTag(SettingsFragment.MANAGER_TAG);
     }
 
+    //
+    // +------------------------------------------------------------+
+    // | Settings Fragment                                          |
+    // +------------------------------------------------------------+
+    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
         public static final String MANAGER_TAG = "org.brainail.Everboxing.SettingsFragmentTag";
 
-        private AuthorizationFlow mAuthorizationFlow;
+        private AuthorizationFlow mAuthorizationFlow = new AuthorizationFlow(null);
+
+        @Override
+        public void onAttach(Activity activity) {
+            mAuthorizationFlow.withActivity(activity);
+            super.onAttach(activity);
+        }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            mAuthorizationFlow = new AuthorizationFlow(getActivity());
+            // mAuthorizationFlow = new AuthorizationFlow(getActivity());
             addPreferencesFromResource(R.xml.settings_main);
 
             // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
