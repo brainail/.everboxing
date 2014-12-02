@@ -1,8 +1,12 @@
-package org.brainail.Everboxing.tool;
+package org.brainail.Everboxing.utils.tool;
 
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+import android.annotation.TargetApi;
+import android.os.AsyncTask;
+import android.os.Build;
+
+import org.brainail.Everboxing.auth.AbstractAuthTask;
+import org.brainail.Everboxing.utils.Plogger;
+import org.brainail.Everboxing.utils.Sdk;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +33,21 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
+public final class ToolTasks {
 
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
+    // Safely executes async task.
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static void safeExecuteAuthTask(final AbstractAuthTask authTask) {
+        try {
+            if (!Sdk.isSdkSupported(Sdk.HONEYCOMB)) {
+                authTask.execute();
+            } else {
+                authTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        } catch (Exception exception) {
+            Plogger.logE("Smth was wrong while executing ad task.\nException: %s", exception.getLocalizedMessage());
+        }
     }
+
 
 }

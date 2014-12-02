@@ -4,4 +4,7 @@
     <!-- Nav drawer dimens -->
     <dimen name="menu_drawer_home_width">300dp</dimen>
 
+    <!-- Settings -->
+    <dimen name="settings_icon_size">32dp</dimen>
+
 </resources>

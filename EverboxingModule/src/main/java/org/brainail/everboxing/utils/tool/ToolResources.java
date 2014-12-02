@@ -1,8 +1,10 @@
-package org.brainail.Everboxing.tool;
+package org.brainail.Everboxing.utils.tool;
 
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+import android.content.Context;
+import android.content.res.TypedArray;
+
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.ThemeManager;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +31,12 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
+public final class ToolResources {
 
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
+    public static int retrievePrimaryColor(final Context context) {
+        final int [] attributes = new int [] {R.attr.colorPrimary};
+        final TypedArray typedArray = context.obtainStyledAttributes(ThemeManager.appTheme().getThemeResId(), attributes);
+        return typedArray.getColor(0, context.getResources().getColor(R.color.primary_default));
     }
 
 }

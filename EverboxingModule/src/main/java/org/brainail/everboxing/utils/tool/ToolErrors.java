@@ -1,8 +1,8 @@
-package org.brainail.Everboxing.tool;
+package org.brainail.Everboxing.utils.tool;
 
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +29,22 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
+public final class ToolErrors {
 
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
+    public static String toString(final Throwable error) {
+        final Writer errorWriter = new StringWriter();
+        final PrintWriter printWriter = new PrintWriter(errorWriter);
+
+        try {
+            if (null != error) {
+                error.printStackTrace(printWriter);
+                return errorWriter.toString();
+            }
+        } finally{
+            printWriter.close();
+        }
+
+        return ToolStrings.EMPTY;
     }
 
 }

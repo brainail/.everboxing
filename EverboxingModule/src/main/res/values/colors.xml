@@ -2,18 +2,18 @@
 <resources>
 
     <!-- Theme colors. #Default Pink -->
-    <color name="primary_default">#C2185B</color>
-    <color name="primary_default_dark">#AD1457</color>
-    <color name="accent_default">#536DFE</color>
+    <color name="primary_default">#c2185b</color>
+    <color name="primary_default_dark">#ad1457</color>
+    <color name="accent_default">#536dfe</color>
 
     <!-- Theme colors. #Indigo -->
-    <color name="primary_indigo">#3F51B5</color>
-    <color name="primary_indigo_dark">#303F9F</color>
-    <color name="accent_indigo">#FF4081</color>
+    <color name="primary_indigo">#3f51b5</color>
+    <color name="primary_indigo_dark">#303f9f</color>
+    <color name="accent_indigo">#ff4081</color>
 
     <!-- Theme colors. #Blue -->
-    <color name="primary_blue">#2196F3</color>
-    <color name="primary_blue_dark">#1976D2</color>
+    <color name="primary_blue">#2196f3</color>
+    <color name="primary_blue_dark">#1976d2</color>
     <color name="accent_blue">#ffd740</color>
 
     <!-- Theme colors. #Cyan -->
@@ -36,6 +36,11 @@
     <color name="primary_lgreen_dark">#689f38</color>
     <color name="accent_lgreen">#ffd740</color>
 
+    <!-- Selector colors. Preference -->
+    <color name="preference_selector_state_enabled">#ffbdbdbd</color>
+    <color name="preference_selector_state_default">@android:color/transparent</color>
+
+    <!-- Other -->
     <color name="drawer_default">#DDFFFFFF</color>
     <color name="content_bg_default">#CCCCCC</color>
 

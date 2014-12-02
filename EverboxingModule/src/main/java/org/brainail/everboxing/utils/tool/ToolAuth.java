@@ -1,8 +1,10 @@
-package org.brainail.Everboxing.tool;
+package org.brainail.Everboxing.utils.tool;
 
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+import android.content.Intent;
+
+import com.google.android.gms.common.AccountPicker;
+
+import static org.brainail.Everboxing.auth.AuthorizationFlow.ACCOUNT_TYPES;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +31,10 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
+public final class ToolAuth {
 
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
+    public static Intent formChooseGoogleAccountsIntent() {
+        return AccountPicker.newChooseAccountIntent(null, null, ACCOUNT_TYPES, false, null, null, null, null);
     }
 
 }

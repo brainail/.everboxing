@@ -14,35 +14,44 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.RingtonePreference;
-import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.MenuItem;
+
+import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthUserInfo;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
+import org.brainail.Everboxing.ui.views.PreferenceIcon;
 import org.brainail.Everboxing.ui.views.ThemeChooser;
 import org.brainail.Everboxing.utils.SettingsManager;
-import org.brainail.Everboxing.utils.ToolStrings;
-import org.brainail.Everboxing.utils.ToolUI;
+import org.brainail.Everboxing.utils.tool.ToolStrings;
+import org.brainail.Everboxing.utils.tool.ToolUI;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
- * &copy; 2014 brainail <br/><br/>
+ * The MIT License (MIT) <br/><br/>
  *
- * This program is free software: you can redistribute it and/or modify <br/>
- * it under the terms of the GNU General Public License as published by <br/>
- * the Free Software Foundation, either version 3 of the License, or <br/>
- * (at your option) any later version. <br/><br/>
+ * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
  *
- * This program is distributed in the hope that it will be useful, <br/>
- * but WITHOUT ANY WARRANTY; without even the implied warranty of <br/>
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <br/>
- * GNU General Public License for more details. <br/>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
+ * of this software and associated documentation files (the "Software"), to deal <br/>
+ * in the Software without restriction, including without limitation the rights <br/>
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
+ * copies of the Software, and to permit persons to whom the Software is <br/>
+ * furnished to do so, subject to the following conditions: <br/><br/>
  *
- * You should have received a copy of the GNU General Public License <br/>
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in <br/>
+ * all copies or substantial portions of the Software. <br/><br/>
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER <br/>
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
+ * THE SOFTWARE.
  */
 public class SettingsActivity
         extends BaseActivity
@@ -79,11 +88,16 @@ public class SettingsActivity
         int menuItemId = menuItem.getItemId();
 
         if (android.R.id.home == menuItemId) {
-            NavUtils.navigateUpFromSameTask(this);
+            navigateUpFromSameTask();
             return true;
         }
 
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void navigateUpFromSameTask() {
+        finish();
+        // NavUtils.navigateUpFromSameTask(this);
     }
 
     @Override
@@ -91,6 +105,7 @@ public class SettingsActivity
         super.onPostCreate(savedInstanceState);
         ToolUI.fixSettingsTopPaddingWorkaround(this);
         ToolUI.fixSettingsDividersWorkaround(this);
+        ToolUI.fixSettingsSelectorWorkaround(this);
     }
 
     // A preference value change listener that updates the preference's summary to reflect its new value.
@@ -176,11 +191,23 @@ public class SettingsActivity
             // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
             // their values. When their values change, their summaries are updated
             // to reflect the new value, per the Android Design guidelines.
+
+            // Add account
             final String defAddAccountSummary = getString(R.string.settings_add_account_summary);
-            bindPreferenceSummary(findPreference(getString(R.string.settings_add_account_key)), defAddAccountSummary);
-            bindPreferenceSummary(findPreference(getString(R.string.settings_sign_out_account_key)), ToolStrings.EMPTY);
+            final Preference addAccountPf = findPreference(getString(R.string.settings_add_account_key));
+            addAccountPf.setIcon(PreferenceIcon.from(getActivity(), Iconify.IconValue.md_account_circle));
+            bindPreferenceSummary(addAccountPf, defAddAccountSummary);
+
+            // Sign out
+            final Preference signOutPf = findPreference(getString(R.string.settings_sign_out_account_key));
+            signOutPf.setIcon(PreferenceIcon.from(getActivity(), Iconify.IconValue.md_remove_circle_outline));
+            bindPreferenceSummary(signOutPf, ToolStrings.EMPTY);
+
+            // Change theme
             final String defChangeThemeSummary = getString(R.string.settings_change_theme_summary);
-            bindPreferenceSummary(findPreference(getString(R.string.settings_change_theme_key)), defChangeThemeSummary);
+            final Preference changeThemePf = findPreference(getString(R.string.settings_change_theme_key));
+            changeThemePf.setIcon(PreferenceIcon.from(getActivity(), Iconify.IconValue.md_color_lens));
+            bindPreferenceSummary(changeThemePf, defChangeThemeSummary);
 
             // Set click listeners
             setOnClickListener(getString(R.string.settings_add_account_key));

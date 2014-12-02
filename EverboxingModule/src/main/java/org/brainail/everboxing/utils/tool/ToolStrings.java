@@ -1,8 +1,4 @@
-package org.brainail.Everboxing.tool;
-
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+package org.brainail.Everboxing.utils.tool;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +25,7 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
-
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
-    }
-
+public final class ToolStrings {
+    public static String EMPTY = "";
+    public static String SPACE = " ";
 }

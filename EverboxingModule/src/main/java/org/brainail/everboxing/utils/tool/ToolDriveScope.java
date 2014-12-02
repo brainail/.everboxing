@@ -1,8 +1,6 @@
-package org.brainail.Everboxing.tool;
+package org.brainail.Everboxing.utils.tool;
 
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+import com.google.api.services.drive.DriveScopes;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +27,18 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
+public final class ToolDriveScope {
 
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
+    public static final String USER_INFO = "https://www.googleapis.com/auth/userinfo.profile";
+    public static final String APP_DATA = DriveScopes.DRIVE_APPDATA;
+
+    public static String formFullScope() {
+        final StringBuilder fullScope = new StringBuilder("oauth2:");
+
+        fullScope.append(USER_INFO).append(ToolStrings.SPACE);
+        fullScope.append(APP_DATA);
+
+        return fullScope.toString();
     }
 
 }

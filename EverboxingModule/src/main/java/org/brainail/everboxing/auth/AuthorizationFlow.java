@@ -12,34 +12,16 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.brainail.Everboxing.utils.Plogger;
 import org.brainail.Everboxing.utils.SettingsManager;
-import org.brainail.Everboxing.utils.ToolAuth;
-import org.brainail.Everboxing.utils.ToolDriveScope;
-import org.brainail.Everboxing.utils.ToolPhone;
-import org.brainail.Everboxing.utils.ToolTasks;
-import org.brainail.Everboxing.utils.ToolUI;
+import org.brainail.Everboxing.utils.tool.ToolAuth;
+import org.brainail.Everboxing.utils.tool.ToolDriveScope;
+import org.brainail.Everboxing.utils.tool.ToolPhone;
+import org.brainail.Everboxing.utils.tool.ToolTasks;
+import org.brainail.Everboxing.utils.tool.ToolUI;
 
 import java.lang.ref.WeakReference;
 
 import static org.brainail.Everboxing.utils.Plogger.LogScope;
 
-/**
- * This file is part of Everboxing modules. <br/><br/>
- *
- * &copy; 2014 brainail <br/><br/>
- *
- * This program is free software: you can redistribute it and/or modify <br/>
- * it under the terms of the GNU General Public License as published by <br/>
- * the Free Software Foundation, either version 3 of the License, or <br/>
- * (at your option) any later version. <br/><br/>
- *
- * This program is distributed in the hope that it will be useful, <br/>
- * but WITHOUT ANY WARRANTY; without even the implied warranty of <br/>
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <br/>
- * GNU General Public License for more details. <br/>
- *
- * You should have received a copy of the GNU General Public License <br/>
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 public class AuthorizationFlow {
 
     public final static String [] ACCOUNT_TYPES = {"com.google"};

@@ -1,8 +1,7 @@
-package org.brainail.Everboxing.tool;
+package org.brainail.Everboxing.utils.tool;
 
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +28,39 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
+public final class ToolCollections {
 
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
+    public static <T> Iterable<T> emptyIfNull(final Iterable<T> iterable) {
+        return null == iterable ? Collections.<T>emptyList() : iterable;
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public static <T> T [] emptyIfNull(final T [] array) {
+        return null == array ? (T []) (new Object [0]) : array;
+    }
+
+    public static <T> boolean isNullOrEmpty(final T [] array) {
+        return null == array || 0 == array.length;
+    }
+
+    public static boolean isAnyNull(final Object ... objects) {
+        for (final Object object : emptyIfNull(objects)) {
+            if (null == object) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isAnyNullOrEmpty(final Collection ... collections) {
+        for (final Collection collection : emptyIfNull(collections)) {
+            if (null == collection || collection.isEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
