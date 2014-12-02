@@ -1,8 +1,12 @@
-package org.brainail.Everboxing.tool;
+package org.brainail.Everboxing.ui.views;
 
-import org.brainail.Everboxing.utils.tool.ToolCollections;
-import org.fest.assertions.api.Assertions;
-import org.junit.Test;
+import android.content.Context;
+
+import com.malinskiy.materialicons.IconDrawable;
+import com.malinskiy.materialicons.Iconify;
+
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.tool.ToolResources;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,11 +33,19 @@ import org.junit.Test;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ToolCollectionsTest {
+public class PreferenceIcon extends IconDrawable {
 
-    @Test
-    public void testNullIterable() {
-        Assertions.assertThat(ToolCollections.emptyIfNull((Iterable) null)).isNotNull();
+    public PreferenceIcon(final Context context, final Iconify.IconValue icon) {
+        super(context, icon);
+        init(context);
+    }
+
+    private void init(final Context context) {
+        color(ToolResources.retrievePrimaryColor(context)).sizeRes(R.dimen.settings_icon_size);
+    }
+
+    public static PreferenceIcon from(final Context context, final Iconify.IconValue icon) {
+        return new PreferenceIcon(context, icon);
     }
 
 }

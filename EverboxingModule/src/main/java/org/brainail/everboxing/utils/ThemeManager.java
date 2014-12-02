@@ -8,24 +8,31 @@ import org.brainail.Everboxing.R;
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
- * &copy; 2014 brainail <br/><br/>
+ * The MIT License (MIT) <br/><br/>
  *
- * This program is free software: you can redistribute it and/or modify <br/>
- * it under the terms of the GNU General Public License as published by <br/>
- * the Free Software Foundation, either version 3 of the License, or <br/>
- * (at your option) any later version. <br/><br/>
+ * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
  *
- * This program is distributed in the hope that it will be useful, <br/>
- * but WITHOUT ANY WARRANTY; without even the implied warranty of <br/>
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <br/>
- * GNU General Public License for more details. <br/>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
+ * of this software and associated documentation files (the "Software"), to deal <br/>
+ * in the Software without restriction, including without limitation the rights <br/>
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
+ * copies of the Software, and to permit persons to whom the Software is <br/>
+ * furnished to do so, subject to the following conditions: <br/><br/>
  *
- * You should have received a copy of the GNU General Public License <br/>
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in <br/>
+ * all copies or substantial portions of the Software. <br/><br/>
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER <br/>
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
+ * THE SOFTWARE.
  */
 public class ThemeManager {
 
-    private static volatile AppTheme APP_THEME = AppTheme.PINK;
+    private static AppTheme APP_THEME = AppTheme.PINK;
 
     public enum AppTheme {
 
@@ -65,11 +72,11 @@ public class ThemeManager {
 
     }
 
-    public static void init() {
+    public synchronized static void init() {
         APP_THEME = SettingsManager.getInstance().retrieveAppTheme();
     }
 
-    public static AppTheme updateThemeOnCreate(final Activity activity, final AppTheme currentTheme) {
+    public synchronized static AppTheme checkOnCreate(final Activity activity, final AppTheme currentTheme) {
         if (APP_THEME != currentTheme && null != activity) {
             activity.setTheme(APP_THEME.getThemeResId());
 
@@ -81,7 +88,13 @@ public class ThemeManager {
         return APP_THEME;
     }
 
-    public static void changeTheme(final Activity activity, final AppTheme theme) {
+    public synchronized static void checkOnResume(final Activity activity, final AppTheme currentTheme) {
+        if (APP_THEME != currentTheme && null != activity && null != currentTheme) {
+            activity.recreate();
+        }
+    }
+
+    public synchronized static void checkOnChange(final Activity activity, final AppTheme theme) {
         if (APP_THEME != theme) {
             SettingsManager.getInstance().saveAppTheme(theme);
 
@@ -90,6 +103,10 @@ public class ThemeManager {
                 activity.recreate();
             }
         }
+    }
+
+    public synchronized static AppTheme appTheme() {
+        return APP_THEME;
     }
 
 }

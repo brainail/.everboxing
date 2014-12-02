@@ -1,4 +1,4 @@
-package org.brainail.Everboxing.utils;
+package org.brainail.Everboxing.utils.tool;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,23 +8,32 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.brainail.Everboxing.R;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
- * &copy; 2014 brainail <br/><br/>
+ * The MIT License (MIT) <br/><br/>
  *
- * This program is free software: you can redistribute it and/or modify <br/>
- * it under the terms of the GNU General Public License as published by <br/>
- * the Free Software Foundation, either version 3 of the License, or <br/>
- * (at your option) any later version. <br/><br/>
+ * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
  *
- * This program is distributed in the hope that it will be useful, <br/>
- * but WITHOUT ANY WARRANTY; without even the implied warranty of <br/>
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <br/>
- * GNU General Public License for more details. <br/>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
+ * of this software and associated documentation files (the "Software"), to deal <br/>
+ * in the Software without restriction, including without limitation the rights <br/>
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
+ * copies of the Software, and to permit persons to whom the Software is <br/>
+ * furnished to do so, subject to the following conditions: <br/><br/>
  *
- * You should have received a copy of the GNU General Public License <br/>
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * The above copyright notice and this permission notice shall be included in <br/>
+ * all copies or substantial portions of the Software. <br/><br/>
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER <br/>
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
+ * THE SOFTWARE.
  */
 public final class ToolUI {
 
@@ -58,7 +67,16 @@ public final class ToolUI {
         try {
             final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
             final ViewGroup parent = (ViewGroup) allPreferences.getParent();
-            parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), parent.getPaddingBottom());
+            parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), 0);
+        } catch (Exception exception) {
+            // Do nothing
+        }
+    }
+
+    public static void fixSettingsSelectorWorkaround(final Activity activity) {
+        try {
+            final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
+            allPreferences.setSelector(R.drawable.preference_selector);
         } catch (Exception exception) {
             // Do nothing
         }
@@ -73,6 +91,5 @@ public final class ToolUI {
             // Do nothing
         }
     }
-
 
 }
