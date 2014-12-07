@@ -1,26 +1,26 @@
-package org.brainail.Everboxing.utils.tool;
+package com.android.volley.extended;
 
-import android.content.Intent;
-
-import com.google.android.gms.common.AccountPicker;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -29,12 +29,21 @@ import com.google.android.gms.common.AccountPicker;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ToolAuth {
 
-    public final static String [] ACCOUNT_TYPES = {"com.google"};
+public abstract class BackgroundRequest extends Request {
 
-    public static Intent formChooseGoogleAccountsIntent() {
-        return AccountPicker.newChooseAccountIntent(null, null, ACCOUNT_TYPES, true, null, null, null, null);
+    public BackgroundRequest(Response.ErrorListener listener) {
+        super(Method.GET, null, listener);
+    }
+
+    @Override
+    protected Response parseNetworkResponse(NetworkResponse response) {
+        return null;
+    }
+
+    @Override
+    protected void deliverResponse(Object response) {
+
     }
 
 }

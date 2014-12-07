@@ -2,12 +2,18 @@ package org.brainail.Everboxing.utils.tool;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kenny.snackbar.SnackBar;
+
+import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
 
 /**
@@ -40,6 +46,8 @@ public final class ToolUI {
     @SuppressLint("RtlHardcoded")
     public final static int GRAVITY_START = Gravity.START | Gravity.LEFT;
 
+    public static boolean USE_SNACKBARS = true;
+
     public static boolean toggleMenuDrawer(final DrawerLayout drawerLayout, final boolean twoDirections) {
         if (drawerLayout.isDrawerOpen(GRAVITY_START)) {
             drawerLayout.closeDrawer(GRAVITY_START);
@@ -53,14 +61,22 @@ public final class ToolUI {
     }
 
     public static void showToast(final Activity activity, final String message) {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (null != activity) {
-                    Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+        if (null != activity) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!USE_SNACKBARS) {
+                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                    } else {
+                        SnackBar.show(activity, message);
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
+
+    public static void showToast(final Activity activity, final int resId) {
+        showToast(activity, JApplication.appContext().getString(resId));
     }
 
     public static void fixSettingsTopPaddingWorkaround(final Activity activity) {
@@ -90,6 +106,33 @@ public final class ToolUI {
         } catch (Exception exception) {
             // Do nothing
         }
+    }
+
+    /**
+     * Computes height of status bar, only if it is presented at top of the screen and it is visible.
+     *
+     * @param context Any application {@link android.content.Context}.
+     * @param window {@link android.view.Window} that corresponds to the {@link android.app.Activity}
+     *
+     * @return {@code 0} - if the status bar isn't presented
+     * at top of the screen or isn't visible, otherwise height in pixels.
+     */
+    public static int computeTopStatusBarHeight(final Context context, final Window window) {
+        // Privately get a resource Id for status bar's height from the android resources
+        final int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        // Retrieve the overall visible display size in which the window
+        // this view is attached to has been positioned in
+        final Rect displayFrame = new Rect();
+        window.getDecorView().getWindowVisibleDisplayFrame(displayFrame);
+
+        // If the resource is exists and the status bar is presented then grab from the resources
+        if (displayFrame.top > 0 && resourceId > 0) {
+            return context.getResources().getDimensionPixelSize(resourceId);
+        }
+
+        // Otherwise hope for value ​​of the window
+        return displayFrame.top;
     }
 
 }

@@ -1,8 +1,4 @@
-package org.brainail.Everboxing.utils.tool;
-
-import android.content.Intent;
-
-import com.google.android.gms.common.AccountPicker;
+package org.brainail.Everboxing.auth;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,12 +25,17 @@ import com.google.android.gms.common.AccountPicker;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ToolAuth {
+public final class AuthRequestCode {
 
-    public final static String [] ACCOUNT_TYPES = {"com.google"};
+    private static final int BASE = 1000;
+    public static final int PICK_ACCOUNT = BASE;
+    public static final int RECOVER_FROM_AUTH_ERROR = BASE + 1;
+    public static final int RECOVER_FROM_PLAY_SERVICES_ERROR = BASE + 2;
 
-    public static Intent formChooseGoogleAccountsIntent() {
-        return AccountPicker.newChooseAccountIntent(null, null, ACCOUNT_TYPES, true, null, null, null, null);
+    public static boolean isRecoverableError(final int code) {
+        boolean result = RECOVER_FROM_AUTH_ERROR == code;
+        result |= RECOVER_FROM_PLAY_SERVICES_ERROR == code;
+        return result;
     }
 
 }

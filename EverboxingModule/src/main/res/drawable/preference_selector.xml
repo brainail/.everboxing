@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Enabled -->
     <item
         android:drawable="@color/preference_selector_state_enabled"
         android:state_enabled="true"/>
+
+    <!-- Other -->
     <item
         android:drawable="@color/preference_selector_state_default"
         android:state_enabled="false"/>
+
 </selector>

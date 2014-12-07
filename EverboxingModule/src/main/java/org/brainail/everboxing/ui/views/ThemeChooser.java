@@ -1,14 +1,22 @@
 package org.brainail.Everboxing.ui.views;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
+import org.brainail.Everboxing.utils.tool.ToolResources;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -41,16 +49,90 @@ public class ThemeChooser extends DialogFragment implements MaterialDialog.ListC
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new MaterialDialog.Builder(getActivity())
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.settings_change_theme_dialog_title))
-                .items(ThemeManager.AppTheme.themes(getActivity()))
-                .itemsCallback(this)
+                .adapter(new ItemAdapter(getActivity(), ThemeManager.AppTheme.themes(getActivity())))
                 .build();
+
+        final ListView listView = dialog.getListView();
+        if (null != listView) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    onThemeSelected(position);
+                }
+            });
+        }
+
+        return dialog;
     }
 
     @Override
     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-        ThemeManager.checkOnChange(getActivity(), ThemeManager.AppTheme.values()[which]);
+        onThemeSelected(which);
+    }
+
+    private void onThemeSelected(final int which) {
+        // Close dialog
+        dismiss();
+
+        // Apply theme
+        ThemeManager.checkOnChange(getActivity(), ThemeManager.AppTheme.values() [which]);
+    }
+
+    //
+    // +------------------------------------------------------------+
+    // | Adapter for list view items                                |
+    // +------------------------------------------------------------+
+    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+    private static class ItemAdapter extends BaseAdapter {
+
+        private final Context mContext;
+        private CharSequence [] mItems;
+
+        public ItemAdapter(final Context context, final String [] items) {
+            mContext = context;
+            mItems = items;
+        }
+
+        @Override
+        public int getCount() {
+            return mItems.length;
+        }
+
+        @Override
+        public CharSequence getItem(int position) {
+            return mItems [position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        @SuppressLint("ViewHolder")
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final View view = View.inflate(mContext, R.layout.theme_chooser_item, null);
+
+            // Title
+            final TextView titleView = (TextView) view.findViewById(R.id.title);
+            titleView.setText(mItems [position]);
+
+            // Color
+            final ColorCircleView colorView = (ColorCircleView) view.findViewById(R.id.color);
+            final int themeResId = ThemeManager.AppTheme.values() [position].getThemeResId();
+            colorView.setFillColor(ToolResources.retrievePrimaryColor(mContext, themeResId));
+
+            return view;
+        }
+
     }
 
 }

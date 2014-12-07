@@ -15,8 +15,8 @@
         <!-- Toolbar -->
         <include layout="@layout/toolbar_primary"/>
 
-        <!-- Box for fragments -->
-        <include layout="@layout/container_fragments"/>
+        <!-- Box for content -->
+        <include layout="@layout/content_container"/>
 
     </LinearLayout>
 

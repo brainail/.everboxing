@@ -10,6 +10,8 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.views.GooglePsErrorDialog;
 import org.brainail.Everboxing.utils.Plogger;
 import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.tool.ToolAuth;
@@ -22,9 +24,32 @@ import java.lang.ref.WeakReference;
 
 import static org.brainail.Everboxing.utils.Plogger.LogScope;
 
+/**
+ * This file is part of Everboxing modules. <br/><br/>
+ *
+ * The MIT License (MIT) <br/><br/>
+ *
+ * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
+ * of this software and associated documentation files (the "Software"), to deal <br/>
+ * in the Software without restriction, including without limitation the rights <br/>
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
+ * copies of the Software, and to permit persons to whom the Software is <br/>
+ * furnished to do so, subject to the following conditions: <br/><br/>
+ *
+ * The above copyright notice and this permission notice shall be included in <br/>
+ * all copies or substantial portions of the Software. <br/><br/>
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER <br/>
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
+ * THE SOFTWARE.
+ */
 public class AuthorizationFlow {
-
-    public final static String [] ACCOUNT_TYPES = {"com.google"};
 
     public interface Callback {
         public void onAuthSucceed(final AuthUserInfo userInfo);
@@ -60,9 +85,9 @@ public class AuthorizationFlow {
     }
 
     public void unauthorize() {
-        mEmail = null;
         SettingsManager.getInstance().removeAccountDetails();
         ToolTasks.safeExecuteAuthTask(formUnauthorizeTask());
+        mEmail = null;
     }
 
     public void authorize() {
@@ -74,11 +99,10 @@ public class AuthorizationFlow {
             grabUser();
         } else if (GooglePlayServicesUtil.isUserRecoverableError(statusCode)) {
             Plogger.logW(LogScope.AUTH, "User recoverable error connection result to Gps, statusCode: %d", statusCode);
-            GooglePlayServicesUtil.getErrorDialog(statusCode, activity, 0).show();
-        } else {
-            Plogger.logE(LogScope.AUTH, "Unrecoverable error");
-            // FIXME: Get string from the resources
-            ToolUI.showToast(activity, "Unrecoverable Error");
+            GooglePsErrorDialog.show(activity, statusCode);
+        } else if (ConnectionResult.DEVELOPER_ERROR != statusCode) {
+            Plogger.logE(LogScope.AUTH, "Unrecoverable error: %d", statusCode);
+            ToolUI.showToast(activity, R.string.auth_flow_device_suitability);
         }
     }
 
@@ -92,7 +116,10 @@ public class AuthorizationFlow {
 
     private void grabUser() {
         Plogger.logI(LogScope.AUTH, "Grabbing user account ...");
-        if (TextUtils.isEmpty(mEmail)) {
+        if (!TextUtils.isEmpty(SettingsManager.getInstance().retrieveAccountEmail())) {
+            Plogger.logI(LogScope.AUTH, "User is already authorized");
+            ToolUI.showToast(getActivity(), R.string.auth_flow_sign_in_twice);
+        } else if (TextUtils.isEmpty(mEmail)) {
             Plogger.logI(LogScope.AUTH, "No email address, try to pick user");
             pickUser();
         } else {
@@ -100,8 +127,7 @@ public class AuthorizationFlow {
                 ToolTasks.safeExecuteAuthTask(formAuthorizeTask());
             } else {
                 Plogger.logW(LogScope.AUTH, "No network connection available");
-                // FIXME: Get string from the resources
-                ToolUI.showToast(getActivity(), "No network connection available");
+                ToolUI.showToast(getActivity(), R.string.auth_flow_no_network);
             }
         }
     }
@@ -111,7 +137,7 @@ public class AuthorizationFlow {
         final Activity activity = getActivity();
         if (null != activity) {
             final Intent intent = ToolAuth.formChooseGoogleAccountsIntent();
-            activity.startActivityForResult(intent, AuthRequestCodes.PICK_ACCOUNT);
+            activity.startActivityForResult(intent, AuthRequestCode.PICK_ACCOUNT);
         }
     }
 
@@ -129,54 +155,53 @@ public class AuthorizationFlow {
                     // The Google Play services APK is old, disabled, or not present.
                     // Show a dialog created by Google Play services that allows the user to update the APK
                     final int statusCode = ((GooglePlayServicesAvailabilityException) exception).getConnectionStatusCode();
-                    final int requestCode = AuthRequestCodes.RECOVER_FROM_PLAY_SERVICES_ERROR;
-                    GooglePlayServicesUtil.getErrorDialog(statusCode, activity, requestCode).show();
+                    final int requestCode = AuthRequestCode.RECOVER_FROM_PLAY_SERVICES_ERROR;
+                    GooglePsErrorDialog.show(activity, statusCode, requestCode);
                 } else if (exception instanceof UserRecoverableAuthException) {
                     // Unable to authenticate, such as when the user has not yet granted
                     // the app access to the account, but the user can fix this.
                     // Forward the user to an activity in Google Play services.
                     final Intent intent = ((UserRecoverableAuthException) exception).getIntent();
-                    activity.startActivityForResult(intent, AuthRequestCodes.RECOVER_FROM_PLAY_SERVICES_ERROR);
+                    activity.startActivityForResult(intent, AuthRequestCode.RECOVER_FROM_AUTH_ERROR);
                 }
             }
         });
     }
 
     public boolean handleOnActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (AuthRequestCodes.PICK_ACCOUNT == requestCode) {
+        if (AuthRequestCode.PICK_ACCOUNT == requestCode) {
             if (Activity.RESULT_OK == resultCode) {
                 Plogger.logI(LogScope.AUTH, "RESULT_OK for PICK_ACCOUNT request code");
                 withEmail(data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)).grabUser();
             } else if (Activity.RESULT_CANCELED == resultCode) {
                 Plogger.logW(LogScope.AUTH, "RESULT_CANCELED for PICK_ACCOUNT request code");
-                // FIXME: Get string from the resources
-                ToolUI.showToast(getActivity(), "You must pick an account");
+                ToolUI.showToast(getActivity(), R.string.auth_flow_pick_account);
             }
-        } else if (AuthRequestCodes.isErrorRecover(requestCode) && Activity.RESULT_OK == resultCode) {
+
+            return true;
+        } else if (AuthRequestCode.isRecoverableError(requestCode)) {
             Plogger.logW(LogScope.AUTH, "RESULT_OK for error recover request code");
-            handleAuthorizeResultAfterErrorRecover(resultCode, data);
+            handleAuthorizeErrorResultAfterRecoverableError(resultCode, data);
+
             return true;
         }
 
         return false;
     }
 
-    private void handleAuthorizeResultAfterErrorRecover(final int resultCode, final Intent data) {
+    private void handleAuthorizeErrorResultAfterRecoverableError(final int resultCode, final Intent data) {
         if (null == data) {
             Plogger.logW(LogScope.AUTH, "No data after error recover");
-            // FIXME: Get string from the resources
-            ToolUI.showToast(getActivity(), "Unknown error, click the button again");
+            ToolUI.showToast(getActivity(), R.string.auth_flow_unknown_error);
         } else if (Activity.RESULT_OK == resultCode) {
             Plogger.logI(LogScope.AUTH, "RESULT_OK after error recover");
             ToolTasks.safeExecuteAuthTask(formAuthorizeTask());
         } else if (Activity.RESULT_CANCELED == resultCode) {
             Plogger.logW(LogScope.AUTH, "RESULT_CANCELED after error recover. User rejected authorization");
-            // FIXME: Get string from the resources
-            ToolUI.showToast(getActivity(), "User rejected authorization");
+            ToolUI.showToast(getActivity(), R.string.auth_flow_rejected);
         } else {
             Plogger.logW(LogScope.AUTH, "Unknown error after error recover");
-            // FIXME: Get string from the resources
-            ToolUI.showToast(getActivity(), "Unknown error, click the button again");
+            ToolUI.showToast(getActivity(), R.string.auth_flow_unknown_error);
         }
     }
 

@@ -31,6 +31,7 @@ import org.brainail.Everboxing.JApplication;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
+@SuppressWarnings("Unused")
 public final class VolleyManager {
 
     public static class RequestTag {

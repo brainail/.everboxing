@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Nav drawer dimens -->
+    <!-- Drawer -->
     <dimen name="menu_drawer_home_width">300dp</dimen>
 
     <!-- Settings -->
     <dimen name="settings_icon_size">32dp</dimen>
+
+    <!-- Toolbar -->
+    <dimen name="toolbar_dropshadow_height">4dp</dimen>
+
+    <!-- Theme chooser item -->
+    <dimen name="theme_chooser_item_color_circle_size">40dp</dimen>
+    <dimen name="theme_chooser_item_color_circle_vertical_margin">4dp</dimen>
+    <dimen name="theme_chooser_item_color_circle_radius">20dp</dimen>
 
 </resources>

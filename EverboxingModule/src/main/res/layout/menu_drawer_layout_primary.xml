@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Box for fragments -->
-        <include layout="@layout/container_fragments"/>
+        <!-- Box for content -->
+        <include layout="@layout/content_container"/>
 
         <!-- Nav drawer content -->
         <include layout="@layout/menu_drawer_content_primary"/>

@@ -63,7 +63,7 @@ public final class Plogger {
         }
     }
 
-    public static void logV(final String message, Object ... params) {
+    public static void logV(final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.v(TAG, String.format(Locale.US, message, params));
         }
@@ -75,7 +75,7 @@ public final class Plogger {
         }
     }
 
-    public static void logD(final String message, Object ... params) {
+    public static void logD(final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.d(TAG, String.format(Locale.US, message, params));
         }
@@ -87,7 +87,7 @@ public final class Plogger {
         }
     }
 
-    public static void logI(final String message, Object ... params) {
+    public static void logI(final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.i(TAG, String.format(Locale.US, message, params));
         }
@@ -99,7 +99,7 @@ public final class Plogger {
         }
     }
 
-    public static void logW(final String message, Object ... params) {
+    public static void logW(final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.w(TAG, String.format(Locale.US, message, params));
         }
@@ -111,7 +111,7 @@ public final class Plogger {
         }
     }
 
-    public static void logE(final String message, Object ... params) {
+    public static void logE(final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.e(TAG, String.format(Locale.US, message, params));
         }
@@ -123,7 +123,7 @@ public final class Plogger {
         }
     }
 
-    public static void logV(final LogScope scope, final String message, Object ... params) {
+    public static void logV(final LogScope scope, final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.v(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
         }
@@ -135,7 +135,7 @@ public final class Plogger {
         }
     }
 
-    public static void logD(final LogScope scope, final String message, Object ... params) {
+    public static void logD(final LogScope scope, final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.d(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
         }
@@ -147,7 +147,7 @@ public final class Plogger {
         }
     }
 
-    public static void logI(final LogScope scope, final String message, Object ... params) {
+    public static void logI(final LogScope scope, final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.i(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
         }
@@ -159,7 +159,7 @@ public final class Plogger {
         }
     }
 
-    public static void logW(final LogScope scope, final String message, Object ... params) {
+    public static void logW(final LogScope scope, final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.w(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
         }
@@ -171,7 +171,7 @@ public final class Plogger {
         }
     }
 
-    public static void logE(final LogScope scope, final String message, Object ... params) {
+    public static void logE(final LogScope scope, final String message, final Object ... params) {
         if (LOGGABLE) {
             Log.e(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
         }

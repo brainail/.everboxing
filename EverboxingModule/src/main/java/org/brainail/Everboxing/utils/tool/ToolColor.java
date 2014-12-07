@@ -1,8 +1,6 @@
 package org.brainail.Everboxing.utils.tool;
 
-import android.content.Intent;
-
-import com.google.android.gms.common.AccountPicker;
+import android.graphics.Color;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,12 +27,27 @@ import com.google.android.gms.common.AccountPicker;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ToolAuth {
+public final class ToolColor {
 
-    public final static String [] ACCOUNT_TYPES = {"com.google"};
+    private static final float HSV_DARK_COLOR_VALUE_LIMIT = 0.5f;
 
-    public static Intent formChooseGoogleAccountsIntent() {
-        return AccountPicker.newChooseAccountIntent(null, null, ACCOUNT_TYPES, true, null, null, null, null);
+    public static boolean isDarkColor(final int color) {
+        final float [] hsvComponents = new float [3];
+        Color.colorToHSV(color, hsvComponents);
+        return hsvComponents [2] < HSV_DARK_COLOR_VALUE_LIMIT;
+    }
+
+    /**
+     * Returns color with some alpha percent.
+     *
+     * @param alphaPercent Alpha component [0% .. 100%] of the color.
+     *
+     * @see android.graphics.Color#argb(int, int, int, int)
+     */
+    public static int colorWithAlpha(final int color, final float alphaPercent) {
+        final float opaquePercent = 100 - alphaPercent;
+        final int alpha = Math.max(0, Math.min(255, (int) (255 * opaquePercent / 100.0f)));
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
     }
 
 }

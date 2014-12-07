@@ -1,8 +1,6 @@
 package org.brainail.Everboxing.utils.tool;
 
-import android.content.Intent;
-
-import com.google.android.gms.common.AccountPicker;
+import java.io.Closeable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,12 +27,51 @@ import com.google.android.gms.common.AccountPicker;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ToolAuth {
+public final class Tool {
 
-    public final static String [] ACCOUNT_TYPES = {"com.google"};
+    // Simple class to work with masks.
+    public static class BitMask {
 
-    public static Intent formChooseGoogleAccountsIntent() {
-        return AccountPicker.newChooseAccountIntent(null, null, ACCOUNT_TYPES, true, null, null, null, null);
+        int mMask;
+
+        BitMask() {
+            mMask = 0;
+        }
+
+        BitMask(final int initMask) {
+            mMask = initMask;
+        }
+
+        void apply(final int what) {
+            mMask |= what;
+        }
+
+        void cancel(final int what) {
+            if (isPresent(what)) {
+                mMask ^= what;
+            }
+        }
+
+        void modify(final int what, final boolean state) {
+            if (state) {
+                apply(what);
+            } else {
+                cancel(what);
+            }
+        }
+
+        boolean isPresent(final int what) {
+            return (mMask & what) > 0;
+        }
+
+    }
+
+    public static void closeSilently(final Closeable closeable) {
+        try {
+            if (null != closeable) closeable.close();
+        } catch (Exception e) {
+            // Do nothing
+        }
     }
 
 }

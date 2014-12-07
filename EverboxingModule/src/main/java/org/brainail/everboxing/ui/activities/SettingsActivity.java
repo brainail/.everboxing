@@ -77,7 +77,6 @@ public class SettingsActivity
     }
 
     private void initSettingsBox() {
-        // TIPS: http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
         if (null == getFragmentManager().findFragmentByTag(SettingsFragment.MANAGER_TAG)) {
             final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, new SettingsFragment(), SettingsFragment.MANAGER_TAG).commit();
@@ -98,7 +97,6 @@ public class SettingsActivity
 
     private void navigateUpFromSameTask() {
         finish();
-        // NavUtils.navigateUpFromSameTask(this);
     }
 
     @Override
@@ -135,20 +133,28 @@ public class SettingsActivity
 
     };
 
-     // Binds a preference's summary to its value. More specifically, when the
-     // preference's value is changed, its summary (line of text below the
-     // preference title) is updated to reflect the value. The summary is also
-     // immediately updated upon calling this method. The exact display format is
-     // dependent on the type of preference.
-    private static void bindPreferenceSummary(final Preference preference, final String defSummary) {
+    // Binds a preference's summary to its value. More specifically, when the
+    // preference's value is changed, its summary (line of text below the
+    // preference title) is updated to reflect the value. The summary is also
+    // immediately updated upon calling this method. The exact display format is
+    // dependent on the type of preference.
+    private static void bindPreferenceSummary(final Preference preference, final String defSummary, final boolean useDef) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(SUMMARY_BINDER);
 
-        final SharedPreferences preferences = SettingsManager.getInstance().defaultPreferences();
-        final String value = preferences.getString(preference.getKey(), defSummary);
-
         // Trigger the listener immediately with the preference's current value.
-        SUMMARY_BINDER.onPreferenceChange(preference, value);
+        if (!useDef) {
+            final SharedPreferences preferences = SettingsManager.getInstance().defaultPreferences();
+            final String value = preferences.getString(preference.getKey(), defSummary);
+
+            SUMMARY_BINDER.onPreferenceChange(preference, value);
+        } else {
+            SUMMARY_BINDER.onPreferenceChange(preference, defSummary);
+        }
+    }
+
+    private static void bindPreferenceSummary(final Preference preference, final String defSummary) {
+        bindPreferenceSummary(preference, defSummary, false);
     }
 
     @Override
@@ -160,7 +166,6 @@ public class SettingsActivity
 
     @Override
     protected void onStop() {
-        // VolleyManager.getInstance().cancelAuthRequests();
         super.onStop();
     }
 
@@ -204,12 +209,12 @@ public class SettingsActivity
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            // mAuthorizationFlow = new AuthorizationFlow(getActivity());
             addPreferencesFromResource(R.xml.settings_main);
 
             // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
             // their values. When their values change, their summaries are updated
             // to reflect the new value, per the Android Design guidelines.
+            // ...
 
             // Add account
             final String defAddAccountSummary = getString(R.string.settings_add_account_summary);
@@ -223,10 +228,10 @@ public class SettingsActivity
             bindPreferenceSummary(signOutPf, ToolStrings.EMPTY);
 
             // Change theme
-            final String defChangeThemeSummary = getString(R.string.settings_change_theme_summary);
+            final String defChangeThemeSummary = SettingsManager.getInstance().retrieveAppThemeSummary();
             final Preference changeThemePf = findPreference(getString(R.string.settings_change_theme_key));
             changeThemePf.setIcon(PreferenceIcon.from(getActivity(), Iconify.IconValue.md_color_lens));
-            bindPreferenceSummary(changeThemePf, defChangeThemeSummary);
+            bindPreferenceSummary(changeThemePf, defChangeThemeSummary, true);
 
             // Set click listeners
             setOnClickListener(getString(R.string.settings_add_account_key));

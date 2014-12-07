@@ -1,7 +1,7 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
+    <org.brainail.Everboxing.ui.views.PreferenceCategory
         android:title="@string/settings_account_header">
 
         <Preference
@@ -13,16 +13,15 @@
             android:key="@string/settings_sign_out_account_key"
             android:title="@string/settings_sign_out_account_title"/>
 
-    </PreferenceCategory>
+    </org.brainail.Everboxing.ui.views.PreferenceCategory>
 
-    <PreferenceCategory
+    <org.brainail.Everboxing.ui.views.PreferenceCategory
         android:title="@string/settings_theme_header">
 
         <Preference
             android:key="@string/settings_change_theme_key"
-            android:title="@string/settings_change_theme_title"
-            android:summary="@string/settings_change_theme_summary"/>
+            android:title="@string/settings_change_theme_title"/>
 
-    </PreferenceCategory>
+    </org.brainail.Everboxing.ui.views.PreferenceCategory>
 
 </PreferenceScreen>

@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.kenny.snackbar.SnackBar;
+
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolCollections;
@@ -146,6 +148,12 @@ public class BaseActivity extends ActionBarActivity {
 
     protected Integer getDrawerActionsLayoutResourceId() {
         return null;
+    }
+
+    @Override
+    protected void onStop() {
+        SnackBar.cancelSnackBars(this);
+        super.onStop();
     }
 
     @Override

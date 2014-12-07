@@ -1,4 +1,10 @@
-package org.brainail.Everboxing.network.auth;
+package org.brainail.Everboxing.ui.views;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -25,5 +31,29 @@ package org.brainail.Everboxing.network.auth;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class FetchTokenRequest /* extends Request */ {
+public class PreferenceCategory extends android.preference.PreferenceCategory {
+
+    public PreferenceCategory(Context context) {
+        super(context);
+    }
+
+    public PreferenceCategory(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public PreferenceCategory(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
+    @Override
+    protected View onCreateView(ViewGroup parent) {
+        final View view = super.onCreateView(parent);
+
+        // Change title options
+        final TextView titleView = (TextView) view.findViewById(android.R.id.title);
+        titleView.setAllCaps(false);
+
+        return view;
+    }
+
 }

@@ -1,11 +1,13 @@
 <resources>
 
-    <style name="AppToolbar" parent="AppToolbar.Primary">
+    <style name="AppToolbar" parent="Widget.AppCompat.Toolbar">
     </style>
 
-    <style name="AppToolbar.Primary" parent="Widget.AppCompat.Toolbar">
+    <style name="AppToolbar.Primary">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/colorPrimary</item>
     </style>
 
 </resources>

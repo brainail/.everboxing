@@ -26,6 +26,51 @@ package org.brainail.Everboxing.utils.tool;
  * THE SOFTWARE.
  */
 public final class ToolStrings {
+
     public static String EMPTY = "";
     public static String SPACE = " ";
+
+    // Checks that the string is empty or is null.
+    public static boolean isNullOrEmpty(final String value) {
+        return null == value || 0 == value.length();
+    }
+
+    // Checks that some string is null/empty.
+    public static boolean isAnyNullOrEmpty(final String ... values) {
+        if (null == values) {
+            return false;
+        }
+
+        for (final String value : values) {
+            if (isNullOrEmpty(value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Checks that the string is null and if so, returns a def-value.
+    public static String nullToDef(final String value, final String defValue) {
+        return null == value ? defValue : value;
+    }
+
+    // Checks that the string is null/empty and if so, returns a def-value.
+    public static String emptyToDef(final String value, final String defValue) {
+        return isNullOrEmpty(value) ? defValue : value;
+    }
+
+    public static String capitalize(final String str) {
+        if (isNullOrEmpty(str)) {
+            return EMPTY;
+        }
+
+        final char firstChar = str.charAt(0);
+        if (Character.isUpperCase(firstChar)) {
+            return str;
+        } else {
+            return Character.toUpperCase(firstChar) + str.substring(1);
+        }
+    }
+
 }

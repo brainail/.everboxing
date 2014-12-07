@@ -80,14 +80,21 @@ public final class SettingsManager {
 
     public void saveAppTheme(final ThemeManager.AppTheme theme) {
         final String themeName = JApplication.appContext().getString(theme.getNameResId());
+
         mDefaultPreferences.edit()
-                .putString(mAppThemeNamePfKey, themeName)
-                .putString(mAppThemePfKey, theme.name()).apply();
+            .putString(mAppThemeNamePfKey, themeName)
+            .putString(mAppThemePfKey, theme.name())
+        .apply();
     }
 
     public ThemeManager.AppTheme retrieveAppTheme() {
         final String sTheme = mDefaultPreferences.getString(mAppThemePfKey, ThemeManager.AppTheme.PINK.name());
         return ThemeManager.AppTheme.valueOf(sTheme);
+    }
+
+    public String retrieveAppThemeSummary() {
+        final String sTheme = mDefaultPreferences.getString(mAppThemePfKey, ThemeManager.AppTheme.PINK.name());
+        return JApplication.appContext().getString(ThemeManager.AppTheme.valueOf(sTheme).getNameResId());
     }
 
 }
