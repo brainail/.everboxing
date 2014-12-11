@@ -5,12 +5,44 @@
     android:layout_width="@dimen/menu_drawer_home_width"
     android:layout_height="match_parent"
     android:layout_gravity="start|left"
-    android:choiceMode="singleChoice"
-    android:divider="?android:attr/listDivider"
-    android:dividerHeight="2dp"
     android:drawSelectorOnTop="false"
+    android:choiceMode="singleChoice"
+    android:divider="@android:color/transparent"
     android:background="@color/drawer_default"
-    android:orientation="vertical"
     tools:ignore="RtlHardcoded">
 
-    </RelativeLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/help_sections_separator"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/primary_sections"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+    <View
+        android:id="@+id/help_sections_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/help_sections"
+        android:background="?android:attr/dividerVertical"/>
+
+    <LinearLayout
+        android:id="@+id/help_sections"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical"/>
+
+</RelativeLayout>

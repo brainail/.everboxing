@@ -13,6 +13,6 @@
     <!-- Theme chooser item -->
     <dimen name="theme_chooser_item_color_circle_size">40dp</dimen>
     <dimen name="theme_chooser_item_color_circle_vertical_margin">4dp</dimen>
-    <dimen name="theme_chooser_item_color_circle_radius">20dp</dimen>
+    <dimen name="theme_chooser_item_color_circle_radius">16dp</dimen>
 
 </resources>
