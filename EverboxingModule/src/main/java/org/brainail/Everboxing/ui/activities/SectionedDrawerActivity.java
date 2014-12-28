@@ -1,11 +1,10 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer;
+import org.brainail.Everboxing.ui.drawer.DrawerSectionsControllerFactory;
+import org.brainail.Everboxing.ui.drawer.DrawerSection;
+import org.brainail.Everboxing.ui.drawer.IDrawerSectionsController;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -32,46 +31,26 @@ import org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HomeActivity extends SectionedDrawerActivity {
+public class SectionedDrawerActivity extends BaseDrawerActivity {
+
+    private IDrawerSectionsController mDrawerSectionsController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Initialize drawer's sections
-        DrawerSectionsOnSceneInitializer.initHome(this);
+        mDrawerSectionsController = DrawerSectionsControllerFactory.create(this);
     }
 
-    @Override
-    protected Integer getLayoutResourceId() {
-        return R.layout.activity_home;
+    public void addSection(final DrawerSection section) {
+        mDrawerSectionsController.addSection(section);
     }
 
-    @Override
-    protected Integer getPrimaryToolbarLayoutResourceId() {
-        return R.id.toolbar_primary;
+    public void addDivider() {
+        mDrawerSectionsController.addDivider();
     }
 
-    @Override
-    protected Integer getDrawerLayoutResourceId() {
-        return R.id.home_drawer_layout;
-    }
-
-    @Override
-    protected Integer getDrawerActionsLayoutResourceId() {
-        return R.id.drawer_menu_primary;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerCanHandleMenuItem(item)) return true;
-        return super.onOptionsItemSelected(item);
+    public void addSubheader(final String title) {
+        mDrawerSectionsController.addSubheader(title);
     }
 
 }

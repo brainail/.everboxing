@@ -16,7 +16,7 @@
         <include layout="@layout/toolbar_primary"/>
 
         <!-- Nav drawer -->
-        <include layout="@layout/menu_drawer_layout_primary"/>
+        <include layout="@layout/drawer_menu_layout_primary"/>
 
     </LinearLayout>
 

@@ -28,6 +28,7 @@ package org.brainail.Everboxing.utils.tool;
 public final class ToolStrings {
 
     public static String EMPTY = "";
+    public static String PLUS = "+";
     public static String SPACE = " ";
 
     // Checks that the string is empty or is null.

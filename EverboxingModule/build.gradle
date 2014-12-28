@@ -110,6 +110,9 @@ dependencies {
     compile 'com.afollestad:material-dialogs:0.4.3'
     compile 'com.malinskiy:materialicons:1.0.0'
     compile 'com.github.kennyc1012:snackbar:1.0.2-SNAPSHOT:api11Release@aar'
+
+    // Fonts
+    compile 'uk.co.chrisjenx:calligraphy:1.2.0'
 }
 
 //

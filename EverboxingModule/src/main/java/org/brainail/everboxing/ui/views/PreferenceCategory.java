@@ -52,6 +52,7 @@ public class PreferenceCategory extends android.preference.PreferenceCategory {
         // Change title options
         final TextView titleView = (TextView) view.findViewById(android.R.id.title);
         titleView.setAllCaps(false);
+        titleView.setTextColor(getContext().getResources().getColor(android.R.color.secondary_text_light));
 
         return view;
     }

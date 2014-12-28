@@ -1,7 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/menu_drawer_primary"
+    android:id="@+id/drawer_menu_primary"
     android:layout_width="@dimen/menu_drawer_home_width"
     android:layout_height="match_parent"
     android:layout_gravity="start|left"
@@ -14,30 +14,35 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/help_sections_separator"
+        android:layout_above="@+id/drawer_menu_help_sections"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="none"
+        android:fadeScrollbars="true"
+        android:requiresFadingEdge="vertical"
         android:layout_alignParentTop="true">
 
         <LinearLayout
-            android:id="@+id/primary_sections"
+            android:id="@+id/drawer_menu_primary_sections"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:orientation="vertical"/>
 
     </ScrollView>
 
     <View
-        android:id="@+id/help_sections_separator"
+        android:id="@+id/drawer_menu_help_sections_separator"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@+id/help_sections"
-        android:background="?android:attr/dividerVertical"/>
+        android:layout_height="8dp"
+        android:visibility="gone"
+        android:layout_above="@+id/drawer_menu_help_sections"
+        android:background="@drawable/drawer_menu_help_sections_dropshadow"/>
 
     <LinearLayout
-        android:id="@+id/help_sections"
+        android:id="@+id/drawer_menu_help_sections"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

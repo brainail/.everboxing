@@ -6,10 +6,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 
 import org.brainail.Everboxing.utils.Sdk;
 
@@ -95,7 +97,7 @@ public final class ToolView {
     }
 
     // Converts view to bitmap.
-    private static Bitmap takeViewScreenshot(final WebView view) {
+    public static Bitmap takeViewScreenshot(final WebView view) {
         try {
             if (null != view) {
                 view.setDrawingCacheEnabled(true);
@@ -111,7 +113,7 @@ public final class ToolView {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    static void addOnGlobalLayoutListenerOnce(final View view, final ViewTreeObserver.OnGlobalLayoutListener callback) {
+    public static void addOnGlobalLayoutListenerOnce(final View view, final ViewTreeObserver.OnGlobalLayoutListener callback) {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @Override
@@ -126,6 +128,12 @@ public final class ToolView {
             }
 
         });
+    }
+
+    public static View linearWrapper(final Context context, final int layoutId) {
+        final LinearLayout layoutWrapper = new LinearLayout(context);
+        LayoutInflater.from(context).inflate(layoutId, layoutWrapper, true);
+        return layoutWrapper;
     }
 
 }

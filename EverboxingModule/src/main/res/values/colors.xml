@@ -41,12 +41,10 @@
     <color name="preference_selector_state_default">@android:color/transparent</color>
 
     <!-- Drawer -->
-    <color name="drawer_default">#DDFFFFFF</color>
-
-    <!-- Toolbar -->
-    <color name="toolbar_dropshadow">#77333333</color>
+    <color name="drawer_default">#ddffffff</color>
 
     <!-- Other -->
-    <color name="content_bg_default">#CCCCCC</color>
+    <color name="content_bg_default">#cccccc</color>
+    <color name="separator_dropshadow_default">#77333333</color>
 
 </resources>

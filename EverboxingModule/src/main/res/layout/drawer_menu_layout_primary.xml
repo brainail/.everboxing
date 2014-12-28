@@ -12,7 +12,7 @@
         <include layout="@layout/content_container"/>
 
         <!-- Nav drawer content -->
-        <include layout="@layout/menu_drawer_content_primary"/>
+        <include layout="@layout/drawer_menu_content_primary"/>
 
     </android.support.v4.widget.DrawerLayout>
 

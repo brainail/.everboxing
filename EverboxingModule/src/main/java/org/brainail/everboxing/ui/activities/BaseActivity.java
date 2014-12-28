@@ -1,5 +1,6 @@
 package org.brainail.Everboxing.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,10 @@ import com.kenny.snackbar.SnackBar;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
+import org.brainail.Everboxing.utils.tool.ToolFonts;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
 
@@ -49,10 +54,17 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Init default font for Calligraphy
+        CalligraphyConfig.initDefault(getDefaultFont(), R.attr.fontPath);
+
+        // Init & check theme
         mTheme = ThemeManager.checkOnCreate(this, mTheme);
 
-        // Init main stuff
+        // Init content view
         initContent();
+
+        // Init toolbar aka action bar
         initToolbar();
     }
 
@@ -74,6 +86,16 @@ public class BaseActivity extends ActionBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(final Context baseContext) {
+        // Attach the Calligraphy
+        super.attachBaseContext(new CalligraphyContextWrapper(baseContext, R.attr.fontPath));
+    }
+
+    protected String getDefaultFont() {
+        return ToolFonts.RobotoFonts.ASSETS_REGULAR;
     }
 
     protected Integer getLayoutResourceId() {

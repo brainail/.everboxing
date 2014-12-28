@@ -1,11 +1,4 @@
-package org.brainail.Everboxing.ui.activities;
-
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer;
+package org.brainail.Everboxing.utils.tool;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -32,46 +25,10 @@ import org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HomeActivity extends SectionedDrawerActivity {
+public final class ToolFonts {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Initialize drawer's sections
-        DrawerSectionsOnSceneInitializer.initHome(this);
-    }
-
-    @Override
-    protected Integer getLayoutResourceId() {
-        return R.layout.activity_home;
-    }
-
-    @Override
-    protected Integer getPrimaryToolbarLayoutResourceId() {
-        return R.id.toolbar_primary;
-    }
-
-    @Override
-    protected Integer getDrawerLayoutResourceId() {
-        return R.id.home_drawer_layout;
-    }
-
-    @Override
-    protected Integer getDrawerActionsLayoutResourceId() {
-        return R.id.drawer_menu_primary;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerCanHandleMenuItem(item)) return true;
-        return super.onOptionsItemSelected(item);
+    public static class RobotoFonts {
+        public static String ASSETS_REGULAR = "fonts/Roboto-Regular.ttf";
     }
 
 }
