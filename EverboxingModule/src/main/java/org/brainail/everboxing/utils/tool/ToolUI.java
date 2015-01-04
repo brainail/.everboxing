@@ -92,7 +92,7 @@ public final class ToolUI {
     public static void fixSettingsSelectorWorkaround(final Activity activity) {
         try {
             final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
-            allPreferences.setSelector(R.drawable.preference_selector);
+            allPreferences.setSelector(R.drawable.list_item_default_selector);
         } catch (Exception exception) {
             // Do nothing
         }

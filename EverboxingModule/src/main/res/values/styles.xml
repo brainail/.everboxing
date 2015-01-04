@@ -1,2 +1,28 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Root content -->
+    <style name="AppContent"/>
+
+    <style name="AppContent.FitWindows">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?attr/colorPrimaryDark</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="AppContent.Root">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/content_bg_default</item>
+    </style>
+
+    <!-- Default divider -->
+    <style name="ItemDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height" tools:ignore="PxUsage">@dimen/divider_height</item>
+        <item name="android:background">@color/divider_color</item>
+        <item name="android:alpha">@dimen/divider_alpha</item>
+    </style>
+
 </resources>

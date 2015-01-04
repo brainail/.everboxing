@@ -1,0 +1,93 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppDrawer"/>
+
+    <style name="AppDrawer.Section">
+        <item name="android:layout_height">@dimen/menu_drawer_section_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/list_item_default_selector</item>
+    </style>
+
+    <style name="AppDrawer.Section.Subheader">
+        <item name="android:background">@null</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="AppDrawer.Icon">
+        <item name="android:alpha">@dimen/menu_drawer_section_icon_alpha</item>
+        <item name="android:layout_height">@dimen/menu_drawer_section_icon_size</item>
+        <item name="android:layout_width">@dimen/menu_drawer_section_icon_size</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/menu_drawer_section_horizontal_margin</item>
+    </style>
+
+    <style name="AppDrawer.Title">
+        <item name="android:alpha">@dimen/menu_drawer_section_title_alpha</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/menu_drawer_section_text_size</item>
+        <item name="android:textColor">@color/menu_drawer_section_text_color</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">@dimen/menu_drawer_section_vertical_margin</item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_vertical_margin</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
+
+    <style name="AppDrawer.Title.Subheader">
+        <item name="android:alpha">@dimen/menu_drawer_section_subheader</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/menu_drawer_section_text_size</item>
+        <item name="android:textColor">@color/menu_drawer_section_subheader_text_color</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_marginLeft">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_gravity">center_vertical|left|start</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+    </style>
+
+    <style name="AppDrawer.Title.Base">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentStart" tools:ignore="NewApi">true</item>
+        <item name="android:layout_marginLeft">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/menu_drawer_section_horizontal_margin</item>
+    </style>
+
+    <style name="AppDrawer.Title.AfterIcon">
+        <item name="android:layout_marginLeft">@dimen/menu_drawer_section_title_after_icon_margin</item>
+        <item name="android:layout_marginStart" tools:ignore="NewApi">@dimen/menu_drawer_section_title_after_icon_margin</item>
+    </style>
+
+    <style name="AppDrawer.Divider" parent="ItemDivider">
+    </style>
+
+    <style name="AppDrawer.Divider.Section">
+        <item name="android:layout_marginTop">@dimen/menu_drawer_section_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/menu_drawer_section_vertical_margin</item>
+    </style>
+
+    <style name="AppDrawer.Divider.Subheader">
+        <item name="android:layout_marginTop">@dimen/menu_drawer_section_vertical_margin</item>
+    </style>
+
+    <style name="AppDrawer.Notification">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/menu_drawer_section_notifications_width</item>
+        <item name="android:textSize">@dimen/menu_drawer_section_text_size</item>
+        <item name="android:textColor">@color/menu_drawer_section_text_color</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignParentEnd" tools:ignore="NewApi">true</item>
+        <item name="android:layout_marginRight">@dimen/menu_drawer_section_vertical_margin</item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_vertical_margin</item>
+        <item name="fontPath">fonts/Roboto-Thin.ttf</item>
+        <item name="android:maxLength">3</item>
+        <item name="android:lines">1</item>
+    </style>
+
+</resources>

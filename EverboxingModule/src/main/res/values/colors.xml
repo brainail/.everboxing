@@ -36,15 +36,18 @@
     <color name="primary_lgreen_dark">#689f38</color>
     <color name="accent_lgreen">#ffd740</color>
 
-    <!-- Selector colors. Preference -->
-    <color name="preference_selector_state_enabled">#ffbdbdbd</color>
-    <color name="preference_selector_state_default">@android:color/transparent</color>
-
     <!-- Drawer -->
-    <color name="drawer_default">#ddffffff</color>
+    <color name="menu_drawer_default">#fffafafa</color>
+    <color name="menu_drawer_help_sections_dropshadow">#1e000000</color>
+    <color name="menu_drawer_section_text_color">#de212121</color>
+    <color name="menu_drawer_section_subheader_text_color">#8a212121</color>
 
     <!-- Other -->
-    <color name="content_bg_default">#cccccc</color>
+    <color name="content_bg_default">#eeeeee</color>
     <color name="separator_dropshadow_default">#77333333</color>
+    <color name="list_item_default_pressed_state">#d5d5d5</color>
+    <color name="list_item_default_selected_state">#e9e9e9</color>
+    <color name="list_item_default_transparent_state">@android:color/transparent</color>
+    <color name="divider_color">#000000</color>
 
 </resources>

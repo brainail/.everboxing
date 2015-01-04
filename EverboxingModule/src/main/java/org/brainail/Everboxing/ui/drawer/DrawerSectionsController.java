@@ -116,7 +116,6 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         section.withPosition(mPrimaryDrawerSections.size());
         mPrimaryDrawerSections.add(section);
         mPrimarySections.addView(section.selfView());
-        notifySectionsChanged();
     }
 
     private void addHelpSection(final DrawerSection section) {

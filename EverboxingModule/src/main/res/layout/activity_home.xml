@@ -1,16 +1,11 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryDark"
-    android:fitsSystemWindows="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UselessParent"
+    style="@style/AppContent.FitWindows">
 
     <LinearLayout
-        android:id="@+id/main_parent_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/content_bg_default">
+        style="@style/AppContent.Root">
 
         <!-- Toolbar -->
         <include layout="@layout/toolbar_primary"/>

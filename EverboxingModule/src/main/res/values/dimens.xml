@@ -3,6 +3,16 @@
 
     <!-- Drawer -->
     <dimen name="menu_drawer_home_width">300dp</dimen>
+    <dimen name="menu_drawer_section_height">48dp</dimen>
+    <item name="menu_drawer_section_icon_alpha" type="dimen" format="float">0.54</item>
+    <dimen name="menu_drawer_section_icon_size">24dp</dimen>
+    <dimen name="menu_drawer_section_horizontal_margin">16dp</dimen>
+    <dimen name="menu_drawer_section_title_after_icon_margin">72dp</dimen>
+    <dimen name="menu_drawer_section_vertical_margin">8dp</dimen>
+    <item name="menu_drawer_section_title_alpha" type="dimen" format="float">0.87</item>
+    <dimen name="menu_drawer_section_text_size">14sp</dimen>
+    <item name="menu_drawer_section_subheader" type="dimen" format="float">0.54</item>
+    <dimen name="menu_drawer_section_notifications_width">40dp</dimen>
 
     <!-- Settings -->
     <dimen name="settings_icon_size">32dp</dimen>
@@ -14,5 +24,11 @@
     <dimen name="theme_chooser_item_color_circle_size">40dp</dimen>
     <dimen name="theme_chooser_item_color_circle_vertical_margin">4dp</dimen>
     <dimen name="theme_chooser_item_color_circle_radius">16dp</dimen>
+
+    <!-- Divider -->
+    <dimen name="divider_height">1px</dimen>
+    <item name="divider_alpha" type="dimen" format="float">0.12</item>
+
+    <!-- Other -->
 
 </resources>

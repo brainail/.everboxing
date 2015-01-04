@@ -41,15 +41,15 @@ public class SectionedDrawerActivity extends BaseDrawerActivity {
         mDrawerSectionsController = DrawerSectionsControllerFactory.create(this);
     }
 
-    public void addSection(final DrawerSection section) {
+    public void addDrawerSection(final DrawerSection section) {
         mDrawerSectionsController.addSection(section);
     }
 
-    public void addDivider() {
+    public void addDrawerDivider() {
         mDrawerSectionsController.addDivider();
     }
 
-    public void addSubheader(final String title) {
+    public void addDrawerSubheader(final String title) {
         mDrawerSectionsController.addSubheader(title);
     }
 

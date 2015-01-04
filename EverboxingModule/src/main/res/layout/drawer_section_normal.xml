@@ -1,44 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:orientation="horizontal" android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@drawable/drawer_section_selector"
-                tools:ignore="MissingPrefix">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppDrawer.Section">
 
     <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
         android:id="@id/drawer_section_icon"
-        android:alpha="0.54"
-        android:layout_marginLeft="16dp"
-        android:layout_centerVertical="true" />
+        style="@style/AppDrawer.Icon"
+        tools:ignore="ContentDescription"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@id/drawer_section_text"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="72dp"
-        android:textSize="14sp"
-        android:textColor="#000000"
-        android:alpha="0.87"
         android:layout_toLeftOf="@id/drawer_section_notification"
         android:layout_toStartOf="@id/drawer_section_notification"
-        android:layout_marginRight="8dp"
-        fontPath="fonts/Roboto-Medium.ttf"/>
+        style="@style/AppDrawer.Title.AfterIcon"/>
 
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
         android:id="@id/drawer_section_notification"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="8dp"
-        android:lines="1"
-        android:maxLength="3"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_centerVertical="true" />
+        style="@style/AppDrawer.Notification"/>
 
 </RelativeLayout>

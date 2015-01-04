@@ -35,19 +35,19 @@ import static org.brainail.Everboxing.ui.drawer.DrawerSection.LocationType;
 public class DrawerSectionsOnSceneInitializer {
 
     public static void initHome(final SectionedDrawerActivity scene) {
-        scene.addSection(new DrawerSection(scene).withTitle("Section One"));
-        scene.addSection(new DrawerSection(scene).withTitle("Section Two"));
+        scene.addDrawerSection(new DrawerSection(scene).withTitle("Section One"));
+        scene.addDrawerSection(new DrawerSection(scene).withTitle("Section Two"));
 
-        scene.addDivider();
+        scene.addDrawerDivider();
 
-        scene.addSection(
+        scene.addDrawerSection(
                 new DrawerSection(scene, LayoutType.NORMAL)
                         .withTitle("Sender")
                         .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_send))
                         .withNotifications(10)
         );
 
-        scene.addSection(
+        scene.addDrawerSection(
                 new DrawerSection(scene, LayoutType.NORMAL)
                         .withTitle("Today")
                         .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_today))
@@ -55,9 +55,9 @@ public class DrawerSectionsOnSceneInitializer {
                         .withSectionColor(Color.parseColor("#2196f3"))
         );
 
-        scene.addSubheader("Privacy");
+        scene.addDrawerSubheader("Privacy");
 
-        scene.addSection(
+        scene.addDrawerSection(
                 new DrawerSection(scene)
                         .withTitle("Sex everywhere")
                         .withNotifications(20)
@@ -65,7 +65,7 @@ public class DrawerSectionsOnSceneInitializer {
                         .withSectionColor(Color.parseColor("#ff9800"))
         );
 
-        scene.addSection(
+        scene.addDrawerSection(
                 new DrawerSection(scene, LayoutType.NORMAL)
                         .withTitle("Settings")
                         .withLocationType(LocationType.HELP)

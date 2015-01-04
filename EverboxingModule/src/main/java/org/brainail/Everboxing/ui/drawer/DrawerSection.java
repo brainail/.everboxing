@@ -81,6 +81,7 @@ public class DrawerSection {
 
     private DrawerSectionCallback mCallback = null;
     private boolean mHasColor = false;
+    // FIXME: Use correct colors!
     private int mColor = Color.BLACK;
 
     public DrawerSection(final Context context) {
@@ -218,6 +219,7 @@ public class DrawerSection {
 
     public DrawerSection withNotificationsLimit(final int notificationsLimit) {
         mNotificationsLimit = notificationsLimit;
+        withNotifications(mNumberNotifications);
         return this;
     }
 
@@ -250,10 +252,12 @@ public class DrawerSection {
 
     private void updateIcon(final int color, final float alpha) {
         if (mHasColor) {
+            // FIXME: Use default colors
             mViewHolder.selfText.setTextColor(color);
 
             if (null != mViewHolder.selfIcon) {
                 mViewHolder.selfIcon.setColorFilter(color);
+                // FIXME: Remove alpha
                 mViewHolder.selfIcon.setAlpha(alpha);
             }
         }
