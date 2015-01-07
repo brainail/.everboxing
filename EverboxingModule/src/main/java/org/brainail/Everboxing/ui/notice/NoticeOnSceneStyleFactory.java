@@ -1,6 +1,6 @@
-package org.brainail.Everboxing.ui.drawer;
+package org.brainail.Everboxing.ui.notice;
 
-import android.app.Activity;
+import java.util.HashSet;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -27,11 +27,28 @@ import android.app.Activity;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController {
-    public void addDivider();
-    public void addSubheader(final String titleText);
-    public void addSection(final DrawerSection section);
-    public void selectSection(final DrawerSection section);
-    public void unselectSection(final DrawerSection section);
-    public Activity scene();
+public final class NoticeOnSceneStyleFactory {
+
+    private static HashSet<Class<?>> TOP_STYLE_SCENES;
+
+    static {
+        TOP_STYLE_SCENES = new HashSet<Class<?>>();
+    }
+
+    public static NoticeBar.Style get(final Object scene) {
+        if (isTopStyleScene(scene)) {
+            return NoticeBar.Style.DEFAULT_TOP;
+        } else {
+            return NoticeBar.Style.DEFAULT;
+        }
+    }
+
+    private static boolean isTopStyleScene(final Object scene) {
+        if (null != scene && TOP_STYLE_SCENES.contains(scene.getClass())) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

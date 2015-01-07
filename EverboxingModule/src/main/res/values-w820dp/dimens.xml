@@ -2,6 +2,6 @@
 <resources>
 
     <!-- Drawer -->
-    <dimen name="menu_drawer_home_width">300dp</dimen>
+    <dimen name="menu_drawer_home_width">320dp</dimen>
 
 </resources>

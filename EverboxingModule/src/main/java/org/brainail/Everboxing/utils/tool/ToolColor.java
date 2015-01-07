@@ -2,6 +2,8 @@ package org.brainail.Everboxing.utils.tool;
 
 import android.graphics.Color;
 
+import org.brainail.Everboxing.JApplication;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -48,6 +50,10 @@ public final class ToolColor {
         final float opaquePercent = 100 - alphaPercent;
         final int alpha = Math.max(0, Math.min(255, (int) (255 * opaquePercent / 100.0f)));
         return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
+    }
+
+    public static int by(final int resId) {
+        return JApplication.appContext().getResources().getColor(resId);
     }
 
 }

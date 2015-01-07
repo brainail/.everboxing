@@ -42,6 +42,10 @@
     <color name="menu_drawer_section_text_color">#de212121</color>
     <color name="menu_drawer_section_subheader_text_color">#8a212121</color>
 
+    <!-- Notices -->
+    <color name="notice_default_text_color">#e1d5eb</color>
+    <color name="notice_active_text_color">#ffffff</color>
+
     <!-- Other -->
     <color name="content_bg_default">#eeeeee</color>
     <color name="separator_dropshadow_default">#77333333</color>

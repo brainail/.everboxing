@@ -3,6 +3,7 @@ package org.brainail.Everboxing.ui.drawer;
 import android.graphics.Color;
 
 import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
+import org.brainail.Everboxing.ui.activities.SettingsActivity;
 
 import static org.brainail.Everboxing.ui.drawer.DrawerSection.LayoutType;
 import static org.brainail.Everboxing.ui.drawer.DrawerSection.LocationType;
@@ -70,6 +71,7 @@ public class DrawerSectionsOnSceneInitializer {
                         .withTitle("Settings")
                         .withLocationType(LocationType.HELP)
                         .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_manage))
+                        .withTarget(SettingsActivity.class)
         );
     }
 

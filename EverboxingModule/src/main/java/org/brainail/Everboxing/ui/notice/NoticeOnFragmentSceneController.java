@@ -1,6 +1,12 @@
-package org.brainail.Everboxing.ui.drawer;
+package org.brainail.Everboxing.ui.notice;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.view.View;
+
+import org.brainail.Everboxing.JApplication;
+
+import java.lang.ref.WeakReference;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -27,11 +33,47 @@ import android.app.Activity;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController {
-    public void addDivider();
-    public void addSubheader(final String titleText);
-    public void addSection(final DrawerSection section);
-    public void selectSection(final DrawerSection section);
-    public void unselectSection(final DrawerSection section);
-    public Activity scene();
+class NoticeOnFragmentSceneController extends NoticeOnSceneController {
+
+    private WeakReference<Fragment> mSceneRef = new WeakReference<Fragment>(null);
+
+    NoticeOnFragmentSceneController(final Fragment scene) {
+        mSceneRef = new WeakReference<Fragment>(scene);
+    }
+
+    @Override
+    public Activity rootScene() {
+        final Fragment scene = mSceneRef.get();
+        return (null != scene ? scene.getActivity() : null);
+    }
+
+    @Override
+    public Object scene() {
+        return mSceneRef.get();
+    }
+
+    @Override
+    public NoticeBar.Builder noticeBuilder() {
+        final Fragment scene = mSceneRef.get();
+
+        if (isVisibleScene()) {
+            final View root = scene.getView();
+            if (null != root) {
+                return new NoticeBar.Builder(JApplication.appContext(), root);
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isVisibleScene() {
+        final Fragment scene = mSceneRef.get();
+        return
+            null != scene &&
+            scene.isAdded() &&
+            null != scene.getView() &&
+            !scene.isRemoving() &&
+            scene.getUserVisibleHint();
+    }
+
 }

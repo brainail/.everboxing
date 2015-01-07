@@ -1,6 +1,8 @@
-package org.brainail.Everboxing.ui.drawer;
+package org.brainail.Everboxing.ui.notice;
 
 import android.app.Activity;
+
+import java.lang.ref.WeakReference;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -27,11 +29,33 @@ import android.app.Activity;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController {
-    public void addDivider();
-    public void addSubheader(final String titleText);
-    public void addSection(final DrawerSection section);
-    public void selectSection(final DrawerSection section);
-    public void unselectSection(final DrawerSection section);
-    public Activity scene();
+class NoticeOnActivitySceneController extends NoticeOnSceneController {
+
+    private WeakReference<Activity> mSceneRef = new WeakReference<Activity>(null);
+
+    NoticeOnActivitySceneController(final Activity scene) {
+        mSceneRef = new WeakReference<Activity>(scene);
+    }
+
+    @Override
+    public Activity rootScene() {
+        return mSceneRef.get();
+    }
+
+    @Override
+    public Object scene() {
+        return mSceneRef.get();
+    }
+
+    @Override
+    public NoticeBar.Builder noticeBuilder() {
+        final Activity scene = mSceneRef.get();
+
+        if (null != scene) {
+            return new NoticeBar.Builder(scene);
+        }
+
+        return null;
+    }
+
 }

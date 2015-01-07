@@ -4,15 +4,15 @@
     <!-- Drawer -->
     <dimen name="menu_drawer_home_width">300dp</dimen>
     <dimen name="menu_drawer_section_height">48dp</dimen>
-    <item name="menu_drawer_section_icon_alpha" type="dimen" format="float">0.54</item>
     <dimen name="menu_drawer_section_icon_size">24dp</dimen>
     <dimen name="menu_drawer_section_horizontal_margin">16dp</dimen>
     <dimen name="menu_drawer_section_title_after_icon_margin">72dp</dimen>
     <dimen name="menu_drawer_section_vertical_margin">8dp</dimen>
-    <item name="menu_drawer_section_title_alpha" type="dimen" format="float">0.87</item>
     <dimen name="menu_drawer_section_text_size">14sp</dimen>
-    <item name="menu_drawer_section_subheader" type="dimen" format="float">0.54</item>
     <dimen name="menu_drawer_section_notifications_width">40dp</dimen>
+    <item name="menu_drawer_section_icon_alpha" type="dimen" format="float">0.54</item>
+    <item name="menu_drawer_section_title_alpha" type="dimen" format="float">0.87</item>
+    <item name="menu_drawer_section_subheader" type="dimen" format="float">0.54</item>
 
     <!-- Settings -->
     <dimen name="settings_icon_size">32dp</dimen>
@@ -26,8 +26,17 @@
     <dimen name="theme_chooser_item_color_circle_radius">16dp</dimen>
 
     <!-- Divider -->
-    <dimen name="divider_height">1px</dimen>
+    <dimen name="divider_height">1dp</dimen>
     <item name="divider_alpha" type="dimen" format="float">0.12</item>
+
+    <!-- Notices -->
+    <dimen name="notice_horizontal_side_spacing">24dp</dimen>
+    <dimen name="notice_vertical_side_spacing">16dp</dimen>
+    <dimen name="notice_bar_min_height">44dp</dimen>
+    <dimen name="notice_message_text_size">16sp</dimen>
+    <dimen name="notice_action_text_size">14sp</dimen>
+    <dimen name="notice_action_width">74dp</dimen>
+    <dimen name="notice_action_height">24dp</dimen>
 
     <!-- Other -->
 

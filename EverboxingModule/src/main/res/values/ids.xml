@@ -7,4 +7,10 @@
     <item name="drawer_section_notification" type="id"/>
     <item name="drawer_section_subheader_text" type="id"/>
 
+    <!-- Notices -->
+    <item name="notice_bar" type="id"/>
+    <item name="notice_container" type="id"/>
+    <item name="notice_message" type="id"/>
+    <item name="notice_action" type="id"/>
+
 </resources>

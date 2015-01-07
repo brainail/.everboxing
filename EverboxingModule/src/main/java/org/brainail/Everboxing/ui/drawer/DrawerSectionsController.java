@@ -1,7 +1,6 @@
 package org.brainail.Everboxing.ui.drawer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -46,13 +45,13 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     private final LinkedList<DrawerSection> mPrimaryDrawerSections = new LinkedList<DrawerSection>();
     private final LinkedList<DrawerSection> mHelpDrawerSections = new LinkedList<DrawerSection>();
 
-    private final Context mContext;
+    private final Activity mScene;
 
     public DrawerSectionsController(final Activity scene) {
         mPrimarySections = (LinearLayout) scene.findViewById(R.id.drawer_menu_primary_sections);
         mHelpSections = (LinearLayout) scene.findViewById(R.id.drawer_menu_help_sections);
         mHelpSectionsSeparator = scene.findViewById(R.id.drawer_menu_help_sections_separator);
-        mContext = scene;
+        mScene = scene;
     }
 
     @Override
@@ -71,7 +70,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     private void addDivider(final int layoutId) {
-        mPrimarySections.addView(ToolView.linearWrapper(mContext, layoutId));
+        mPrimarySections.addView(ToolView.linearWrapper(mScene, layoutId));
     }
 
     @Override
@@ -112,6 +111,11 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         // FIXME: Add some light implementation ..
     }
 
+    @Override
+    public Activity scene() {
+        return mScene;
+    }
+
     private void addPrimarySection(final DrawerSection section) {
         section.withPosition(mPrimaryDrawerSections.size());
         mPrimaryDrawerSections.add(section);
@@ -130,7 +134,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     private LayoutInflater getInflater() {
-        return LayoutInflater.from(mContext);
+        return LayoutInflater.from(mScene);
     }
 
 }

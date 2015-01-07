@@ -1,5 +1,6 @@
 package org.brainail.Everboxing.ui.drawer;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolStrings;
 
 /**
@@ -38,19 +40,20 @@ import org.brainail.Everboxing.utils.tool.ToolStrings;
  */
 public class DrawerSection {
 
-    // Where
+    // Display (where?)
     public static enum LocationType {
         PRIMARY,
         HELP
     }
 
-    // Whom
+    // Open (whom?)
     public static enum TargetType {
         FRAGMENT,
-        INTENT
+        INTENT,
+        CLASS
     }
 
-    // How
+    // Display (how?)
     public static enum LayoutType {
 
         BASE(R.layout.drawer_section_base),
@@ -64,25 +67,29 @@ public class DrawerSection {
 
     }
 
+    // Controller for drawer
     private DrawerSectionsController mDrawerController = null;
 
+    // Position index (negative for help sections)
     private int mPosition = Integer.MIN_VALUE;
-    private TargetType mTargetType = null;
     private LocationType mLocationType = LocationType.PRIMARY;
 
-    private Fragment mTargetFragment = null;
-    private Intent mTargetIntent = null;
+    // Target
+    private TargetType mTargetType = null;
+    private Object mTarget = null;
 
+    // Visual stuff
+    private String mTitle;
     private int mNumberNotifications = 0;
     private int mNotificationsLimit = 99;
-    private String mTitle;
+    private int mColor = Color.BLACK;
+    private boolean mHasColor = false;
 
+    // View holder
     private final DrawerSectionHolder mViewHolder;
 
+    // Feedback for click events
     private DrawerSectionCallback mCallback = null;
-    private boolean mHasColor = false;
-    // FIXME: Use correct colors!
-    private int mColor = Color.BLACK;
 
     public DrawerSection(final Context context) {
         this(context, LayoutType.BASE);
@@ -112,7 +119,7 @@ public class DrawerSection {
 
     public void select() {
         mViewHolder.selfView.setSelected(true);
-        updateIcon(mColor, 1.0f);
+        updateColors();
 
         mDrawerController.selectSection(this);
 
@@ -123,7 +130,7 @@ public class DrawerSection {
 
     public void unselect() {
         mViewHolder.selfView.setSelected(false);
-        updateIcon(Color.BLACK, 0.5f);
+        resetColors();
 
         mDrawerController.unselectSection(this);
     }
@@ -150,7 +157,6 @@ public class DrawerSection {
     public DrawerSection withIcon(final Drawable icon) {
         if (null != mViewHolder.selfIcon) {
             mViewHolder.selfIcon.setImageDrawable(icon);
-            mViewHolder.selfIcon.setColorFilter(mColor);
         }
 
         return this;
@@ -159,7 +165,6 @@ public class DrawerSection {
     public DrawerSection withIcon(final Bitmap icon) {
         if (null != mViewHolder.selfIcon) {
             mViewHolder.selfIcon.setImageBitmap(icon);
-            mViewHolder.selfIcon.setColorFilter(mColor);
         }
 
         return this;
@@ -167,13 +172,19 @@ public class DrawerSection {
 
     public DrawerSection withTarget(final Fragment target) {
         mTargetType = TargetType.FRAGMENT;
-        mTargetFragment = target;
+        mTarget = target;
         return this;
     }
 
     public DrawerSection withTarget(final Intent target) {
         mTargetType = TargetType.INTENT;
-        mTargetIntent = target;
+        mTarget = target;
+        return this;
+    }
+
+    public DrawerSection withTarget(final Class<? extends Activity> target) {
+        mTargetType = TargetType.CLASS;
+        mTarget = target;
         return this;
     }
 
@@ -181,12 +192,8 @@ public class DrawerSection {
         return mTargetType;
     }
 
-    public Fragment getTargetFragment() {
-        return mTargetFragment;
-    }
-
-    public Intent getTargetIntent() {
-        return mTargetIntent;
+    public Object getTarget() {
+        return mTarget;
     }
 
     public DrawerSection withLocationType(final LocationType type) {
@@ -198,12 +205,16 @@ public class DrawerSection {
         return mLocationType;
     }
 
-    public DrawerSection withSectionColor(int color) {
-        mHasColor = true;
-        mColor = color;
+    public DrawerSection withSectionColor(final Integer color) {
+        mHasColor = null != color;
+        mColor = null != color ? color : Color.BLACK;
 
         if (isSelected()) {
-            updateIcon(mColor, 1f);
+            if (null != color) {
+                updateColors();
+            } else {
+                resetColors();
+            }
         }
 
         return this;
@@ -243,22 +254,41 @@ public class DrawerSection {
         return mViewHolder.selfView.isSelected();
     }
 
+    private void target() {
+        if (mTarget instanceof Class<?>) {
+            final Intent targetIntent = new Intent(mDrawerController.scene(), (Class<?>) mTarget);
+            mDrawerController.scene().startActivity(targetIntent);
+        } else if (mTarget instanceof Intent) {
+            mDrawerController.scene().startActivity((Intent) mTarget);
+        } else if (mTarget instanceof Fragment) {
+            // FIXME#brainail: Handle fragment
+        }
+    }
+
     private View.OnClickListener mInternalClickCallback = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             select();
+            target();
         }
     };
 
-    private void updateIcon(final int color, final float alpha) {
+    private void updateColors() {
         if (mHasColor) {
-            // FIXME: Use default colors
-            mViewHolder.selfText.setTextColor(color);
+            mViewHolder.selfText.setTextColor(mColor);
 
             if (null != mViewHolder.selfIcon) {
-                mViewHolder.selfIcon.setColorFilter(color);
-                // FIXME: Remove alpha
-                mViewHolder.selfIcon.setAlpha(alpha);
+                mViewHolder.selfIcon.setColorFilter(mColor);
+            }
+        }
+    }
+
+    private void resetColors() {
+        if (mHasColor) {
+            mViewHolder.selfText.setTextColor(ToolColor.by(R.color.menu_drawer_section_text_color));
+
+            if (null != mViewHolder.selfIcon) {
+                mViewHolder.selfIcon.clearColorFilter();
             }
         }
     }

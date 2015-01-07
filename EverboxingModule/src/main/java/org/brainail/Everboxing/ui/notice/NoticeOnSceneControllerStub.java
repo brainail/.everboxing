@@ -1,4 +1,4 @@
-package org.brainail.Everboxing.ui.drawer;
+package org.brainail.Everboxing.ui.notice;
 
 import android.app.Activity;
 
@@ -27,11 +27,35 @@ import android.app.Activity;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController {
-    public void addDivider();
-    public void addSubheader(final String titleText);
-    public void addSection(final DrawerSection section);
-    public void selectSection(final DrawerSection section);
-    public void unselectSection(final DrawerSection section);
-    public Activity scene();
+class NoticeOnSceneControllerStub extends NoticeOnSceneController {
+
+    NoticeOnSceneControllerStub() {}
+
+    @Override
+    public void showScene() {}
+
+    @Override
+    public void hideScene() {}
+
+    @Override
+    public void registerScene() {}
+
+    @Override
+    public void unregisterScene() {}
+
+    @Override
+    public Activity rootScene() {
+        return null;
+    }
+
+    @Override
+    public Object scene() {
+        return null;
+    }
+
+    @Override
+    public NoticeBar.Builder noticeBuilder() {
+        return null;
+    }
+
 }
