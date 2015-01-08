@@ -1,7 +1,5 @@
 package org.brainail.Everboxing.ui.notice;
 
-import java.util.HashSet;
-
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>
@@ -27,28 +25,10 @@ import java.util.HashSet;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class NoticeOnSceneStyleFactory {
-
-    private static HashSet<Class<?>> TOP_STYLE_SCENES;
-
-    static {
-        TOP_STYLE_SCENES = new HashSet<Class<?>>();
-    }
+final class NoticeOnSceneStyleFactory {
 
     public static NoticeBar.Style get(final Object scene) {
-        if (isTopStyleScene(scene)) {
-            return NoticeBar.Style.DEFAULT_TOP;
-        } else {
-            return NoticeBar.Style.DEFAULT;
-        }
-    }
-
-    private static boolean isTopStyleScene(final Object scene) {
-        if (null != scene && TOP_STYLE_SCENES.contains(scene.getClass())) {
-            return true;
-        }
-
-        return false;
+        return null;
     }
 
 }

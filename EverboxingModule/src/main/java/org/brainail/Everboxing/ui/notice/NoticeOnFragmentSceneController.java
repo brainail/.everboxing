@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.brainail.Everboxing.JApplication;
+import org.brainail.Everboxing.utils.tool.ToolView;
 
 import java.lang.ref.WeakReference;
 
@@ -35,31 +36,37 @@ import java.lang.ref.WeakReference;
  */
 class NoticeOnFragmentSceneController extends NoticeOnSceneController {
 
-    private WeakReference<Fragment> mSceneRef = new WeakReference<Fragment>(null);
+    private WeakReference<Fragment> mSceneRef = new WeakReference<>(null);
+    private NoticeBar.Builder mNoticeBuilder = null;
 
     NoticeOnFragmentSceneController(final Fragment scene) {
-        mSceneRef = new WeakReference<Fragment>(scene);
+        mSceneRef = new WeakReference<>(scene);
     }
 
     @Override
-    public Activity rootScene() {
+    protected Activity rootScene() {
         final Fragment scene = mSceneRef.get();
         return (null != scene ? scene.getActivity() : null);
     }
 
     @Override
-    public Object scene() {
+    protected Object scene() {
         return mSceneRef.get();
     }
 
     @Override
-    public NoticeBar.Builder noticeBuilder() {
+    protected NoticeBar.Builder noticeBuilder() {
         final Fragment scene = mSceneRef.get();
 
         if (isVisibleScene()) {
             final View root = scene.getView();
             if (null != root) {
-                return new NoticeBar.Builder(JApplication.appContext(), root);
+                // Keep once
+                if (null == mNoticeBuilder) {
+                    mNoticeBuilder = new NoticeBar.Builder(JApplication.appContext(), root);
+                }
+
+                return mNoticeBuilder;
             }
         }
 
@@ -71,9 +78,9 @@ class NoticeOnFragmentSceneController extends NoticeOnSceneController {
         return
             null != scene &&
             scene.isAdded() &&
-            null != scene.getView() &&
             !scene.isRemoving() &&
-            scene.getUserVisibleHint();
+            scene.getUserVisibleHint() &&
+            ToolView.isVisible(scene.getView());
     }
 
 }

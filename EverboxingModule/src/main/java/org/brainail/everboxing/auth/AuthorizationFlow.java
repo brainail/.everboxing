@@ -16,7 +16,7 @@ import org.brainail.Everboxing.utils.Plogger;
 import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.tool.ToolAuth;
 import org.brainail.Everboxing.utils.tool.ToolDriveScope;
-import org.brainail.Everboxing.utils.tool.ToolPhone;
+import org.brainail.Everboxing.utils.tool.ToolNetwork;
 import org.brainail.Everboxing.utils.tool.ToolTasks;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
@@ -123,7 +123,7 @@ public class AuthorizationFlow {
             Plogger.logI(LogScope.AUTH, "No email address, try to pick user");
             pickUser();
         } else {
-            if (ToolPhone.hasNetworkConnection(getActivity())) {
+            if (ToolNetwork.hasNetworkConnection(getActivity())) {
                 ToolTasks.safeExecuteAuthTask(formAuthorizeTask());
             } else {
                 Plogger.logW(LogScope.AUTH, "No network connection available");

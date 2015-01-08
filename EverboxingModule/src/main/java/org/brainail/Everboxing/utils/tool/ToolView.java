@@ -136,4 +136,8 @@ public final class ToolView {
         return layoutWrapper;
     }
 
+    public static boolean isVisible(final View view) {
+        return null != view && View.VISIBLE == view.getVisibility();
+    }
+
 }

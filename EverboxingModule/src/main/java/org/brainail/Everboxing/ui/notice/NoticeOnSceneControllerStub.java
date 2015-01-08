@@ -44,17 +44,17 @@ class NoticeOnSceneControllerStub extends NoticeOnSceneController {
     public void unregisterScene() {}
 
     @Override
-    public Activity rootScene() {
+    protected Activity rootScene() {
         return null;
     }
 
     @Override
-    public Object scene() {
+    protected Object scene() {
         return null;
     }
 
     @Override
-    public NoticeBar.Builder noticeBuilder() {
+    protected NoticeBar.Builder noticeBuilder() {
         return null;
     }
 

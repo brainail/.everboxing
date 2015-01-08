@@ -35,6 +35,7 @@ public final class Plogger {
 
     public enum LogScope {
 
+        WTF("Wtf?"),
         AUTH("Authorization flow"),
         AUTH_TOKEN("Auth token");
 

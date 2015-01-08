@@ -3,9 +3,13 @@ package org.brainail.Everboxing.ui.notice;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 
+import org.brainail.Everboxing.utils.Plogger;
+import org.brainail.Everboxing.utils.tool.ToolPhone;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.WeakHashMap;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -78,19 +82,29 @@ public final class NoticeOnSceneControllerFactory {
         DEPRECATED_TABLET_SUBSCENES = new ArrayList<Class<?>>();
     }
 
-    public static NoticeOnSceneController create(final Activity scene) {
-        if (isSceneDeprecated(scene)) {
-            return new NoticeOnSceneControllerStub();
-        } else {
-            return new NoticeOnActivitySceneController(scene);
+    private static final WeakHashMap<Object, NoticeOnSceneController> sInstances = new WeakHashMap<>();
+
+    public static synchronized NoticeOnSceneController get(final Object scene) {
+        NoticeOnSceneController controller = sInstances.get(scene);
+
+        if (null == controller) {
+            controller = createInternally(scene);
+            sInstances.put(scene, controller);
         }
+
+        return controller;
     }
 
-    public static NoticeOnSceneController create(final Fragment scene) {
+    private static NoticeOnSceneController createInternally(final Object scene) {
         if (isSceneDeprecated(scene)) {
             return new NoticeOnSceneControllerStub();
+        } else if (scene instanceof Activity) {
+            return new NoticeOnActivitySceneController((Activity) scene);
+        } else if (scene instanceof Fragment) {
+            return new NoticeOnFragmentSceneController((Fragment) scene);
         } else {
-            return new NoticeOnFragmentSceneController(scene);
+            Plogger.logE(Plogger.LogScope.WTF, "Can't create controller for scene");
+            return null;
         }
     }
 
@@ -105,25 +119,21 @@ public final class NoticeOnSceneControllerFactory {
         }
 
         // Phone check for sub-scenes
-        if (checkSubscene(scene, DEPRECATED_PHONE_SUBSCENES)) {
+        if (!ToolPhone.isTablet() && checkSubscene(scene, DEPRECATED_PHONE_SUBSCENES)) {
             return true;
         }
 
         // Tablet check for sub-scenes
-        if (checkSubscene(scene, DEPRECATED_TABLET_SUBSCENES)) {
+        if (ToolPhone.isTablet() && checkSubscene(scene, DEPRECATED_TABLET_SUBSCENES)) {
             return true;
         }
 
         // Phone & tablet check
-        if (isTablet()) {
+        if (ToolPhone.isTablet()) {
             return DEPRECATED_PHONE_SCENES.contains(scene.getClass());
         } else {
             return DEPRECATED_TABLET_SCENES.contains(scene.getClass());
         }
-    }
-
-    private static boolean isTablet() {
-        return false;
     }
 
     private static boolean checkSubscene(final Object scene, final List<Class<?>> subscenes) {

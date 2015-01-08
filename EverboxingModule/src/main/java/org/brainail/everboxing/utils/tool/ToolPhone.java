@@ -2,21 +2,16 @@ package org.brainail.Everboxing.utils.tool;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Point;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
 
+import org.brainail.Everboxing.JApplication;
+import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.Sdk;
-
-import static android.content.Context.CONNECTIVITY_SERVICE;
-import static android.content.res.Configuration.SCREENLAYOUT_SIZE_MASK;
-import static android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -44,21 +39,6 @@ import static android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
  * THE SOFTWARE.
  */
 public final class ToolPhone {
-
-    public static boolean isXLTablet(final Context context) {
-        final Configuration configuration = context.getResources().getConfiguration();
-        return (configuration.screenLayout & SCREENLAYOUT_SIZE_MASK) >= SCREENLAYOUT_SIZE_XLARGE;
-    }
-
-    public static boolean hasNetworkConnection(final Context context) {
-        try {
-            final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
-            final NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-            return null != networkInfo && networkInfo.isConnected();
-        } catch (Exception exception) {
-            return true;
-        }
-    }
 
     // Converts dp/dip to pixels.
     public static int dipsToPixels(final Context context, final float dips) {
@@ -91,13 +71,13 @@ public final class ToolPhone {
         return context.getResources().getDisplayMetrics().density;
     }
 
-    public static int smallestScreenSide(final Context context) {
+    public static int screenSw(final Context context) {
         return Math.min(screenWidth(context), screenHeight(context));
     }
 
     // http://stackoverflow.com/a/23861333
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private static Point realScreenSize(Context context) {
+    public static Point realScreenSize(Context context) {
         final WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         final Display display = windowManager.getDefaultDisplay();
         int screenWidth, screenHeight;
@@ -121,6 +101,10 @@ public final class ToolPhone {
         }
 
         return new Point(screenWidth, screenHeight);
+    }
+
+    public static boolean isTablet() {
+        return JApplication.appContext().getResources().getBoolean(R.bool.is_tablet);
     }
 
 }

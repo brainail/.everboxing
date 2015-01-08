@@ -11,10 +11,9 @@ import android.view.Window;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.kenny.snackbar.SnackBar;
-
 import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.notice.NoticeOnSceneControllerFactory;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -68,7 +67,7 @@ public final class ToolUI {
                     if (!USE_SNACKBARS) {
                         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                     } else {
-                        SnackBar.show(activity, message);
+                        NoticeOnSceneControllerFactory.get(activity).notifyScene(message);
                     }
                 }
             });

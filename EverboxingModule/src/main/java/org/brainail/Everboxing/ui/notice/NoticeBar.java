@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
 
 /**
@@ -39,17 +40,23 @@ import org.brainail.Everboxing.R;
 public class NoticeBar {
 
     public static final class Duration {
-        public static final short LONG = 5000;
-        public static final short MEDIUM = 3000;
-        public static final short SHORT = 2000;
-        public static final short PERMANENT = 0;
+        public static final long LONG = 5000;
+        public static final long MEDIUM = 3000;
+        public static final long SHORT = 2000;
+        public static final long PERMANENT = 0;
     }
 
-    public enum Style {
+    public static final class Style {
         // At the bottom
-        DEFAULT,
-        // At the top
-        DEFAULT_TOP
+        public static final long DEFAULT = 0;
+        // At the top (implementation isn't completed due to guidelines)
+        static final long DEFAULT_TOP = 1 << 0;
+        // Red action color
+        public static final long ALERT = 1 << 1;
+        // Green action color
+        public static final long CONFIRM = 1 << 1;
+        // Yellow action color
+        public static final long INFO = 1 << 1;
     }
 
     private View mNoticeView;
@@ -101,76 +108,92 @@ public class NoticeBar {
     public static class Builder {
 
         private NoticeBar noticeBar;
-        private Context context;
-        private String message;
-        private String actionMessage;
-        private Style style = Style.DEFAULT;
-        private Parcelable token;
-        private short duration = Duration.MEDIUM;
+        String message;
+        String actionMessage;
+        long style = Style.DEFAULT;
+        Parcelable token;
+        long duration = Duration.MEDIUM;
 
-        public Builder(final Activity activity) {
-            context = activity.getApplicationContext();
+        private OnActionCallback actionCallback;
+        private OnVisibilityCallback visibilityCallback;
+
+        public Builder() {}
+
+        // @package-local for controller
+        Builder(final Activity activity) {
             noticeBar = new NoticeBar(activity);
         }
 
-        public Builder(final Context context, final View root) {
-            this.context = context;
+        // @package-local for controller
+        Builder(final Context context, final View root) {
             noticeBar = new NoticeBar(context, root);
         }
 
-        public Builder withMessage(final String message) {
-            this.message = message;
+        public Builder withMessage(final String textProvider) {
+            message = textProvider;
             return this;
         }
 
         public Builder withMessageId(final int resId) {
-            if (resId > 0) {
-                message = context.getString(resId);
-            }
-
+            message = JApplication.appContext().getString(resId);
             return this;
         }
 
-        public Builder withActionMessage(final String actionMessage) {
-            this.actionMessage = actionMessage;
+        public Builder withActionMessage(final String textProvider) {
+            actionMessage = textProvider;
             return this;
         }
 
         public Builder withActionMessageId(final int resId) {
-            if (resId > 0) {
-                actionMessage = context.getString(resId);
-            }
-
+            actionMessage = JApplication.appContext().getString(resId);
             return this;
         }
 
-        public Builder withStyle(final Style style) {
-            this.style = style;
+        public Builder withStyle(final long styleMask) {
+            style = styleMask;
             return this;
         }
 
-        public Builder withToken(final Parcelable token) {
-            this.token = token;
+        public Builder withToken(final Parcelable tokenProvider) {
+            token = tokenProvider;
             return this;
         }
 
-        public Builder withDuration(final short duration) {
-            this.duration = duration;
+        public Builder withDuration(final long durationMillis) {
+            duration = durationMillis;
             return this;
         }
 
         public Builder withOnActionCallback(final OnActionCallback callback) {
-            noticeBar.setOnActionCallback(callback);
+            actionCallback = callback;
             return this;
         }
 
         public Builder withOnVisibilityCallback(final OnVisibilityCallback callback) {
-            noticeBar.setOnVisibilityCallback(callback);
+            visibilityCallback = callback;
             return this;
         }
 
-        public NoticeBar show() {
-            noticeBar.showMessage(new Notice(message, actionMessage, token, duration, style));
+        // @package-local for controller
+        Builder inflateFrom(final Builder provider) {
+            style = provider.style;
+            token = provider.token;
+            message = provider.message;
+            duration = provider.duration;
+            actionMessage = provider.actionMessage;
+            actionCallback = provider.actionCallback;
+            visibilityCallback = provider.visibilityCallback;
+            return this;
+        }
+
+        // @package-local for controller
+        NoticeBar show() {
+            if (null != noticeBar) {
+                if (null != actionCallback) noticeBar.setOnActionCallback(actionCallback);
+                if (null != visibilityCallback) noticeBar.setOnVisibilityCallback(visibilityCallback);
+                noticeBar.showMessage(new Notice(this));
+            }
+
             return noticeBar;
         }
 
@@ -224,7 +247,7 @@ public class NoticeBar {
         clear(true);
     }
 
-     // See android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+    // See android.app.Activity#onRestoreInstanceState(android.os.Bundle)
     public void onRestoreInstanceState(final Bundle state) {
         mNoticeContainer.restoreState(state, mNoticeView);
     }

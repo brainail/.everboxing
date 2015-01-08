@@ -7,9 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.kenny.snackbar.SnackBar;
-
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.notice.NoticeOnSceneControllerFactory;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
 
@@ -61,6 +60,9 @@ public class BaseActivity extends ActionBarActivity {
         // Init & check theme
         mTheme = ThemeManager.checkOnCreate(this, mTheme);
 
+        // Create notice controller covertly, to accelerate
+        NoticeOnSceneControllerFactory.get(this);
+
         // Init content view
         initContent();
 
@@ -111,8 +113,14 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onStart() {
+        NoticeOnSceneControllerFactory.get(this).showScene();
+        super.onStart();
+    }
+
+    @Override
     protected void onStop() {
-        SnackBar.cancelSnackBars(this);
+        NoticeOnSceneControllerFactory.get(this).hideScene();
         super.onStop();
     }
 

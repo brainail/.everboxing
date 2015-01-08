@@ -5,7 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.StringRes;
+
+import org.brainail.Everboxing.JApplication;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -40,7 +44,7 @@ public abstract class NoticeOnSceneController {
         FILTER = new IntentFilter();
     }
 
-    protected boolean mHasScene = false;
+    protected boolean mHasScene = true;
     protected NoticeBar mSceneNotice = null;
 
     private boolean mIsRegistered = false;
@@ -54,24 +58,61 @@ public abstract class NoticeOnSceneController {
     private NoticeBar.OnActionCallback mActionCallback = new NoticeBar.OnActionCallback() {
         @Override
         public void onAction(Parcelable token) {
-            final Activity scene = rootScene();
-            if (null != scene) {
-            }
+            // ...
         }
     };
 
-    public abstract Activity rootScene();
-    public abstract Object scene();
-    public abstract NoticeBar.Builder noticeBuilder();
+    protected abstract Activity rootScene();
+    protected abstract Object scene();
+    protected abstract NoticeBar.Builder noticeBuilder();
 
+    // Optional method for basic uses. Just to be sure that we are visible
     public void showScene() {
         mHasScene = true;
-        notifyScene();
     }
 
+    // Optional method for basic uses. Just to be sure that we are invisible
     public void hideScene() {
         mHasScene = false;
-        muteScene();
+    }
+
+    // Registers to listen some global events and notifies about it
+    // @see Activity#onCreate
+    public void registerScene() {
+        final Activity scene = rootScene();
+        if (null != scene && !mIsRegistered && 0 != FILTER.countActions()) {
+            scene.registerReceiver(mReceiver, FILTER);
+            mIsRegistered = true;
+        }
+    }
+
+    // Mirror for registerScene()
+    // @see Activity#onDestroy
+    public void unregisterScene() {
+        final Activity scene = rootScene();
+        if (null != scene && mIsRegistered) {
+            try {
+                scene.unregisterReceiver(mReceiver);
+            } catch (Exception exception) {
+                // Workaround for java.lang.IllegalArgumentException: Receiver not registered
+            }
+
+            mIsRegistered = false;
+        }
+    }
+
+    // See android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+    public void onRestoreInstanceState(final Bundle state) {
+        if (null != mSceneNotice) {
+            mSceneNotice.onRestoreInstanceState(state);
+        }
+    }
+
+    // See android.app.Activity#onSaveInstanceState(android.os.Bundle)
+    public void onSaveInstanceState(final Bundle bundle) {
+        if (null != mSceneNotice) {
+            bundle.putAll(mSceneNotice.onSaveInstanceState());
+        }
     }
 
     private void muteScene() {
@@ -88,50 +129,39 @@ public abstract class NoticeOnSceneController {
             scene.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    notifyScene();
+                    // notifyScene(...);
                 }
             });
         }
     }
 
-    private void notifyScene() {
+    //
+    // +------------------------------------------------------------+
+    // | "Notify" methods                                           |
+    // +------------------------------------------------------------+
+    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+    public void notifyScene(@StringRes final int resId) {
+        notifyScene(JApplication.appContext().getString(resId));
+    }
+
+    public void notifyScene(final String message) {
+        notifyScene(new NoticeBar.Builder().withMessage(message));
+    }
+
+    private void notifyScene(final NoticeBar.Builder provider) {
         if (mHasScene) {
             final NoticeBar.Builder noticeBuilder = noticeBuilder();
 
             if (null != noticeBuilder) {
-                // muteScene();
-                inflateNotice(noticeBuilder);
+                inflateNotice(noticeBuilder.inflateFrom(provider));
                 mSceneNotice = noticeBuilder.show();
             }
         }
     }
 
     private void inflateNotice(final NoticeBar.Builder noticeBuilder) {
-        noticeBuilder.withMessage("");
-        noticeBuilder.withActionMessage("");
-        noticeBuilder.withStyle(NoticeOnSceneStyleFactory.get(scene()));
-        noticeBuilder.withOnActionCallback(mActionCallback);
-    }
-
-    public void registerScene() {
-        final Activity scene = rootScene();
-        if (null != scene && !mIsRegistered && 0 != FILTER.countActions()) {
-            scene.registerReceiver(mReceiver, FILTER);
-            mIsRegistered = true;
-        }
-    }
-
-    public void unregisterScene() {
-        final Activity scene = rootScene();
-        if (null != scene && mIsRegistered) {
-            try {
-                scene.unregisterReceiver(mReceiver);
-            } catch (Exception exception) {
-                // Workaround for java.lang.IllegalArgumentException: Receiver not registered
-            }
-
-            mIsRegistered = false;
-        }
+        // Global default params
     }
 
 }

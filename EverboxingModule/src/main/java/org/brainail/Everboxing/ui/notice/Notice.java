@@ -30,36 +30,36 @@ import android.os.Parcelable;
  */
 public class Notice implements Parcelable {
 
-    static final String EXTRA_NOTICES = "org.brainail.Everboxing.ui.notice.Saved";
+    static final String EXTRA_NOTICES = "org.brainail.Everboxing.ui.notices.Saved";
 
     final String message;
     final String action;
     final Parcelable token;
-    final short duration;
-    final NoticeBar.Style style;
+    final long duration;
+    final long style;
 
-    Notice(final String message, final String action, final Parcelable token, final short duration, final NoticeBar.Style style) {
-        this.message = message;
-        this.action = action;
-        this.token = token;
-        this.duration = duration;
-        this.style = style;
+    Notice(final NoticeBar.Builder provider) {
+        message = provider.message;
+        action = provider.actionMessage;
+        token = provider.token;
+        duration = provider.duration;
+        style = provider.style;
     }
 
     Notice(final Parcel p) {
         message = p.readString();
         action = p.readString();
         token = p.readParcelable(p.getClass().getClassLoader());
-        duration = (short) p.readInt();
-        style = NoticeBar.Style.valueOf(p.readString());
+        duration = p.readLong();
+        style = p.readLong();
     }
 
-    public void writeToParcel(Parcel out, int flags) {
+    public void writeToParcel(final Parcel out, final int flags) {
         out.writeString(message);
         out.writeString(action);
         out.writeParcelable(token, 0);
-        out.writeInt((int) duration);
-        out.writeString(style.name());
+        out.writeLong(duration);
+        out.writeLong(style);
     }
 
     public int describeContents() {

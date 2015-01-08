@@ -23,6 +23,7 @@ import java.util.Queue;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.brainail.Everboxing.ui.notice.NoticeBar.OnVisibilityCallback;
+import static org.brainail.Everboxing.ui.notice.NoticeBar.Style;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -49,7 +50,7 @@ import static org.brainail.Everboxing.ui.notice.NoticeBar.OnVisibilityCallback;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class NoticeContainer extends FrameLayout {
+class NoticeContainer extends FrameLayout {
 
     private static final class ShowHideDuration {
         private static final int ANIMATION_DURATION = 300;
@@ -86,9 +87,9 @@ public class NoticeContainer extends FrameLayout {
 
     private void init() {
         // Init animations
-        mInAnimation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in);
+        mInAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.notice_slide_in_animation);
         mInAnimation.setFillAfter(true);
-        mOutAnimation = AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out);
+        mOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.notice_slide_out_animation);
         mOutAnimation.setFillAfter(true);
         mOutAnimation.setDuration(ShowHideDuration.ANIMATION_DURATION);
         mOutAnimation.setAnimationListener(mOutAnimationCallback);
@@ -162,7 +163,7 @@ public class NoticeContainer extends FrameLayout {
     }
 
     public void showNotice(
-            final Notice snack,
+            final Notice notice,
             final View noticeView,
             final OnVisibilityCallback callback,
             final boolean immediately) {
@@ -173,7 +174,7 @@ public class NoticeContainer extends FrameLayout {
         }
 
         // Add to queue
-        final NoticeHolder noticeHolder = new NoticeHolder(snack, noticeView, callback);
+        final NoticeHolder noticeHolder = new NoticeHolder(notice, noticeView, callback);
         mNotices.offer(noticeHolder);
 
         // Show only if we have a single notice right now
@@ -239,25 +240,21 @@ public class NoticeContainer extends FrameLayout {
     };
 
     // Returns text color by style
-    private ColorStateList getActionTextColor(final NoticeBar.Style style) {
-        switch (style) {
-            default:
-                return getResources().getColorStateList(R.color.notice_action_color);
-        }
+    private ColorStateList getActionTextColor(final long style) {
+        if ((style & Style.ALERT) > 0) return getResources().getColorStateList(R.color.notice_action_color_red);
+        if ((style & Style.CONFIRM) > 0) return getResources().getColorStateList(R.color.notice_action_color_green);
+        if ((style & Style.INFO) > 0) return getResources().getColorStateList(R.color.notice_action_color_yellow);
+        return getResources().getColorStateList(R.color.notice_action_color_default);
     }
 
     // Returns gravity by style
-    private int getGravity(final NoticeBar.Style style) {
-        switch (style) {
-            case DEFAULT_TOP:
-                return Gravity.TOP;
-            default:
-                return Gravity.BOTTOM;
-        }
+    private int getGravity(final long style) {
+        if ((style & Style.DEFAULT_TOP) > 0) return Gravity.TOP;
+        return Gravity.BOTTOM;
     }
 
     // Returns layout params by style
-    private FrameLayout.LayoutParams getLayoutParams(final View view, final NoticeBar.Style style) {
+    private FrameLayout.LayoutParams getLayoutParams(final View view, final long style) {
         final FrameLayout.LayoutParams layoutParams = new LayoutParams(view.getLayoutParams());
         layoutParams.gravity = getGravity(style);
         return layoutParams;
