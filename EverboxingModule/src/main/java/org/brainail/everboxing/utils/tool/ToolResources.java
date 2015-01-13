@@ -1,7 +1,10 @@
 package org.brainail.Everboxing.utils.tool;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
+import android.view.Window;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
@@ -51,6 +54,42 @@ public final class ToolResources {
         final int [] attributes = new int [] {R.attr.colorAccent};
         final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
         return typedArray.getColor(0, context.getResources().getColor(R.color.accent_default));
+    }
+
+    /**
+     * Computes height of status bar, only if it is presented at top of the screen and it is visible.
+     *
+     * @param context Any application {@link android.content.Context}.
+     * @param window {@link android.view.Window} that corresponds to the {@link android.app.Activity}
+     *
+     * @return {@code 0} - if the status bar isn't presented
+     * at top of the screen or isn't visible, otherwise height in pixels.
+     */
+    public static int computeTopStatusBarHeight(final Context context, final Window window) {
+        // Privately get a resource Id for status bar's height from the android resources
+        final int resourceId = retrieveSystemDimen(context.getResources(), "status_bar_height");
+
+        // Retrieve the overall visible display size in which the window
+        // this view is attached to has been positioned in
+        final Rect displayFrame = new Rect();
+        window.getDecorView().getWindowVisibleDisplayFrame(displayFrame);
+
+        // If the resource is exists and the status bar is presented then grab from the resources
+        if (displayFrame.top > 0 && resourceId > 0) {
+            return context.getResources().getDimensionPixelSize(resourceId);
+        }
+
+        // Otherwise hope for value ​​of the window
+        return displayFrame.top;
+    }
+
+    public static int computeNavigationBarHeight(final Context context) {
+        int resourceId = retrieveSystemDimen(context.getResources(), "navigation_bar_height");
+        return (resourceId > 0) ? context.getResources().getDimensionPixelSize(resourceId) : 0;
+    }
+
+    public static int retrieveSystemDimen(final Resources resources, final String identifier) {
+        return resources.getIdentifier(identifier, "dimen", "android");
     }
 
 }

@@ -44,10 +44,11 @@ public abstract class NoticeOnSceneController {
         FILTER = new IntentFilter();
     }
 
+    private boolean mIsRegistered = false;
+    protected Bundle mSavedState = null;
     protected boolean mHasScene = true;
     protected NoticeBar mSceneNotice = null;
 
-    private boolean mIsRegistered = false;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -62,13 +63,24 @@ public abstract class NoticeOnSceneController {
         }
     };
 
+    // @see Activity#onCreate(android.os.Bundle)
+    public void onCreate(final Bundle savedState) {
+        mSavedState = NoticeBar.retrieveSavedState(savedState);
+    }
+
     protected abstract Activity rootScene();
     protected abstract Object scene();
     protected abstract NoticeBar.Builder noticeBuilder();
 
     // Optional method for basic uses. Just to be sure that we are visible
+    // NOTE: This method is optional, but it uses for restoring notices from saved state
     public void showScene() {
         mHasScene = true;
+
+        // Try to restore from saved state
+        if (null != mSavedState) {
+            notifyScene(null, mSavedState);
+        }
     }
 
     // Optional method for basic uses. Just to be sure that we are invisible
@@ -77,7 +89,7 @@ public abstract class NoticeOnSceneController {
     }
 
     // Registers to listen some global events and notifies about it
-    // @see Activity#onCreate
+    // @see Activity#onCreate(android.os.Bundle)
     public void registerScene() {
         final Activity scene = rootScene();
         if (null != scene && !mIsRegistered && 0 != FILTER.countActions()) {
@@ -87,7 +99,7 @@ public abstract class NoticeOnSceneController {
     }
 
     // Mirror for registerScene()
-    // @see Activity#onDestroy
+    // @see Activity#onDestroy()
     public void unregisterScene() {
         final Activity scene = rootScene();
         if (null != scene && mIsRegistered) {
@@ -109,9 +121,9 @@ public abstract class NoticeOnSceneController {
     }
 
     // See android.app.Activity#onSaveInstanceState(android.os.Bundle)
-    public void onSaveInstanceState(final Bundle bundle) {
-        if (null != mSceneNotice) {
-            bundle.putAll(mSceneNotice.onSaveInstanceState());
+    public void onSaveInstanceState(final Bundle outState) {
+        if (null != mSceneNotice && null != outState) {
+            outState.putAll(mSceneNotice.onSaveInstanceState());
         }
     }
 
@@ -146,16 +158,16 @@ public abstract class NoticeOnSceneController {
     }
 
     public void notifyScene(final String message) {
-        notifyScene(new NoticeBar.Builder().withMessage(message));
+        notifyScene(new NoticeBar.Builder().withText(message), null);
     }
 
-    private void notifyScene(final NoticeBar.Builder provider) {
+    private void notifyScene(final NoticeBar.Builder provider, final Bundle savedState) {
         if (mHasScene) {
             final NoticeBar.Builder noticeBuilder = noticeBuilder();
 
             if (null != noticeBuilder) {
                 inflateNotice(noticeBuilder.inflateFrom(provider));
-                mSceneNotice = noticeBuilder.show();
+                mSceneNotice = noticeBuilder.show(savedState);
             }
         }
     }

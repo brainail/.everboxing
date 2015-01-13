@@ -1,19 +1,20 @@
 package org.brainail.Everboxing.utils.tool;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Rect;
+import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.notice.NoticeOnSceneControllerFactory;
+import org.brainail.Everboxing.utils.Sdk;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -107,31 +108,16 @@ public final class ToolUI {
         }
     }
 
-    /**
-     * Computes height of status bar, only if it is presented at top of the screen and it is visible.
-     *
-     * @param context Any application {@link android.content.Context}.
-     * @param window {@link android.view.Window} that corresponds to the {@link android.app.Activity}
-     *
-     * @return {@code 0} - if the status bar isn't presented
-     * at top of the screen or isn't visible, otherwise height in pixels.
-     */
-    public static int computeTopStatusBarHeight(final Context context, final Window window) {
-        // Privately get a resource Id for status bar's height from the android resources
-        final int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-
-        // Retrieve the overall visible display size in which the window
-        // this view is attached to has been positioned in
-        final Rect displayFrame = new Rect();
-        window.getDecorView().getWindowVisibleDisplayFrame(displayFrame);
-
-        // If the resource is exists and the status bar is presented then grab from the resources
-        if (displayFrame.top > 0 && resourceId > 0) {
-            return context.getResources().getDimensionPixelSize(resourceId);
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    // @see https://developer.android.com/training/system-ui/navigation.html#behind
+    public static boolean hasHideNavigationFlag(final ViewGroup root) {
+        if (Sdk.isSdkSupported(Sdk.JELLY_BEAN) && null != root) {
+            final int visibilityFlags = root.getWindowSystemUiVisibility();
+            final int hideNavigationFlag = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            return hideNavigationFlag == (visibilityFlags & hideNavigationFlag);
         }
 
-        // Otherwise hope for value ​​of the window
-        return displayFrame.top;
+        return false;
     }
 
 }

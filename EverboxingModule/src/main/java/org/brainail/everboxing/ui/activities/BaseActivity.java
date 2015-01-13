@@ -60,8 +60,8 @@ public class BaseActivity extends ActionBarActivity {
         // Init & check theme
         mTheme = ThemeManager.checkOnCreate(this, mTheme);
 
-        // Create notice controller covertly, to accelerate
-        NoticeOnSceneControllerFactory.get(this);
+        // Create notice controller
+        NoticeOnSceneControllerFactory.get(this).onCreate(savedInstanceState);
 
         // Init content view
         initContent();
@@ -116,6 +116,12 @@ public class BaseActivity extends ActionBarActivity {
     protected void onStart() {
         NoticeOnSceneControllerFactory.get(this).showScene();
         super.onStart();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        NoticeOnSceneControllerFactory.get(this).onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

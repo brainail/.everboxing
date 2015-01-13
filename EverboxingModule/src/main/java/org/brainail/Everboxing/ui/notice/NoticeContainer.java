@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.tool.ToolResources;
+import org.brainail.Everboxing.utils.tool.ToolUI;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -256,7 +258,18 @@ class NoticeContainer extends FrameLayout {
     // Returns layout params by style
     private FrameLayout.LayoutParams getLayoutParams(final View view, final long style) {
         final FrameLayout.LayoutParams layoutParams = new LayoutParams(view.getLayoutParams());
+
+        // Set gravity by style
         layoutParams.gravity = getGravity(style);
+
+        // Check navigation bar
+        if (ToolUI.hasHideNavigationFlag((ViewGroup) getParent())) {
+            // Only for bottom
+            if (Gravity.BOTTOM == layoutParams.gravity) {
+                layoutParams.bottomMargin += ToolResources.computeNavigationBarHeight(getContext());
+            }
+        }
+
         return layoutParams;
     }
 
@@ -328,7 +341,10 @@ class NoticeContainer extends FrameLayout {
             notices.add(holder.notice);
         }
 
-        outState.putParcelableArrayList(Notice.EXTRA_NOTICES, notices);
+        if (!notices.isEmpty()) {
+            outState.putParcelableArrayList(Notice.EXTRA_NOTICES, notices);
+        }
+
         return outState;
     }
 

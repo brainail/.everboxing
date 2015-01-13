@@ -104,7 +104,7 @@ public final class NoticeOnSceneControllerFactory {
             return new NoticeOnFragmentSceneController((Fragment) scene);
         } else {
             Plogger.logE(Plogger.LogScope.WTF, "Can't create controller for scene");
-            return null;
+            return new NoticeOnSceneControllerStub();
         }
     }
 

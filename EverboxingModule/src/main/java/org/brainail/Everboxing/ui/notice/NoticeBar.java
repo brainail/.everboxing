@@ -41,7 +41,7 @@ public class NoticeBar {
 
     public static final class Duration {
         public static final long LONG = 5000;
-        public static final long MEDIUM = 3000;
+        public static final long MEDIUM = 3500;
         public static final long SHORT = 2000;
         public static final long PERMANENT = 0;
     }
@@ -59,15 +59,13 @@ public class NoticeBar {
         public static final long INFO = 1 << 1;
     }
 
-    private View mNoticeView;
-    private TextView mNoticeMessage;
-    private TextView mNoticeAction;
-    private NoticeContainer mNoticeContainer;
+    private View mNotice;
+    private TextView mText;
+    private TextView mActionText;
+    private NoticeContainer mContainer;
 
     private OnActionCallback mActionCallback;
     private OnVisibilityCallback mVisibilityCallback;
-
-    private final Context mContext;
 
     public interface OnActionCallback {
         public void onAction(final Parcelable token);
@@ -79,14 +77,12 @@ public class NoticeBar {
     }
 
     public NoticeBar(final Activity activity) {
-        mContext = activity.getApplicationContext();
         final ViewGroup container = (ViewGroup) activity.findViewById(android.R.id.content);
         final View notice = activity.getLayoutInflater().inflate(R.layout.notice, container, false);
         init(container, notice);
     }
 
     public NoticeBar(final Context context, final View root) {
-        mContext = context.getApplicationContext();
         final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.notice_container, (ViewGroup) root);
         final View notice = inflater.inflate(R.layout.notice, (ViewGroup) root, false);
@@ -94,15 +90,15 @@ public class NoticeBar {
     }
 
     private void init(final ViewGroup container, final View notice) {
-        mNoticeContainer = (NoticeContainer) container.findViewById(R.id.notice_container);
-        if (null == mNoticeContainer) {
-            mNoticeContainer = new NoticeContainer(container);
+        mContainer = (NoticeContainer) container.findViewById(R.id.notice_container);
+        if (null == mContainer) {
+            mContainer = new NoticeContainer(container);
         }
 
-        mNoticeView = notice;
-        mNoticeMessage = (TextView) notice.findViewById(R.id.notice_message);
-        mNoticeAction = (TextView) notice.findViewById(R.id.notice_action);
-        mNoticeAction.setOnClickListener(mInternalOnActionCallback);
+        mNotice = notice;
+        mText = (TextView) notice.findViewById(R.id.notice_message);
+        mActionText = (TextView) notice.findViewById(R.id.notice_action);
+        mActionText.setOnClickListener(mInternalOnActionCallback);
     }
 
     public static class Builder {
@@ -129,22 +125,22 @@ public class NoticeBar {
             noticeBar = new NoticeBar(context, root);
         }
 
-        public Builder withMessage(final String textProvider) {
+        public Builder withText(final String textProvider) {
             message = textProvider;
             return this;
         }
 
-        public Builder withMessageId(final int resId) {
+        public Builder withText(final int resId) {
             message = JApplication.appContext().getString(resId);
             return this;
         }
 
-        public Builder withActionMessage(final String textProvider) {
+        public Builder withActionText(final String textProvider) {
             actionMessage = textProvider;
             return this;
         }
 
-        public Builder withActionMessageId(final int resId) {
+        public Builder withActionText(final int resId) {
             actionMessage = JApplication.appContext().getString(resId);
             return this;
         }
@@ -164,18 +160,24 @@ public class NoticeBar {
             return this;
         }
 
-        public Builder withOnActionCallback(final OnActionCallback callback) {
+        public Builder withCallback(final OnActionCallback callback) {
             actionCallback = callback;
             return this;
         }
 
-        public Builder withOnVisibilityCallback(final OnVisibilityCallback callback) {
+        public Builder withCallback(final OnVisibilityCallback callback) {
             visibilityCallback = callback;
             return this;
         }
 
         // @package-local for controller
         Builder inflateFrom(final Builder provider) {
+            if (null == provider) {
+                // No provider. It seems like existence of some saved state.
+                return this;
+            }
+
+            // Inflate params
             style = provider.style;
             token = provider.token;
             message = provider.message;
@@ -183,15 +185,31 @@ public class NoticeBar {
             actionMessage = provider.actionMessage;
             actionCallback = provider.actionCallback;
             visibilityCallback = provider.visibilityCallback;
+
             return this;
         }
 
         // @package-local for controller
-        NoticeBar show() {
+        NoticeBar show(final Bundle savedState) {
+            // If this is non-empty builder
             if (null != noticeBar) {
-                if (null != actionCallback) noticeBar.setOnActionCallback(actionCallback);
-                if (null != visibilityCallback) noticeBar.setOnVisibilityCallback(visibilityCallback);
-                noticeBar.showMessage(new Notice(this));
+
+                // Keep callback for actions
+                if (null != actionCallback) {
+                    noticeBar.withCallback(actionCallback);
+                }
+
+                // Keep callback for visibility
+                if (null != visibilityCallback) {
+                    noticeBar.withCallback(visibilityCallback);
+                }
+
+                // Restore notices or show the built notice
+                if (null != savedState) {
+                    noticeBar.onRestoreInstanceState(savedState);
+                } else {
+                    noticeBar.show(new Notice(this));
+                }
             }
 
             return noticeBar;
@@ -199,48 +217,48 @@ public class NoticeBar {
 
     }
 
-    private void showMessage(final Notice notice) {
-        mNoticeContainer.showNotice(notice, mNoticeView, mVisibilityCallback);
+    private void show(final Notice notice) {
+        mContainer.showNotice(notice, mNotice, mVisibilityCallback);
     }
 
     public int getHeight() {
-        mNoticeView.measure(
-                View.MeasureSpec.makeMeasureSpec(mNoticeView.getWidth(), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(mNoticeView.getHeight(), View.MeasureSpec.AT_MOST)
+        mNotice.measure(
+                View.MeasureSpec.makeMeasureSpec(mNotice.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(mNotice.getHeight(), View.MeasureSpec.AT_MOST)
         );
 
-        return mNoticeView.getMeasuredHeight();
+        return mNotice.getMeasuredHeight();
     }
 
-    public View getContainerView() {
-        return mNoticeView;
+    public View getView() {
+        return mNotice;
     }
 
     private final View.OnClickListener mInternalOnActionCallback = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            if (null != mActionCallback && mNoticeContainer.isShowing()) {
-                mActionCallback.onAction(mNoticeContainer.peekNotice().token);
+            if (null != mActionCallback && mContainer.isShowing()) {
+                mActionCallback.onAction(mContainer.peekNotice().token);
             }
 
-            mNoticeContainer.hide();
+            mContainer.hide();
         }
 
     };
 
-    public NoticeBar setOnActionCallback(final OnActionCallback callback) {
+    public NoticeBar withCallback(final OnActionCallback callback) {
         mActionCallback = callback;
         return this;
     }
 
-    public NoticeBar setOnVisibilityCallback(final OnVisibilityCallback callback) {
+    public NoticeBar withCallback(final OnVisibilityCallback callback) {
         mVisibilityCallback = callback;
         return this;
     }
 
     private void clear(final boolean animate) {
-        mNoticeContainer.clearNotices(animate);
+        mContainer.clearNotices(animate);
     }
 
     public void clear() {
@@ -249,12 +267,24 @@ public class NoticeBar {
 
     // See android.app.Activity#onRestoreInstanceState(android.os.Bundle)
     public void onRestoreInstanceState(final Bundle state) {
-        mNoticeContainer.restoreState(state, mNoticeView);
+        mContainer.restoreState(state, mNotice);
     }
 
     // See android.app.Activity#onSaveInstanceState(android.os.Bundle)
     public Bundle onSaveInstanceState() {
-        return mNoticeContainer.saveState();
+        return mContainer.saveState();
+    }
+
+    static Bundle retrieveSavedState(final Bundle savedState) {
+        Bundle noticesState = null;
+
+        // Try to grab only our states
+        if (null != savedState && null != savedState.get(Notice.EXTRA_NOTICES)) {
+            noticesState = new Bundle();
+            noticesState.putParcelableArrayList(Notice.EXTRA_NOTICES, savedState.getParcelableArrayList(Notice.EXTRA_NOTICES));
+        }
+
+        return noticesState;
     }
 
 }
