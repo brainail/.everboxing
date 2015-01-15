@@ -52,7 +52,7 @@ import static org.brainail.Everboxing.ui.notice.NoticeBar.Style;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class NoticeContainer extends FrameLayout {
+public class NoticeContainer extends FrameLayout {
 
     private static final class ShowHideDuration {
         private static final int ANIMATION_DURATION = 300;
@@ -118,11 +118,11 @@ class NoticeContainer extends FrameLayout {
     }
 
     public Notice peekNotice() {
-        return mNotices.peek().notice;
+        return mNotices.peek().noticeData;
     }
 
     public Notice pollNotice() {
-        return mNotices.poll().notice;
+        return mNotices.poll().noticeData;
     }
 
     public void clearNotices(final boolean animate) {
@@ -198,19 +198,17 @@ class NoticeContainer extends FrameLayout {
         sendOnShow(noticeHolder);
 
         // Place over
-        addView(noticeHolder.noticeView, getLayoutParams(noticeHolder.noticeView, noticeHolder.notice.style));
+        addView(noticeHolder.notice, getLayoutParams(noticeHolder.notice, noticeHolder.noticeData.style));
         doPlaceOverAll();
 
         // Fill configuration
-        noticeHolder.messageView.setText(noticeHolder.notice.message);
-        noticeHolder.actionView.setTextColor(getActionTextColor(noticeHolder.notice.style));
-        if (!TextUtils.isEmpty(noticeHolder.notice.action)) {
-            noticeHolder.messageView.setGravity(Gravity.LEFT | Gravity.START | Gravity.CENTER_VERTICAL);
-            noticeHolder.actionView.setVisibility(View.VISIBLE);
-            noticeHolder.actionView.setText(noticeHolder.notice.action);
+        noticeHolder.body.setText(noticeHolder.noticeData.message);
+        noticeHolder.action.setTextColor(getActionTextColor(noticeHolder.noticeData.style));
+        if (!TextUtils.isEmpty(noticeHolder.noticeData.action)) {
+            noticeHolder.action.setVisibility(View.VISIBLE);
+            noticeHolder.action.setText(noticeHolder.noticeData.action.toUpperCase());
         } else {
-            noticeHolder.messageView.setGravity(Gravity.CENTER);
-            noticeHolder.actionView.setVisibility(View.GONE);
+            noticeHolder.action.setVisibility(View.GONE);
         }
 
         // Show through the animation
@@ -218,8 +216,8 @@ class NoticeContainer extends FrameLayout {
         startAnimation(mInAnimation);
 
         // Post the action to hide if it isn't permanently
-        if (noticeHolder.notice.duration > 0) {
-            postDelayed(mHideRunnable, noticeHolder.notice.duration);
+        if (noticeHolder.noticeData.duration > 0) {
+            postDelayed(mHideRunnable, noticeHolder.noticeData.duration);
         }
     }
 
@@ -260,12 +258,13 @@ class NoticeContainer extends FrameLayout {
         final FrameLayout.LayoutParams layoutParams = new LayoutParams(view.getLayoutParams());
 
         // Set gravity by style
-        layoutParams.gravity = getGravity(style);
+        layoutParams.gravity = Gravity.START | getGravity(style);
 
         // Check navigation bar
         if (ToolUI.hasHideNavigationFlag((ViewGroup) getParent())) {
             // Only for bottom
             if (Gravity.BOTTOM == layoutParams.gravity) {
+                // FIXME#brainail
                 layoutParams.bottomMargin += ToolResources.computeNavigationBarHeight(getContext());
             }
         }
@@ -338,7 +337,7 @@ class NoticeContainer extends FrameLayout {
         final Bundle outState = new Bundle();
 
         for (final NoticeHolder holder : mNotices) {
-            notices.add(holder.notice);
+            notices.add(holder.noticeData);
         }
 
         if (!notices.isEmpty()) {
@@ -350,19 +349,18 @@ class NoticeContainer extends FrameLayout {
 
     private static class NoticeHolder {
 
-        final View noticeView;
-        final TextView messageView;
-        final TextView actionView;
-        final Notice notice;
+        final View notice;
+        final TextView body;
+        final TextView action;
+        final Notice noticeData;
         final OnVisibilityCallback visibilityCallback;
 
-        private NoticeHolder(final Notice notice, final View noticeView, final OnVisibilityCallback callback) {
+        private NoticeHolder(final Notice noticeData, final View notice, final OnVisibilityCallback visibilityCallback) {
             this.notice = notice;
-            visibilityCallback = callback;
-
-            this.noticeView = noticeView;
-            actionView = (TextView) noticeView.findViewById(R.id.notice_action);
-            messageView = (TextView) noticeView.findViewById(R.id.notice_message);
+            this.noticeData = noticeData;
+            this.visibilityCallback = visibilityCallback;
+            this.action = (TextView) notice.findViewById(R.id.notice_action);
+            this.body = (TextView) notice.findViewById(R.id.notice_message);
         }
 
     }

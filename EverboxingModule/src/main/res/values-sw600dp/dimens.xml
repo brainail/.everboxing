@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Notices -->
+    <dimen name="notice_bar_min_width">288dp</dimen>
+    <dimen name="notice_bar_max_width">568dp</dimen>
+    <dimen name="notice_bar_background_corner_radius">2dp</dimen>
+
+</resources>

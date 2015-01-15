@@ -36,14 +36,27 @@ import org.brainail.Everboxing.utils.manager.ThemeManager;
  */
 public final class ToolResources {
 
+    public static int retrieveThemeColor(
+            final Context context,
+            final int themeResId,
+            final int [] attributes,
+            final int defaultColor) {
+
+        final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
+
+        try {
+            return typedArray.getColor(0, context.getResources().getColor(defaultColor));
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
     public static int retrievePrimaryColor(final Context context) {
         return retrievePrimaryColor(context, ThemeManager.appTheme().getThemeResId());
     }
 
     public static int retrievePrimaryColor(final Context context, final int themeResId) {
-        final int [] attributes = new int [] {R.attr.colorPrimary};
-        final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
-        return typedArray.getColor(0, context.getResources().getColor(R.color.primary_default));
+        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimary}, R.color.primary_default);
     }
 
     public static int retrieveAccentColor(final Context context) {
@@ -51,9 +64,7 @@ public final class ToolResources {
     }
 
     public static int retrieveAccentColor(final Context context, final int themeResId) {
-        final int [] attributes = new int [] {R.attr.colorAccent};
-        final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
-        return typedArray.getColor(0, context.getResources().getColor(R.color.accent_default));
+        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorAccent}, R.color.accent_default);
     }
 
     /**

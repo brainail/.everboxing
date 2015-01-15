@@ -39,8 +39,8 @@ public class Notice implements Parcelable {
     final long style;
 
     Notice(final NoticeBar.Builder provider) {
-        message = provider.message;
-        action = provider.actionMessage;
+        message = provider.body;
+        action = provider.action;
         token = provider.token;
         duration = provider.duration;
         style = provider.style;

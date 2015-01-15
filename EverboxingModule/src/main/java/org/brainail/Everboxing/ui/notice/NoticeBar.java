@@ -41,7 +41,7 @@ public class NoticeBar {
 
     public static final class Duration {
         public static final long LONG = 5000;
-        public static final long MEDIUM = 3500;
+        public static final long MEDIUM = 350000;
         public static final long SHORT = 2000;
         public static final long PERMANENT = 0;
     }
@@ -50,13 +50,13 @@ public class NoticeBar {
         // At the bottom
         public static final long DEFAULT = 0;
         // At the top (implementation isn't completed due to guidelines)
-        static final long DEFAULT_TOP = 1 << 0;
+        @Deprecated static final long DEFAULT_TOP = 1 << 0;
         // Red action color
         public static final long ALERT = 1 << 1;
         // Green action color
-        public static final long CONFIRM = 1 << 1;
+        public static final long CONFIRM = 1 << 2;
         // Yellow action color
-        public static final long INFO = 1 << 1;
+        public static final long INFO = 1 << 3;
     }
 
     private View mNotice;
@@ -104,10 +104,10 @@ public class NoticeBar {
     public static class Builder {
 
         private NoticeBar noticeBar;
-        String message;
-        String actionMessage;
+        String body = null;
+        String action = null;
+        Parcelable token = null;
         long style = Style.DEFAULT;
-        Parcelable token;
         long duration = Duration.MEDIUM;
 
         private OnActionCallback actionCallback;
@@ -126,22 +126,22 @@ public class NoticeBar {
         }
 
         public Builder withText(final String textProvider) {
-            message = textProvider;
+            body = textProvider;
             return this;
         }
 
         public Builder withText(final int resId) {
-            message = JApplication.appContext().getString(resId);
+            body = JApplication.appContext().getString(resId);
             return this;
         }
 
         public Builder withActionText(final String textProvider) {
-            actionMessage = textProvider;
+            action = textProvider;
             return this;
         }
 
         public Builder withActionText(final int resId) {
-            actionMessage = JApplication.appContext().getString(resId);
+            action = JApplication.appContext().getString(resId);
             return this;
         }
 
@@ -180,9 +180,9 @@ public class NoticeBar {
             // Inflate params
             style = provider.style;
             token = provider.token;
-            message = provider.message;
+            body = provider.body;
             duration = provider.duration;
-            actionMessage = provider.actionMessage;
+            action = provider.action;
             actionCallback = provider.actionCallback;
             visibilityCallback = provider.visibilityCallback;
 
@@ -223,8 +223,8 @@ public class NoticeBar {
 
     public int getHeight() {
         mNotice.measure(
-                View.MeasureSpec.makeMeasureSpec(mNotice.getWidth(), View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(mNotice.getHeight(), View.MeasureSpec.AT_MOST)
+            View.MeasureSpec.makeMeasureSpec(mNotice.getWidth(), View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(mNotice.getHeight(), View.MeasureSpec.AT_MOST)
         );
 
         return mNotice.getMeasuredHeight();
@@ -281,7 +281,10 @@ public class NoticeBar {
         // Try to grab only our states
         if (null != savedState && null != savedState.get(Notice.EXTRA_NOTICES)) {
             noticesState = new Bundle();
-            noticesState.putParcelableArrayList(Notice.EXTRA_NOTICES, savedState.getParcelableArrayList(Notice.EXTRA_NOTICES));
+            noticesState.putParcelableArrayList(
+                Notice.EXTRA_NOTICES,
+                savedState.getParcelableArrayList(Notice.EXTRA_NOTICES)
+            );
         }
 
         return noticesState;

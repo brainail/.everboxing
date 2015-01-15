@@ -35,7 +35,7 @@ import org.brainail.Everboxing.R;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class ColorCircleView extends View {
+public class ColorCircleView extends View {
 
     private int mCircleRadius = 0;
     private int mStrokeWidth = 0;

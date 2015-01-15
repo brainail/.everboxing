@@ -80,6 +80,7 @@ public abstract class NoticeOnSceneController {
         // Try to restore from saved state
         if (null != mSavedState) {
             notifyScene(null, mSavedState);
+            mSavedState = null;
         }
     }
 
@@ -158,7 +159,8 @@ public abstract class NoticeOnSceneController {
     }
 
     public void notifyScene(final String message) {
-        notifyScene(new NoticeBar.Builder().withText(message), null);
+        // notifyScene(new NoticeBar.Builder().withText(message), null);
+        notifyScene(new NoticeBar.Builder().withText(message).withActionText("INITIALIZE").withStyle(NoticeBar.Style.INFO), null);
     }
 
     private void notifyScene(final NoticeBar.Builder provider, final Bundle savedState) {
