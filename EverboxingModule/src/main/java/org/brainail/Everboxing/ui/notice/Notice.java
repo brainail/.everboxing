@@ -34,7 +34,7 @@ public class Notice implements Parcelable {
 
     final String message;
     final String action;
-    final Parcelable token;
+    final String token;
     final long duration;
     final long style;
 
@@ -49,7 +49,7 @@ public class Notice implements Parcelable {
     Notice(final Parcel p) {
         message = p.readString();
         action = p.readString();
-        token = p.readParcelable(p.getClass().getClassLoader());
+        token = p.readString();
         duration = p.readLong();
         style = p.readLong();
     }
@@ -57,7 +57,7 @@ public class Notice implements Parcelable {
     public void writeToParcel(final Parcel out, final int flags) {
         out.writeString(message);
         out.writeString(action);
-        out.writeParcelable(token, 0);
+        out.writeString(token);
         out.writeLong(duration);
         out.writeLong(style);
     }

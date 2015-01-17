@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.notice.NoticeOnSceneControllerFactory;
+import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
 
@@ -61,7 +61,7 @@ public class BaseActivity extends ActionBarActivity {
         mTheme = ThemeManager.checkOnCreate(this, mTheme);
 
         // Create notice controller
-        NoticeOnSceneControllerFactory.get(this).onCreate(savedInstanceState);
+        NoticeController.from(this).onCreate(savedInstanceState);
 
         // Init content view
         initContent();
@@ -114,19 +114,19 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     protected void onStart() {
-        NoticeOnSceneControllerFactory.get(this).showScene();
+        NoticeController.from(this).showScene();
         super.onStart();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        NoticeOnSceneControllerFactory.get(this).onSaveInstanceState(outState);
+        NoticeController.from(this).onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onStop() {
-        NoticeOnSceneControllerFactory.get(this).hideScene();
+        NoticeController.from(this).hideScene();
         super.onStop();
     }
 

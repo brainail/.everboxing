@@ -94,7 +94,6 @@ public class NoticeContainer extends FrameLayout {
         mOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.notice_slide_out_animation);
         mOutAnimation.setFillAfter(true);
         mOutAnimation.setDuration(ShowHideDuration.ANIMATION_DURATION);
-        mOutAnimation.setAnimationListener(mOutAnimationCallback);
     }
 
     @Override
@@ -125,11 +124,9 @@ public class NoticeContainer extends FrameLayout {
         return mNotices.poll().noticeData;
     }
 
-    public void clearNotices(final boolean animate) {
+    public void clearNotices(final boolean mutePresent) {
         mNotices.clear();
-        if (animate) {
-            mHideRunnable.run();
-        }
+        if (mutePresent) hide();
     }
 
     public boolean isShowing() {
@@ -274,28 +271,15 @@ public class NoticeContainer extends FrameLayout {
 
     private void sendOnHide(final NoticeHolder noticeHolder) {
         if (null != noticeHolder.visibilityCallback) {
-            noticeHolder.visibilityCallback.onHide(mNotices.size());
+            noticeHolder.visibilityCallback.onMute(noticeHolder.noticeData.token, mNotices.size());
         }
     }
 
     private void sendOnShow(final NoticeHolder noticeHolder) {
         if (null != noticeHolder.visibilityCallback) {
-            noticeHolder.visibilityCallback.onShow(mNotices.size());
+            noticeHolder.visibilityCallback.onShow(noticeHolder.noticeData.token, mNotices.size());
         }
     }
-
-    private final Animation.AnimationListener mOutAnimationCallback = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {}
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {}
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            hideNotice();
-        }
-    };
 
     private final Runnable mHideRunnable = new Runnable() {
         @Override

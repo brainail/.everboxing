@@ -36,7 +36,7 @@ import java.util.WeakHashMap;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class NoticeOnSceneControllerFactory {
+public final class NoticeController {
 
     private static boolean CHECK_DEPRECATION = false;
     private static HashSet<Class<?>> DEPRECATED_SCENES;
@@ -84,7 +84,7 @@ public final class NoticeOnSceneControllerFactory {
 
     private static final WeakHashMap<Object, NoticeOnSceneController> sInstances = new WeakHashMap<>();
 
-    public static synchronized NoticeOnSceneController get(final Object scene) {
+    public static synchronized NoticeOnSceneController from(final Object scene) {
         NoticeOnSceneController controller = sInstances.get(scene);
 
         if (null == controller) {

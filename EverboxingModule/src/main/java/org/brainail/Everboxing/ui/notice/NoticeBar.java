@@ -3,7 +3,6 @@ package org.brainail.Everboxing.ui.notice;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,7 @@ public class NoticeBar {
 
     public static final class Duration {
         public static final long LONG = 5000;
-        public static final long MEDIUM = 350000;
+        public static final long MEDIUM = 3500;
         public static final long SHORT = 2000;
         public static final long PERMANENT = 0;
     }
@@ -68,12 +67,12 @@ public class NoticeBar {
     private OnVisibilityCallback mVisibilityCallback;
 
     public interface OnActionCallback {
-        public void onAction(final Parcelable token);
+        public void onAction(final String token);
     }
 
     public interface OnVisibilityCallback {
-        public void onShow(final int size);
-        public void onHide(final int size);
+        public void onShow(final String token, final int activeSize);
+        public void onMute(final String token, final int activeSize);
     }
 
     public NoticeBar(final Activity activity) {
@@ -106,7 +105,7 @@ public class NoticeBar {
         private NoticeBar noticeBar;
         String body = null;
         String action = null;
-        Parcelable token = null;
+        String token = null;
         long style = Style.DEFAULT;
         long duration = Duration.MEDIUM;
 
@@ -150,7 +149,7 @@ public class NoticeBar {
             return this;
         }
 
-        public Builder withToken(final Parcelable tokenProvider) {
+        public Builder withToken(final String tokenProvider) {
             token = tokenProvider;
             return this;
         }
@@ -257,12 +256,16 @@ public class NoticeBar {
         return this;
     }
 
-    private void clear(final boolean animate) {
-        mContainer.clearNotices(animate);
+    private void muteAll(final boolean mutePresent) {
+        mContainer.clearNotices(mutePresent);
     }
 
-    public void clear() {
-        clear(true);
+    public void muteAll() {
+        muteAll(true);
+    }
+
+    public void muteOthers() {
+        muteAll(false);
     }
 
     // See android.app.Activity#onRestoreInstanceState(android.os.Bundle)

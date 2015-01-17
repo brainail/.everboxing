@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.StringRes;
 
 import org.brainail.Everboxing.JApplication;
@@ -58,7 +57,7 @@ public abstract class NoticeOnSceneController {
 
     private NoticeBar.OnActionCallback mActionCallback = new NoticeBar.OnActionCallback() {
         @Override
-        public void onAction(Parcelable token) {
+        public void onAction(final String token) {
             // ...
         }
     };
@@ -130,7 +129,7 @@ public abstract class NoticeOnSceneController {
 
     private void muteScene() {
         if (null != mSceneNotice) {
-            mSceneNotice.clear();
+            mSceneNotice.muteAll();
             mSceneNotice = null;
         }
     }

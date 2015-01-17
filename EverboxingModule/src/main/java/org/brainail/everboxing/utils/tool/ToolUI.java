@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.notice.NoticeOnSceneControllerFactory;
+import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.Sdk;
 
 /**
@@ -68,7 +68,7 @@ public final class ToolUI {
                     if (!USE_SNACKBARS) {
                         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                     } else {
-                        NoticeOnSceneControllerFactory.get(activity).notifyScene(message);
+                        NoticeController.from(activity).notifyScene(message);
                     }
                 }
             });
