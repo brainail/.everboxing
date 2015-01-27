@@ -12,6 +12,11 @@ buildscript {
 
         // Jcenter is superset of Maven Central
         jcenter()
+
+        // System local
+        maven {
+            url 'file:' + System.getenv('HOME') + '/.m2/repository'
+        }
     }
 
     dependencies {
@@ -34,5 +39,10 @@ allprojects {
 
         // Jcenter is superset of Maven Central
         jcenter()
+
+        // System local
+        maven {
+            url 'file:' + System.getenv('HOME') + '/.m2/repository'
+        }
     }
 }

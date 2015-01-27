@@ -18,9 +18,14 @@ repositories {
     // Jcenter is superset of Maven Central
     jcenter()
 
-    // Local
+    // Project local
     flatDir {
         dirs 'libs'
+    }
+
+    // System local
+    maven {
+        url 'file:' + System.getenv('HOME') + '/.m2/repository'
     }
 }
 
@@ -69,13 +74,22 @@ android {
     }
 
     lintOptions {
+        // set to true to turn off analysis progress reporting by lint
         quiet false
+        // if true, stop the gradle build if errors are found
         abortOnError false
+        // if true, only report errors
         ignoreWarnings false
+        // if true, check all issues, including those that are off by default
         checkAllWarnings false
+        // if true, treat all warnings as errors
         warningsAsErrors false
+        // if true, generate an XML report for use by for example Jenkins
         xmlReport false
+        // if true, generate an HTML report (with issue explanations, sourcecode, etc)
         htmlReport true
+        // optional path to report (default will be lint-results.html in the build dir)
+        htmlOutput file("$project.buildDir/reports/lint/lint.html")
     }
 }
 
@@ -144,7 +158,20 @@ project.gradle.taskGraph.whenReady {
 
 //
 // +------------------------------------------------------------+
-// | Configure code style                                       |
+// | Configure analyzers                                        |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+// Add checkstyle, findbugs, pmd and lint to the check task.
+task analyzecode(type: SourceTask) {
+    description 'All checks for code'
+}
+
+analyzecode.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
+
+//
+// +------------------------------------------------------------+
+// | Configure checkstyle                                       |
 // +------------------------------------------------------------+
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -152,9 +179,52 @@ apply plugin: 'checkstyle'
 
 task checkstyle(type: Checkstyle) {
     description 'Check code style'
-    configFile file('./checkstyle.xml')
+    ignoreFailures = true
+    configFile file('config/checkstyle/checkstyle.xml')
     source 'src/main/java'
     include '**/*.java'
     exclude '**/gen/**'
     classpath = files()
+}
+
+//
+// +------------------------------------------------------------+
+// | Configure findbugs                                         |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+apply plugin: "findbugs"
+
+task findbugs(type: FindBugs) {
+    description 'Find bugs'
+    ignoreFailures = true
+    source = fileTree('src/main/java/')
+    classes = fileTree('build/intermediates/classes/debug/')
+    classpath = files()
+    effort = 'max'
+    reportLevel = "high"
+    include '**/*.java'
+    exclude '**/gen/**'
+    excludeFilter = new File('config/findbugs/findbugs-config.xml')
+    reports {
+        html.enabled = true
+        xml.enabled = !html.enabled
+    }
+}
+
+//
+// +------------------------------------------------------------+
+// | Configure pmd                                              |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+apply plugin: "pmd"
+
+task pmd(type: Pmd) {
+    description 'Analyze code via Pmd'
+    ignoreFailures = true
+    include '**/*.java'
+    exclude '**/gen/**'
+    source = fileTree('src/main/java/')
+    ruleSetFiles = files("config/pmd/pmd-config.xml")
 }

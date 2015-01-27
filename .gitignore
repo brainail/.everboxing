@@ -66,6 +66,7 @@ native/obj/
 
 # Other
 .deps/
+.gradletasknamecache
 __*
 
 
