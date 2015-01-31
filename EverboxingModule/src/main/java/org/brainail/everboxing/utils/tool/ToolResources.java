@@ -59,6 +59,14 @@ public final class ToolResources {
         return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimary}, R.color.primary_default);
     }
 
+    public static int retrievePrimaryDarkColor(final Context context) {
+        return retrievePrimaryColor(context, ThemeManager.appTheme().getThemeResId());
+    }
+
+    public static int retrievePrimaryDarkColor(final Context context, final int themeResId) {
+        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimaryDark}, R.color.primary_default_dark);
+    }
+
     public static int retrieveAccentColor(final Context context) {
         return retrieveAccentColor(context, ThemeManager.appTheme().getThemeResId());
     }

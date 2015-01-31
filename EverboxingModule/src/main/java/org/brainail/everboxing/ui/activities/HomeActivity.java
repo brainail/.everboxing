@@ -54,7 +54,7 @@ public class HomeActivity extends SectionedDrawerActivity {
 
     @Override
     protected Integer getDrawerLayoutResourceId() {
-        return R.id.home_drawer_layout;
+        return R.id.drawer_layout_root;
     }
 
     @Override

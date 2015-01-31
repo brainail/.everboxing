@@ -4,8 +4,10 @@
     tools:ignore="UselessParent"
     style="@style/AppContent.FitWindows">
 
+    <!-- The main content view -->
     <LinearLayout
-        style="@style/AppContent.Root">
+        android:orientation="vertical"
+        style="@style/AppContent.FitWindows">
 
         <!-- Toolbar -->
         <include layout="@layout/toolbar_primary"/>
