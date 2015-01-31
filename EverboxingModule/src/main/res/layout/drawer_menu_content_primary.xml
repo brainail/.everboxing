@@ -38,7 +38,7 @@
     <View
         android:id="@+id/drawer_menu_help_sections_separator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/menu_drawer_section_vertical_margin"
+        android:layout_height="@dimen/menu_drawer_section_help_section_dropdown_shadow_height"
         android:visibility="gone"
         android:layout_above="@+id/drawer_menu_help_sections"
         android:background="@drawable/drawer_menu_help_sections_dropshadow"/>

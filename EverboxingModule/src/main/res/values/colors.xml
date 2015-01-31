@@ -38,7 +38,7 @@
 
     <!-- Drawer -->
     <color name="menu_drawer_default">#fffafafa</color>
-    <color name="menu_drawer_help_sections_dropshadow">#1e000000</color>
+    <color name="menu_drawer_help_sections_dropshadow">#14000000</color>
     <color name="menu_drawer_section_text_color">#de212121</color>
     <color name="menu_drawer_section_subheader_text_color">#8a212121</color>
 
