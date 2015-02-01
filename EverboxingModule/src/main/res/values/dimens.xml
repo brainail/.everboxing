@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Drawer -->
-    <dimen name="menu_drawer_home_width">300dp</dimen>
+    <dimen name="drawer_menu_width">320dp</dimen>
     <dimen name="menu_drawer_section_height">48dp</dimen>
     <dimen name="menu_drawer_section_icon_size">24dp</dimen>
     <dimen name="menu_drawer_section_horizontal_margin">16dp</dimen>

@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_menu_primary"
-    android:layout_width="@dimen/menu_drawer_home_width"
+    android:layout_width="@dimen/drawer_menu_width"
     android:layout_height="match_parent"
     android:layout_gravity="start|left"
     android:drawSelectorOnTop="false"
@@ -25,14 +25,79 @@
         android:requiresFadingEdge="vertical"
         android:layout_alignParentTop="true">
 
-        <LinearLayout
-            android:id="@+id/drawer_menu_primary_sections"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/menu_drawer_section_vertical_margin"
-            android:paddingBottom="@dimen/menu_drawer_section_vertical_margin"
-            android:orientation="vertical"/>
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/drawer_menu_user_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="164dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:src="#c6c6c6"
+                android:scaleType="fitXY"
+                tools:ignore="ContentDescription"/>
+
+            <ImageView
+                android:id="@+id/drawer_menu_user_photo"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="40dp"
+                tools:ignore="ContentDescription"/>
+
+            <LinearLayout
+                android:id="@+id/drawer_menu_primary_sections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/menu_drawer_section_vertical_margin"
+                android:paddingBottom="@dimen/menu_drawer_section_vertical_margin"
+                android:layout_below="@+id/drawer_menu_user_cover"
+                android:orientation="vertical"/>
+
+            <LinearLayout
+                android:id="@+id/gradient"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_alignBottom="@+id/drawer_menu_user_cover"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/drawer_menu_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:textSize="14sp"
+                    android:text="Yegor Malyshev"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/drawer_menu_user_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="wsemirz@gmail.com"
+                    android:textSize="14sp"
+                    android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
     <View

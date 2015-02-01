@@ -48,8 +48,6 @@ public class NoticeBar {
     public static final class Style {
         // At the bottom
         public static final long DEFAULT = 0;
-        // At the top (implementation isn't completed due to guidelines)
-        @Deprecated static final long DEFAULT_TOP = 1 << 0;
         // Red action color
         public static final long ALERT = 1 << 1;
         // Green action color

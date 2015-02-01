@@ -246,7 +246,6 @@ public class NoticeContainer extends FrameLayout {
 
     // Returns gravity by style
     private int getGravity(final long style) {
-        if ((style & Style.DEFAULT_TOP) > 0) return Gravity.TOP;
         return Gravity.BOTTOM;
     }
 

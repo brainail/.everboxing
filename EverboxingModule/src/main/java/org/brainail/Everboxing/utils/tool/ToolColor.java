@@ -46,7 +46,7 @@ public final class ToolColor {
      *
      * @see android.graphics.Color#argb(int, int, int, int)
      */
-    public static int colorWithAlpha(final int color, final float alphaPercent) {
+    public static int withAlpha(final int color, final float alphaPercent) {
         final float opaquePercent = 100 - alphaPercent;
         final int alpha = Math.max(0, Math.min(255, (int) (255 * opaquePercent / 100.0f)));
         return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));

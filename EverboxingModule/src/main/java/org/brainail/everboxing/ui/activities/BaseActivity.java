@@ -112,6 +112,10 @@ public class BaseActivity extends ActionBarActivity {
         return null;
     }
 
+    public final ActionBarActivity self() {
+        return this;
+    }
+
     @Override
     protected void onStart() {
         NoticeController.from(this).showScene();

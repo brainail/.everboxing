@@ -11,6 +11,8 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.tool.ToolCollections;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
+import static android.support.v4.widget.DrawerLayout.DrawerListener;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -36,7 +38,7 @@ import org.brainail.Everboxing.utils.tool.ToolUI;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class BaseDrawerActivity extends BaseActivity {
+public class BaseDrawerActivity extends BaseActivity implements DrawerListener {
 
     // Drawer
     protected ActionBarDrawerToggle mDrawerToggle;
@@ -77,14 +79,38 @@ public class BaseDrawerActivity extends BaseActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, getPrimaryToolbar(), R.string.drawer_open, R.string.drawer_close) {
 
+            @Override
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
+
+                // Give others
+                ((DrawerListener) self()).onDrawerClosed(view);
             }
 
+            @Override
             public void onDrawerOpened(View view) {
                 super.onDrawerOpened(view);
                 invalidateOptionsMenu();
+
+                // Give others
+                ((DrawerListener) self()).onDrawerOpened(view);
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+                // Give others
+                ((DrawerListener) self()).onDrawerSlide(drawerView, slideOffset);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+
+                // Give others
+                ((DrawerListener) self()).onDrawerStateChanged(newState);
             }
 
         };
@@ -95,7 +121,6 @@ public class BaseDrawerActivity extends BaseActivity {
 
         return true;
     }
-
 
     protected Integer getDrawerLayoutResourceId() {
         return null;
@@ -139,6 +164,26 @@ public class BaseDrawerActivity extends BaseActivity {
 
     protected boolean drawerCanHandleMenuItem(final MenuItem item) {
         return mIsDrawerPresented && mDrawerToggle.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+        // Do nothing
     }
 
 }
