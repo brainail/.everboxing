@@ -38,7 +38,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:src="#c6c6c6"
+                android:src="@drawable/drawer_user_cover_default"
                 android:scaleType="fitXY"
                 tools:ignore="ContentDescription"/>
 
@@ -83,8 +83,9 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
                     android:textSize="14sp"
-                    android:text="Yegor Malyshev"
-                    android:textColor="#FFFFFF" />
+                    fontPath="fonts/Roboto-Medium.ttf"
+                    android:textColor="#FFFFFF"
+                    tools:ignore="MissingPrefix"/>
 
                 <TextView
                     android:id="@+id/drawer_menu_user_email"
@@ -92,9 +93,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:text="wsemirz@gmail.com"
+                    fontPath="fonts/Roboto-Regular.ttf"
                     android:textSize="14sp"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    tools:ignore="MissingPrefix"/>
 
             </LinearLayout>
         </RelativeLayout>

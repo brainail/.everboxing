@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.Everboxing.ui.drawer.DrawerSection;
+import org.brainail.Everboxing.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.Everboxing.ui.drawer.IDrawerSectionsController;
 import org.brainail.Everboxing.utils.tool.ToolColor;
 
