@@ -2,13 +2,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_menu_primary"
-    android:layout_width="@dimen/drawer_menu_width"
+    android:layout_width="@dimen/menu_drawer_width"
     android:layout_height="match_parent"
     android:layout_gravity="start|left"
     android:drawSelectorOnTop="false"
     android:choiceMode="singleChoice"
     android:divider="@android:color/transparent"
-    android:background="@color/menu_drawer_default"
+    android:background="@color/menu_drawer_background_default"
     tools:ignore="RtlHardcoded">
 
     <ScrollView
@@ -32,7 +32,7 @@
             <ImageView
                 android:id="@+id/drawer_menu_user_cover"
                 android:layout_width="wrap_content"
-                android:layout_height="164dp"
+                android:layout_height="@dimen/menu_drawer_user_cover_height"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
@@ -42,6 +42,7 @@
                 android:scaleType="fitXY"
                 tools:ignore="ContentDescription"/>
 
+            <!-- I think it's useless for minimalistic design
             <ImageView
                 android:id="@+id/drawer_menu_user_photo"
                 android:layout_width="64dp"
@@ -53,6 +54,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="40dp"
                 tools:ignore="ContentDescription"/>
+            -->
 
             <LinearLayout
                 android:id="@+id/drawer_menu_primary_sections"
@@ -63,10 +65,11 @@
                 android:layout_below="@+id/drawer_menu_user_cover"
                 android:orientation="vertical"/>
 
+            <!-- FIXME: Remove android:text & make data with View.GONE -->
             <LinearLayout
-                android:id="@+id/gradient"
+                android:id="@+id/drawer_menu_user_data"
                 android:layout_width="wrap_content"
-                android:layout_height="56dp"
+                android:layout_height="@dimen/menu_drawer_user_data_height"
                 android:layout_alignBottom="@+id/drawer_menu_user_cover"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -74,28 +77,31 @@
                 android:layout_alignParentEnd="true"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:layout_marginBottom="8dp">
+                android:background="@drawable/drawer_menu_user_data_gradient"
+                android:layout_marginBottom="@dimen/menu_drawer_section_vertical_margin">
 
                 <TextView
                     android:id="@+id/drawer_menu_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:textSize="14sp"
+                    android:layout_marginLeft="@dimen/menu_drawer_section_horizontal_margin"
+                    android:layout_marginStart="@dimen/menu_drawer_section_horizontal_margin"
+                    android:textSize="@dimen/menu_drawer_section_text_size"
                     fontPath="fonts/Roboto-Medium.ttf"
-                    android:textColor="#FFFFFF"
+                    android:text="Yegor Malyshev"
+                    android:textColor="@color/menu_drawer_user_cover_data_text"
                     tools:ignore="MissingPrefix"/>
 
                 <TextView
                     android:id="@+id/drawer_menu_user_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="@dimen/menu_drawer_section_horizontal_margin"
+                    android:layout_marginStart="@dimen/menu_drawer_section_horizontal_margin"
                     fontPath="fonts/Roboto-Regular.ttf"
-                    android:textSize="14sp"
-                    android:textColor="#FFFFFF"
+                    android:text="wsemirz.sync@gmail.com"
+                    android:textSize="@dimen/menu_drawer_section_text_size"
+                    android:textColor="@color/menu_drawer_user_cover_data_text"
                     tools:ignore="MissingPrefix"/>
 
             </LinearLayout>

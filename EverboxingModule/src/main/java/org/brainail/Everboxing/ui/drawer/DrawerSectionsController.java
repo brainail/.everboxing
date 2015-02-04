@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolView;
 
 import java.util.LinkedList;
@@ -41,6 +42,8 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     private final LinearLayout mPrimarySections;
     private final LinearLayout mHelpSections;
     private final View mHelpSectionsSeparator;
+    private final View mDrawerView;
+    private final View mUserCoverArea;
 
     private final LinkedList<DrawerSection> mPrimaryDrawerSections = new LinkedList<DrawerSection>();
     private final LinkedList<DrawerSection> mHelpDrawerSections = new LinkedList<DrawerSection>();
@@ -48,6 +51,8 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     private final Activity mScene;
 
     public DrawerSectionsController(final Activity scene) {
+        mDrawerView = scene.findViewById(R.id.drawer_menu_primary);
+        mUserCoverArea = scene.findViewById(R.id.drawer_menu_user_cover);
         mPrimarySections = (LinearLayout) scene.findViewById(R.id.drawer_menu_primary_sections);
         mHelpSections = (LinearLayout) scene.findViewById(R.id.drawer_menu_help_sections);
         mHelpSectionsSeparator = scene.findViewById(R.id.drawer_menu_help_sections_separator);
@@ -135,6 +140,28 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     private LayoutInflater getInflater() {
         return LayoutInflater.from(mScene);
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        // Change alpha by offset
+        mDrawerView.setBackgroundColor(ToolColor.withAlpha(DRAWER_COLOR, (1 - slideOffset) * 100));
+        mUserCoverArea.setAlpha(slideOffset);
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+        // Do nothing
     }
 
 }

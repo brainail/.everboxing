@@ -1,6 +1,10 @@
 package org.brainail.Everboxing.ui.drawer;
 
 import android.app.Activity;
+import android.support.v4.widget.DrawerLayout;
+
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.tool.ToolColor;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -27,11 +31,15 @@ import android.app.Activity;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController {
+public interface IDrawerSectionsController extends DrawerLayout.DrawerListener {
+
+    public static final int DRAWER_COLOR = ToolColor.by(R.color.menu_drawer_background_default);
+
     public void addDivider();
     public void addSubheader(final String titleText);
     public void addSection(final DrawerSection section);
     public void selectSection(final DrawerSection section);
     public void unselectSection(final DrawerSection section);
     public Activity scene();
+
 }

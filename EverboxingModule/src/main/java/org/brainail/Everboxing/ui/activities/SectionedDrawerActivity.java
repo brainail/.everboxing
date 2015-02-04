@@ -3,11 +3,9 @@ package org.brainail.Everboxing.ui.activities;
 import android.os.Bundle;
 import android.view.View;
 
-import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.drawer.DrawerSection;
 import org.brainail.Everboxing.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.Everboxing.ui.drawer.IDrawerSectionsController;
-import org.brainail.Everboxing.utils.tool.ToolColor;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -59,10 +57,7 @@ public class SectionedDrawerActivity extends BaseDrawerActivity {
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
         super.onDrawerSlide(drawerView, slideOffset);
-        // FIXME#brainail: move to controller?
-        int DRAWER_COLOR = ToolColor.by(R.color.menu_drawer_default);
-        drawerView.setBackgroundColor(ToolColor.withAlpha(DRAWER_COLOR, (1 - slideOffset) * 100));
-        drawerView.findViewById(R.id.drawer_menu_user_cover).setAlpha(slideOffset);
+        mDrawerSectionsController.onDrawerSlide(drawerView, slideOffset);
     }
 
 }

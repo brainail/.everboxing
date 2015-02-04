@@ -37,7 +37,9 @@
     <color name="accent_lgreen">#ffd740</color>
 
     <!-- Drawer -->
-    <color name="menu_drawer_default">#fffafafa</color>
+    <color name="menu_drawer_background_default">#fffafafa</color>
+    <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
+    <color name="menu_drawer_user_cover_data_gradient">#70333333</color>
     <color name="menu_drawer_help_sections_dropshadow">#14000000</color>
     <color name="menu_drawer_section_text_color">#de212121</color>
     <color name="menu_drawer_section_subheader_text_color">#8a212121</color>

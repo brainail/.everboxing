@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,16 +9,13 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/md_listitem_textsize"
+        android:gravity="start|left|center_horizontal"
         android:layout_marginLeft="@dimen/md_listitem_margin_left"
         android:layout_marginStart="@dimen/md_listitem_margin_left"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/color"
-        android:layout_toStartOf="@+id/color"
-        android:layout_centerVertical="true"/>
+        android:layout_gravity="left|start|center"/>
 
     <org.brainail.Everboxing.ui.views.ColorCircleView
         android:id="@+id/color"
@@ -27,12 +23,10 @@
         android:layout_height="@dimen/theme_chooser_item_color_circle_size"
         android:layout_marginRight="@dimen/md_icon_margin"
         android:layout_marginEnd="@dimen/md_icon_margin"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
+        android:layout_gravity="end|right|center"
         android:layout_marginTop="@dimen/theme_chooser_item_color_circle_vertical_margin"
         android:layout_marginBottom="@dimen/theme_chooser_item_color_circle_vertical_margin"
         app:circleRadius="@dimen/theme_chooser_item_color_circle_radius"
         app:fillColor="?attr/colorPrimary"/>
 
-</RelativeLayout>
+</FrameLayout>

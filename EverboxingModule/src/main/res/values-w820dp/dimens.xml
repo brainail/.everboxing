@@ -1,7 +1,6 @@
-<!-- For screens with more than 820dp of available width. This would include 7" and 10" devices in landscape. -->
 <resources>
 
     <!-- Drawer -->
-    <dimen name="drawer_menu_width">320dp</dimen>
+    <dimen name="menu_drawer_width">380dp</dimen>
 
 </resources>
