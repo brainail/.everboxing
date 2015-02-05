@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.Window;
 
 import org.brainail.Everboxing.R;
@@ -36,6 +37,20 @@ import org.brainail.Everboxing.utils.manager.ThemeManager;
  */
 public final class ToolResources {
 
+    public static Drawable retrieveThemeDrawable(
+            final Context context,
+            final int themeResId,
+            final int [] attributes) {
+
+        final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
+
+        try {
+            return typedArray.getDrawable(0);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
     public static int retrieveThemeColor(
             final Context context,
             final int themeResId,
@@ -49,6 +64,14 @@ public final class ToolResources {
         } finally {
             typedArray.recycle();
         }
+    }
+
+    public static Drawable retrieveDrawerCover(final Context context) {
+        return retrieveDrawerCover(context, ThemeManager.appTheme().getThemeResId());
+    }
+
+    public static Drawable retrieveDrawerCover(final Context context, final int themeResId) {
+        return retrieveThemeDrawable(context, themeResId, new int[] {R.attr.drawerCover});
     }
 
     public static int retrievePrimaryColor(final Context context) {

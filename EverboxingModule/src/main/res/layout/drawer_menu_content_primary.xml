@@ -38,7 +38,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/drawer_user_cover_default"
+                android:src="?attr/drawerCover"
                 android:scaleType="fitXY"
                 tools:ignore="ContentDescription"/>
 

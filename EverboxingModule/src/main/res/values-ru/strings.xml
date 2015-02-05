@@ -30,6 +30,7 @@
     <string name="theme_name_indigo">Сине-фиолетовый</string>
     <string name="theme_name_lgreen">Светло-зеленый</string>
     <string name="theme_name_teal">Бирюзовый</string>
+    <string name="theme_name_purple">Фиолетовая</string>
 
     <!-- Toasts/Snackbars messages -->
     <string name="auth_flow_fetch_token_io_error">Серверная или сетевая ошибка. Проверьте соединение и попробуйте еще раз.</string>

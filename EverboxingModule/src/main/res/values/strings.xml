@@ -34,6 +34,7 @@
     <string name="theme_name_teal">Teal</string>
     <string name="theme_name_green">Green</string>
     <string name="theme_name_lgreen">Light Green</string>
+    <string name="theme_name_purple">Purple</string>
 
     <!-- Toasts/Snackbars messages -->
     <string name="auth_flow_fetch_token_io_error">Network or server error. Check your connection and try again.</string>

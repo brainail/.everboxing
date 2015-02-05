@@ -10,5 +10,6 @@
     </declare-styleable>
 
     <attr name="fontPath" format="string"/>
+    <attr name="drawerCover" format="reference"/>
 
 </resources>

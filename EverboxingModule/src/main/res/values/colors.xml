@@ -36,6 +36,11 @@
     <color name="primary_lgreen_dark">#689f38</color>
     <color name="accent_lgreen">#ffd740</color>
 
+    <!-- Theme colors. #Purple -->
+    <color name="primary_purple">#673ab7</color>
+    <color name="primary_purple_dark">#512da8</color>
+    <color name="accent_purple">#e040fb</color>
+
     <!-- Drawer -->
     <color name="menu_drawer_background_default">#fffafafa</color>
     <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
