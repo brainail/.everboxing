@@ -4,8 +4,11 @@
     tools:showIn="@layout/activity_settings">
 
     <FrameLayout
-        android:id="@+id/container"
         style="@style/AppContent">
+
+        <FrameLayout
+            android:id="@id/base_fragment_container"
+            style="@style/AppContent"/>
 
         <!-- Toolbar dropshadow -->
         <include layout="@layout/toolbar_dropshadow"/>

@@ -13,4 +13,7 @@
     <item name="notice_message" type="id"/>
     <item name="notice_action" type="id"/>
 
+    <!-- Fragments -->
+    <item name="base_fragment_container" type="id"/>
+
 </resources>

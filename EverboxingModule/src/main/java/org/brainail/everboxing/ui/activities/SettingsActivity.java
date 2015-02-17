@@ -79,7 +79,7 @@ public class SettingsActivity
     private void initSettingsBox() {
         if (null == getFragmentManager().findFragmentByTag(SettingsFragment.MANAGER_TAG)) {
             final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.container, new SettingsFragment(), SettingsFragment.MANAGER_TAG).commit();
+            fragmentTransaction.replace(R.id.base_fragment_container, new SettingsFragment(), SettingsFragment.MANAGER_TAG).commit();
         }
     }
 

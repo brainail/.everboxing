@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.ui.activities.SettingsActivity;
+import org.brainail.Everboxing.ui.fragments.CFragment;
 
 import static org.brainail.Everboxing.ui.drawer.DrawerSection.LayoutType;
 import static org.brainail.Everboxing.ui.drawer.DrawerSection.LocationType;
@@ -46,6 +47,7 @@ public class DrawerSectionsOnSceneInitializer {
                         .withTitle("Sender")
                         .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_send))
                         .withNotifications(10)
+                        .withTarget(new CFragment())
         );
 
         scene.addDrawerSection(
@@ -54,6 +56,7 @@ public class DrawerSectionsOnSceneInitializer {
                         .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_today))
                         .withNotifications(1000)
                         .withSectionColor(Color.parseColor("#2196f3"))
+                        .withTarget(new CFragment())
         );
 
         scene.addDrawerSubheader("Privacy");
@@ -64,6 +67,7 @@ public class DrawerSectionsOnSceneInitializer {
                         .withNotifications(20)
                         .withNotificationsLimit(18)
                         .withSectionColor(Color.parseColor("#ff9800"))
+                        .withTarget(new CFragment())
         );
 
         scene.addDrawerSection(

@@ -2,16 +2,20 @@ package org.brainail.Everboxing.ui.drawer;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolStrings;
+import org.brainail.Everboxing.utils.tool.ToolUI;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -261,11 +265,22 @@ public class DrawerSection {
         } else if (mTarget instanceof Intent) {
             mDrawerController.scene().startActivity((Intent) mTarget);
         } else if (mTarget instanceof Fragment) {
-            // FIXME#brainail: Handle fragment
+            final FragmentManager fragmentManager = mDrawerController.scene().getFragmentManager();
+            final Fragment fragment = fragmentManager.findFragmentById(R.id.base_fragment_container);
+            if (null == fragment || fragment != mTarget) {
+                final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.base_fragment_container, (Fragment) mTarget).commit();
+            }
         }
+
+        ToolUI.toggleMenuDrawer(drawerLayout(), false);
     }
 
-    private View.OnClickListener mInternalClickCallback = new View.OnClickListener() {
+    private DrawerLayout drawerLayout() {
+        return mDrawerController.scene().getDrawerLayout();
+    }
+
+    private final View.OnClickListener mInternalClickCallback = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             select();

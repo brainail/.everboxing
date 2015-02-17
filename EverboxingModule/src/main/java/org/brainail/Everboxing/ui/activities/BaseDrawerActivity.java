@@ -122,6 +122,10 @@ public class BaseDrawerActivity extends BaseActivity implements DrawerListener {
         return true;
     }
 
+    public final DrawerLayout getDrawerLayout() {
+        return mDrawerLayout;
+    }
+
     protected Integer getDrawerLayoutResourceId() {
         return null;
     }

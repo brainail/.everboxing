@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolView;
 
@@ -48,9 +49,9 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     private final LinkedList<DrawerSection> mPrimaryDrawerSections = new LinkedList<DrawerSection>();
     private final LinkedList<DrawerSection> mHelpDrawerSections = new LinkedList<DrawerSection>();
 
-    private final Activity mScene;
+    private final SectionedDrawerActivity mScene;
 
-    public DrawerSectionsController(final Activity scene) {
+    public DrawerSectionsController(final SectionedDrawerActivity scene) {
         mDrawerView = scene.findViewById(R.id.drawer_menu_primary);
         mUserCoverArea = scene.findViewById(R.id.drawer_menu_user_cover);
         mPrimarySections = (LinearLayout) scene.findViewById(R.id.drawer_menu_primary_sections);
@@ -117,7 +118,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     @Override
-    public Activity scene() {
+    public SectionedDrawerActivity scene() {
         return mScene;
     }
 
