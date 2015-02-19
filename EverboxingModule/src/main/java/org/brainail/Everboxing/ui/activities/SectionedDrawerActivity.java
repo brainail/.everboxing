@@ -60,4 +60,22 @@ public class SectionedDrawerActivity extends BaseDrawerActivity {
         mDrawerSectionsController.onDrawerSlide(drawerView, slideOffset);
     }
 
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        super.onDrawerOpened(drawerView);
+        mDrawerSectionsController.onDrawerOpened(drawerView);
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        super.onDrawerClosed(drawerView);
+        mDrawerSectionsController.onDrawerClosed(drawerView);
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+        super.onDrawerStateChanged(newState);
+        mDrawerSectionsController.onDrawerStateChanged(newState);
+    }
+
 }

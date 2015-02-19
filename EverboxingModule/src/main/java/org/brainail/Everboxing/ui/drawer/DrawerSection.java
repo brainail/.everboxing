@@ -2,8 +2,6 @@ package org.brainail.Everboxing.ui.drawer;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +12,7 @@ import android.view.View;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.tool.ToolColor;
+import org.brainail.Everboxing.utils.tool.ToolFragments;
 import org.brainail.Everboxing.utils.tool.ToolStrings;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
@@ -42,19 +41,25 @@ import org.brainail.Everboxing.utils.tool.ToolUI;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class DrawerSection {
+public class DrawerSection implements DrawerLayout.DrawerListener {
 
     // Display (where?)
     public static enum LocationType {
         PRIMARY,
-        HELP
+        HELP;
     }
 
     // Open (whom?)
     public static enum TargetType {
+
         FRAGMENT,
         INTENT,
-        CLASS
+        CLASS;
+
+        public boolean isInplace() {
+            return this == FRAGMENT;
+        }
+
     }
 
     // Display (how?)
@@ -81,6 +86,7 @@ public class DrawerSection {
     // Target
     private TargetType mTargetType = null;
     private Object mTarget = null;
+    private boolean mOpenTarget = false;
 
     // Visual stuff
     private String mTitle;
@@ -259,21 +265,24 @@ public class DrawerSection {
     }
 
     private void target() {
+        mOpenTarget = true;
+        ToolUI.toggleMenuDrawer(drawerLayout(), false);
+    }
+
+    private void openTarget() {
+        mOpenTarget = false;
+
+        // We don't want to be selected for targets which open a new window
+        if (null != mTargetType && !mTargetType.isInplace()) unselect();
+
         if (mTarget instanceof Class<?>) {
             final Intent targetIntent = new Intent(mDrawerController.scene(), (Class<?>) mTarget);
             mDrawerController.scene().startActivity(targetIntent);
         } else if (mTarget instanceof Intent) {
             mDrawerController.scene().startActivity((Intent) mTarget);
         } else if (mTarget instanceof Fragment) {
-            final FragmentManager fragmentManager = mDrawerController.scene().getFragmentManager();
-            final Fragment fragment = fragmentManager.findFragmentById(R.id.base_fragment_container);
-            if (null == fragment || fragment != mTarget) {
-                final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.base_fragment_container, (Fragment) mTarget).commit();
-            }
+            ToolFragments.replaceDefault(mDrawerController.scene(), (Fragment) mTarget);
         }
-
-        ToolUI.toggleMenuDrawer(drawerLayout(), false);
     }
 
     private DrawerLayout drawerLayout() {
@@ -306,6 +315,26 @@ public class DrawerSection {
                 mViewHolder.selfIcon.clearColorFilter();
             }
         }
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+        // Do nothing
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        if (mOpenTarget) openTarget();
     }
 
 }

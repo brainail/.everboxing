@@ -121,7 +121,7 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:1.3.9'
 
     // Material stuff
-    compile 'com.afollestad:material-dialogs:0.5.9'
+    compile 'com.afollestad:material-dialogs:0.6.3.0'
     compile 'com.malinskiy:materialicons:1.0.0'
 
     // Fonts

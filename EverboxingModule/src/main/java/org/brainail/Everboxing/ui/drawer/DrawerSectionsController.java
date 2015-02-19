@@ -1,6 +1,5 @@
 package org.brainail.Everboxing.ui.drawer;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -45,6 +44,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     private final View mHelpSectionsSeparator;
     private final View mDrawerView;
     private final View mUserCoverArea;
+    private DrawerSection mCurrentSection;
 
     private final LinkedList<DrawerSection> mPrimaryDrawerSections = new LinkedList<DrawerSection>();
     private final LinkedList<DrawerSection> mHelpDrawerSections = new LinkedList<DrawerSection>();
@@ -98,6 +98,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     @Override
     public void selectSection(final DrawerSection section) {
         final int position = section.getPosition();
+        mCurrentSection = section;
 
         for (final DrawerSection primarySection : mPrimaryDrawerSections) {
             if (position != primarySection.getPosition()) {
@@ -114,7 +115,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     @Override
     public void unselectSection(final DrawerSection section) {
-        // FIXME: Add some light implementation ..
+        mCurrentSection = (mCurrentSection == section) ? null : mCurrentSection;
     }
 
     @Override
@@ -156,13 +157,15 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
+    public void onDrawerStateChanged(int newState) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerStateChanged(int newState) {
-        // Do nothing
+    public void onDrawerClosed(View drawerView) {
+        if (null != mCurrentSection) {
+            mCurrentSection.onDrawerClosed(drawerView);
+        }
     }
 
 }
