@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
 import org.brainail.Everboxing.utils.tool.ToolStrings;
@@ -43,6 +44,11 @@ import org.brainail.Everboxing.utils.tool.ToolUI;
  */
 public class DrawerSection implements DrawerLayout.DrawerListener {
 
+    // To save state
+    public static abstract class ExtraKey {
+        public static final String POSITION = "org.brainail.Everboxing.Extra#Position";
+    }
+
     // Display (where?)
     public static enum LocationType {
         PRIMARY,
@@ -54,10 +60,13 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
         FRAGMENT,
         INTENT,
-        CLASS;
+        CLASS,
+        CALLBACK;
 
         public boolean isInplace() {
-            return this == FRAGMENT;
+            boolean inplace = this == FRAGMENT;
+            inplace |= this == CALLBACK;
+            return inplace;
         }
 
     }
@@ -180,6 +189,12 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return this;
     }
 
+    public DrawerSection withTarget(final DrawerSectionCallback target) {
+        mTargetType = TargetType.CALLBACK;
+        mTarget = target;
+        return this;
+    }
+
     public DrawerSection withTarget(final Fragment target) {
         mTargetType = TargetType.FRAGMENT;
         mTarget = target;
@@ -275,18 +290,24 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         // We don't want to be selected for targets which open a new window
         if (null != mTargetType && !mTargetType.isInplace()) unselect();
 
-        if (mTarget instanceof Class<?>) {
-            final Intent targetIntent = new Intent(mDrawerController.scene(), (Class<?>) mTarget);
-            mDrawerController.scene().startActivity(targetIntent);
-        } else if (mTarget instanceof Intent) {
-            mDrawerController.scene().startActivity((Intent) mTarget);
-        } else if (mTarget instanceof Fragment) {
-            ToolFragments.replaceDefault(mDrawerController.scene(), (Fragment) mTarget);
+        if (TargetType.CALLBACK == mTargetType) {
+            ((DrawerSectionCallback) mTarget).onTargetClick(this);
+        } else if (TargetType.CLASS == mTargetType) {
+            final Intent targetIntent = new Intent(scene(), (Class<?>) mTarget);
+            scene().startActivity(targetIntent);
+        } else if (TargetType.INTENT == mTargetType) {
+            scene().startActivity((Intent) mTarget);
+        } else if (TargetType.FRAGMENT == mTargetType) {
+            ToolFragments.replaceDefault(scene(), (Fragment) mTarget);
         }
     }
 
+    private SectionedDrawerActivity scene() {
+        return mDrawerController.scene();
+    }
+
     private DrawerLayout drawerLayout() {
-        return mDrawerController.scene().getDrawerLayout();
+        return scene().getDrawerLayout();
     }
 
     private final View.OnClickListener mInternalClickCallback = new View.OnClickListener() {

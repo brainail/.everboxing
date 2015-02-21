@@ -36,6 +36,7 @@ public final class ToolFragments {
 
     public static boolean replaceDefault(final Activity activity, final Fragment target) {
         if (null == activity) {
+            // No place
             return false;
         }
 

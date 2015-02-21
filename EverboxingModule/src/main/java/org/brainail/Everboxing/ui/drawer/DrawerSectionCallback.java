@@ -27,4 +27,5 @@ package org.brainail.Everboxing.ui.drawer;
  */
 public interface DrawerSectionCallback {
     public void onClick(final DrawerSection section);
+    public void onTargetClick(final DrawerSection section);
 }

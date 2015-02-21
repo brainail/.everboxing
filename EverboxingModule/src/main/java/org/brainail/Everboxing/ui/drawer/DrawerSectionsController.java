@@ -1,5 +1,6 @@
 package org.brainail.Everboxing.ui.drawer;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -95,26 +96,39 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         }
     }
 
-    @Override
-    public void selectSection(final DrawerSection section) {
-        final int position = section.getPosition();
-        mCurrentSection = section;
-
+    // Section by position
+    private DrawerSection section(final int position) {
         for (final DrawerSection primarySection : mPrimaryDrawerSections) {
-            if (position != primarySection.getPosition()) {
-                primarySection.unselect();
-            }
+            if (position == primarySection.getPosition()) return primarySection;
         }
 
         for (final DrawerSection helpSection : mHelpDrawerSections) {
-            if (position != helpSection.getPosition()) {
-                helpSection.unselect();
-            }
+            if (position == helpSection.getPosition()) return helpSection;
+        }
+
+        return null;
+    }
+
+    // Unselects sections by position of selected section
+    private void selectSection(final int position) {
+        mCurrentSection = section(position);
+
+        for (final DrawerSection primarySection : mPrimaryDrawerSections) {
+            if (position != primarySection.getPosition()) primarySection.unselect();
+        }
+
+        for (final DrawerSection helpSection : mHelpDrawerSections) {
+            if (position != helpSection.getPosition()) helpSection.unselect();
         }
     }
 
-    @Override
-    public void unselectSection(final DrawerSection section) {
+    // Unselects sections by instance of selected section
+    protected void selectSection(final DrawerSection section) {
+        selectSection(section.getPosition());
+    }
+
+    // Unselects current section If necessary
+    protected void unselectSection(final DrawerSection section) {
         mCurrentSection = (mCurrentSection == section) ? null : mCurrentSection;
     }
 
@@ -166,6 +180,19 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         if (null != mCurrentSection) {
             mCurrentSection.onDrawerClosed(drawerView);
         }
+    }
+
+    // See Activity#onSaveInstanceState
+    public void saveState(final Bundle state) {
+        if (null != mCurrentSection) {
+            state.putInt(DrawerSection.ExtraKey.POSITION, mCurrentSection.getPosition());
+        }
+    }
+
+    // See Activity#onRestoreInstanceState
+    public void restoreState(final Bundle state) {
+        // Find & select section from saved state
+        section(null != state ? state.getInt(DrawerSection.ExtraKey.POSITION, 0) : 0).select();
     }
 
 }

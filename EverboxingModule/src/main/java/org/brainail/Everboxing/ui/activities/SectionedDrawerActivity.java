@@ -42,6 +42,18 @@ public class SectionedDrawerActivity extends BaseDrawerActivity {
         mDrawerSectionsController = DrawerSectionsControllerFactory.create(this);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        mDrawerSectionsController.saveState(state);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle state) {
+        super.onRestoreInstanceState(state);
+        mDrawerSectionsController.restoreState(state);
+    }
+
     public void addDrawerSection(final DrawerSection section) {
         mDrawerSectionsController.addSection(section);
     }
