@@ -7,6 +7,8 @@ import org.brainail.Everboxing.ui.drawer.DrawerSection;
 import org.brainail.Everboxing.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.Everboxing.ui.drawer.IDrawerSectionsController;
 
+import static org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -32,26 +34,28 @@ import org.brainail.Everboxing.ui.drawer.IDrawerSectionsController;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class SectionedDrawerActivity extends BaseDrawerActivity {
+public abstract class SectionedDrawerActivity extends BaseDrawerActivity {
 
     private IDrawerSectionsController mDrawerSectionsController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Instantiate section controller for drawer
         mDrawerSectionsController = DrawerSectionsControllerFactory.create(this);
+        // Initialize drawer's sections
+        sectionInitializer().initialize(this);
+        // The first part: investigate by fragment manager due to Activity creating
+        mDrawerSectionsController.investigateFragmentsStack();
+        // The second part: try to restore section by saved instance
+        mDrawerSectionsController.restoreState(savedInstanceState);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         mDrawerSectionsController.saveState(state);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-        mDrawerSectionsController.restoreState(state);
     }
 
     public void addDrawerSection(final DrawerSection section) {
@@ -89,5 +93,25 @@ public class SectionedDrawerActivity extends BaseDrawerActivity {
         super.onDrawerStateChanged(newState);
         mDrawerSectionsController.onDrawerStateChanged(newState);
     }
+
+    @Override
+    public void onBackStackChanged() {
+        super.onBackStackChanged();
+
+        // Investigate section selection state by fragment manager (check the top)
+        // due to back stack has changed
+        mDrawerSectionsController.investigateFragmentsStack();
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+
+        // Investigate section selection state by fragment manager (check the top)
+        // due to fragments resuming
+        mDrawerSectionsController.investigateFragmentsStack();
+    }
+
+    protected abstract IDrawerSectionInitializer sectionInitializer();
 
 }

@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
-import java.util.Random;
+import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -35,11 +36,24 @@ import java.util.Random;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class CFragment extends Fragment {
+public class CFragment extends Fragment implements ToolFragments.Tagable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        final View view = new FrameLayout(getActivity());
-        view.setBackgroundColor(Color.rgb(new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255)));
+        final FrameLayout view = new FrameLayout(getActivity());
+        final Button button = new Button(getActivity());
+        view.addView(button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToolFragments.openFragment(getActivity(), new CFragmentTop());
+            }
+        });
+        view.setBackgroundColor(Color.RED);
         return view;
+    }
+
+    @Override
+    public String tag() {
+        return "cfragment#0";
     }
 }

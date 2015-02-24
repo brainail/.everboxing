@@ -41,6 +41,7 @@ public interface IDrawerSectionsController extends DrawerLayout.DrawerListener {
     public void addSection(final DrawerSection section);
     public void saveState(final Bundle state);
     public void restoreState(final Bundle state);
+    public void investigateFragmentsStack();
     public Activity scene();
 
 }

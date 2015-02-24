@@ -34,23 +34,71 @@ import org.brainail.Everboxing.R;
  */
 public final class ToolFragments {
 
-    public static boolean replaceDefault(final Activity activity, final Fragment target) {
-        if (null == activity) {
-            // No place
-            return false;
-        }
+    public static interface Tagable {
+        public String tag();
+    }
+
+    public static boolean openFragment(final Activity activity, final Fragment target,  boolean clearTop) {
+        // No place
+        if (null == activity) return false;
+
+        // It isn't our client
+        if (!(target instanceof Tagable)) return false;
 
         final FragmentManager fragmentManager = activity.getFragmentManager();
-        final Fragment fragment = fragmentManager.findFragmentById(R.id.base_fragment_container);
+        final String tagIdentifier = ((Tagable) target).tag();
+        final boolean fragmentPopped = fragmentManager.popBackStackImmediate(tagIdentifier, 0);
+        final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (null == fragment || fragment != target) {
-            final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.base_fragment_container, target).commit();
-
-            return true;
+        if (!fragmentPopped && (null == fragmentManager.findFragmentByTag(tagIdentifier))) {
+            if (clearTop) fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentTransaction.replace(R.id.base_fragment_container, target, tagIdentifier);
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.addToBackStack(tagIdentifier);
+            fragmentTransaction.commit();
         }
 
-        return false;
+        return true;
+    }
+
+    public static boolean openFragment(final Activity activity, final Fragment target) {
+        return openFragment(activity, target, false);
+    }
+
+    public static boolean openDrawerFragment(final Activity activity, final Fragment target) {
+        return openFragment(activity, target, true);
+    }
+
+    public static boolean navigateBack(final Activity activity) {
+        // No place
+        if (null == activity) return false;
+
+        // Check back stack
+        final FragmentManager fragmentManager = activity.getFragmentManager();
+        return fragmentManager.getBackStackEntryCount() > 1 && fragmentManager.popBackStackImmediate();
+    }
+
+    public static boolean isPresented(final Activity activity, final Fragment target) {
+        // It isn't our client
+        if (!(target instanceof Tagable)) return false;
+
+        return isPresented(activity, (Tagable) target);
+    }
+
+    public static boolean isPresented(final Activity activity, final Tagable target) {
+        // No place
+        if (null == activity) return false;
+
+        final FragmentManager fragmentManager = activity.getFragmentManager();
+        return (null != fragmentManager.findFragmentByTag(target.tag()));
+    }
+
+    public static Fragment topFragment(final Activity activity) {
+        // No place
+        if (null == activity) return null;
+
+        final FragmentManager fragmentManager = activity.getFragmentManager();
+        return fragmentManager.findFragmentById(R.id.base_fragment_container);
     }
 
 }

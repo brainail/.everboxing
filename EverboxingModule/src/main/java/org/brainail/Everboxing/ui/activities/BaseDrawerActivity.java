@@ -38,7 +38,7 @@ import static android.support.v4.widget.DrawerLayout.DrawerListener;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class BaseDrawerActivity extends BaseActivity implements DrawerListener {
+public abstract class BaseDrawerActivity extends BaseActivity implements DrawerListener {
 
     // Drawer
     protected ActionBarDrawerToggle mDrawerToggle;

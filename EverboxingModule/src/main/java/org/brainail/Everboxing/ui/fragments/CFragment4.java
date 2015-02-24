@@ -1,29 +1,33 @@
-package org.brainail.Everboxing.ui.activities;
+package org.brainail.Everboxing.ui.fragments;
 
+import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
-import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer;
+import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -32,48 +36,24 @@ import org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HomeActivity extends SectionedDrawerActivity {
-
+public class CFragment4 extends Fragment implements ToolFragments.Tagable {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        final FrameLayout view = new FrameLayout(getActivity());
+        final Button button = new Button(getActivity());
+        view.addView(button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToolFragments.openFragment(getActivity(), new CFragmentTop());
+            }
+        });
+        view.setBackgroundColor(Color.DKGRAY);
+        return view;
     }
 
     @Override
-    protected Integer getLayoutResourceId() {
-        return R.layout.activity_home;
+    public String tag() {
+        return "cfragment#4";
     }
-
-    @Override
-    protected Integer getPrimaryToolbarLayoutResourceId() {
-        return R.id.toolbar_primary;
-    }
-
-    @Override
-    protected Integer getDrawerLayoutResourceId() {
-        return R.id.drawer_layout_root;
-    }
-
-    @Override
-    protected Integer getDrawerActionsLayoutResourceId() {
-        return R.id.drawer_menu_primary;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerCanHandleMenuItem(item)) return true;
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer() {
-        return DrawerSectionsOnSceneInitializer.HOME;
-    }
-
 }

@@ -1,5 +1,6 @@
 package org.brainail.Everboxing.ui.drawer;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,12 @@ import android.widget.TextView;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.utils.tool.ToolColor;
+import org.brainail.Everboxing.utils.tool.ToolFragments;
 import org.brainail.Everboxing.utils.tool.ToolView;
 
 import java.util.LinkedList;
+
+import static org.brainail.Everboxing.utils.tool.ToolFragments.Tagable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -109,6 +113,51 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         return null;
     }
 
+    // Checks that our sections aren't presented somewhere
+    private boolean anyPresented() {
+        for (final DrawerSection primarySection : mPrimaryDrawerSections) {
+            final Object sectionTarget = primarySection.getTarget();
+            if (sectionTarget instanceof Tagable) {
+                if (ToolFragments.isPresented(scene(), (Tagable) sectionTarget)) return true;
+            }
+        }
+
+        for (final DrawerSection helpSection : mHelpDrawerSections) {
+            final Object sectionTarget = helpSection.getTarget();
+            if (sectionTarget instanceof Tagable) {
+                if (ToolFragments.isPresented(scene(), (Tagable) sectionTarget)) return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Section by fragment
+    private DrawerSection section(final Fragment target) {
+        // It isn't our client
+        if (!(target instanceof Tagable)) return null;
+
+        final String tagIdentifier = ((Tagable) target).tag();
+
+        for (final DrawerSection primarySection : mPrimaryDrawerSections) {
+            final Object sectionTarget = primarySection.getTarget();
+            if (sectionTarget instanceof Tagable) {
+                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag();
+                if (sectionTagIdentifier.equals(tagIdentifier)) return primarySection;
+            }
+        }
+
+        for (final DrawerSection helpSection : mHelpDrawerSections) {
+            final Object sectionTarget = helpSection.getTarget();
+            if (sectionTarget instanceof Tagable) {
+                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag();
+                if (sectionTagIdentifier.equals(tagIdentifier)) return helpSection;
+            }
+        }
+
+        return null;
+    }
+
     // Unselects sections by position of selected section
     private void selectSection(final int position) {
         mCurrentSection = section(position);
@@ -191,8 +240,26 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     // See Activity#onRestoreInstanceState
     public void restoreState(final Bundle state) {
-        // Find & select section from saved state
-        section(null != state ? state.getInt(DrawerSection.ExtraKey.POSITION, 0) : 0).select();
+        // Find & select section from saved state if necessary
+        if (null == mCurrentSection && !anyPresented()) {
+            final DrawerSection restoredSection = section(null != state ? state.getInt(DrawerSection.ExtraKey.POSITION, 0) : 0);
+            restoredSection.select(true).openTarget(true);
+        }
+    }
+
+    public void investigateFragmentsStack() {
+        // Get current
+        final DrawerSection investigatedSection = section(ToolFragments.topFragment(scene()));
+
+        if (null != mCurrentSection && mCurrentSection != investigatedSection) {
+            // Investigated section is preferable to current
+            mCurrentSection.unselect();
+        }
+
+        if (null != investigatedSection && null == mCurrentSection) {
+            // Just select via internal action because it's already here
+            investigatedSection.select(true);
+        }
     }
 
 }

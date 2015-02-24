@@ -5,9 +5,10 @@ import android.graphics.Color;
 import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.ui.activities.SettingsActivity;
 import org.brainail.Everboxing.ui.fragments.CFragment;
-
-import static org.brainail.Everboxing.ui.drawer.DrawerSection.LayoutType;
-import static org.brainail.Everboxing.ui.drawer.DrawerSection.LocationType;
+import org.brainail.Everboxing.ui.fragments.CFragment1;
+import org.brainail.Everboxing.ui.fragments.CFragment2;
+import org.brainail.Everboxing.ui.fragments.CFragment3;
+import org.brainail.Everboxing.ui.fragments.CFragment4;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -34,49 +35,56 @@ import static org.brainail.Everboxing.ui.drawer.DrawerSection.LocationType;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class DrawerSectionsOnSceneInitializer {
+public final class DrawerSectionsOnSceneInitializer {
 
-    public static void initHome(final SectionedDrawerActivity scene) {
-        scene.addDrawerSection(new DrawerSection(scene).withTitle("Section One"));
-        scene.addDrawerSection(new DrawerSection(scene).withTitle("Section Two"));
-
-        scene.addDrawerDivider();
-
-        scene.addDrawerSection(
-                new DrawerSection(scene, LayoutType.NORMAL)
-                        .withTitle("Sender")
-                        .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_send))
-                        .withNotifications(10)
-                        .withTarget(new CFragment())
-        );
-
-        scene.addDrawerSection(
-                new DrawerSection(scene, LayoutType.NORMAL)
-                        .withTitle("Today")
-                        .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_today))
-                        .withNotifications(1000)
-                        .withSectionColor(Color.parseColor("#2196f3"))
-                        .withTarget(new CFragment())
-        );
-
-        scene.addDrawerSubheader("Privacy");
-
-        scene.addDrawerSection(
-                new DrawerSection(scene)
-                        .withTitle("Sex everywhere")
-                        .withNotifications(20)
-                        .withNotificationsLimit(18)
-                        .withSectionColor(Color.parseColor("#ff9800"))
-                        .withTarget(new CFragment())
-        );
-
-        scene.addDrawerSection(
-                new DrawerSection(scene, LayoutType.NORMAL)
-                        .withTitle("Settings")
-                        .withLocationType(LocationType.HELP)
-                        .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_manage))
-                        .withTarget(SettingsActivity.class)
-        );
+    public interface IDrawerSectionInitializer {
+        public void initialize(final SectionedDrawerActivity scene);
     }
+
+    public static final IDrawerSectionInitializer HOME = new IDrawerSectionInitializer() {
+        @Override
+        public void initialize(final SectionedDrawerActivity scene) {
+            scene.addDrawerSection(new DrawerSection(scene).withTitle("Section One").withTarget(new CFragment()));
+            scene.addDrawerSection(new DrawerSection(scene).withTitle("Section Two").withTarget(new CFragment1()));
+
+            scene.addDrawerDivider();
+
+            scene.addDrawerSection(
+                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
+                            .withTitle("Sender")
+                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_send))
+                            .withNotifications(10)
+                            .withTarget(new CFragment2())
+            );
+
+            scene.addDrawerSection(
+                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
+                            .withTitle("Today")
+                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_today))
+                            .withNotifications(1000)
+                            .withSectionColor(Color.parseColor("#2196f3"))
+                            .withTarget(new CFragment3())
+            );
+
+            scene.addDrawerSubheader("Privacy");
+
+            scene.addDrawerSection(
+                    new DrawerSection(scene)
+                            .withTitle("Sex everywhere")
+                            .withNotifications(20)
+                            .withNotificationsLimit(18)
+                            .withSectionColor(Color.parseColor("#ff9800"))
+                            .withTarget(new CFragment4())
+            );
+
+            scene.addDrawerSection(
+                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
+                            .withTitle("Settings")
+                            .withLocationType(DrawerSection.LocationType.HELP)
+                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_manage))
+                            .withTarget(SettingsActivity.class)
+            );
+        }
+    };
 
 }

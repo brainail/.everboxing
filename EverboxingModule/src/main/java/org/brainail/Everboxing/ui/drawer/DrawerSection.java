@@ -136,15 +136,17 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return mViewHolder.selfView;
     }
 
-    public void select() {
+    public DrawerSection select(final boolean internalAction) {
         mViewHolder.selfView.setSelected(true);
         updateColors();
 
         mDrawerController.selectSection(this);
 
-        if (null != mCallback) {
+        if (null != mCallback && !internalAction) {
             mCallback.onClick(this);
         }
+
+        return this;
     }
 
     public void unselect() {
@@ -279,12 +281,12 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return mViewHolder.selfView.isSelected();
     }
 
-    private void target() {
+    void target() {
         mOpenTarget = true;
         ToolUI.toggleMenuDrawer(drawerLayout(), false);
     }
 
-    private void openTarget() {
+    void openTarget(final boolean internalAction) {
         mOpenTarget = false;
 
         // We don't want to be selected for targets which open a new window
@@ -298,7 +300,9 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         } else if (TargetType.INTENT == mTargetType) {
             scene().startActivity((Intent) mTarget);
         } else if (TargetType.FRAGMENT == mTargetType) {
-            ToolFragments.replaceDefault(scene(), (Fragment) mTarget);
+            if (!internalAction || !ToolFragments.isPresented(scene(), (Fragment) mTarget)) {
+                ToolFragments.openDrawerFragment(scene(), (Fragment) mTarget);
+            }
         }
     }
 
@@ -313,7 +317,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     private final View.OnClickListener mInternalClickCallback = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            select();
+            select(false);
             target();
         }
     };
@@ -355,7 +359,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        if (mOpenTarget) openTarget();
+        if (mOpenTarget) openTarget(false);
     }
 
 }

@@ -11,10 +11,12 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
+import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.app.FragmentManager.OnBackStackChangedListener;
 import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
 
 /**
@@ -42,7 +44,7 @@ import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends ActionBarActivity implements OnBackStackChangedListener {
 
     // Primary Toolbar
     private Toolbar mPrimaryToolbar;
@@ -53,6 +55,9 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Monitor fragments
+        getFragmentManager().addOnBackStackChangedListener(this);
 
         // Init default font for Calligraphy
         CalligraphyConfig.initDefault(getDefaultFont(), R.attr.fontPath);
@@ -141,6 +146,13 @@ public class BaseActivity extends ActionBarActivity {
     }
 
     @Override
+    public void onBackPressed(){
+        if (!ToolFragments.navigateBack(this)) {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
@@ -152,6 +164,19 @@ public class BaseActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        // Set title by fragments?
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        // We don't want to monitor fragments after
+        getFragmentManager().removeOnBackStackChangedListener(this);
     }
 
 }
