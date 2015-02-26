@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.callable.Tagable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -33,10 +34,6 @@ import org.brainail.Everboxing.R;
  * THE SOFTWARE.
  */
 public final class ToolFragments {
-
-    public static interface Tagable {
-        public String tag();
-    }
 
     public static boolean openFragment(final Activity activity, final Fragment target,  boolean clearTop) {
         // No place

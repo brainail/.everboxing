@@ -180,6 +180,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
             mViewHolder.selfIcon.setImageDrawable(icon);
         }
 
+        updateTextAndIconColor();
         return this;
     }
 
@@ -188,6 +189,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
             mViewHolder.selfIcon.setImageBitmap(icon);
         }
 
+        updateTextAndIconColor();
         return this;
     }
 
@@ -235,16 +237,16 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     public DrawerSection withSectionColor(final Integer color) {
         mHasColor = null != color;
         mColor = null != color ? color : Color.BLACK;
-
-        if (isSelected()) {
-            if (null != color) {
-                updateColors();
-            } else {
-                resetColors();
-            }
-        }
-
+        updateTextAndIconColor();
         return this;
+    }
+
+    private void updateTextAndIconColor() {
+        if (isSelected()) {
+            updateColors();
+        } else {
+            resetColors();
+        }
     }
 
     public boolean hasColor() {
@@ -333,9 +335,13 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     }
 
     private void resetColors() {
-        if (mHasColor) {
-            mViewHolder.selfText.setTextColor(ToolColor.by(R.color.menu_drawer_section_text_color));
+        mViewHolder.selfText.setTextColor(ToolColor.by(R.color.menu_drawer_section_text_color));
 
+        if (mHasColor) {
+            if (null != mViewHolder.selfIcon) {
+                mViewHolder.selfIcon.setColorFilter(mColor);
+            }
+        } else {
             if (null != mViewHolder.selfIcon) {
                 mViewHolder.selfIcon.clearColorFilter();
             }

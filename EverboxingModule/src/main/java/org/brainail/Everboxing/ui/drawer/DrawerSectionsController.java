@@ -9,13 +9,12 @@ import android.widget.TextView;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
+import org.brainail.Everboxing.utils.callable.Tagable;
 import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
 import org.brainail.Everboxing.utils.tool.ToolView;
 
 import java.util.LinkedList;
-
-import static org.brainail.Everboxing.utils.tool.ToolFragments.Tagable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import org.brainail.Everboxing.utils.callable.Tagable;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 /**
@@ -36,7 +37,7 @@ import org.brainail.Everboxing.utils.tool.ToolFragments;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class CFragment2 extends Fragment implements ToolFragments.Tagable {
+public class CFragment2 extends Fragment implements Tagable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         final FrameLayout view = new FrameLayout(getActivity());

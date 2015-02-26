@@ -7,6 +7,9 @@ import android.content.res.Configuration;
 import android.os.Build;
 
 import org.brainail.Everboxing.utils.manager.ThemeManager;
+import org.brainail.Everboxing.utils.tool.ToolFonts;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -44,8 +47,19 @@ public class JApplication extends Application {
         // Store for long use
         mAppContext = getApplicationContext();
 
+        // Initialize font
+        initFont();
+
         // Initialize theme
         ThemeManager.init();
+    }
+
+    private void initFont() {
+        final CalligraphyConfig.Builder fontBuilder = new CalligraphyConfig.Builder();
+        fontBuilder.setDefaultFontPath(ToolFonts.RobotoFonts.ASSETS_REGULAR);
+        fontBuilder.setFontAttrId(R.attr.fontPath);
+
+        CalligraphyConfig.initDefault(fontBuilder.build());
     }
 
     @Override

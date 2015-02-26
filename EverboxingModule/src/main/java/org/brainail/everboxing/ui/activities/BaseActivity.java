@@ -13,7 +13,6 @@ import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.app.FragmentManager.OnBackStackChangedListener;
@@ -59,9 +58,6 @@ public abstract class BaseActivity extends ActionBarActivity implements OnBackSt
         // Monitor fragments
         getFragmentManager().addOnBackStackChangedListener(this);
 
-        // Init default font for Calligraphy
-        CalligraphyConfig.initDefault(getDefaultFont(), R.attr.fontPath);
-
         // Init & check theme
         mTheme = ThemeManager.checkOnCreate(this, mTheme);
 
@@ -98,7 +94,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnBackSt
     @Override
     protected void attachBaseContext(final Context baseContext) {
         // Attach the Calligraphy
-        super.attachBaseContext(new CalligraphyContextWrapper(baseContext, R.attr.fontPath));
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(baseContext));
     }
 
     protected String getDefaultFont() {
