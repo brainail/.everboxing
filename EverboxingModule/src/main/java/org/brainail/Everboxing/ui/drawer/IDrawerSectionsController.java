@@ -1,6 +1,7 @@
 package org.brainail.Everboxing.ui.drawer;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 
@@ -42,6 +43,7 @@ public interface IDrawerSectionsController extends DrawerLayout.DrawerListener {
     public void saveState(final Bundle state);
     public void restoreState(final Bundle state);
     public void investigateFragmentsStack();
+    public DrawerSection section(final Fragment fragment);
     public Activity scene();
 
 }

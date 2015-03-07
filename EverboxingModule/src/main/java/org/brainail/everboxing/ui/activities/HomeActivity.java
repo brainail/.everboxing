@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer;
 
+import static org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -72,7 +74,7 @@ public class HomeActivity extends SectionedDrawerActivity {
     }
 
     @Override
-    protected DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer() {
+    protected IDrawerSectionInitializer sectionInitializer() {
         return DrawerSectionsOnSceneInitializer.HOME;
     }
 

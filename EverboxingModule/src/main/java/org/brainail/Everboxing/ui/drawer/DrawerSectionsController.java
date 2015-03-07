@@ -131,8 +131,9 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         return false;
     }
 
+    @Override
     // Section by fragment
-    private DrawerSection section(final Fragment target) {
+    public DrawerSection section(final Fragment target) {
         // It isn't our client
         if (!(target instanceof Tagable)) return null;
 

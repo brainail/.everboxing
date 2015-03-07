@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.view.View;
 
 import org.brainail.Everboxing.R;
@@ -99,6 +100,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
     // Visual stuff
     private String mTitle;
+    private String mName;
     private int mNumberNotifications = 0;
     private int mNotificationsLimit = 99;
     private int mColor = Color.BLACK;
@@ -171,7 +173,21 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
     public DrawerSection withTitle(final String title) {
         mTitle = title;
-        mViewHolder.selfText.setText(title);
+
+        if (TextUtils.isEmpty(mName)) {
+            mName = mTitle;
+        }
+
+        return this;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public DrawerSection withName(final String name) {
+        mName = name;
+        mViewHolder.selfText.setText(name);
         return this;
     }
 

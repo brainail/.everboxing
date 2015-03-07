@@ -6,6 +6,8 @@ import android.view.View;
 import org.brainail.Everboxing.ui.drawer.DrawerSection;
 import org.brainail.Everboxing.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.Everboxing.ui.drawer.IDrawerSectionsController;
+import org.brainail.Everboxing.utils.tool.ToolFragments;
+import org.brainail.Everboxing.utils.tool.ToolToolbar;
 
 import static org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer;
 
@@ -50,6 +52,9 @@ public abstract class SectionedDrawerActivity extends BaseDrawerActivity {
         mDrawerSectionsController.investigateFragmentsStack();
         // The second part: try to restore section by saved instance
         mDrawerSectionsController.restoreState(savedInstanceState);
+        // Restore some data for toolbar
+        updateToolbarColor();
+        updateToolbarTitle();
     }
 
     @Override
@@ -110,6 +115,28 @@ public abstract class SectionedDrawerActivity extends BaseDrawerActivity {
         // Investigate section selection state by fragment manager (check the top)
         // due to fragments resuming
         mDrawerSectionsController.investigateFragmentsStack();
+    }
+
+    @Override
+    protected void updateToolbarColor() {
+        final DrawerSection section = mDrawerSectionsController.section(ToolFragments.topFragment(this));
+
+        if (null == section) {
+            super.updateToolbarColor();
+        } else {
+            ToolToolbar.updateToolbarColor(this, section.hasColor() ? section.getColor() : null);
+        }
+    }
+
+    @Override
+    protected void updateToolbarTitle() {
+        final DrawerSection section = mDrawerSectionsController.section(ToolFragments.topFragment(this));
+
+        if (null == section) {
+            super.updateToolbarTitle();
+        } else {
+            ToolToolbar.updateToolbarTitle(this, section.getTitle());
+        }
     }
 
     protected abstract IDrawerSectionInitializer sectionInitializer();

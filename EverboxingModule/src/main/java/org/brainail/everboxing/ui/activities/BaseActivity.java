@@ -12,6 +12,7 @@ import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
+import org.brainail.Everboxing.utils.tool.ToolToolbar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -105,7 +106,7 @@ public abstract class BaseActivity extends ActionBarActivity implements OnBackSt
         return null;
     }
 
-    protected Toolbar getPrimaryToolbar() {
+    public Toolbar getPrimaryToolbar() {
         return mPrimaryToolbar;
     }
 
@@ -164,7 +165,26 @@ public abstract class BaseActivity extends ActionBarActivity implements OnBackSt
 
     @Override
     public void onBackStackChanged() {
-        // Set title by fragments?
+        // Restore some data for toolbar
+        updateToolbarColor();
+        updateToolbarTitle();
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+
+        // Restore some data for toolbar
+        updateToolbarColor();
+        updateToolbarTitle();
+    }
+
+    protected void updateToolbarColor() {
+        ToolToolbar.updateToolbarColor(this, null);
+    }
+
+    protected void updateToolbarTitle() {
+        ToolToolbar.updateToolbarTitle(this, null);
     }
 
     @Override

@@ -32,11 +32,19 @@ import org.brainail.Everboxing.JApplication;
 public final class ToolColor {
 
     private static final float HSV_DARK_COLOR_VALUE_LIMIT = 0.5f;
+    private static final float HSV_DARKEN_COLOR_COEFF = 0.8f;
 
     public static boolean isDarkColor(final int color) {
         final float [] hsvComponents = new float [3];
         Color.colorToHSV(color, hsvComponents);
         return hsvComponents [2] < HSV_DARK_COLOR_VALUE_LIMIT;
+    }
+
+    public static int darkenColor(final int color) {
+        final float [] hsvComponents = new float [3];
+        Color.colorToHSV(color, hsvComponents);
+        hsvComponents [2] *= HSV_DARKEN_COLOR_COEFF;
+        return Color.HSVToColor(hsvComponents);
     }
 
     /**

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Backgrounds -->
+    <item name="fit_window_background" type="id"/>
+
     <!-- Drawer section -->
     <item name="drawer_section_text" type="id"/>
     <item name="drawer_section_icon" type="id"/>

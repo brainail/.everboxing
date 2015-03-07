@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import org.brainail.Everboxing.utils.callable.Colorable;
 import org.brainail.Everboxing.utils.callable.Tagable;
+import org.brainail.Everboxing.utils.callable.Titleable;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 /**
@@ -37,7 +39,7 @@ import org.brainail.Everboxing.utils.tool.ToolFragments;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class CFragment1 extends Fragment implements Tagable {
+public class CFragment1 extends Fragment implements Tagable, Colorable, Titleable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         final FrameLayout view = new FrameLayout(getActivity());
@@ -56,5 +58,15 @@ public class CFragment1 extends Fragment implements Tagable {
     @Override
     public String tag() {
         return "cfragment#1";
+    }
+
+    @Override
+    public Integer color() {
+        return Color.MAGENTA;
+    }
+
+    @Override
+    public String title() {
+        return "Cfragmento!";
     }
 }

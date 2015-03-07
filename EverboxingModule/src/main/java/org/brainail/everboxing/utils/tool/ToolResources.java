@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.Window;
 
+import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 
@@ -83,7 +84,7 @@ public final class ToolResources {
     }
 
     public static int retrievePrimaryDarkColor(final Context context) {
-        return retrievePrimaryColor(context, ThemeManager.appTheme().getThemeResId());
+        return retrievePrimaryDarkColor(context, ThemeManager.appTheme().getThemeResId());
     }
 
     public static int retrievePrimaryDarkColor(final Context context, final int themeResId) {
@@ -132,6 +133,10 @@ public final class ToolResources {
 
     public static int retrieveSystemDimen(final Resources resources, final String identifier) {
         return resources.getIdentifier(identifier, "dimen", "android");
+    }
+
+    public static String string(final int resId) {
+        return JApplication.appContext().getString(resId);
     }
 
 }

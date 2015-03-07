@@ -44,14 +44,15 @@ public final class DrawerSectionsOnSceneInitializer {
     public static final IDrawerSectionInitializer HOME = new IDrawerSectionInitializer() {
         @Override
         public void initialize(final SectionedDrawerActivity scene) {
-            scene.addDrawerSection(new DrawerSection(scene).withTitle("Section One").withTarget(new CFragment()));
-            scene.addDrawerSection(new DrawerSection(scene).withTitle("Section Two").withTarget(new CFragment1()));
+            scene.addDrawerSection(new DrawerSection(scene).withName("Section One").withTarget(new CFragment()));
+            scene.addDrawerSection(new DrawerSection(scene).withName("Section Two").withTarget(new CFragment1()));
 
             scene.addDrawerDivider();
 
             scene.addDrawerSection(
                     new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle("Sender")
+                            .withTitle("Sender Title")
+                            .withName("Sender")
                             .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_send))
                             .withNotifications(10)
                             .withTarget(new CFragment2())
@@ -59,10 +60,11 @@ public final class DrawerSectionsOnSceneInitializer {
 
             scene.addDrawerSection(
                     new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle("Today")
+                            .withTitle("Today Title")
+                            .withName("Today")
                             .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_today))
                             .withNotifications(1000)
-                            .withSectionColor(Color.parseColor("#2196f3"))
+                            .withSectionColor(Color.parseColor("#403FD4"))
                             .withTarget(new CFragment3())
             );
 
@@ -71,15 +73,16 @@ public final class DrawerSectionsOnSceneInitializer {
             scene.addDrawerSection(
                     new DrawerSection(scene)
                             .withTitle("Sex everywhere")
+                            .withName("Sex everywhere")
                             .withNotifications(20)
                             .withNotificationsLimit(18)
-                            .withSectionColor(Color.parseColor("#ff9800"))
+                            .withSectionColor(Color.parseColor("#E05C28"))
                             .withTarget(new CFragment4())
             );
 
             scene.addDrawerSection(
                     new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle("Settings")
+                            .withName("Settings")
                             .withLocationType(DrawerSection.LocationType.HELP)
                             .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_manage))
                             .withTarget(SettingsActivity.class)

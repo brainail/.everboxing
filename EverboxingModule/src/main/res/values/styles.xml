@@ -10,6 +10,7 @@
 
     <style name="AppContent.FitWindows">
         <item name="android:fitsSystemWindows">true</item>
+        <item name="android:id">@id/fit_window_background</item>
         <item name="android:background">?attr/colorPrimaryDark</item>
     </style>
 
