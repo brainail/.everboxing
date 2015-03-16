@@ -11,5 +11,6 @@
 
     <attr name="fontPath" format="string"/>
     <attr name="drawerCover" format="reference"/>
+    <attr name="listDefaultSelector" format="reference"/>
 
 </resources>

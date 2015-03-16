@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,17 +50,15 @@ public class ThemeChooser extends DialogFragment implements MaterialDialog.ListC
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.settings_change_theme_dialog_title))
-                .adapter(new ItemAdapter(getActivity(), ThemeManager.AppTheme.themes(getActivity())))
+                .adapter(new ItemAdapter(getActivity(), ThemeManager.AppTheme.themes(getActivity())), this)
                 .build();
 
         final ListView listView = dialog.getListView();
         if (null != listView) {
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    onThemeSelected(position);
-                }
-            });
+            listView.setVerticalScrollBarEnabled(false);
+            listView.setHorizontalScrollBarEnabled(false);
+            listView.setScrollbarFadingEnabled(true);
+            listView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
         }
 
         return dialog;

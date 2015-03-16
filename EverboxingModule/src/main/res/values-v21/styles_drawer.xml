@@ -1,0 +1,11 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppDrawer.Section">
+        <item name="android:layout_height">@dimen/menu_drawer_section_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/list_item_default_selector_ripple</item>
+    </style>
+
+</resources>

@@ -22,4 +22,9 @@
         <item name="android:alpha">@dimen/divider_alpha</item>
     </style>
 
+    <!-- Theme chooser -->
+    <style name="ThemeChooserItem">
+        <item name="android:background">?attr/listDefaultSelector</item>
+    </style>
+
 </resources>
