@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<org.brainail.Everboxing.ui.views.DrawerSectionLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppDrawer.Section">
@@ -19,4 +19,4 @@
         android:id="@id/drawer_section_notification"
         style="@style/AppDrawer.Notification"/>
 
-</RelativeLayout>
+</org.brainail.Everboxing.ui.views.DrawerSectionLayout>

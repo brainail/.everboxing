@@ -3,11 +3,15 @@
 
     <style name="AppDrawer"/>
 
-    <style name="AppDrawer.Section">
+    <style name="AppDrawer.SectionBase">
         <item name="android:layout_height">@dimen/menu_drawer_section_height</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:background">?attr/listDefaultSelector</item>
+        <item name="android:id">@id/drawer_section_root</item>
+    </style>
+
+    <style name="AppDrawer.Section" parent="AppDrawer.SectionBase">
     </style>
 
     <style name="AppDrawer.Section.Subheader">
