@@ -90,7 +90,7 @@
         <item name="android:layout_alignParentEnd" tools:ignore="NewApi">true</item>
         <item name="android:layout_marginRight">@dimen/menu_drawer_section_vertical_margin</item>
         <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_vertical_margin</item>
-        <item name="fontPath">fonts/Roboto-Thin.ttf</item>
+        <item name="fontPath">fonts/Roboto-Light.ttf</item>
         <item name="android:maxLength">3</item>
         <item name="android:lines">1</item>
     </style>

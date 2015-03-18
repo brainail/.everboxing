@@ -1,4 +1,4 @@
-package org.brainail.Everboxing.ui.views;
+package org.brainail.Everboxing.ui.views.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;

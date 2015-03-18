@@ -11,7 +11,8 @@
     <dimen name="menu_drawer_section_help_section_dropdown_shadow_height">4dp</dimen>
     <dimen name="menu_drawer_section_text_size">14sp</dimen>
     <dimen name="menu_drawer_section_notifications_width">40dp</dimen>
-    <item name="menu_drawer_section_icon_alpha" type="dimen" format="float">0.54</item>
+    <item name="menu_drawer_section_icon_alpha" type="dimen" format="float">1</item>
+    <item name="menu_drawer_section_icon_alpha_guidelines" type="dimen" format="float">0.54</item>
     <item name="menu_drawer_section_title_alpha" type="dimen" format="float">0.87</item>
     <item name="menu_drawer_section_subheader" type="dimen" format="float">0.54</item>
     <dimen name="menu_drawer_user_cover_height">164dp</dimen>
@@ -40,6 +41,10 @@
     <dimen name="notice_message_text_size">14sp</dimen>
     <dimen name="notice_action_text_size">14sp</dimen>
     <dimen name="notice_bar_background_corner_radius">0dp</dimen>
+
+    <!-- Preference -->
+    <dimen name="preference_category_pre_L_horizontal_side_spacing">20dp</dimen>
+    <dimen name="preference_category_pre_L_vertical_side_spacing">18dp</dimen>
 
     <!-- Other -->
 

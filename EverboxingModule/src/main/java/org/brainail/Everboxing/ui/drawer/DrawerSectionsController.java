@@ -243,7 +243,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         // Find & select section from saved state if necessary
         if (null == mCurrentSection && !anyPresented()) {
             final DrawerSection restoredSection = section(null != state ? state.getInt(DrawerSection.ExtraKey.POSITION, 0) : 0);
-            restoredSection.select(true).openTarget(true);
+            if (null != restoredSection) restoredSection.select(true).openTarget(true);
         }
     }
 

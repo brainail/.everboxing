@@ -1,4 +1,4 @@
-package org.brainail.Everboxing.ui.views;
+package org.brainail.Everboxing.ui.views.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.views.ColorCircleView;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolResources;
 

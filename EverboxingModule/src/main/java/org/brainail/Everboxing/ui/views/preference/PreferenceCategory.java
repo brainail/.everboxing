@@ -1,10 +1,15 @@
-package org.brainail.Everboxing.ui.views;
+package org.brainail.Everboxing.ui.views.preference;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.Sdk;
+import org.brainail.Everboxing.utils.tool.ToolResources;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -51,8 +56,19 @@ public class PreferenceCategory extends android.preference.PreferenceCategory {
 
         // Change title options
         final TextView titleView = (TextView) view.findViewById(android.R.id.title);
+
         titleView.setAllCaps(false);
-        titleView.setTextColor(getContext().getResources().getColor(android.R.color.secondary_text_light));
+        titleView.setTextColor(ToolResources.retrieveAccentColor(getContext()));
+
+        // We want to look like L+
+        if (!Sdk.isSdkSupported(Sdk.LOLLIPOP)) {
+            titleView.setBackgroundDrawable(null);
+
+            final Resources resources = getContext().getResources();
+            final int hSpacing = resources.getDimensionPixelSize(R.dimen.preference_category_pre_L_horizontal_side_spacing);
+            final int vSpacing = resources.getDimensionPixelSize(R.dimen.preference_category_pre_L_vertical_side_spacing);
+            titleView.setPadding(hSpacing, vSpacing, titleView.getPaddingRight(), titleView.getPaddingBottom());
+        }
 
         return view;
     }

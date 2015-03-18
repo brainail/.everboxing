@@ -11,7 +11,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.ui.views.GooglePsErrorDialog;
+import org.brainail.Everboxing.ui.views.dialogs.GooglePsErrorDialog;
 import org.brainail.Everboxing.utils.Plogger;
 import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.tool.ToolAuth;

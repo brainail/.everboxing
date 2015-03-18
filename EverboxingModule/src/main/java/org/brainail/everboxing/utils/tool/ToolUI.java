@@ -79,9 +79,10 @@ public final class ToolUI {
         showToast(activity, JApplication.appContext().getString(resId));
     }
 
-    public static void fixSettingsTopPaddingWorkaround(final Activity activity) {
+    public static void fixSettingsPaddingWorkaround(final Activity activity) {
         try {
             final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
+            allPreferences.setPadding(0, 0, 0, 0);
             final ViewGroup parent = (ViewGroup) allPreferences.getParent();
             parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), 0);
         } catch (Exception exception) {

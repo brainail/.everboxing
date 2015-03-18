@@ -1,27 +1,27 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <org.brainail.Everboxing.ui.views.PreferenceCategory
+    <org.brainail.Everboxing.ui.views.preference.PreferenceCategory
         android:title="@string/settings_account_header">
 
-        <Preference
+        <org.brainail.Everboxing.ui.views.preference.Preference
             android:key="@string/settings_add_account_key"
             android:title="@string/settings_add_account_title"
             android:summary="@string/settings_add_account_summary"/>
 
-        <Preference
+        <org.brainail.Everboxing.ui.views.preference.Preference
             android:key="@string/settings_sign_out_account_key"
             android:title="@string/settings_sign_out_account_title"/>
 
-    </org.brainail.Everboxing.ui.views.PreferenceCategory>
+    </org.brainail.Everboxing.ui.views.preference.PreferenceCategory>
 
-    <org.brainail.Everboxing.ui.views.PreferenceCategory
+    <org.brainail.Everboxing.ui.views.preference.PreferenceCategory
         android:title="@string/settings_theme_header">
 
-        <Preference
+        <org.brainail.Everboxing.ui.views.preference.Preference
             android:key="@string/settings_change_theme_key"
             android:title="@string/settings_change_theme_title"/>
 
-    </org.brainail.Everboxing.ui.views.PreferenceCategory>
+    </org.brainail.Everboxing.ui.views.preference.PreferenceCategory>
 
 </PreferenceScreen>

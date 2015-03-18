@@ -41,6 +41,11 @@ import org.brainail.Everboxing.utils.Sdk;
 public final class ToolPhone {
 
     // Converts dp/dip to pixels.
+    public static int dipsToPixels(final float dips) {
+        return dipsToPixels(JApplication.appContext(), dips);
+    }
+
+    // Converts dp/dip to pixels.
     public static int dipsToPixels(final Context context, final float dips) {
         final DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dips, displayMetrics) + 0.5f);

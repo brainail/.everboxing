@@ -24,7 +24,7 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.auth.AuthUserInfo;
 import org.brainail.Everboxing.auth.AuthorizationFlow;
 import org.brainail.Everboxing.ui.views.PreferenceIcon;
-import org.brainail.Everboxing.ui.views.ThemeChooser;
+import org.brainail.Everboxing.ui.views.dialogs.ThemeChooser;
 import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.tool.ToolStrings;
 import org.brainail.Everboxing.utils.tool.ToolUI;
@@ -102,8 +102,7 @@ public class SettingsActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        ToolUI.fixSettingsTopPaddingWorkaround(this);
-        ToolUI.fixSettingsDividersWorkaround(this);
+        ToolUI.fixSettingsPaddingWorkaround(this);
         ToolUI.fixSettingsSelectorWorkaround(this);
     }
 
