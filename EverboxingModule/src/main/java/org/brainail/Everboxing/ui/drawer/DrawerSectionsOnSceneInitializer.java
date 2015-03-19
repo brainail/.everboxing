@@ -38,10 +38,12 @@ import org.brainail.Everboxing.ui.fragments.CFragment4;
 public final class DrawerSectionsOnSceneInitializer {
 
     public interface IDrawerSectionInitializer {
-        public void initialize(final SectionedDrawerActivity scene);
+        void initialize(final SectionedDrawerActivity scene);
+        boolean isTransparentable();
     }
 
     public static final IDrawerSectionInitializer HOME = new IDrawerSectionInitializer() {
+
         @Override
         public void initialize(final SectionedDrawerActivity scene) {
             scene.addDrawerSection(new DrawerSection(scene).withName("Section One").withTarget(new CFragment()));
@@ -88,6 +90,12 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTarget(SettingsActivity.class)
             );
         }
+
+        @Override
+        public boolean isTransparentable() {
+            return false;
+        }
+
     };
 
 }

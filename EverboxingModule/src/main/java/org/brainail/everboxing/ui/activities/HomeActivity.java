@@ -74,7 +74,7 @@ public class HomeActivity extends SectionedDrawerActivity {
     }
 
     @Override
-    protected IDrawerSectionInitializer sectionInitializer() {
+    public IDrawerSectionInitializer sectionInitializer() {
         return DrawerSectionsOnSceneInitializer.HOME;
     }
 

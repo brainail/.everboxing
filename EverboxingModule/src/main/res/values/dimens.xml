@@ -16,7 +16,7 @@
     <item name="menu_drawer_section_title_alpha" type="dimen" format="float">0.87</item>
     <item name="menu_drawer_section_subheader" type="dimen" format="float">0.54</item>
     <dimen name="menu_drawer_user_cover_height">164dp</dimen>
-    <dimen name="menu_drawer_user_data_height">56dp</dimen>
+    <dimen name="menu_drawer_user_data_height">70dp</dimen>
 
     <!-- Settings -->
     <dimen name="settings_icon_size">32dp</dimen>

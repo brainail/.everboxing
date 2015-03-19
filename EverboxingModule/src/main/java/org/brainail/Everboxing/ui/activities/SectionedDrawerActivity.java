@@ -139,6 +139,6 @@ public abstract class SectionedDrawerActivity extends BaseDrawerActivity {
         }
     }
 
-    protected abstract IDrawerSectionInitializer sectionInitializer();
+    public abstract IDrawerSectionInitializer sectionInitializer();
 
 }
