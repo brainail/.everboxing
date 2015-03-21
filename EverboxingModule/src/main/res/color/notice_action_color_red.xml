@@ -3,9 +3,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item android:state_pressed="true"
-        android:color="#ef3a0f"/>
+        android:color="#ffef0055"/>
     <item android:state_focused="true"
-        android:color="#ef3a0f"/>
-    <item android:color="#fb6541"/>
+        android:color="#ffef0055"/>
+    <item android:color="#fffb565d"/>
 
 </selector>

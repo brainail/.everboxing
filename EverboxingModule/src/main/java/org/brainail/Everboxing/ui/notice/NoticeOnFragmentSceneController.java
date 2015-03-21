@@ -63,7 +63,7 @@ class NoticeOnFragmentSceneController extends NoticeOnSceneController {
             if (null != root) {
                 // Keep once
                 if (null == mNoticeBuilder) {
-                    mNoticeBuilder = new NoticeBar.Builder(JApplication.appContext(), root);
+                    mNoticeBuilder = new NoticeBar.Builder(this, JApplication.appContext(), root);
                 }
 
                 return mNoticeBuilder;

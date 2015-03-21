@@ -55,7 +55,7 @@ class NoticeOnActivitySceneController extends NoticeOnSceneController {
         if (null != scene) {
             // Keep once
             if (null == mNoticeBuilder) {
-                mNoticeBuilder = new NoticeBar.Builder(scene);
+                mNoticeBuilder = new NoticeBar.Builder(this, scene);
             }
 
             return mNoticeBuilder;

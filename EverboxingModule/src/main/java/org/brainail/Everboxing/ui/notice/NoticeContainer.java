@@ -16,15 +16,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.tool.ToolResources;
-import org.brainail.Everboxing.utils.tool.ToolUI;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static org.brainail.Everboxing.ui.notice.NoticeBar.OnVisibilityCallback;
 import static org.brainail.Everboxing.ui.notice.NoticeBar.Style;
 
 /**
@@ -59,6 +56,7 @@ public class NoticeContainer extends FrameLayout {
         private static final int PLACE_OVER_ALL_DURATION = 300;
     }
 
+    private NoticeOnSceneController mController;
     private Animation mOutAnimation;
     private Animation mInAnimation;
 
@@ -74,8 +72,9 @@ public class NoticeContainer extends FrameLayout {
         init();
     }
 
-    NoticeContainer(final ViewGroup container) {
+    NoticeContainer(final NoticeOnSceneController controller, final ViewGroup container) {
         super(container.getContext());
+        mController = controller;
         addOver(container);
         init();
     }
@@ -153,27 +152,18 @@ public class NoticeContainer extends FrameLayout {
         }
     }
 
-    public void showNotice(
-            final Notice notice,
-            final View noticeView,
-            final OnVisibilityCallback callback) {
-
-        showNotice(notice, noticeView, callback, false);
+    public void showNotice(final Notice notice, final View noticeView) {
+        showNotice(notice, noticeView, false);
     }
 
-    public void showNotice(
-            final Notice notice,
-            final View noticeView,
-            final OnVisibilityCallback callback,
-            final boolean immediately) {
-
+    public void showNotice(final Notice notice, final View noticeView, final boolean immediately) {
         // Remove current before show
         if (null != noticeView.getParent() && this != noticeView.getParent()) {
             ((ViewGroup) noticeView.getParent()).removeView(noticeView);
         }
 
         // Add to queue
-        final NoticeHolder noticeHolder = new NoticeHolder(notice, noticeView, callback);
+        final NoticeHolder noticeHolder = new NoticeHolder(notice, noticeView);
         mNotices.offer(noticeHolder);
 
         // Show only if we have a single notice right now
@@ -195,7 +185,7 @@ public class NoticeContainer extends FrameLayout {
         sendOnShow(noticeHolder);
 
         // Place over
-        addView(noticeHolder.notice, getLayoutParams(noticeHolder.notice, noticeHolder.noticeData.style));
+        addView(noticeHolder.noticeView, getLayoutParams(noticeHolder.noticeView, noticeHolder.noticeData.style));
         doPlaceOverAll();
 
         // Fill configuration
@@ -203,7 +193,7 @@ public class NoticeContainer extends FrameLayout {
         noticeHolder.action.setTextColor(getActionTextColor(noticeHolder.noticeData.style));
         if (!TextUtils.isEmpty(noticeHolder.noticeData.action)) {
             noticeHolder.action.setVisibility(View.VISIBLE);
-            noticeHolder.action.setText(noticeHolder.noticeData.action.toUpperCase());
+            noticeHolder.action.setText(noticeHolder.noticeData.action);
         } else {
             noticeHolder.action.setVisibility(View.GONE);
         }
@@ -256,27 +246,32 @@ public class NoticeContainer extends FrameLayout {
         // Set gravity by style
         layoutParams.gravity = Gravity.START | getGravity(style);
 
-        // Check navigation bar
-        if (ToolUI.hasHideNavigationFlag((ViewGroup) getParent())) {
-            // Only for bottom
-            if (Gravity.BOTTOM == layoutParams.gravity) {
-                // FIXME#brainail
-                layoutParams.bottomMargin += ToolResources.computeNavigationBarHeight(getContext());
-            }
-        }
-
         return layoutParams;
     }
 
-    private void sendOnHide(final NoticeHolder noticeHolder) {
+    void sendOnHide(final NoticeHolder noticeHolder) {
         if (null != noticeHolder.visibilityCallback) {
             noticeHolder.visibilityCallback.onMute(noticeHolder.noticeData.token, mNotices.size());
+        } else if (mController instanceof NoticeBar.OnVisibilityCallback) {
+            ((NoticeBar.OnVisibilityCallback) mController).onMute(noticeHolder.noticeData.token, mNotices.size());
         }
     }
 
-    private void sendOnShow(final NoticeHolder noticeHolder) {
+    void sendOnShow(final NoticeHolder noticeHolder) {
         if (null != noticeHolder.visibilityCallback) {
             noticeHolder.visibilityCallback.onShow(noticeHolder.noticeData.token, mNotices.size());
+        } else if (mController instanceof NoticeBar.OnVisibilityCallback) {
+            ((NoticeBar.OnVisibilityCallback) mController).onShow(noticeHolder.noticeData.token, mNotices.size());
+        }
+    }
+
+    void sendOnAction() {
+        if (isShowing()) {
+            if (null != mNotices.peek().actionCallback) {
+                mNotices.peek().actionCallback.onAction(peekNotice().token);
+            } else if (mController instanceof NoticeBar.OnActionCallback) {
+                ((NoticeBar.OnActionCallback) mController).onAction(peekNotice().token);
+            }
         }
     }
 
@@ -309,7 +304,7 @@ public class NoticeContainer extends FrameLayout {
         boolean showImmediately = true;
 
         for (final Parcelable notice : notices) {
-            showNotice((Notice) notice, v, null, showImmediately);
+            showNotice((Notice) notice, v, showImmediately);
             showImmediately = false;
         }
     }
@@ -332,18 +327,24 @@ public class NoticeContainer extends FrameLayout {
 
     private static class NoticeHolder {
 
-        final View notice;
+        final View noticeView;
         final TextView body;
         final TextView action;
         final Notice noticeData;
-        final OnVisibilityCallback visibilityCallback;
 
-        private NoticeHolder(final Notice noticeData, final View notice, final OnVisibilityCallback visibilityCallback) {
-            this.notice = notice;
+        final NoticeBar.OnActionCallback actionCallback;
+        final NoticeBar.OnVisibilityCallback visibilityCallback;
+
+        private NoticeHolder(final Notice noticeData, final View noticeView) {
+            this.noticeView = noticeView;
+            this.action = (TextView) noticeView.findViewById(R.id.notice_action);
+            this.body = (TextView) noticeView.findViewById(R.id.notice_message);
+
+            this.actionCallback = noticeData.actionCallback;
+            noticeData.actionCallback = null;
+            this.visibilityCallback = noticeData.visibilityCallback;
+            noticeData.visibilityCallback = null;
             this.noticeData = noticeData;
-            this.visibilityCallback = visibilityCallback;
-            this.action = (TextView) notice.findViewById(R.id.notice_action);
-            this.body = (TextView) notice.findViewById(R.id.notice_message);
         }
 
     }

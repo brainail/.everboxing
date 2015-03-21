@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.notice.NoticeBar;
 import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
@@ -44,7 +45,9 @@ import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public abstract class BaseActivity extends ActionBarActivity implements OnBackStackChangedListener {
+public abstract class BaseActivity
+        extends ActionBarActivity
+        implements OnBackStackChangedListener, NoticeBar.OnActionCallback, NoticeBar.OnVisibilityCallback {
 
     // Primary Toolbar
     private Toolbar mPrimaryToolbar;
@@ -193,6 +196,21 @@ public abstract class BaseActivity extends ActionBarActivity implements OnBackSt
 
         // We don't want to monitor fragments after
         getFragmentManager().removeOnBackStackChangedListener(this);
+    }
+
+    @Override
+    public void onShow(final String token, final int activeSize) {
+        // Check token to define your future actions
+    }
+
+    @Override
+    public void onMute(final String token, final int activeSize) {
+        // Check token to define your future actions
+    }
+
+    @Override
+    public void onAction(final String token) {
+        // Check token to define your future actions
     }
 
 }

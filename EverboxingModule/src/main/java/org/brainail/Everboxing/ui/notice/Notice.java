@@ -38,12 +38,18 @@ public class Notice implements Parcelable {
     final long duration;
     final long style;
 
+    NoticeBar.OnActionCallback actionCallback;
+    NoticeBar.OnVisibilityCallback visibilityCallback;
+
     Notice(final NoticeBar.Builder provider) {
         message = provider.body;
         action = provider.action;
         token = provider.token;
         duration = provider.duration;
         style = provider.style;
+
+        actionCallback = provider.actionCallback;
+        visibilityCallback = provider.visibilityCallback;
     }
 
     Notice(final Parcel p) {
@@ -52,6 +58,9 @@ public class Notice implements Parcelable {
         token = p.readString();
         duration = p.readLong();
         style = p.readLong();
+
+        actionCallback = null;
+        visibilityCallback = null;
     }
 
     public void writeToParcel(final Parcel out, final int flags) {

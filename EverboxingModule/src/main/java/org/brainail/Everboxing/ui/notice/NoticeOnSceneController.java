@@ -35,7 +35,7 @@ import org.brainail.Everboxing.JApplication;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public abstract class NoticeOnSceneController {
+public abstract class NoticeOnSceneController implements NoticeBar.OnActionCallback, NoticeBar.OnVisibilityCallback {
 
     private static IntentFilter FILTER;
 
@@ -52,13 +52,6 @@ public abstract class NoticeOnSceneController {
         @Override
         public void onReceive(Context context, Intent intent) {
             // We can show some notice for it
-        }
-    };
-
-    private NoticeBar.OnActionCallback mActionCallback = new NoticeBar.OnActionCallback() {
-        @Override
-        public void onAction(final String token) {
-            // ...
         }
     };
 
@@ -134,6 +127,12 @@ public abstract class NoticeOnSceneController {
         }
     }
 
+    //
+    // +------------------------------------------------------------+
+    // | "Notify" methods                                           |
+    // +------------------------------------------------------------+
+    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
     // We want to work with some elements of UI on UI thread
     private void notifySceneOnUI() {
         final Activity scene = rootScene();
@@ -147,19 +146,28 @@ public abstract class NoticeOnSceneController {
         }
     }
 
-    //
-    // +------------------------------------------------------------+
-    // | "Notify" methods                                           |
-    // +------------------------------------------------------------+
-    // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
     public void notifyScene(@StringRes final int resId) {
         notifyScene(JApplication.appContext().getString(resId));
     }
 
     public void notifyScene(final String message) {
-        // notifyScene(new NoticeBar.Builder().withText(message), null);
-        notifyScene(new NoticeBar.Builder().withText(message).withActionText("INITIALIZE").withStyle(NoticeBar.Style.INFO), null);
+        notifyScene(new NoticeBar.Builder().withText(message), null);
+    }
+
+    public void notifyScene(final String message, final String action) {
+        notifyScene(message, action, null);
+    }
+
+    public void notifyScene(final String message, final String action, final String token) {
+        notifyScene(message, action, token, NoticeBar.Style.DEFAULT);
+    }
+
+    public void notifyScene(final String message, final String action, final String token, final long style) {
+        notifyScene(new NoticeBar.Builder().withText(message).withActionText(action).withToken(token).withStyle(style));
+    }
+
+    public void notifyScene(final NoticeBar.Builder builder) {
+        notifyScene(builder, null);
     }
 
     private void notifyScene(final NoticeBar.Builder provider, final Bundle savedState) {
@@ -175,6 +183,48 @@ public abstract class NoticeOnSceneController {
 
     private void inflateNotice(final NoticeBar.Builder noticeBuilder) {
         // Global default params
+    }
+
+    @Override
+    public void onAction(final String token) {
+        // Notify by hierarchy
+        final Object scene = scene();
+        if (scene instanceof NoticeBar.OnActionCallback) {
+            ((NoticeBar.OnActionCallback) scene).onAction(token);
+        } else {
+            final Object rootScene = rootScene();
+            if (rootScene instanceof NoticeBar.OnActionCallback) {
+                ((NoticeBar.OnActionCallback) rootScene).onAction(token);
+            }
+        }
+    }
+
+    @Override
+    public void onShow(final String token, final int activeSize) {
+        // Notify by hierarchy
+        final Object scene = scene();
+        if (scene instanceof NoticeBar.OnVisibilityCallback) {
+            ((NoticeBar.OnVisibilityCallback) scene).onShow(token, activeSize);
+        } else {
+            final Object rootScene = rootScene();
+            if (rootScene instanceof NoticeBar.OnActionCallback) {
+                ((NoticeBar.OnVisibilityCallback) rootScene).onShow(token, activeSize);
+            }
+        }
+    }
+
+    @Override
+    public void onMute(final String token, final int activeSize) {
+        // Notify by hierarchy
+        final Object scene = scene();
+        if (scene instanceof NoticeBar.OnVisibilityCallback) {
+            ((NoticeBar.OnVisibilityCallback) scene).onMute(token, activeSize);
+        } else {
+            final Object rootScene = rootScene();
+            if (rootScene instanceof NoticeBar.OnActionCallback) {
+                ((NoticeBar.OnVisibilityCallback) rootScene).onMute(token, activeSize);
+            }
+        }
     }
 
 }
