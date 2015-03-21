@@ -136,7 +136,7 @@ public final class ToolResources {
     }
 
     public static String string(final int resId) {
-        return JApplication.appContext().getString(resId);
+        return 0 != resId ? JApplication.appContext().getString(resId) : null;
     }
 
 }

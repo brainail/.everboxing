@@ -45,7 +45,7 @@ import org.brainail.Everboxing.utils.tool.ToolResources;
  */
 public class ThemeChooser extends DialogFragment implements MaterialDialog.ListCallback {
 
-    public static final String MANAGER_TAG = "org.brainail.Everboxing.ThemeChooserTag";
+    public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#theme.chooser";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

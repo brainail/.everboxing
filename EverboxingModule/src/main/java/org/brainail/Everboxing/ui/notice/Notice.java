@@ -30,7 +30,7 @@ import android.os.Parcelable;
  */
 public class Notice implements Parcelable {
 
-    static final String EXTRA_NOTICES = "org.brainail.Everboxing.ui.notices.Saved";
+    static final String EXTRA_NOTICES = "org.brainail.Everboxing.extra#ui.notices.saved";
 
     final String message;
     final String action;

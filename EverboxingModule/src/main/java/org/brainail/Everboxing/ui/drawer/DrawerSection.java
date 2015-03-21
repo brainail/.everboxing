@@ -47,7 +47,9 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
     // To save state
     public static abstract class ExtraKey {
-        public static final String POSITION = "org.brainail.Everboxing.Extra#Position";
+        public static final String POSITION = "org.brainail.Everboxing.extra#drawer.section.position";
+        public static final String COLOR = "org.brainail.Everboxing.extra#drawer.section.color";
+        public static final String TITLE = "org.brainail.Everboxing.extra#drawer.section.title";
     }
 
     // Display (where?)
@@ -314,14 +316,21 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
             ((DrawerSectionCallback) mTarget).onTargetClick(this);
         } else if (TargetType.CLASS == mTargetType) {
             final Intent targetIntent = new Intent(scene(), (Class<?>) mTarget);
-            scene().startActivity(targetIntent);
+            scene().startActivity(wrapIntentOnStart(targetIntent));
         } else if (TargetType.INTENT == mTargetType) {
-            scene().startActivity((Intent) mTarget);
+            scene().startActivity(wrapIntentOnStart((Intent) mTarget));
         } else if (TargetType.FRAGMENT == mTargetType) {
             if (!internalAction || !ToolFragments.isPresented(scene(), (Fragment) mTarget)) {
                 ToolFragments.openDrawerFragment(scene(), (Fragment) mTarget);
             }
         }
+    }
+
+    private Intent wrapIntentOnStart(final Intent intent) {
+        final Intent wrappedIntent = new Intent(intent);
+        wrappedIntent.putExtra(ExtraKey.COLOR, hasColor() ? (Integer) mColor : (Integer) null);
+        wrappedIntent.putExtra(ExtraKey.TITLE, getTitle());
+        return wrappedIntent;
     }
 
     private SectionedDrawerActivity scene() {

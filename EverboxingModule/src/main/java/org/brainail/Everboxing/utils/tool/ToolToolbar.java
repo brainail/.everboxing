@@ -9,6 +9,7 @@ import android.view.View;
 
 import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.activities.BaseActivity;
+import org.brainail.Everboxing.ui.drawer.DrawerSection;
 import org.brainail.Everboxing.utils.callable.Colorable;
 import org.brainail.Everboxing.utils.callable.Titleable;
 
@@ -55,6 +56,16 @@ public final class ToolToolbar {
             }
         }
 
+        // Try to get from the activity's intent (perhaps it was started from the Drawer)
+        if (TextUtils.isEmpty(toolbarTitle) && null != activity.getIntent()) {
+            toolbarTitle = activity.getIntent().getStringExtra(DrawerSection.ExtraKey.TITLE);
+        }
+
+        // Check manifest
+        if (TextUtils.isEmpty(toolbarTitle)) {
+            toolbarTitle = ToolManifest.activityLabel(activity);
+        }
+
         // Try to use app name as the last resort
         if (TextUtils.isEmpty(toolbarTitle)) {
             toolbarTitle = ToolResources.string(R.string.app_name);
@@ -81,6 +92,11 @@ public final class ToolToolbar {
             }
         }
 
+        // Try to get from the activity's intent (perhaps it was started from the Drawer)
+        if (null == toolbarColor && null != activity.getIntent()) {
+            toolbarColor = (Integer) activity.getIntent().getSerializableExtra(DrawerSection.ExtraKey.COLOR);
+        }
+
         // Try to use app color as the last resort
         final int primaryColor = ToolResources.retrievePrimaryColor(activity);
         final int primaryDarkColor = ToolResources.retrievePrimaryDarkColor(activity);
@@ -88,7 +104,7 @@ public final class ToolToolbar {
             toolbarColor = primaryColor;
         }
 
-        // Set title for toolbar
+        // Set color for toolbar & status bar
         final Toolbar toolbar = ((BaseActivity) activity).getPrimaryToolbar();
         if (null != toolbar) {
             final View window = activity.findViewById(R.id.fit_window_background);

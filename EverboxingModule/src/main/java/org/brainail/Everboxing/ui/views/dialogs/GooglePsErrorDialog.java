@@ -35,11 +35,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
  */
 public class GooglePsErrorDialog extends DialogFragment {
 
-    public static final String MANAGER_TAG = "org.brainail.Everboxing.GooglePlayServicesErrorDialogTag";
+    public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#google.play.services.error.dialog";
 
     public static class Args {
-        public static final String STATUS_CODE = "org.brainail.Everboxing.statusCodeArg";
-        public static final String REQUEST_CODE = "org.brainail.Everboxing.requestCodeArg";
+        public static final String STATUS_CODE = "org.brainail.Everboxing.arg#status.code";
+        public static final String REQUEST_CODE = "org.brainail.Everboxing.arg#request.code";
     }
 
     private int mStatusCode;
