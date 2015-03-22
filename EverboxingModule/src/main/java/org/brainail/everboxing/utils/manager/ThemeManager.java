@@ -43,7 +43,9 @@ public class ThemeManager {
         TEAL(R.style.AppTheme_Default_Teal, R.string.theme_name_teal),
         GREEN(R.style.AppTheme_Default_Green, R.string.theme_name_green),
         LGREEN(R.style.AppTheme_Default_LightGreen, R.string.theme_name_lgreen),
-        PURPLE(R.style.AppTheme_Default_Purple, R.string.theme_name_purple);
+        PURPLE(R.style.AppTheme_Default_Purple, R.string.theme_name_purple),
+        BROWN(R.style.AppTheme_Default_Brown, R.string.theme_name_brown),
+        ORANGE(R.style.AppTheme_Default_Orange, R.string.theme_name_orange);
 
         private final int mThemeResId;
         private final int mNameResId;

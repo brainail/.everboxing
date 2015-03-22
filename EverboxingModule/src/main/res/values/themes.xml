@@ -72,4 +72,20 @@
         <item name="drawerCover">@drawable/drawer_user_cover_purple_theme</item>
     </style>
 
+    <!-- Default. Colorized. Brown -->
+    <style name="AppTheme.Default.Brown">
+        <item name="colorPrimary">@color/primary_brown</item>
+        <item name="colorPrimaryDark">@color/primary_brown_dark</item>
+        <item name="colorAccent">@color/accent_brown</item>
+        <item name="drawerCover">@drawable/drawer_user_cover_brown_theme</item>
+    </style>
+
+    <!-- Default. Colorized. Orange -->
+    <style name="AppTheme.Default.Orange">
+        <item name="colorPrimary">@color/primary_orange</item>
+        <item name="colorPrimaryDark">@color/primary_orange_dark</item>
+        <item name="colorAccent">@color/accent_orange</item>
+        <item name="drawerCover">@drawable/drawer_user_cover_orange_theme</item>
+    </style>
+
 </resources>
