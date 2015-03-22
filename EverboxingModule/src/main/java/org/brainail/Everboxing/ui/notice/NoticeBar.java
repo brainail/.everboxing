@@ -92,7 +92,8 @@ public class NoticeBar {
         mNoticeView = noticeView;
 
         mContainer = (NoticeContainer) container.findViewById(R.id.notice_container);
-        if (null == mContainer) mContainer = new NoticeContainer(mNoticesController, container);
+        if (null == mContainer) mContainer = new NoticeContainer(container);
+        mContainer.attachController(mNoticesController);
 
         final TextView actionText = (TextView) noticeView.findViewById(R.id.notice_action);
         actionText.setOnClickListener(mInternalOnActionCallback);

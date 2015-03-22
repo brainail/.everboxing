@@ -12,7 +12,7 @@ import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.utils.callable.Tagable;
 import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
-import org.brainail.Everboxing.utils.tool.ToolView;
+import org.brainail.Everboxing.utils.tool.ToolUI;
 
 import java.util.LinkedList;
 
@@ -80,7 +80,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     private void addDivider(final int layoutId) {
-        mPrimarySections.addView(ToolView.linearWrapper(mScene, layoutId));
+        mPrimarySections.addView(ToolUI.linearWrapper(mScene, layoutId));
     }
 
     @Override

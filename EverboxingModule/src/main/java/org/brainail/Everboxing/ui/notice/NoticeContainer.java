@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -56,11 +57,18 @@ public class NoticeContainer extends FrameLayout {
         private static final int PLACE_OVER_ALL_DURATION = 300;
     }
 
+    // View controller
     private NoticeOnSceneController mController;
-    private Animation mOutAnimation;
-    private Animation mInAnimation;
 
+    // Animations
+    private Animation mOutAnimation, mInAnimation;
+
+    // All notices
     private final Queue<NoticeHolder> mNotices = new LinkedList<NoticeHolder>();
+
+    // Gestures
+    private static final float THRESHOLD_Y = 48;
+    private float mLastY;
 
     public NoticeContainer(final Context context) {
         super(context);
@@ -72,9 +80,8 @@ public class NoticeContainer extends FrameLayout {
         init();
     }
 
-    NoticeContainer(final NoticeOnSceneController controller, final ViewGroup container) {
+    NoticeContainer(final ViewGroup container) {
         super(container.getContext());
-        mController = controller;
         addOver(container);
         init();
     }
@@ -100,11 +107,20 @@ public class NoticeContainer extends FrameLayout {
         super.onDetachedFromWindow();
 
         // Container for notices is detached from a window
-        // then clear all notices
+        // then clear all notices and cleanup data
         mInAnimation.cancel();
         mOutAnimation.cancel();
         removeCallbacks(mHideRunnable);
         mNotices.clear();
+        detachController();
+    }
+
+    void attachController(final NoticeOnSceneController controller) {
+        mController = controller;
+    }
+
+    private void detachController() {
+        mController = null;
     }
 
     public boolean isEmpty() {
@@ -188,6 +204,9 @@ public class NoticeContainer extends FrameLayout {
         addView(noticeHolder.noticeView, getLayoutParams(noticeHolder.noticeView, noticeHolder.noticeData.style));
         doPlaceOverAll();
 
+        // Listen to gestures (swipe action, ..)
+        setupGestures(noticeHolder.noticeView);
+
         // Fill configuration
         noticeHolder.body.setText(noticeHolder.noticeData.message);
         noticeHolder.action.setTextColor(getActionTextColor(noticeHolder.noticeData.style));
@@ -206,6 +225,28 @@ public class NoticeContainer extends FrameLayout {
         if (noticeHolder.noticeData.duration > 0) {
             postDelayed(mHideRunnable, noticeHolder.noticeData.duration);
         }
+    }
+
+    private void setupGestures(final View noticeView) {
+        mLastY = Float.MAX_VALUE;
+
+        noticeView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final float y = event.getY();
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        if (y - mLastY >= THRESHOLD_Y) {
+                            // Hide by swipe
+                            hideNotice();
+                        }
+                }
+
+                mLastY = y;
+                return true;
+            }
+        });
     }
 
     // Sometimes something (fragments, ..) overlays the notice bar
@@ -252,16 +293,16 @@ public class NoticeContainer extends FrameLayout {
     void sendOnHide(final NoticeHolder noticeHolder) {
         if (null != noticeHolder.visibilityCallback) {
             noticeHolder.visibilityCallback.onMute(noticeHolder.noticeData.token, mNotices.size());
-        } else if (mController instanceof NoticeBar.OnVisibilityCallback) {
-            ((NoticeBar.OnVisibilityCallback) mController).onMute(noticeHolder.noticeData.token, mNotices.size());
+        } else if (null != mController) {
+            mController.onMute(noticeHolder.noticeData.token, mNotices.size());
         }
     }
 
     void sendOnShow(final NoticeHolder noticeHolder) {
         if (null != noticeHolder.visibilityCallback) {
             noticeHolder.visibilityCallback.onShow(noticeHolder.noticeData.token, mNotices.size());
-        } else if (mController instanceof NoticeBar.OnVisibilityCallback) {
-            ((NoticeBar.OnVisibilityCallback) mController).onShow(noticeHolder.noticeData.token, mNotices.size());
+        } else if (null != mController) {
+            mController.onShow(noticeHolder.noticeData.token, mNotices.size());
         }
     }
 
@@ -269,8 +310,8 @@ public class NoticeContainer extends FrameLayout {
         if (isShowing()) {
             if (null != mNotices.peek().actionCallback) {
                 mNotices.peek().actionCallback.onAction(peekNotice().token);
-            } else if (mController instanceof NoticeBar.OnActionCallback) {
-                ((NoticeBar.OnActionCallback) mController).onAction(peekNotice().token);
+            } else if (null != mController) {
+                mController.onAction(peekNotice().token);
             }
         }
     }

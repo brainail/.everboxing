@@ -3,11 +3,19 @@ package org.brainail.Everboxing.utils.tool;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -121,4 +129,102 @@ public final class ToolUI {
         return false;
     }
 
+    public static void removeViewFully(final View view) {
+        if (null != view) {
+            try {
+                if (view.getParent() instanceof ViewGroup) {
+                    ((ViewGroup) view.getParent()).removeView(view);
+                }
+            } catch (Exception exception) {
+                // Do nothing
+            }
+
+            try {
+                if (view instanceof ViewGroup) {
+                    ((ViewGroup) view).removeAllViews();
+                }
+            } catch (Exception exception) {
+                // Do nothing
+            }
+        }
+    }
+
+    // Computes the coordinates of view on the screen. You should use it only after the view has been located.
+    public static Rect computeLocationOnScreen(final View view) {
+        if (null != view) {
+            final int [] locationOnScreen = new int [2];
+            view.getLocationOnScreen(locationOnScreen);
+            int leftPosition = locationOnScreen [0], topPosition = locationOnScreen [1];
+            return new Rect(leftPosition, topPosition, leftPosition + view.getWidth(), topPosition + view.getHeight());
+        }
+
+        return null;
+    }
+
+    public static boolean isLocatedWithinScreen(final Context context, final View view) {
+        if (null != view) {
+            final Rect location = computeLocationOnScreen(view);
+
+            final int screenHeight = ToolPhone.screenHeightInPixels(context);
+            final boolean isOutsideVertically = location.bottom <= 0 || location.top >= screenHeight;
+
+            final int screenWidth = ToolPhone.screenWidthInPixels(context);
+            final boolean isOutsideHorizontally = location.right <= 0 || location.left >= screenWidth;
+
+            return !isOutsideVertically && !isOutsideHorizontally;
+        }
+
+        return false;
+    }
+
+    public static void dismissDialog(final Dialog dialog) {
+        if (null != dialog && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+    // Converts view to bitmap.
+    public static Bitmap takeViewScreenshot(final WebView view) {
+        try {
+            if (null != view) {
+                view.setDrawingCacheEnabled(true);
+                final Bitmap screenshot = Bitmap.createBitmap(view.getDrawingCache());
+                view.setDrawingCacheEnabled(false);
+                return screenshot;
+            }
+        } catch (Exception exception) {
+            // Do nothing
+        }
+
+        return null;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static void addOnGlobalLayoutListenerOnce(final View view, final ViewTreeObserver.OnGlobalLayoutListener callback) {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                callback.onGlobalLayout();
+
+                if (Sdk.isSdkSupported(Sdk.JELLY_BEAN)) {
+                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            }
+
+        });
+    }
+
+    public static View linearWrapper(final Context context, final int layoutId) {
+        final LinearLayout layoutWrapper = new LinearLayout(context);
+        LayoutInflater.from(context).inflate(layoutId, layoutWrapper, true);
+        return layoutWrapper;
+    }
+
+    public static boolean isVisible(final View view) {
+        return null != view && View.VISIBLE == view.getVisibility();
+    }
+    
 }

@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.brainail.Everboxing.JApplication;
-import org.brainail.Everboxing.utils.tool.ToolView;
+import org.brainail.Everboxing.utils.tool.ToolUI;
 
 import java.lang.ref.WeakReference;
 
@@ -80,7 +80,7 @@ class NoticeOnFragmentSceneController extends NoticeOnSceneController {
             scene.isAdded() &&
             !scene.isRemoving() &&
             scene.getUserVisibleHint() &&
-            ToolView.isVisible(scene.getView());
+            ToolUI.isVisible(scene.getView());
     }
 
 }

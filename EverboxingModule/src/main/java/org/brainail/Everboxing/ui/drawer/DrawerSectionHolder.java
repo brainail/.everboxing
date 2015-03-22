@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.tool.ToolView;
+import org.brainail.Everboxing.utils.tool.ToolUI;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -42,7 +42,7 @@ public class DrawerSectionHolder {
 
     public static DrawerSectionHolder inflate(final Context context, final DrawerSection.LayoutType type) {
         final DrawerSectionHolder viewHolder = new DrawerSectionHolder();
-        viewHolder.selfView = ToolView.linearWrapper(context, type.layoutId);
+        viewHolder.selfView = ToolUI.linearWrapper(context, type.layoutId);
         viewHolder.selfText = (TextView) viewHolder.selfView.findViewById(R.id.drawer_section_text);
         viewHolder.selfIcon = (ImageView) viewHolder.selfView.findViewById(R.id.drawer_section_icon);
         viewHolder.selfNotifications = (TextView) viewHolder.selfView.findViewById(R.id.drawer_section_notification);
