@@ -61,7 +61,8 @@ android {
 
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            shrinkResources true
+            proguardFiles 'proguard-rules.txt'
 
             // Build config fields
             buildConfigField "boolean", "LOGGABLE", "false"
@@ -90,6 +91,13 @@ android {
         htmlReport true
         // optional path to report (default will be lint-results.html in the build dir)
         htmlOutput file("$project.buildDir/reports/lint/lint.html")
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
     }
 }
 
