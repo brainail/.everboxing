@@ -24,6 +24,8 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.Sdk;
 
+import butterknife.ButterKnife;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -89,7 +91,7 @@ public final class ToolUI {
 
     public static void fixSettingsPaddingWorkaround(final Activity activity) {
         try {
-            final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
+            final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
             allPreferences.setPadding(0, 0, 0, 0);
             final ViewGroup parent = (ViewGroup) allPreferences.getParent();
             parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), 0);
@@ -100,7 +102,7 @@ public final class ToolUI {
 
     public static void fixSettingsSelectorWorkaround(final Activity activity) {
         try {
-            final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
+            final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
             if (!Sdk.isSdkSupported(Sdk.LOLLIPOP)) allPreferences.setSelector(R.drawable.list_item_default_selector);
         } catch (Exception exception) {
             // Do nothing
@@ -109,7 +111,7 @@ public final class ToolUI {
 
     public static void fixSettingsDividersWorkaround(final Activity activity) {
         try {
-            final ListView allPreferences = (ListView) activity.findViewById(android.R.id.list);
+            final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
             allPreferences.setDivider(null);
             allPreferences.setDividerHeight(0);
         } catch (Exception exception) {

@@ -75,6 +75,8 @@ android {
     }
 
     lintOptions {
+        // ButterKnife
+        disable 'InvalidPackage'
         // set to true to turn off analysis progress reporting by lint
         quiet false
         // if true, stop the gradle build if errors are found
@@ -94,10 +96,14 @@ android {
     }
 
     packagingOptions {
+        // Common
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'LICENSE.txt'
+
+        // ButterKnife
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
@@ -134,6 +140,9 @@ dependencies {
 
     // Fonts
     compile 'uk.co.chrisjenx:calligraphy:2.0.1'
+
+    // Annotations
+    compile 'com.jakewharton:butterknife:6.1.0'
 }
 
 //

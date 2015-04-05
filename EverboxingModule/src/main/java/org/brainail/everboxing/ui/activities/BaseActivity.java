@@ -15,6 +15,7 @@ import org.brainail.Everboxing.utils.tool.ToolFonts;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
 import org.brainail.Everboxing.utils.tool.ToolToolbar;
 
+import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.app.FragmentManager.OnBackStackChangedListener;
@@ -85,7 +86,7 @@ public abstract class BaseActivity
     private void initToolbar() {
         final Integer resourceId = getPrimaryToolbarLayoutResourceId();
         if (null != resourceId) {
-            mPrimaryToolbar = (Toolbar) findViewById(resourceId);
+            mPrimaryToolbar = ButterKnife.findById(this, resourceId);
         }
 
         if (null != mPrimaryToolbar) {

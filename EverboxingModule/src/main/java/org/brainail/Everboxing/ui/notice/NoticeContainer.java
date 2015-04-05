@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import butterknife.ButterKnife;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static org.brainail.Everboxing.ui.notice.NoticeBar.Style;
 
@@ -67,7 +69,7 @@ public class NoticeContainer extends FrameLayout {
     private final Queue<NoticeHolder> mNotices = new LinkedList<NoticeHolder>();
 
     // Gestures
-    private static final float THRESHOLD_Y = 48;
+    private static final float THRESHOLD_Y = 21;
     private float mLastY;
 
     public NoticeContainer(final Context context) {
@@ -155,6 +157,7 @@ public class NoticeContainer extends FrameLayout {
 
     private void hideNotice() {
         undoPlaceOverAll();
+        removeCallbacks(mHideRunnable);
         removeAllViews();
 
         if (!isEmpty()) {
@@ -378,8 +381,8 @@ public class NoticeContainer extends FrameLayout {
 
         private NoticeHolder(final Notice noticeData, final View noticeView) {
             this.noticeView = noticeView;
-            this.action = (TextView) noticeView.findViewById(R.id.notice_action);
-            this.body = (TextView) noticeView.findViewById(R.id.notice_message);
+            this.action = ButterKnife.findById(noticeView, R.id.notice_action);
+            this.body = ButterKnife.findById(noticeView, R.id.notice_message);
 
             this.actionCallback = noticeData.actionCallback;
             noticeData.actionCallback = null;

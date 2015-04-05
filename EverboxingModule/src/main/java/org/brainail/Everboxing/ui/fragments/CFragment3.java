@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 
 import org.brainail.Everboxing.utils.callable.Tagable;
-import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -41,14 +39,6 @@ public class CFragment3 extends Fragment implements Tagable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         final FrameLayout view = new FrameLayout(getActivity());
-        final Button button = new Button(getActivity());
-        view.addView(button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToolFragments.openFragment(getActivity(), new CFragmentTop());
-            }
-        });
         view.setBackgroundColor(Color.BLUE);
         return view;
     }

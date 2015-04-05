@@ -11,6 +11,8 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.tool.ToolCollections;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
+import butterknife.ButterKnife;
+
 import static android.support.v4.widget.DrawerLayout.DrawerListener;
 
 /**
@@ -59,14 +61,14 @@ public abstract class BaseDrawerActivity extends BaseActivity implements DrawerL
 
         // Try to find drawer layout
         if (null != (resourceId = getDrawerLayoutResourceId())) {
-            mDrawerLayout = (DrawerLayout) findViewById(resourceId);
+            mDrawerLayout = ButterKnife.findById(this, resourceId);
         } else {
             return false;
         }
 
         // Try to find drawer's actions
         if (null != (resourceId = getDrawerActionsLayoutResourceId())) {
-            mDrawerActions = findViewById(resourceId);
+            mDrawerActions = ButterKnife.findById(this, resourceId);
         } else {
             return false;
         }

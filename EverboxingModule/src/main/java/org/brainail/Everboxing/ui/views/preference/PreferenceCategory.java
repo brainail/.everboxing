@@ -11,6 +11,8 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.Sdk;
 import org.brainail.Everboxing.utils.tool.ToolResources;
 
+import butterknife.ButterKnife;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -55,7 +57,7 @@ public class PreferenceCategory extends android.preference.PreferenceCategory {
         final View view = super.onCreateView(parent);
 
         // Change title options
-        final TextView titleView = (TextView) view.findViewById(android.R.id.title);
+        final TextView titleView = ButterKnife.findById(view, android.R.id.title);
 
         titleView.setAllCaps(false);
         titleView.setTextColor(ToolResources.retrieveAccentColor(getContext()));

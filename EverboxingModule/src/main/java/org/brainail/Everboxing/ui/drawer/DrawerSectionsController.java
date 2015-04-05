@@ -16,6 +16,10 @@ import org.brainail.Everboxing.utils.tool.ToolUI;
 
 import java.util.LinkedList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>
@@ -43,11 +47,12 @@ import java.util.LinkedList;
  */
 final class DrawerSectionsController implements IDrawerSectionsController {
 
-    private final LinearLayout mPrimarySections;
-    private final LinearLayout mHelpSections;
-    private final View mHelpSectionsSeparator;
-    private final View mDrawerView;
-    private final View mUserCoverArea;
+    @Optional @InjectView(R.id.drawer_menu_primary_sections) LinearLayout mPrimarySections;
+    @Optional @InjectView(R.id.drawer_menu_help_sections) LinearLayout mHelpSections;
+    @Optional @InjectView(R.id.drawer_menu_help_sections_separator) View mHelpSectionsSeparator;
+    @Optional @InjectView(R.id.drawer_menu_primary) View mDrawerView;
+    @Optional @InjectView(R.id.drawer_menu_user_cover) View mUserCoverArea;
+
     private DrawerSection mCurrentSection;
 
     private final LinkedList<DrawerSection> mPrimaryDrawerSections = new LinkedList<DrawerSection>();
@@ -56,12 +61,8 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     private final SectionedDrawerActivity mScene;
 
     public DrawerSectionsController(final SectionedDrawerActivity scene) {
-        mDrawerView = scene.findViewById(R.id.drawer_menu_primary);
-        mUserCoverArea = scene.findViewById(R.id.drawer_menu_user_cover);
-        mPrimarySections = (LinearLayout) scene.findViewById(R.id.drawer_menu_primary_sections);
-        mHelpSections = (LinearLayout) scene.findViewById(R.id.drawer_menu_help_sections);
-        mHelpSectionsSeparator = scene.findViewById(R.id.drawer_menu_help_sections_separator);
         mScene = scene;
+        ButterKnife.inject(this, scene);
     }
 
     @Override
@@ -72,7 +73,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     @Override
     public void addSubheader(final String titleText) {
         final View subheader = getInflater().inflate(R.layout.drawer_section_subheader, mPrimarySections, false);
-        final TextView title = (TextView) subheader.findViewById(R.id.drawer_section_subheader_text);
+        final TextView title = ButterKnife.findById(subheader, R.id.drawer_section_subheader_text);
         title.setText(titleText);
 
         addDivider(R.layout.drawer_section_divider_subheader);

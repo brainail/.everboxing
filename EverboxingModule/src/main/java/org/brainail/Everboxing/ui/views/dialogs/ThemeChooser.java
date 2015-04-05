@@ -18,6 +18,8 @@ import org.brainail.Everboxing.ui.views.ColorCircleView;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolResources;
 
+import butterknife.ButterKnife;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -120,11 +122,11 @@ public class ThemeChooser extends DialogFragment implements MaterialDialog.ListC
             final View view = View.inflate(mContext, R.layout.theme_chooser_item, null);
 
             // Title
-            final TextView titleView = (TextView) view.findViewById(R.id.title);
+            final TextView titleView = ButterKnife.findById(view, R.id.title);
             titleView.setText(mItems [position]);
 
             // Color
-            final ColorCircleView colorView = (ColorCircleView) view.findViewById(R.id.color);
+            final ColorCircleView colorView = ButterKnife.findById(view, R.id.color);
             final int themeResId = ThemeManager.AppTheme.values() [position].getThemeResId();
             colorView.setFillColor(ToolResources.retrievePrimaryColor(mContext, themeResId));
 

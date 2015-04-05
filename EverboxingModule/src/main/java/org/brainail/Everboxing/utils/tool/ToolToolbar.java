@@ -13,6 +13,8 @@ import org.brainail.Everboxing.ui.drawer.DrawerSection;
 import org.brainail.Everboxing.utils.callable.Colorable;
 import org.brainail.Everboxing.utils.callable.Titleable;
 
+import butterknife.ButterKnife;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -107,7 +109,7 @@ public final class ToolToolbar {
         // Set color for toolbar & status bar
         final Toolbar toolbar = ((BaseActivity) activity).getPrimaryToolbar();
         if (null != toolbar) {
-            final View window = activity.findViewById(R.id.fit_window_background);
+            final View window = ButterKnife.findById(activity, R.id.fit_window_background);
 
             // Similar to getWindow() to set background color for status bar
             if (null != window) {
