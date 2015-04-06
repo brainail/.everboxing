@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
 
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -46,6 +49,9 @@ public class JApplication extends Application {
 
         // Store for long use
         mAppContext = getApplicationContext();
+
+        // Initialize crashlytics via Fabric
+        if (BuildConfig.USE_CRASHLYTICS) Fabric.with(this, new Crashlytics());
 
         // Initialize font
         initFont();

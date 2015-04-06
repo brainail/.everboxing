@@ -244,5 +244,9 @@
 # Warnings from Gps
 -dontwarn sun.misc.Unsafe
 
+# Crashlytics
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+
 
 

@@ -65,6 +65,18 @@ native/obj/
 # Eclipse Metadata
 .metadata/
 
+# Fabric/Crashlytics plugin
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Sign
+*.jks
+*.keystore
+sign.properties
+sign/
+
 # Other
 .deps/
 .gradletasknamecache

@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
 //
 // +------------------------------------------------------------+
 // | Configure parameters for the android build. Android DSL    |
@@ -5,6 +15,7 @@
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 repositories {
     // Snapshots
@@ -26,6 +37,11 @@ repositories {
     // System local
     maven {
         url 'file:' + System.getenv('HOME') + '/.m2/repository'
+    }
+
+    // Fabric
+    maven {
+        url 'https://maven.fabric.io/public'
     }
 }
 
@@ -51,12 +67,36 @@ android {
         androidTest.setRoot('src/test')
     }
 
+    signingConfigs {
+        release {
+            try {
+                // Load properties
+                Properties signProperties = new Properties()
+                signProperties.load(new FileInputStream(rootProject.file('sign/sign.properties')))
+
+                // Assign properties
+                storeFile file(signProperties.STORE_FILE)
+                storePassword signProperties.STORE_PASSWORD
+                keyAlias signProperties.KEY_ALIAS
+                keyPassword signProperties.KEY_PASSWORD
+            } catch (ignored) {
+                throw new InvalidUserDataException("You should provide sign.properties file with correct signingConfigs!")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             debuggable true
+            applicationIdSuffix ".debug"
 
             // Build config fields
             buildConfigField "boolean", "LOGGABLE", "true"
+
+            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+            ext.enableCrashlytics = false
+            // buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            // ext.enableCrashlytics = true
         }
 
         release {
@@ -66,6 +106,11 @@ android {
 
             // Build config fields
             buildConfigField "boolean", "LOGGABLE", "false"
+
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            ext.enableCrashlytics = true
+
+            signingConfig signingConfigs.release
         }
     }
 
@@ -143,6 +188,11 @@ dependencies {
 
     // Annotations
     compile 'com.jakewharton:butterknife:6.1.0'
+
+    // Analytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
+        transitive = true;
+    }
 }
 
 //
