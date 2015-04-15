@@ -5,5 +5,7 @@
     * **Lint**: ./gradlew lint
     * **Findbugs**: ./gradlew findbugs
     * **Pmd**: ./gradlew pmd
-    * **Analyze code (± lint, findbugs, pmd, checkstyle)**: /gradlew analyzecode
+    * **Analyze code (± lint, findbugs, pmd, checkstyle)**: ./gradlew analyzecode
     * **Build**: ./gradlew clean assembleDebug{Release}
+    * **Tests**: ./gradlew test
+    * **Show dependencies for configuration**: ./gradlew -q dependencies Everboxing:dependencies --configuration testCompile

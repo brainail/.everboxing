@@ -195,7 +195,7 @@ public class SettingsActivity
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
-        public static final String MANAGER_TAG = "org.brainail.Everboxing.SettingsFragmentTag";
+        public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#settings.fragment";
 
         private AuthorizationFlow mAuthorizationFlow = new AuthorizationFlow(null);
 

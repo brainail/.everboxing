@@ -60,6 +60,10 @@ public abstract class BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Window background causes an useless overdraw.
+        // Nullifying the background removes that overdraw.
+        getWindow().setBackgroundDrawable(null);
+
         // Monitor fragments
         getFragmentManager().addOnBackStackChangedListener(this);
 
