@@ -204,6 +204,12 @@ public abstract class BaseActivity
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NoticeController.byeBye(this);
+    }
+
+    @Override
     public void onShow(final String token, final int activeSize) {
         // Check token to define your future actions
     }

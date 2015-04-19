@@ -95,6 +95,10 @@ public final class NoticeController {
         return controller;
     }
 
+    public static synchronized void byeBye(final Object scene) {
+        sInstances.remove(scene);
+    }
+
     private static NoticeOnSceneController createInternally(final Object scene) {
         if (isSceneDeprecated(scene)) {
             return new NoticeOnSceneControllerStub();
