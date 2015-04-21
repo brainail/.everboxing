@@ -8,21 +8,21 @@ import java.util.Locale;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -32,149 +32,149 @@ import java.util.Locale;
  * THE SOFTWARE.
  */
 public final class Plogger {
-
+    
     public enum LogScope {
 
-        WTF("Wtf?"),
-        AUTH("Authorization flow"),
-        AUTH_TOKEN("Auth token");
+        WTF ("Wtf?"),
+        PLAY_SERVICES_AUTH ("Play Services auth flow"),
+        AUTH_TOKEN ("Auth token");
 
         final String mScopeName;
 
-        private LogScope(final String scopeName) {
+        private LogScope (final String scopeName) {
             mScopeName = scopeName;
         }
 
-        public String scope() {
+        public String scope () {
             return mScopeName;
         }
 
-        public String scopeMsg(final String message) {
+        public String scopeMsg (final String message) {
             return "[" + mScopeName + "] " + message;
         }
 
     }
 
     public static final boolean LOGGABLE = BuildConfig.LOGGABLE;
-    public static final String TAG = String.format(Locale.US, "[Plogger]:[%s]", BuildConfig.MODULE_NAME);
+    public static final String TAG = String.format (Locale.US, "[Plogger]:[%s]", BuildConfig.MODULE_NAME);
 
-    public static void logV(final String message) {
+    public static void logV (final String message) {
         if (LOGGABLE) {
-            Log.v(TAG, message);
+            Log.v (TAG, message);
         }
     }
 
-    public static void logV(final String message, final Object ... params) {
+    public static void logV (final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.v(TAG, String.format(Locale.US, message, params));
+            Log.v (TAG, String.format (Locale.US, message, params));
         }
     }
 
-    public static void logD(final String message) {
+    public static void logD (final String message) {
         if (LOGGABLE) {
-            Log.d(TAG, message);
+            Log.d (TAG, message);
         }
     }
 
-    public static void logD(final String message, final Object ... params) {
+    public static void logD (final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.d(TAG, String.format(Locale.US, message, params));
+            Log.d (TAG, String.format (Locale.US, message, params));
         }
     }
 
-    public static void logI(final String message) {
+    public static void logI (final String message) {
         if (LOGGABLE) {
-            Log.i(TAG, message);
+            Log.i (TAG, message);
         }
     }
 
-    public static void logI(final String message, final Object ... params) {
+    public static void logI (final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.i(TAG, String.format(Locale.US, message, params));
+            Log.i (TAG, String.format (Locale.US, message, params));
         }
     }
 
-    public static void logW(final String message) {
+    public static void logW (final String message) {
         if (LOGGABLE) {
-            Log.w(TAG, message);
+            Log.w (TAG, message);
         }
     }
 
-    public static void logW(final String message, final Object ... params) {
+    public static void logW (final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.w(TAG, String.format(Locale.US, message, params));
+            Log.w (TAG, String.format (Locale.US, message, params));
         }
     }
 
-    public static void logE(final String message) {
+    public static void logE (final String message) {
         if (LOGGABLE) {
-            Log.e(TAG, message);
+            Log.e (TAG, message);
         }
     }
 
-    public static void logE(final String message, final Object ... params) {
+    public static void logE (final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.e(TAG, String.format(Locale.US, message, params));
+            Log.e (TAG, String.format (Locale.US, message, params));
         }
     }
 
-    public static void logV(final LogScope scope, final String message) {
+    public static void logV (final LogScope scope, final String message) {
         if (LOGGABLE) {
-            Log.v(TAG, scope.scopeMsg(message));
+            Log.v (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logV(final LogScope scope, final String message, final Object ... params) {
+    public static void logV (final LogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.v(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
+            Log.v (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logD(final LogScope scope, final String message) {
+    public static void logD (final LogScope scope, final String message) {
         if (LOGGABLE) {
-            Log.d(TAG, scope.scopeMsg(message));
+            Log.d (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logD(final LogScope scope, final String message, final Object ... params) {
+    public static void logD (final LogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.d(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
+            Log.d (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logI(final LogScope scope, final String message) {
+    public static void logI (final LogScope scope, final String message) {
         if (LOGGABLE) {
-            Log.i(TAG, scope.scopeMsg(message));
+            Log.i (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logI(final LogScope scope, final String message, final Object ... params) {
+    public static void logI (final LogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.i(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
+            Log.i (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logW(final LogScope scope, final String message) {
+    public static void logW (final LogScope scope, final String message) {
         if (LOGGABLE) {
-            Log.w(TAG, scope.scopeMsg(message));
+            Log.w (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logW(final LogScope scope, final String message, final Object ... params) {
+    public static void logW (final LogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.w(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
+            Log.w (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logE(final LogScope scope, final String message) {
+    public static void logE (final LogScope scope, final String message) {
         if (LOGGABLE) {
-            Log.e(TAG, scope.scopeMsg(message));
+            Log.e (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logE(final LogScope scope, final String message, final Object ... params) {
+    public static void logE (final LogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
-            Log.e(TAG, scope.scopeMsg(String.format(Locale.US, message, params)));
+            Log.e (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 

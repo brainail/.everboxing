@@ -1,22 +1,22 @@
-package org.brainail.Everboxing.auth;
+package org.brainail.Everboxing.oauth.api;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -25,17 +25,9 @@ package org.brainail.Everboxing.auth;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class AuthRequestCode {
+public final class RequestCodeAPI {
 
     private static final int BASE = 1000;
-    public static final int PICK_ACCOUNT = BASE;
-    public static final int RECOVER_FROM_AUTH_ERROR = BASE + 1;
-    public static final int RECOVER_FROM_PLAY_SERVICES_ERROR = BASE + 2;
-
-    public static boolean isRecoverableError(final int code) {
-        boolean result = RECOVER_FROM_AUTH_ERROR == code;
-        result |= RECOVER_FROM_PLAY_SERVICES_ERROR == code;
-        return result;
-    }
+    public static final int REQUEST_RESOLVE_PLAY_SERVICES_ERROR = BASE + 1;
 
 }

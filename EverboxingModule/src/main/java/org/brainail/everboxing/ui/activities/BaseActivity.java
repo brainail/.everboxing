@@ -1,6 +1,7 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,12 +9,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.oauth.api.ClientAPI;
+import org.brainail.Everboxing.oauth.api.google.PlayServices;
 import org.brainail.Everboxing.ui.notice.NoticeBar;
 import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
 import org.brainail.Everboxing.utils.tool.ToolToolbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -23,21 +29,21 @@ import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -48,7 +54,8 @@ import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
  */
 public abstract class BaseActivity
         extends ActionBarActivity
-        implements OnBackStackChangedListener, NoticeBar.OnActionCallback, NoticeBar.OnVisibilityCallback {
+        implements OnBackStackChangedListener, NoticeBar.OnActionCallback, NoticeBar.OnVisibilityCallback,
+        ClientAPI.Supportable, DialogInterface.OnDismissListener {
 
     // Primary Toolbar
     private Toolbar mPrimaryToolbar;
@@ -56,172 +63,232 @@ public abstract class BaseActivity
     // Theme. I use null to define that this is full recreating
     private AppTheme mTheme = null;
 
+    // APIs
+    protected List<ClientAPI> mClientAPIs;
+    protected PlayServices mPlayServices;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate (Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
 
         // Window background causes an useless overdraw.
         // Nullifying the background removes that overdraw.
-        getWindow().setBackgroundDrawable(null);
+        getWindow ().setBackgroundDrawable (null);
 
         // Monitor fragments
-        getFragmentManager().addOnBackStackChangedListener(this);
+        getFragmentManager ().addOnBackStackChangedListener (this);
 
         // Init & check theme
-        mTheme = ThemeManager.checkOnCreate(this, mTheme);
+        mTheme = ThemeManager.checkOnCreate (this, mTheme);
 
         // Create notice controller
-        NoticeController.from(this).onCreate(savedInstanceState);
+        NoticeController.from (this).onCreate (savedInstanceState);
 
         // Init content view
-        initContent();
+        initContent ();
 
         // Init toolbar aka action bar
-        initToolbar();
+        initToolbar ();
+
+        // Init all APIs (Play, ...)
+        initAPIs (savedInstanceState);
     }
 
-    private void initContent() {
-        final Integer resourceId = getLayoutResourceId();
+    private void initAPIs (Bundle savedInstanceState) {
+        // All
+        mClientAPIs = new ArrayList<ClientAPI> ();
+
+        // Google Play Services
+        mPlayServices = new PlayServices (this, savedInstanceState);
+        mClientAPIs.add (mPlayServices);
+    }
+
+    private void initContent () {
+        final Integer resourceId = getLayoutResourceId ();
         if (null != resourceId) {
-            setContentView(resourceId);
+            setContentView (resourceId);
         }
     }
 
-    private void initToolbar() {
-        final Integer resourceId = getPrimaryToolbarLayoutResourceId();
+    private void initToolbar () {
+        final Integer resourceId = getPrimaryToolbarLayoutResourceId ();
         if (null != resourceId) {
-            mPrimaryToolbar = ButterKnife.findById(this, resourceId);
+            mPrimaryToolbar = ButterKnife.findById (this, resourceId);
         }
 
         if (null != mPrimaryToolbar) {
-            setSupportActionBar(mPrimaryToolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeButtonEnabled(true);
+            setSupportActionBar (mPrimaryToolbar);
+            getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
+            getSupportActionBar ().setHomeButtonEnabled (true);
         }
     }
 
     @Override
-    protected void attachBaseContext(final Context baseContext) {
+    protected void attachBaseContext (final Context baseContext) {
         // Attach the Calligraphy
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(baseContext));
+        super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
     }
 
-    protected String getDefaultFont() {
+    protected String getDefaultFont () {
         return ToolFonts.RobotoFonts.ASSETS_REGULAR;
     }
 
-    protected Integer getLayoutResourceId() {
+    protected Integer getLayoutResourceId () {
         return null;
     }
 
-    public Toolbar getPrimaryToolbar() {
+    public Toolbar getPrimaryToolbar () {
         return mPrimaryToolbar;
     }
 
-    protected Integer getPrimaryToolbarLayoutResourceId() {
+    protected Integer getPrimaryToolbarLayoutResourceId () {
         return null;
     }
 
-    public final ActionBarActivity self() {
+    public final ActionBarActivity self () {
         return this;
     }
 
     @Override
-    protected void onStart() {
-        NoticeController.from(this).showScene();
-        super.onStart();
+    protected void onStart () {
+        NoticeController.from (this).showScene ();
+
+        // Start APIs
+        for (final ClientAPI api : mClientAPIs) {
+            if (api.useOn(this)) api.onStart ();
+        }
+
+        super.onStart ();
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        NoticeController.from(this).onSaveInstanceState(outState);
-        super.onSaveInstanceState(outState);
+    protected void onSaveInstanceState (Bundle outState) {
+        NoticeController.from (this).onSaveInstanceState (outState);
+
+        // Saved APIs
+        for (final ClientAPI api : mClientAPIs) {
+            if (api.useOn(this)) api.onSave (outState);
+        }
+
+        super.onSaveInstanceState (outState);
     }
 
     @Override
-    protected void onStop() {
-        NoticeController.from(this).hideScene();
-        super.onStop();
+    protected void onStop () {
+        NoticeController.from (this).hideScene ();
+
+        // Stop APIs
+        for (final ClientAPI api : mClientAPIs) {
+            if (api.useOn(this)) api.onStop ();
+        }
+
+        super.onStop ();
     }
 
     @Override
-    protected void onResume() {
-        ThemeManager.checkOnResume(this, mTheme);
-        super.onResume();
+    protected void onResume () {
+        ThemeManager.checkOnResume (this, mTheme);
+        super.onResume ();
     }
 
     @Override
-    public void onBackPressed(){
-        if (!ToolFragments.navigateBack(this)) {
-            super.onBackPressed();
+    public void onBackPressed () {
+        if (!ToolFragments.navigateBack (this)) {
+            super.onBackPressed ();
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch (item.getItemId ()) {
             case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivity (new Intent (this, SettingsActivity.class));
                 return true;
 
             default:
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected (item);
     }
 
     @Override
-    public void onBackStackChanged() {
+    public void onBackStackChanged () {
         // Restore some data for toolbar
-        updateToolbarColor();
-        updateToolbarTitle();
+        updateToolbarColor ();
+        updateToolbarTitle ();
     }
 
     @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
+    protected void onResumeFragments () {
+        super.onResumeFragments ();
 
         // Restore some data for toolbar
-        updateToolbarColor();
-        updateToolbarTitle();
+        updateToolbarColor ();
+        updateToolbarTitle ();
     }
 
-    protected void updateToolbarColor() {
-        ToolToolbar.updateToolbarColor(this, null);
+    protected void updateToolbarColor () {
+        ToolToolbar.updateToolbarColor (this, null);
     }
 
-    protected void updateToolbarTitle() {
-        ToolToolbar.updateToolbarTitle(this, null);
+    protected void updateToolbarTitle () {
+        ToolToolbar.updateToolbarTitle (this, null);
     }
 
     @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+    public void onDetachedFromWindow () {
+        super.onDetachedFromWindow ();
 
         // We don't want to monitor fragments after
-        getFragmentManager().removeOnBackStackChangedListener(this);
+        getFragmentManager ().removeOnBackStackChangedListener (this);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        NoticeController.byeBye(this);
+    protected void onDestroy () {
+        NoticeController.byeBye (this);
+
+        // Destroy APIs
+        for (final ClientAPI api : mClientAPIs) {
+            if (api.useOn(this)) api.onDestroy ();
+        }
+
+        super.onDestroy ();
     }
 
     @Override
-    public void onShow(final String token, final int activeSize) {
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        // Handle result via APIs
+        for (final ClientAPI api : mClientAPIs) {
+            if (api.handleOnResult (requestCode, resultCode, data)) return;
+        }
+
+        super.onActivityResult (requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onShow (final String token, final int activeSize) {
         // Check token to define your future actions
     }
 
     @Override
-    public void onMute(final String token, final int activeSize) {
+    public void onMute (final String token, final int activeSize) {
         // Check token to define your future actions
     }
 
     @Override
-    public void onAction(final String token) {
+    public void onAction (final String token) {
         // Check token to define your future actions
+    }
+
+    @Override
+    public boolean usePlayService () {
+        return true;
+    }
+
+    public void onPlayErrorDismissed () {
+        // To reset error flag
+        if (null != mPlayServices) mPlayServices.onErrorDismissed ();
     }
 
 }

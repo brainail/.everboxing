@@ -3,10 +3,13 @@ package org.brainail.Everboxing.ui.views.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import org.brainail.Everboxing.ui.activities.BaseActivity;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -46,13 +49,17 @@ public class GooglePsErrorDialog extends DialogFragment {
     private int mRequestCode;
 
     public static void show(final Activity activity, final int statusCode, final int requestCode) {
-        if (null != activity) {
+        if (null != activity && !hasPresenter (activity)) {
             newInstance(statusCode, requestCode).show(activity.getFragmentManager(), MANAGER_TAG);
         }
     }
 
     public static void show(final Activity activity, final int statusCode) {
         show(activity, statusCode, 0);
+    }
+
+    public static boolean hasPresenter(final Activity activity) {
+        return null != activity && null != activity.getFragmentManager ().findFragmentByTag (MANAGER_TAG);
     }
 
     public static GooglePsErrorDialog newInstance(final int statusCode, final int requestCode) {
@@ -87,6 +94,16 @@ public class GooglePsErrorDialog extends DialogFragment {
         //     that was originally added here (Dialog#show())
         final Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(mStatusCode, getActivity(), mRequestCode);
         return null != errorDialog ? errorDialog : super.onCreateDialog(savedInstanceState);
+    }
+
+    @Override
+    public void onDismiss (DialogInterface dialog) {
+        super.onDismiss (dialog);
+
+        final Activity scene = getActivity ();
+        if (scene instanceof BaseActivity) {
+            ((BaseActivity) scene).onPlayErrorDismissed ();
+        }
     }
 
 }

@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
 
-import org.brainail.Everboxing.auth.AbstractAuthTask;
 import org.brainail.Everboxing.utils.Plogger;
 import org.brainail.Everboxing.utils.Sdk;
 
@@ -37,12 +36,12 @@ public final class ToolTasks {
 
     // Safely executes async task.
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static void safeExecuteAuthTask(final AbstractAuthTask authTask) {
+    public static void safeExecuteTask(final AsyncTask task) {
         try {
             if (!Sdk.isSdkSupported(Sdk.HONEYCOMB)) {
-                authTask.execute();
+                task.execute();
             } else {
-                authTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         } catch (Exception exception) {
             Plogger.logE("Smth was wrong while executing ad task.\nException: %s", exception.getLocalizedMessage());

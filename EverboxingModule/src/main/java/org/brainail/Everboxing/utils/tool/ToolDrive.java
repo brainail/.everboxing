@@ -1,14 +1,4 @@
-package org.brainail.Everboxing.auth;
-
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.UserRecoverableAuthException;
-
-import org.brainail.Everboxing.JApplication;
-import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.utils.tool.ToolUI;
-
-import java.io.IOException;
+package org.brainail.Everboxing.utils.tool;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -35,26 +25,4 @@ import java.io.IOException;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class FetchTokenTask extends AbstractFetchTokenTask {
-
-    public FetchTokenTask(final AuthorizationFlow authFlow, final String email, final String scope) {
-        super(authFlow, email, scope);
-    }
-
-    @Override
-    protected String fetchToken() throws IOException {
-        try {
-            return GoogleAuthUtil.getToken(JApplication.appContext(), mEmail, mScope);
-        } catch (UserRecoverableAuthException exception) {
-            // GooglePlayServices.apk is either old, disabled, or not present, which is
-            // recoverable, so we need to show the user some UI through the activity.
-            mAuthFlow.handleError(exception);
-        } catch (GoogleAuthException exception) {
-            onError(exception);
-            ToolUI.showToast(mAuthFlow.getActivity(), R.string.auth_flow_device_suitability);
-        }
-
-        return null;
-    }
-
-}
+public final class ToolDrive {}
