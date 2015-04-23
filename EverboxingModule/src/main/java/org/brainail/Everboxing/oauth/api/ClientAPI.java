@@ -29,10 +29,11 @@ import android.os.Bundle;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public abstract class ClientAPI <T> implements UserInfoAPI.AuthCallback {
+public abstract class ClientApi <T> implements UserInfoApi.AuthCallback {
 
     public interface Supportable {
-        public boolean usePlayService ();
+        public boolean usePlayServices ();
+        public ClientApi getPlayServices ();
     }
 
     public abstract T api ();
@@ -51,11 +52,11 @@ public abstract class ClientAPI <T> implements UserInfoAPI.AuthCallback {
         return false;
     }
 
-    public UserInfoAPI.AuthCallback authorizer () {
+    public UserInfoApi.AuthCallback authorizer () {
         return null;
     }
 
-    public UserInfoAPI formUserInfo () {
+    public UserInfoApi formUserInfo () {
         return null;
     }
 
@@ -76,8 +77,8 @@ public abstract class ClientAPI <T> implements UserInfoAPI.AuthCallback {
     }
 
     @Override
-    public void onAuthSucceeded (final UserInfoAPI userInfo) {
-        final UserInfoAPI.AuthCallback authorizer = authorizer ();
+    public void onAuthSucceeded (final UserInfoApi userInfo) {
+        final UserInfoApi.AuthCallback authorizer = authorizer ();
         if (null != authorizer) {
             authorizer.onAuthSucceeded (userInfo);
         }
@@ -85,7 +86,7 @@ public abstract class ClientAPI <T> implements UserInfoAPI.AuthCallback {
 
     @Override
     public void onUnauthSucceeded () {
-        final UserInfoAPI.AuthCallback authorizer = authorizer ();
+        final UserInfoApi.AuthCallback authorizer = authorizer ();
         if (null != authorizer) {
             authorizer.onUnauthSucceeded ();
         }

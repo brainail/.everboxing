@@ -25,16 +25,16 @@ package org.brainail.Everboxing.oauth.api;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class UserInfoAPI {
+public class UserInfoApi {
 
     public interface AuthCallback {
-        public void onAuthSucceeded (final UserInfoAPI userInfo);
+        public void onAuthSucceeded (final UserInfoApi userInfo);
         public void onUnauthSucceeded ();
     }
 
     public String email;
 
-    public UserInfoAPI (final String email) {
+    public UserInfoApi (final String email) {
         this.email = email;
     }
 

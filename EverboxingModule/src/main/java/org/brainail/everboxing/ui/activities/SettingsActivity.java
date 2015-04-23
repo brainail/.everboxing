@@ -1,6 +1,7 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,9 +20,11 @@ import android.view.MenuItem;
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.oauth.api.UserInfoAPI;
+import org.brainail.Everboxing.oauth.api.ClientApi;
+import org.brainail.Everboxing.oauth.api.UserInfoApi;
 import org.brainail.Everboxing.ui.views.PreferenceIcon;
 import org.brainail.Everboxing.ui.views.dialogs.ThemeChooser;
+import org.brainail.Everboxing.ui.views.preference.SwitchPreferenceCompat;
 import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
@@ -52,7 +55,7 @@ import org.brainail.Everboxing.utils.tool.ToolUI;
  */
 public class SettingsActivity
         extends BaseActivity
-        implements UserInfoAPI.AuthCallback {
+        implements UserInfoApi.AuthCallback {
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -157,17 +160,12 @@ public class SettingsActivity
         super.onStop ();
     }
 
-    @Override
-    public boolean usePlayService () {
-        return false;
-    }
-
     private SettingsFragment findSettingsFragment () {
         return (SettingsFragment) getFragmentManager ().findFragmentByTag (SettingsFragment.MANAGER_TAG);
     }
 
     @Override
-    public void onAuthSucceeded (UserInfoAPI userInfo) {
+    public void onAuthSucceeded (UserInfoApi userInfo) {
         // ...
     }
 
@@ -197,6 +195,10 @@ public class SettingsActivity
             // to reflect the new value, per the Android Design guidelines.
             // ...
 
+            // Sync data
+            final Preference syncDataPf = findPreference (getString (R.string.settings_sync_account_key));
+            syncDataPf.setIcon (PreferenceIcon.from (getActivity (), Iconify.IconValue.md_sync));
+
             // Change theme
             final String defChangeThemeSummary = SettingsManager.getInstance ().retrieveAppThemeSummary ();
             final Preference changeThemePf = findPreference (getString (R.string.settings_change_theme_key));
@@ -204,12 +206,19 @@ public class SettingsActivity
             bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
             // Set click listeners
+            setOnClickListener (getString (R.string.settings_sync_account_key));
             setOnClickListener (getString (R.string.settings_change_theme_key));
         }
 
         @Override
         public boolean onPreferenceClick (final Preference preference) {
-            if (getString (R.string.settings_change_theme_key).equals (preference.getKey ())) {
+            if (getString (R.string.settings_sync_account_key).equals (preference.getKey ())) {
+                final Activity scene = getActivity ();
+                if ((scene instanceof ClientApi.Supportable) && ((SwitchPreferenceCompat) preference).isChecked ()) {
+                    final ClientApi api = ((ClientApi.Supportable) scene).getPlayServices ();
+                    if (null != api) api.connect ();
+                }
+            } else if (getString (R.string.settings_change_theme_key).equals (preference.getKey ())) {
                 new ThemeChooser ().show (getActivity ().getFragmentManager (), ThemeChooser.MANAGER_TAG);
             }
 

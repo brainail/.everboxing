@@ -1,18 +1,20 @@
 package org.brainail.Everboxing.ui.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.oauth.api.ClientAPI;
+import org.brainail.Everboxing.oauth.api.ClientApi;
 import org.brainail.Everboxing.oauth.api.google.PlayServices;
 import org.brainail.Everboxing.ui.notice.NoticeBar;
 import org.brainail.Everboxing.ui.notice.NoticeController;
+import org.brainail.Everboxing.utils.manager.SettingsManager;
 import org.brainail.Everboxing.utils.manager.ThemeManager;
 import org.brainail.Everboxing.utils.tool.ToolFonts;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
@@ -53,9 +55,9 @@ import static org.brainail.Everboxing.utils.manager.ThemeManager.AppTheme;
  * THE SOFTWARE.
  */
 public abstract class BaseActivity
-        extends ActionBarActivity
+        extends AppCompatActivity
         implements OnBackStackChangedListener, NoticeBar.OnActionCallback, NoticeBar.OnVisibilityCallback,
-        ClientAPI.Supportable, DialogInterface.OnDismissListener {
+        ClientApi.Supportable {
 
     // Primary Toolbar
     private Toolbar mPrimaryToolbar;
@@ -64,7 +66,7 @@ public abstract class BaseActivity
     private AppTheme mTheme = null;
 
     // APIs
-    protected List<ClientAPI> mClientAPIs;
+    protected List<ClientApi> mClientApis;
     protected PlayServices mPlayServices;
 
     @Override
@@ -96,11 +98,11 @@ public abstract class BaseActivity
 
     private void initAPIs (Bundle savedInstanceState) {
         // All
-        mClientAPIs = new ArrayList<ClientAPI> ();
+        mClientApis = new ArrayList<ClientApi> ();
 
         // Google Play Services
         mPlayServices = new PlayServices (this, savedInstanceState);
-        mClientAPIs.add (mPlayServices);
+        mClientApis.add (mPlayServices);
     }
 
     private void initContent () {
@@ -145,7 +147,7 @@ public abstract class BaseActivity
         return null;
     }
 
-    public final ActionBarActivity self () {
+    public final AppCompatActivity self () {
         return this;
     }
 
@@ -154,7 +156,7 @@ public abstract class BaseActivity
         NoticeController.from (this).showScene ();
 
         // Start APIs
-        for (final ClientAPI api : mClientAPIs) {
+        for (final ClientApi api : mClientApis) {
             if (api.useOn(this)) api.onStart ();
         }
 
@@ -165,8 +167,8 @@ public abstract class BaseActivity
     protected void onSaveInstanceState (Bundle outState) {
         NoticeController.from (this).onSaveInstanceState (outState);
 
-        // Saved APIs
-        for (final ClientAPI api : mClientAPIs) {
+        // Save APIs
+        for (final ClientApi api : mClientApis) {
             if (api.useOn(this)) api.onSave (outState);
         }
 
@@ -178,7 +180,7 @@ public abstract class BaseActivity
         NoticeController.from (this).hideScene ();
 
         // Stop APIs
-        for (final ClientAPI api : mClientAPIs) {
+        for (final ClientApi api : mClientApis) {
             if (api.useOn(this)) api.onStop ();
         }
 
@@ -249,7 +251,7 @@ public abstract class BaseActivity
         NoticeController.byeBye (this);
 
         // Destroy APIs
-        for (final ClientAPI api : mClientAPIs) {
+        for (final ClientApi api : mClientApis) {
             if (api.useOn(this)) api.onDestroy ();
         }
 
@@ -259,7 +261,7 @@ public abstract class BaseActivity
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         // Handle result via APIs
-        for (final ClientAPI api : mClientAPIs) {
+        for (final ClientApi api : mClientApis) {
             if (api.handleOnResult (requestCode, resultCode, data)) return;
         }
 
@@ -282,8 +284,13 @@ public abstract class BaseActivity
     }
 
     @Override
-    public boolean usePlayService () {
-        return true;
+    public boolean usePlayServices () {
+        return SettingsManager.getInstance ().retrieveSyncDataFlag ();
+    }
+
+    @Override
+    public ClientApi<GoogleApiClient> getPlayServices () {
+        return mPlayServices;
     }
 
     public void onPlayErrorDismissed () {

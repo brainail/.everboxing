@@ -15,9 +15,9 @@ import com.google.android.gms.drive.Drive;
 import com.google.android.gms.plus.Plus;
 
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.oauth.api.ClientAPI;
-import org.brainail.Everboxing.oauth.api.RequestCodeAPI;
-import org.brainail.Everboxing.oauth.api.UserInfoAPI;
+import org.brainail.Everboxing.oauth.api.ClientApi;
+import org.brainail.Everboxing.oauth.api.RequestCodeApi;
+import org.brainail.Everboxing.oauth.api.UserInfoApi;
 import org.brainail.Everboxing.ui.views.dialogs.GooglePsErrorDialog;
 import org.brainail.Everboxing.utils.Plogger;
 import org.brainail.Everboxing.utils.manager.SettingsManager;
@@ -53,7 +53,7 @@ import static org.brainail.Everboxing.utils.Plogger.LogScope;
  * THE SOFTWARE.
  */
 public class PlayServices
-        extends ClientAPI<GoogleApiClient>
+        extends ClientApi<GoogleApiClient>
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private WeakReference<Activity> mScene;
@@ -108,9 +108,9 @@ public class PlayServices
     }
 
     @Override
-    public UserInfoAPI.AuthCallback authorizer () {
+    public UserInfoApi.AuthCallback authorizer () {
         final Activity activity = scene ();
-        return !(activity instanceof UserInfoAPI.AuthCallback) ? null : (UserInfoAPI.AuthCallback) activity;
+        return !(activity instanceof UserInfoApi.AuthCallback) ? null : (UserInfoApi.AuthCallback) activity;
     }
 
     @Override
@@ -179,7 +179,7 @@ public class PlayServices
         Plogger.logI (LogScope.PLAY_SERVICES_AUTH, "Handling result code ...");
         if (super.handleOnResult (requestCode, resultCode, data)) return true;
 
-        if (RequestCodeAPI.REQUEST_RESOLVE_PLAY_SERVICES_ERROR == requestCode) {
+        if (RequestCodeApi.REQUEST_RESOLVE_PLAY_SERVICES_ERROR == requestCode) {
             mResolvingError = false;
             if (Activity.RESULT_OK == resultCode) {
                 // Make sure the app is not already connected or attempting to connect
@@ -197,8 +197,8 @@ public class PlayServices
     }
 
     @Override
-    public UserInfoAPI formUserInfo () {
-        return new UserInfoAPI (mEmail);
+    public UserInfoApi formUserInfo () {
+        return new UserInfoApi (mEmail);
     }
 
     @Override
@@ -246,7 +246,7 @@ public class PlayServices
             try {
                 mResolvingError = true;
                 if (null != scene) {
-                    connectionResult.startResolutionForResult (scene, RequestCodeAPI.REQUEST_RESOLVE_PLAY_SERVICES_ERROR);
+                    connectionResult.startResolutionForResult (scene, RequestCodeApi.REQUEST_RESOLVE_PLAY_SERVICES_ERROR);
                 }
             } catch (final IntentSender.SendIntentException exception) {
                 Plogger.logE (LogScope.PLAY_SERVICES_AUTH, "Error while starting resolution ...");
@@ -293,7 +293,7 @@ public class PlayServices
     }
 
     @Override
-    public void onAuthSucceeded (UserInfoAPI userInfo) {
+    public void onAuthSucceeded (UserInfoApi userInfo) {
         super.onAuthSucceeded (userInfo);
         SettingsManager.getInstance ().savePlayAccountDetails (userInfo);
     }
@@ -306,7 +306,7 @@ public class PlayServices
 
     @Override
     public boolean useOn (Activity scene) {
-        return (scene instanceof Supportable) && ((Supportable) scene).usePlayService ();
+        return (scene instanceof Supportable) && ((Supportable) scene).usePlayServices ();
     }
 
     public static int isGooglePlayServicesAvailable (final Activity activity) {

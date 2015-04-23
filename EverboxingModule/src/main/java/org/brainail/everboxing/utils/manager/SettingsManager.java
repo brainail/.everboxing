@@ -5,7 +5,7 @@ import android.preference.PreferenceManager;
 
 import org.brainail.Everboxing.JApplication;
 import org.brainail.Everboxing.R;
-import org.brainail.Everboxing.oauth.api.UserInfoAPI;
+import org.brainail.Everboxing.oauth.api.UserInfoApi;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -36,6 +36,7 @@ public final class SettingsManager {
 
     private SharedPreferences mDefaultPreferences;
     private String mPlayAccountPfKey;
+    private String mSyncDataPfKey;
     private String mAppThemePfKey;
     private String mAppThemeNamePfKey;
 
@@ -46,8 +47,9 @@ public final class SettingsManager {
 
     private void initializePreferencesKeys () {
         mPlayAccountPfKey = JApplication.appContext ().getString (R.string.settings_add_play_account_key);
-        mAppThemePfKey = "app_theme";
+        mSyncDataPfKey = JApplication.appContext ().getString (R.string.settings_sync_account_key);
         mAppThemeNamePfKey = JApplication.appContext ().getString (R.string.settings_change_theme_key);
+        mAppThemePfKey = "app_theme";
     }
 
     private void initializePreferences () {
@@ -66,7 +68,7 @@ public final class SettingsManager {
         return mDefaultPreferences;
     }
 
-    public void savePlayAccountDetails (final UserInfoAPI userInfo) {
+    public void savePlayAccountDetails (final UserInfoApi userInfo) {
         mDefaultPreferences.edit ().putString (mPlayAccountPfKey, userInfo.email).apply ();
     }
 
@@ -76,6 +78,10 @@ public final class SettingsManager {
 
     public String retrievePlayAccountEmail () {
         return mDefaultPreferences.getString (mPlayAccountPfKey, null);
+    }
+
+    public boolean retrieveSyncDataFlag () {
+        return mDefaultPreferences.getBoolean (mSyncDataPfKey, false);
     }
 
     public void saveAppTheme (final ThemeManager.AppTheme theme) {

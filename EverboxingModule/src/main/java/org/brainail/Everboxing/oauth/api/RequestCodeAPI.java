@@ -25,7 +25,7 @@ package org.brainail.Everboxing.oauth.api;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class RequestCodeAPI {
+public final class RequestCodeApi {
 
     private static final int BASE = 1000;
     public static final int REQUEST_RESOLVE_PLAY_SERVICES_ERROR = BASE + 1;

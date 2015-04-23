@@ -2,7 +2,7 @@ package org.brainail.Everboxing.utils.tool;
 
 import android.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
  */
 public final class ToolToolbar {
 
-    public static void updateToolbarTitle(final ActionBarActivity activity, final String title) {
+    public static void updateToolbarTitle(final AppCompatActivity activity, final String title) {
         // No place
         if (null == activity) return;
 
@@ -78,7 +78,7 @@ public final class ToolToolbar {
         if (null != toolbar) toolbar.setTitle(toolbarTitle);
     }
 
-    public static void updateToolbarColor(final ActionBarActivity activity, final Integer color) {
+    public static void updateToolbarColor(final AppCompatActivity activity, final Integer color) {
         // No place
         if (null == activity) return;
 
