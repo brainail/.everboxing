@@ -3,6 +3,7 @@ package org.brainail.Everboxing.ui.activities;
 import android.os.Bundle;
 import android.view.View;
 
+import org.brainail.Everboxing.oauth.api.UserInfoApi;
 import org.brainail.Everboxing.ui.drawer.DrawerSection;
 import org.brainail.Everboxing.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.Everboxing.ui.drawer.IDrawerSectionsController;
@@ -36,7 +37,9 @@ import static org.brainail.Everboxing.ui.drawer.DrawerSectionsOnSceneInitializer
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public abstract class SectionedDrawerActivity extends BaseDrawerActivity {
+public abstract class SectionedDrawerActivity
+        extends BaseDrawerActivity
+        implements UserInfoApi.AuthCallback {
 
     private IDrawerSectionsController mDrawerSectionsController;
 
@@ -137,6 +140,16 @@ public abstract class SectionedDrawerActivity extends BaseDrawerActivity {
         } else {
             ToolToolbar.updateToolbarTitle(this, section.getTitle());
         }
+    }
+
+    @Override
+    public void onAuthSucceeded (UserInfoApi userInfo) {
+        mDrawerSectionsController.onAuthSucceeded (userInfo);
+    }
+
+    @Override
+    public void onUnauthSucceeded () {
+        mDrawerSectionsController.onUnauthSucceeded ();
     }
 
     public abstract IDrawerSectionInitializer sectionInitializer();

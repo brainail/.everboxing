@@ -2,16 +2,20 @@ package org.brainail.Everboxing.ui.drawer;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.oauth.api.UserInfoApi;
+import org.brainail.Everboxing.oauth.api.google.PlayServices;
 import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.utils.callable.Tagable;
 import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolFragments;
+import org.brainail.Everboxing.utils.tool.ToolStrings;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 
 import java.util.LinkedList;
@@ -52,6 +56,8 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     @Optional @InjectView(R.id.drawer_menu_help_sections_separator) View mHelpSectionsSeparator;
     @Optional @InjectView(R.id.drawer_menu_primary) View mDrawerView;
     @Optional @InjectView(R.id.drawer_menu_user_cover) View mUserCoverArea;
+    @Optional @InjectView(R.id.drawer_menu_user_name) TextView mUserName;
+    @Optional @InjectView(R.id.drawer_menu_user_email) TextView mUserEmail;
 
     private DrawerSection mCurrentSection;
 
@@ -63,11 +69,12 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     public DrawerSectionsController(final SectionedDrawerActivity scene) {
         mScene = scene;
         ButterKnife.inject(this, scene);
+        updateUserInfo (PlayServices.formSettingsUserInfo ());
     }
 
     @Override
     public void addDivider() {
-        addDivider(R.layout.drawer_section_divider);
+        addDivider (R.layout.drawer_section_divider);
     }
 
     @Override
@@ -77,7 +84,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         title.setText(titleText);
 
         addDivider(R.layout.drawer_section_divider_subheader);
-        mPrimarySections.addView(subheader);
+        mPrimarySections.addView (subheader);
     }
 
     private void addDivider(final int layoutId) {
@@ -86,7 +93,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     @Override
     public void addSection(final DrawerSection section) {
-        section.withController(this);
+        section.withController (this);
 
         switch (section.getLocationType()) {
             case PRIMARY:
@@ -144,7 +151,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
             final Object sectionTarget = primarySection.getTarget();
             if (sectionTarget instanceof Tagable) {
                 final String sectionTagIdentifier = ((Tagable) sectionTarget).tag();
-                if (sectionTagIdentifier.equals(tagIdentifier)) return primarySection;
+                if (sectionTagIdentifier.equals (tagIdentifier)) return primarySection;
             }
         }
 
@@ -152,7 +159,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
             final Object sectionTarget = helpSection.getTarget();
             if (sectionTarget instanceof Tagable) {
                 final String sectionTagIdentifier = ((Tagable) sectionTarget).tag();
-                if (sectionTagIdentifier.equals(tagIdentifier)) return helpSection;
+                if (sectionTagIdentifier.equals (tagIdentifier)) return helpSection;
             }
         }
 
@@ -195,13 +202,13 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     private void addHelpSection(final DrawerSection section) {
         section.withPosition(-mHelpDrawerSections.size() - 1);
-        mHelpDrawerSections.add(section);
-        mHelpSections.addView(section.selfView());
-        notifySectionsChanged();
+        mHelpDrawerSections.add (section);
+        mHelpSections.addView (section.selfView ());
+        notifySectionsChanged ();
     }
 
     private void notifySectionsChanged() {
-        mHelpSectionsSeparator.setVisibility(mHelpDrawerSections.isEmpty() ? View.GONE : View.VISIBLE);
+        mHelpSectionsSeparator.setVisibility (mHelpDrawerSections.isEmpty () ? View.GONE : View.VISIBLE);
     }
 
     private LayoutInflater getInflater() {
@@ -237,7 +244,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     // See Activity#onSaveInstanceState
     public void saveState(final Bundle state) {
         if (null != mCurrentSection) {
-            state.putInt(DrawerSection.ExtraKey.POSITION, mCurrentSection.getPosition());
+            state.putInt (DrawerSection.ExtraKey.POSITION, mCurrentSection.getPosition ());
         }
     }
 
@@ -263,6 +270,27 @@ final class DrawerSectionsController implements IDrawerSectionsController {
             // Just select via internal action because it's already here
             investigatedSection.select(true);
         }
+    }
+
+    @Override
+    public void updateUserInfo (UserInfoApi userInfo) {
+        if (null == userInfo || TextUtils.isEmpty (userInfo.email)) {
+            mUserName.setText (ToolStrings.EMPTY);
+            mUserEmail.setText (ToolStrings.EMPTY);
+        } else {
+            mUserName.setText (R.string.drawer_user_data_name_greetings);
+            mUserEmail.setText (userInfo.email);
+        }
+    }
+
+    @Override
+    public void onAuthSucceeded (UserInfoApi userInfo) {
+        updateUserInfo (userInfo);
+    }
+
+    @Override
+    public void onUnauthSucceeded () {
+        updateUserInfo (new UserInfoApi (ToolStrings.EMPTY));
     }
 
 }

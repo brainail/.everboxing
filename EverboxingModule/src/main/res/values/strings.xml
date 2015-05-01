@@ -30,6 +30,7 @@
     <!-- Nav drawer -->
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="drawer_user_data_name_greetings">&#9728; Greeting you! &#9728;</string>
 
     <!-- Themes -->
     <string name="theme_name_default">Pink</string>

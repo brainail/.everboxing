@@ -65,7 +65,6 @@
                 android:layout_below="@+id/drawer_menu_user_cover"
                 android:orientation="vertical"/>
 
-            <!-- FIXME: Remove android:text & make data with View.GONE -->
             <LinearLayout
                 android:id="@+id/drawer_menu_user_data"
                 android:layout_width="wrap_content"
@@ -88,7 +87,7 @@
                     android:layout_marginStart="@dimen/menu_drawer_section_horizontal_margin"
                     android:textSize="@dimen/menu_drawer_section_text_size"
                     fontPath="fonts/Roboto-Medium.ttf"
-                    android:text="Yegor Malyshev"
+                    tools:text="Yegor Malyshev"
                     android:textColor="@color/menu_drawer_user_cover_data_text"
                     tools:ignore="MissingPrefix"/>
 
@@ -99,7 +98,7 @@
                     android:layout_marginLeft="@dimen/menu_drawer_section_horizontal_margin"
                     android:layout_marginStart="@dimen/menu_drawer_section_horizontal_margin"
                     fontPath="fonts/Roboto-Regular.ttf"
-                    android:text="wsemirz.sync@gmail.com"
+                    tools:text="wsemirz@gmail.com"
                     android:textSize="@dimen/menu_drawer_section_text_size"
                     android:textColor="@color/menu_drawer_user_cover_data_text"
                     tools:ignore="MissingPrefix"/>

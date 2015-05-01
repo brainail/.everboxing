@@ -201,6 +201,10 @@ public class PlayServices
         return new UserInfoApi (mEmail);
     }
 
+    public static UserInfoApi formSettingsUserInfo () {
+        return new UserInfoApi (SettingsManager.getInstance ().retrievePlayAccountEmail ());
+    }
+
     @Override
     public void onConnected (Bundle bundle) {
         Plogger.logI (LogScope.PLAY_SERVICES_AUTH, "Successfully connected to play services");
