@@ -49,7 +49,7 @@ public final class SettingsManager {
         mPlayAccountPfKey = JApplication.appContext ().getString (R.string.settings_add_play_account_key);
         mSyncDataPfKey = JApplication.appContext ().getString (R.string.settings_sync_account_key);
         mAppThemeNamePfKey = JApplication.appContext ().getString (R.string.settings_change_theme_key);
-        mAppThemePfKey = "app_theme";
+        mAppThemePfKey = "settings_app_theme";
     }
 
     private void initializePreferences () {

@@ -3,11 +3,16 @@
 
     <!-- Base -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Android section -->
+        <!-- ... -->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/primary_default</item>
         <item name="colorPrimaryDark">@color/primary_default_dark</item>
         <item name="colorAccent">@color/accent_default</item>
+
+        <!-- Custom section -->
+        <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_default_pink_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_selector</item>
     </style>
