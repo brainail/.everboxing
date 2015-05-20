@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.brainail.EverboxingLexis.ui.views.DrawerSectionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AppDrawer.Section">
+
+    <TextView
+        android:id="@id/drawer_section_text"
+        style="@style/AppDrawer.Title.Base"
+        android:layout_toLeftOf="@+id/drawer_section_notification"
+        android:layout_toStartOf="@+id/drawer_section_notification"/>
+
+    <TextView
+        android:id="@id/drawer_section_notification"
+        style="@style/AppDrawer.Notification"/>
+
+</org.brainail.EverboxingLexis.ui.views.DrawerSectionLayout>

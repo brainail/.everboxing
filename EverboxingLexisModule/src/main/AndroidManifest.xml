@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.brainail.EverboxingLexis">
+
+    <!-- Open network sockets -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Access information about networks -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <!-- Access information about account -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:name="org.brainail.EverboxingLexis.JApplication"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme.Default">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+
+        <activity
+            android:name="org.brainail.EverboxingLexis.ui.activities.HomeActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="org.brainail.EverboxingLexis.ui.activities.SettingsActivity"
+            android:label="@string/settings_activity_title"
+            android:parentActivityName="org.brainail.EverboxingLexis.ui.activities.HomeActivity"
+            tools:ignore="UnusedAttribute">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.brainail.EverboxingLexis.ui.activities.HomeActivity"/>
+        </activity>
+
+        <!-- Fabric key -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="31f79ffcea0b848ba23aa7a9b536165c59d8d6c8"/>
+
+        <!-- Remove the TestActivity coming from recyclerview-v7 -->
+        <!--suppress AndroidDomInspection -->
+        <activity
+            android:name="android.support.v7.widget.TestActivity"
+            android:label="RecyclerViewTestActivity"
+            tools:node="remove"/>
+    </application>
+
+</manifest>

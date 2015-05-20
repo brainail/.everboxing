@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name" translatable="false">Everboxing ҂ Lexis</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Settings window -->
+    <string name="settings_activity_title">Settings</string>
+
+    <string name="settings_account_header">Account</string>
+    <string name="settings_add_play_account_title">Google account</string>
+    <string name="settings_add_play_account_summary">Sign in</string>
+    <string name="settings_add_play_account_key" translatable="false">settings_add_play_account</string>
+    <string name="settings_sign_out_play_account_title">Sign out</string>
+    <string name="settings_sign_out_account_key" translatable="false">settings_sign_out_play_account</string>
+
+    <string name="settings_data_transfer_header">Data Transfer</string>
+    <string name="settings_sync_account_title">Enable data sync</string>
+    <string name="settings_sync_account_summary">Sync data via Google Drive</string>
+    <string name="settings_sync_account_key" translatable="false">settings_sync_account</string>
+
+    <string name="settings_theme_header">Decor</string>
+    <string name="settings_change_theme_title">Theme color</string>
+    <string name="settings_change_theme_key" translatable="false">settings_change_theme</string>
+    <string name="settings_change_theme_dialog_title">Choose a theme color</string>
+
+    <string name="settings_ringtone_silent_summary">Silent</string>
+
+    <!-- Nav drawer -->
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="drawer_user_data_name_greetings">&#9728; Greeting you! &#9728;</string>
+
+    <!-- Themes -->
+    <string name="theme_name_default">Pink</string>
+    <string name="theme_name_indigo">Indigo</string>
+    <string name="theme_name_blue">Blue</string>
+    <string name="theme_name_cyan">Cyan</string>
+    <string name="theme_name_teal">Teal</string>
+    <string name="theme_name_green">Green</string>
+    <string name="theme_name_lgreen">Light Green</string>
+    <string name="theme_name_purple">Purple</string>
+    <string name="theme_name_brown">Brown</string>
+    <string name="theme_name_orange">Orange</string>
+
+    <!-- Toasts/Snackbars messages -->
+    <string name="auth_flow_fetch_token_io_error">Network or server error. Check your connection and try again.</string>
+    <string name="auth_flow_device_suitability">This device isn\'t supported for some reasons.</string>
+    <string name="auth_flow_sign_in_twice">You are already authorized. Please sign out first.</string>
+    <string name="auth_flow_no_network">No network connection available.</string>
+    <string name="auth_flow_unknown_error">Unknown error, please repeat again.</string>
+    <string name="auth_flow_rejected">The authorization was rejected.</string>
+    <string name="auth_flow_pick_account">You must pick an account.</string>
+
+</resources>

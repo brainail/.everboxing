@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- View: color circle -->
+    <declare-styleable name="ColorCircleView">
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="strokeColor" format="color|reference"/>
+        <attr name="fillColor" format="color|reference"/>
+        <attr name="circleRadius" format="dimension"/>
+        <attr name="circleInnerGap" format="dimension"/>
+    </declare-styleable>
+
+    <!-- Font -->
+    <attr name="fontPath" format="string"/>
+
+    <!-- Default: list selector -->
+    <attr name="listDefaultSelector" format="reference"/>
+
+    <!-- Drawer: user cover -->
+    <attr name="drawerCover" format="reference"/>
+
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Theme colors. #Default Pink -->
+    <color name="primary_default">#ffe91e63</color>
+    <color name="primary_default_dark">#ffc2185b</color>
+    <color name="accent_default">#ff475ed4</color>
+
+    <!-- Theme colors. #Indigo -->
+    <color name="primary_indigo">#ff3f51b5</color>
+    <color name="primary_indigo_dark">#ff303f9f</color>
+    <color name="accent_indigo">#ffd7366c</color>
+
+    <!-- Theme colors. #Blue -->
+    <color name="primary_blue">#ff208ae1</color>
+    <color name="primary_blue_dark">#ff1869bd</color>
+    <color name="accent_blue">#ffdd7a00</color>
+
+    <!-- Theme colors. #Cyan -->
+    <color name="primary_cyan">#ff0098af</color>
+    <color name="primary_cyan_dark">#ff006d7b</color>
+    <color name="accent_cyan">#ffd7a107</color>
+
+    <!-- Theme colors. #Teal -->
+    <color name="primary_teal">#ff009688</color>
+    <color name="primary_teal_dark">#ff00796b</color>
+    <color name="accent_teal">#ffdf4848</color>
+
+    <!-- Theme colors. #Green -->
+    <color name="primary_green">#ff4caf50</color>
+    <color name="primary_green_dark">#ff38993c</color>
+    <color name="accent_green">#ffda4c21</color>
+
+    <!-- Theme colors. #Light Green -->
+    <color name="primary_lgreen">#ff94ce4f</color>
+    <color name="primary_lgreen_dark">#ff72ae3d</color>
+    <color name="accent_lgreen">#ff0390cf</color>
+
+    <!-- Theme colors. #Purple -->
+    <color name="primary_purple">#ff9c27b0</color>
+    <color name="primary_purple_dark">#ff7b1fa2</color>
+    <color name="accent_purple">#ff009688</color>
+
+    <!-- Theme colors. #Brown -->
+    <color name="primary_brown">#ff795548</color>
+    <color name="primary_brown_dark">#ff5d4037</color>
+    <color name="accent_brown">#ff577381</color>
+
+    <!-- Theme colors. #Orange -->
+    <color name="primary_orange">#ffda7e00</color>
+    <color name="primary_orange_dark">#ffba5e00</color>
+    <color name="accent_orange">#795548</color>
+
+    <!-- Drawer -->
+    <color name="menu_drawer_background_default">#fffafafa</color>
+    <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
+    <color name="menu_drawer_user_cover_data_gradient">#70333333</color>
+    <color name="menu_drawer_help_sections_dropshadow">#14000000</color>
+    <color name="menu_drawer_section_text_color">#de212121</color>
+    <color name="menu_drawer_section_subheader_text_color">#8a212121</color>
+
+    <!-- Notices -->
+    <color name="notice_default_text_color">#ffffff</color>
+    <color name="notice_background">#ff323232</color>
+
+    <!-- List selector -->
+    <color name="list_item_default_pressed_state">#ffd5d5d5</color>
+    <color name="list_item_default_selected_state">#ffe9e9e9</color>
+    <color name="list_item_default_transparent_state">@android:color/transparent</color>
+
+    <!-- Other -->
+    <color name="content_bg_default">#ffeeeeee</color>
+    <color name="separator_dropshadow_default">#77333333</color>
+    <color name="divider_color">#ff6b6b6b</color>
+
+</resources>
