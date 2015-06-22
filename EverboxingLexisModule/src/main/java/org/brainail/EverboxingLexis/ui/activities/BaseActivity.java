@@ -3,13 +3,13 @@ package org.brainail.EverboxingLexis.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.ClientApi;
 import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
 import org.brainail.EverboxingLexis.ui.notice.NoticeBar;
@@ -25,8 +25,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import static android.app.FragmentManager.OnBackStackChangedListener;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -55,8 +53,8 @@ import static android.app.FragmentManager.OnBackStackChangedListener;
  */
 public abstract class BaseActivity
         extends AppCompatActivity
-        implements OnBackStackChangedListener, NoticeBar.OnActionCallback, NoticeBar.OnVisibilityCallback,
-        ClientApi.Supportable {
+        implements FragmentManager.OnBackStackChangedListener, NoticeBar.OnActionCallback,
+        NoticeBar.OnVisibilityCallback, ClientApi.Supportable {
 
     // Primary Toolbar
     private Toolbar mPrimaryToolbar;
@@ -77,7 +75,7 @@ public abstract class BaseActivity
         getWindow ().setBackgroundDrawable (null);
 
         // Monitor fragments
-        getFragmentManager ().addOnBackStackChangedListener (this);
+        getSupportFragmentManager().addOnBackStackChangedListener (this);
 
         // Init & check theme
         mTheme = ThemeManager.checkOnCreate (this, mTheme);
@@ -195,17 +193,13 @@ public abstract class BaseActivity
     @Override
     public void onBackPressed () {
         if (!ToolFragments.navigateBack(this)) {
-            super.onBackPressed ();
+            supportFinishAfterTransition();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         switch (item.getItemId ()) {
-            case R.id.action_settings:
-                startActivity (new Intent (this, SettingsActivity.class));
-                return true;
-
             default:
                 break;
         }
@@ -242,7 +236,7 @@ public abstract class BaseActivity
         super.onDetachedFromWindow ();
 
         // We don't want to monitor fragments after
-        getFragmentManager ().removeOnBackStackChangedListener (this);
+        getSupportFragmentManager ().removeOnBackStackChangedListener (this);
     }
 
     @Override

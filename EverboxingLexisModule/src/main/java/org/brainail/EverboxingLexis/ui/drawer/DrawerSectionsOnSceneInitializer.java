@@ -1,14 +1,15 @@
 package org.brainail.EverboxingLexis.ui.drawer;
 
-import android.graphics.Color;
+import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
 import org.brainail.EverboxingLexis.ui.activities.SettingsActivity;
-import org.brainail.EverboxingLexis.ui.fragments.CFragment;
-import org.brainail.EverboxingLexis.ui.fragments.CFragment1;
-import org.brainail.EverboxingLexis.ui.fragments.CFragment2;
-import org.brainail.EverboxingLexis.ui.fragments.CFragment3;
-import org.brainail.EverboxingLexis.ui.fragments.CFragment4;
+import org.brainail.EverboxingLexis.ui.views.BaseIcon;
+
+import itkach.aard2.ui.fragments.LexisBookmarksFragment;
+import itkach.aard2.ui.fragments.LexisDictionariesFragment;
+import itkach.aard2.ui.fragments.LexisHistoryFragment;
+import itkach.aard2.ui.fragments.LexisLookupFragment;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -38,61 +39,62 @@ import org.brainail.EverboxingLexis.ui.fragments.CFragment4;
 public final class DrawerSectionsOnSceneInitializer {
 
     public interface IDrawerSectionInitializer {
-        void initialize(final SectionedDrawerActivity scene);
-        boolean isTransparentable();
+        void initialize (final SectionedDrawerActivity scene);
+        boolean isTransparentable ();
     }
 
-    public static final IDrawerSectionInitializer HOME = new IDrawerSectionInitializer() {
+    public static final IDrawerSectionInitializer HOME = new IDrawerSectionInitializer () {
 
         @Override
-        public void initialize(final SectionedDrawerActivity scene) {
-            scene.addDrawerSection(new DrawerSection(scene).withName("Section One").withTarget(new CFragment()));
-            scene.addDrawerSection(new DrawerSection(scene).withName("Section Two").withTarget(new CFragment1()));
-
-            scene.addDrawerDivider();
-
-            scene.addDrawerSection(
-                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle("Sender Title")
-                            .withName("Sender")
-                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_send))
-                            .withNotifications(10)
-                            .withTarget(new CFragment2())
+        public void initialize (final SectionedDrawerActivity scene) {
+            // Lookup
+            scene.addDrawerSection (
+                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                            .withTitle ("Lookup")
+                            .withName ("Lookup")
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_search))
+                            .withTarget (new LexisLookupFragment ())
             );
 
-            scene.addDrawerSection(
-                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle("Today Title")
-                            .withName("Today")
-                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_today))
-                            .withNotifications(1000)
-                            .withSectionColor(Color.parseColor("#403FD4"))
-                            .withTarget(new CFragment3())
+            // Bookmarks
+            scene.addDrawerSection (
+                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                            .withTitle ("Bookmarks")
+                            .withName ("Bookmarks")
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_bookmark_outline))
+                            .withTarget (new LexisBookmarksFragment ())
             );
 
-            scene.addDrawerSubheader("Privacy");
-
-            scene.addDrawerSection(
-                    new DrawerSection(scene)
-                            .withTitle("Sex everywhere")
-                            .withName("Sex everywhere")
-                            .withNotifications(20)
-                            .withNotificationsLimit(18)
-                            .withSectionColor(Color.parseColor("#E05C28"))
-                            .withTarget(new CFragment4())
+            // History
+            scene.addDrawerSection (
+                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                            .withTitle ("History")
+                            .withName ("History")
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_history))
+                            .withTarget (new LexisHistoryFragment ())
             );
 
-            scene.addDrawerSection(
-                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withName("Settings")
-                            .withLocationType(DrawerSection.LocationType.HELP)
-                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_manage))
-                            .withTarget(SettingsActivity.class)
+            // Dictionaries
+            scene.addDrawerSection (
+                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                            .withTitle ("Dictionaries")
+                            .withName ("Dictionaries")
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_my_library_books))
+                            .withTarget (new LexisDictionariesFragment ())
+            );
+
+            // Settings
+            scene.addDrawerSection (
+                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                            .withName ("Settings")
+                            .withLocationType (DrawerSection.LocationType.HELP)
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_settings))
+                            .withTarget (SettingsActivity.class)
             );
         }
 
         @Override
-        public boolean isTransparentable() {
+        public boolean isTransparentable () {
             return false;
         }
 

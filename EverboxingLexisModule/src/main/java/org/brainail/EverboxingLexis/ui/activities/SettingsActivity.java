@@ -22,7 +22,7 @@ import com.malinskiy.materialicons.Iconify;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.ClientApi;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.ui.views.PreferenceIcon;
+import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 import org.brainail.EverboxingLexis.ui.views.dialogs.ThemeChooser;
 import org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
@@ -197,12 +197,12 @@ public class SettingsActivity
 
             // Sync data
             final Preference syncDataPf = findPreference (getString (R.string.settings_sync_account_key));
-            syncDataPf.setIcon (PreferenceIcon.from (getActivity (), Iconify.IconValue.md_sync));
+            syncDataPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.md_sync));
 
             // Change theme
             final String defChangeThemeSummary = SettingsManager.getInstance ().retrieveAppThemeSummary ();
             final Preference changeThemePf = findPreference (getString (R.string.settings_change_theme_key));
-            changeThemePf.setIcon (PreferenceIcon.from (getActivity (), Iconify.IconValue.md_color_lens));
+            changeThemePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.md_color_lens));
             bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
             // Set click listeners

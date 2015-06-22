@@ -1,8 +1,8 @@
 package org.brainail.EverboxingLexis.oauth.api;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -72,7 +72,7 @@ public abstract class ClientApi <T> implements UserInfoApi.AuthCallback {
 
     public void onSave (final Bundle outState) {}
 
-    public boolean useOn (final Activity scene) {
+    public boolean useOn (final AppCompatActivity scene) {
         return false;
     }
 

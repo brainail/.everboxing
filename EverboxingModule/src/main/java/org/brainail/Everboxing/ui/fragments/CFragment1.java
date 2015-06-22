@@ -1,8 +1,9 @@
 package org.brainail.Everboxing.ui.fragments;
 
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class CFragment1 extends Fragment implements Tagable, Colorable, Titleabl
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToolFragments.openFragment(getActivity(), new CFragmentTop());
+                ToolFragments.openFragment((AppCompatActivity) getActivity(), new CFragmentTop());
             }
         });
         view.setBackgroundColor(Color.YELLOW);

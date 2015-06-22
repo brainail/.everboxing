@@ -1,6 +1,6 @@
 package org.brainail.Everboxing.utils.tool;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,7 +51,7 @@ public final class ToolToolbar {
 
         // Try to use title from fragment if necessary
         if (TextUtils.isEmpty(toolbarTitle)) {
-            final Fragment fragment = ToolFragments.topFragment(activity);
+            final Fragment fragment = ToolFragments.topFragment (activity);
             if (fragment instanceof Titleable) {
                 final String fragmentTitle = ((Titleable) fragment).title();
                 if (!TextUtils.isEmpty(fragmentTitle)) toolbarTitle = fragmentTitle;
@@ -87,7 +87,7 @@ public final class ToolToolbar {
 
         // Try to use color from fragment if necessary
         if (null == toolbarColor) {
-            final Fragment fragment = ToolFragments.topFragment(activity);
+            final Fragment fragment = ToolFragments.topFragment (activity);
             if (fragment instanceof Colorable) {
                 final Integer fragmentColor = ((Colorable) fragment).color();
                 if (null != fragmentColor) toolbarColor = fragmentColor;

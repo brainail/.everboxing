@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.brainail.EverboxingLexis.ui.views.HotspotSectionLayout
+    style="@style/FileManagerItem.Section"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/file_select_directory_icon"
+        style="@style/FileManagerItem.Icon"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/file_select_file_name"
+        style="@style/FileManagerItem.Title.AfterIcon"/>
+
+</org.brainail.EverboxingLexis.ui.views.HotspotSectionLayout>

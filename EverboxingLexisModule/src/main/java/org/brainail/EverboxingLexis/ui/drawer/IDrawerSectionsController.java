@@ -1,9 +1,9 @@
 package org.brainail.EverboxingLexis.ui.drawer;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
@@ -46,7 +46,7 @@ public interface IDrawerSectionsController
     public void restoreState (final Bundle state);
     public void investigateFragmentsStack ();
     public DrawerSection section (final Fragment fragment);
-    public Activity scene ();
+    public AppCompatActivity scene ();
     public void updateUserInfo (final UserInfoApi userInfo);
 
 }

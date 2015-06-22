@@ -35,8 +35,8 @@
         <item name="android:textSize">@dimen/menu_drawer_section_text_size</item>
         <item name="android:textColor">@color/menu_drawer_section_text_color</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginRight">@dimen/menu_drawer_section_vertical_margin</item>
-        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_vertical_margin</item>
+        <item name="android:layout_marginRight">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_horizontal_margin</item>
         <item name="fontPath">fonts/Roboto-Medium.ttf</item>
     </style>
 
@@ -88,8 +88,8 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_alignParentEnd" tools:ignore="NewApi">true</item>
-        <item name="android:layout_marginRight">@dimen/menu_drawer_section_vertical_margin</item>
-        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_vertical_margin</item>
+        <item name="android:layout_marginRight">@dimen/menu_drawer_section_horizontal_margin</item>
+        <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_horizontal_margin</item>
         <item name="fontPath">fonts/Roboto-Light.ttf</item>
         <item name="android:maxLength">3</item>
         <item name="android:lines">1</item>

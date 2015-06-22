@@ -1,9 +1,9 @@
 package org.brainail.EverboxingLexis.utils.tool;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -32,7 +32,7 @@ import android.content.pm.PackageManager;
  */
 public final class ToolManifest {
 
-    public static ActivityInfo activityInfo(final Activity activity) {
+    public static ActivityInfo activityInfo(final AppCompatActivity activity) {
         try {
             final PackageManager packageManager = activity.getPackageManager();
             return packageManager.getActivityInfo(new ComponentName(activity, activity.getClass()), 0);
@@ -41,7 +41,7 @@ public final class ToolManifest {
         }
     }
 
-    public static String activityLabel(final Activity activity) {
+    public static String activityLabel(final AppCompatActivity activity) {
         final ActivityInfo activityInfo = activityInfo(activity);
         return null != activityInfo ? ToolResources.string(activityInfo.labelRes) : null;
     }

@@ -2,13 +2,13 @@ package org.brainail.Everboxing.utils.tool;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +70,7 @@ public final class ToolUI {
         return false;
     }
 
-    public static void showToast(final Activity activity, final String message) {
+    public static void showToast(final AppCompatActivity activity, final String message) {
         if (null != activity) {
             activity.runOnUiThread(new Runnable() {
                 @Override
@@ -85,11 +85,11 @@ public final class ToolUI {
         }
     }
 
-    public static void showToast(final Activity activity, final int resId) {
+    public static void showToast(final AppCompatActivity activity, final int resId) {
         showToast(activity, JApplication.appContext().getString(resId));
     }
 
-    public static void fixSettingsPaddingWorkaround(final Activity activity) {
+    public static void fixSettingsPaddingWorkaround(final AppCompatActivity activity) {
         try {
             final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
             allPreferences.setPadding(0, 0, 0, 0);
@@ -100,7 +100,7 @@ public final class ToolUI {
         }
     }
 
-    public static void fixSettingsSelectorWorkaround(final Activity activity) {
+    public static void fixSettingsSelectorWorkaround(final AppCompatActivity activity) {
         try {
             final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
             if (!Sdk.isSdkSupported(Sdk.LOLLIPOP)) allPreferences.setSelector(R.drawable.list_item_default_selector);
@@ -109,7 +109,7 @@ public final class ToolUI {
         }
     }
 
-    public static void fixSettingsDividersWorkaround(final Activity activity) {
+    public static void fixSettingsDividersWorkaround(final AppCompatActivity activity) {
         try {
             final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
             allPreferences.setDivider(null);

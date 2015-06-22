@@ -1,9 +1,9 @@
 package org.brainail.EverboxingLexis.oauth.api.google;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -54,7 +54,7 @@ public class PlayServices
         extends ClientApi<GoogleApiClient>
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private WeakReference<Activity> mScene;
+    private WeakReference<AppCompatActivity> mScene;
 
     // Main API
     private GoogleApiClient mApi;
@@ -73,7 +73,7 @@ public class PlayServices
         mScene = new WeakReference<> (null);
     }
 
-    public PlayServices (final Activity scene, final Bundle savedState) {
+    public PlayServices (final AppCompatActivity scene, final Bundle savedState) {
         this (scene);
 
         // Restore from state
@@ -82,7 +82,7 @@ public class PlayServices
         }
     }
 
-    public PlayServices (final Activity scene) {
+    public PlayServices (final AppCompatActivity scene) {
         this ();
         withScene (scene);
         withEmail (SettingsManager.getInstance().retrievePlayAccountEmail ());
@@ -95,19 +95,19 @@ public class PlayServices
         return this;
     }
 
-    public PlayServices withScene (final Activity scene) {
+    public PlayServices withScene (final AppCompatActivity scene) {
         mScene.clear ();
-        mScene = new WeakReference<Activity> (scene);
+        mScene = new WeakReference<AppCompatActivity> (scene);
         return this;
     }
 
-    private Activity scene () {
+    private AppCompatActivity scene () {
         return mScene.get ();
     }
 
     @Override
     public UserInfoApi.AuthCallback authorizer () {
-        final Activity activity = scene ();
+        final AppCompatActivity activity = scene ();
         return !(activity instanceof UserInfoApi.AuthCallback) ? null : (UserInfoApi.AuthCallback) activity;
     }
 
@@ -179,7 +179,7 @@ public class PlayServices
 
         if (RequestCodeApi.REQUEST_RESOLVE_PLAY_SERVICES_ERROR == requestCode) {
             mResolvingError = false;
-            if (Activity.RESULT_OK == resultCode) {
+            if (AppCompatActivity.RESULT_OK == resultCode) {
                 // Make sure the app is not already connected or attempting to connect
                 if (null != mApi && !isConnectedOrConnecting ()) {
                     mApi.connect();
@@ -208,7 +208,7 @@ public class PlayServices
         Plogger.logI (Plogger.LogScope.PLAY_SERVICES_AUTH, "Successfully connected to play services");
 
         // Fallback
-        final Activity scene = scene ();
+        final AppCompatActivity scene = scene ();
         if (scene instanceof GoogleApiClient.ConnectionCallbacks) {
             ((GoogleApiClient.ConnectionCallbacks) scene).onConnected (bundle);
         }
@@ -225,7 +225,7 @@ public class PlayServices
         Plogger.logW (Plogger.LogScope.PLAY_SERVICES_AUTH, "Connection suspended, cause: %d", cause);
 
         // Fallback
-        final Activity scene = scene ();
+        final AppCompatActivity scene = scene ();
         if (scene instanceof GoogleApiClient.ConnectionCallbacks) {
             ((GoogleApiClient.ConnectionCallbacks) scene).onConnectionSuspended (cause);
         }
@@ -236,7 +236,7 @@ public class PlayServices
         Plogger.logW (Plogger.LogScope.PLAY_SERVICES_AUTH, "Connection is failed: %s", connectionResult);
 
         // Fallback
-        final Activity scene = scene ();
+        final AppCompatActivity scene = scene ();
         if (scene instanceof GoogleApiClient.OnConnectionFailedListener) {
             ((GoogleApiClient.OnConnectionFailedListener) scene).onConnectionFailed (connectionResult);
         }
@@ -307,11 +307,11 @@ public class PlayServices
     }
 
     @Override
-    public boolean useOn (Activity scene) {
+    public boolean useOn (AppCompatActivity scene) {
         return (scene instanceof Supportable) && ((Supportable) scene).usePlayServices ();
     }
 
-    public static int isGooglePlayServicesAvailable (final Activity activity) {
+    public static int isGooglePlayServicesAvailable (final AppCompatActivity activity) {
         if (null != activity) {
             return GooglePlayServicesUtil.isGooglePlayServicesAvailable (activity);
         } else {

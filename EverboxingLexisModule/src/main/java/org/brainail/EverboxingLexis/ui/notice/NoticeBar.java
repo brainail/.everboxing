@@ -245,12 +245,12 @@ public class NoticeBar {
         muteAll(false);
     }
 
-    // See android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+    // See android.app.AppCompatActivity#onRestoreInstanceState(android.os.Bundle)
     public void onRestoreInstanceState(final Bundle state) {
         mContainer.restoreState(state, mNoticeView);
     }
 
-    // See android.app.Activity#onSaveInstanceState(android.os.Bundle)
+    // See android.app.AppCompatActivity#onSaveInstanceState(android.os.Bundle)
     public Bundle onSaveInstanceState() {
         return mContainer.saveState();
     }

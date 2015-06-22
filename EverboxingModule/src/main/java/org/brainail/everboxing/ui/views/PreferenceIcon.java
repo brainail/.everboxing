@@ -41,7 +41,7 @@ public class PreferenceIcon extends IconDrawable {
     }
 
     private void init(final Context context) {
-        color(ToolResources.retrievePrimaryColor(context)).sizeRes(R.dimen.settings_icon_size);
+        color(ToolResources.retrievePrimaryColor(context)).sizeRes(R.dimen.base_icon_size);
     }
 
     public static PreferenceIcon from(final Context context, final Iconify.IconValue icon) {

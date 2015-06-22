@@ -75,6 +75,15 @@ public final class ToolResources {
         return retrieveThemeDrawable(context, themeResId, new int[] {R.attr.drawerCover});
     }
 
+    public static int retrieveTextColorPrimary(final Context context) {
+        return retrieveTextColorPrimary (context, ThemeManager.appTheme ().getThemeResId ());
+    }
+
+    public static int retrieveTextColorPrimary(final Context context, final int themeResId) {
+        final int [] attrs = new int [] {android.R.attr.textColorPrimary};
+        return retrieveThemeColor(context, themeResId, attrs, R.color.md_white_1000);
+    }
+
     public static int retrievePrimaryColor(final Context context) {
         return retrievePrimaryColor(context, ThemeManager.appTheme().getThemeResId());
     }
@@ -103,7 +112,7 @@ public final class ToolResources {
      * Computes height of status bar, only if it is presented at top of the screen and it is visible.
      *
      * @param context Any application {@link android.content.Context}.
-     * @param window {@link android.view.Window} that corresponds to the {@link android.app.Activity}
+     * @param window {@link android.view.Window} that corresponds to the {@link android.app.AppCompatActivity}
      *
      * @return {@code 0} - if the status bar isn't presented
      * at top of the screen or isn't visible, otherwise height in pixels.

@@ -55,7 +55,7 @@ public abstract class NoticeOnSceneController implements NoticeBar.OnActionCallb
         }
     };
 
-    // @see Activity#onCreate(android.os.Bundle)
+    // @see AppCompatActivity#onCreate(android.os.Bundle)
     public void onCreate(final Bundle savedState) {
         mSavedState = NoticeBar.retrieveSavedState(savedState);
     }
@@ -82,7 +82,7 @@ public abstract class NoticeOnSceneController implements NoticeBar.OnActionCallb
     }
 
     // Registers to listen some global events and notifies about it
-    // @see Activity#onCreate(android.os.Bundle)
+    // @see AppCompatActivity#onCreate(android.os.Bundle)
     public void registerScene() {
         final Activity scene = rootScene();
         if (null != scene && !mIsRegistered && 0 != FILTER.countActions()) {
@@ -92,7 +92,7 @@ public abstract class NoticeOnSceneController implements NoticeBar.OnActionCallb
     }
 
     // Mirror for registerScene()
-    // @see Activity#onDestroy()
+    // @see AppCompatActivity#onDestroy()
     public void unregisterScene() {
         final Activity scene = rootScene();
         if (null != scene && mIsRegistered) {
@@ -106,14 +106,14 @@ public abstract class NoticeOnSceneController implements NoticeBar.OnActionCallb
         }
     }
 
-    // See android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+    // See android.app.AppCompatActivity#onRestoreInstanceState(android.os.Bundle)
     public void onRestoreInstanceState(final Bundle state) {
         if (null != mSceneNotice) {
             mSceneNotice.onRestoreInstanceState(state);
         }
     }
 
-    // See android.app.Activity#onSaveInstanceState(android.os.Bundle)
+    // See android.app.AppCompatActivity#onSaveInstanceState(android.os.Bundle)
     public void onSaveInstanceState(final Bundle outState) {
         if (null != mSceneNotice && null != outState) {
             outState.putAll(mSceneNotice.onSaveInstanceState());

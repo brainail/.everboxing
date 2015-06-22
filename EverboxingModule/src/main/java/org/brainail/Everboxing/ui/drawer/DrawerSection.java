@@ -1,13 +1,13 @@
 package org.brainail.Everboxing.ui.drawer;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -229,7 +229,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return this;
     }
 
-    public DrawerSection withTarget(final Class<? extends Activity> target) {
+    public DrawerSection withTarget(final Class<? extends AppCompatActivity> target) {
         mTargetType = TargetType.CLASS;
         mTarget = target;
         return this;

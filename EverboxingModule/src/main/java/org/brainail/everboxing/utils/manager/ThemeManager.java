@@ -2,6 +2,7 @@ package org.brainail.Everboxing.utils.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.Everboxing.R;
 
@@ -79,7 +80,7 @@ public class ThemeManager {
         APP_THEME = SettingsManager.getInstance().retrieveAppTheme();
     }
 
-    public synchronized static AppTheme checkOnCreate(final Activity activity, final AppTheme currentTheme) {
+    public synchronized static AppTheme checkOnCreate(final AppCompatActivity activity, final AppTheme currentTheme) {
         if (APP_THEME != currentTheme && null != activity) {
             activity.setTheme(APP_THEME.getThemeResId());
 
@@ -91,7 +92,7 @@ public class ThemeManager {
         return APP_THEME;
     }
 
-    public synchronized static void checkOnResume(final Activity activity, final AppTheme currentTheme) {
+    public synchronized static void checkOnResume(final AppCompatActivity activity, final AppTheme currentTheme) {
         if (APP_THEME != currentTheme && null != activity && null != currentTheme) {
             activity.recreate();
         }

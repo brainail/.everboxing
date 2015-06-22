@@ -2,9 +2,9 @@ package org.brainail.EverboxingLexis.ui.views.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -36,7 +36,7 @@ import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class GooglePsErrorDialog extends DialogFragment {
+public class GooglePsErrorDialog extends android.support.v4.app.DialogFragment {
 
     public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#google.play.services.error.dialog";
 
@@ -48,18 +48,18 @@ public class GooglePsErrorDialog extends DialogFragment {
     private int mStatusCode;
     private int mRequestCode;
 
-    public static void show(final Activity activity, final int statusCode, final int requestCode) {
+    public static void show(final AppCompatActivity activity, final int statusCode, final int requestCode) {
         if (null != activity && !hasPresenter (activity)) {
-            newInstance(statusCode, requestCode).show(activity.getFragmentManager(), MANAGER_TAG);
+            newInstance(statusCode, requestCode).show(activity.getSupportFragmentManager (), MANAGER_TAG);
         }
     }
 
-    public static void show(final Activity activity, final int statusCode) {
+    public static void show(final AppCompatActivity activity, final int statusCode) {
         show(activity, statusCode, 0);
     }
 
-    public static boolean hasPresenter(final Activity activity) {
-        return null != activity && null != activity.getFragmentManager ().findFragmentByTag (MANAGER_TAG);
+    public static boolean hasPresenter(final AppCompatActivity activity) {
+        return null != activity && null != activity.getSupportFragmentManager ().findFragmentByTag (MANAGER_TAG);
     }
 
     public static GooglePsErrorDialog newInstance(final int statusCode, final int requestCode) {
@@ -90,7 +90,7 @@ public class GooglePsErrorDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Workaround for
         // android.view.WindowLeaked:
-        //     Activity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@41522b80
+        //     AppCompatActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@41522b80
         //     that was originally added here (Dialog#show())
         final Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(mStatusCode, getActivity(), mRequestCode);
         return null != errorDialog ? errorDialog : super.onCreateDialog(savedInstanceState);

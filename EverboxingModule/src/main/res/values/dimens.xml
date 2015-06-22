@@ -18,8 +18,8 @@
     <dimen name="menu_drawer_user_cover_height">164dp</dimen>
     <dimen name="menu_drawer_user_data_height">70dp</dimen>
 
-    <!-- Settings -->
-    <dimen name="settings_icon_size">32dp</dimen>
+    <!-- Icons -->
+    <dimen name="base_icon_size">24dp</dimen>
 
     <!-- Toolbar -->
     <dimen name="toolbar_dropshadow_height">4dp</dimen>

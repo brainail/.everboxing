@@ -50,7 +50,7 @@ public abstract class SectionedDrawerActivity
         mDrawerSectionsController = DrawerSectionsControllerFactory.create(this);
         // Initialize drawer's sections
         sectionInitializer().initialize(this);
-        // The first part: investigate by fragment manager due to Activity creating
+        // The first part: investigate by fragment manager due to AppCompatActivity creating
         mDrawerSectionsController.investigateFragmentsStack();
         // The second part: try to restore section by saved instance
         mDrawerSectionsController.restoreState(savedInstanceState);

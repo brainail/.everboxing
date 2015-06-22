@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 import org.brainail.EverboxingLexis.utils.callable.Colorable;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.callable.Titleable;
-import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -48,7 +47,7 @@ public class CFragment1 extends Fragment implements Tagable, Colorable, Titleabl
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToolFragments.openFragment(getActivity(), new CFragmentTop());
+                // ToolFragments.openFragment(getActivity(), new CFragmentTop());
             }
         });
         view.setBackgroundColor(Color.YELLOW);

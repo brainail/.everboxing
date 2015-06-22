@@ -2,6 +2,7 @@ package org.brainail.EverboxingLexis.ui.notice;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.tool.ToolPhone;
@@ -102,7 +103,7 @@ public final class NoticeController {
     private static NoticeOnSceneController createInternally(final Object scene) {
         if (isSceneDeprecated(scene)) {
             return new NoticeOnSceneControllerStub();
-        } else if (scene instanceof Activity) {
+        } else if (scene instanceof AppCompatActivity) {
             return new NoticeOnActivitySceneController((Activity) scene);
         } else if (scene instanceof Fragment) {
             return new NoticeOnFragmentSceneController((Fragment) scene);
