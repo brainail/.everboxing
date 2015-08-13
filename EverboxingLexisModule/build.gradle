@@ -172,7 +172,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support libraries
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:design:22.2.1'
 
     // Google play services
     compile 'com.google.android.gms:play-services-base:7.3.0'

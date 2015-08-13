@@ -23,23 +23,21 @@ import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
 
 import java.util.ArrayList;
@@ -54,7 +52,7 @@ import itkach.aard2.ui.fragments.ArticleFragment;
 import itkach.slob.Slob;
 import itkach.slob.Slob.Blob;
 
-public class ArticleCollectionActivity extends AppCompatActivity {
+public class ArticleCollectionActivity extends BaseActivity {
 
     ArticleCollectionPagerAdapter articleCollectionPagerAdapter;
     ViewPager viewPager;
@@ -68,6 +66,15 @@ public class ArticleCollectionActivity extends AppCompatActivity {
 
     };
 
+    @Override
+    protected Integer getLayoutResourceId () {
+        return R.layout.activity_article_collection;
+    }
+
+    @Override
+    protected Integer getPrimaryToolbarLayoutResourceId () {
+        return R.id.toolbar_primary;
+    }
 
     private boolean onDestroyCalled = false;
 
@@ -76,7 +83,7 @@ public class ArticleCollectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final Application app = (Application) getApplication();
         // requestWindowFeature(Window.FEATURE_PROGRESS);
-        setContentView(R.layout.activity_article_collection_loading);
+        // setContentView(R.layout.activity_article_collection_loading);
         app.push(this);
         // final ActionBar actionBar = getActionBar();
         // actionBar.setDisplayHomeAsUpEnabled(true);
@@ -135,38 +142,35 @@ public class ArticleCollectionActivity extends AppCompatActivity {
                     return;
                 }
 
-                setContentView(R.layout.activity_article_collection);
+                // setContentView (R.layout.activity_article_collection);
 
-                findViewById(R.id.pager_title_strip).setVisibility(
-                        articleCollectionPagerAdapter.getCount() == 1 ? ViewGroup.GONE : ViewGroup.VISIBLE);
-
-                viewPager = (ViewPager) findViewById(R.id.pager);
-                viewPager.setAdapter(articleCollectionPagerAdapter);
-                viewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
-                    @Override
-                    public void onPageScrollStateChanged(int arg0) {}
+                viewPager = (ViewPager) findViewById(R.id.articles_pager);
+                viewPager.setAdapter (articleCollectionPagerAdapter);
+                TabLayout tabLayout = ((TabLayout) findViewById (R.id.articles_tabs));
+                tabLayout.setupWithViewPager (viewPager);
+                viewPager.addOnPageChangeListener (new OnPageChangeListener () {
 
                     @Override
-                    public void onPageScrolled(int arg0, float arg1, int arg2) {}
+                    public void onPageScrollStateChanged (int arg0) {}
 
                     @Override
-                    public void onPageSelected(final int position) {
-                        updateTitle(position);
-                        runOnUiThread(new Runnable() {
+                    public void onPageScrolled (int arg0, float arg1, int arg2) {}
+
+                    @Override
+                    public void onPageSelected (final int position) {
+                        updateTitle (position);
+                        runOnUiThread (new Runnable () {
                             @Override
-                            public void run() {
-                                ArticleFragment fragment = (ArticleFragment) articleCollectionPagerAdapter.getItem(position);
-                                fragment.applyTextZoomPref();
+                            public void run () {
+                                ArticleFragment fragment = (ArticleFragment) articleCollectionPagerAdapter.getItem (position);
+                                fragment.applyTextZoomPref ();
                             }
                         });
 
                     }
                 });
-                viewPager.setCurrentItem(position);
+                viewPager.setCurrentItem (position);
 
-                PagerTitleStrip titleStrip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
-                titleStrip.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                 updateTitle(position);
                 articleCollectionPagerAdapter.registerDataSetObserver(new DataSetObserver() {
                     @Override
