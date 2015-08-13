@@ -197,12 +197,12 @@ public class SettingsActivity
 
             // Sync data
             final Preference syncDataPf = findPreference (getString (R.string.settings_sync_account_key));
-            syncDataPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.md_sync));
+            syncDataPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_refresh_sync));
 
             // Change theme
             final String defChangeThemeSummary = SettingsManager.getInstance ().retrieveAppThemeSummary ();
             final Preference changeThemePf = findPreference (getString (R.string.settings_change_theme_key));
-            changeThemePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.md_color_lens));
+            changeThemePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_palette));
             bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
             // Set click listeners

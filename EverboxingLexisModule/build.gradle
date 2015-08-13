@@ -181,7 +181,7 @@ dependencies {
 
     // Material stuff
     compile 'com.afollestad:material-dialogs:0.7.6.0'
-    compile 'com.malinskiy:materialicons:1.0.1'
+    compile 'com.malinskiy:materialicons:1.0.2'
 
     // Fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +66,11 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
         return android.R.drawable.ic_menu_help;
     }
 
+    @Override
+    public Drawable getEmptyStateIcon () {
+        return BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_collection_text);
+    }
+
     public CharSequence getEmptyText() {
         return Html.fromHtml(getString(R.string.main_empty_dictionaries));
     }
@@ -114,9 +120,9 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     public void onPrepareOptionsMenu(final Menu menu) {
         MenuItem miFindDictionaries = menu.findItem(R.id.action_find_dictionaries);
         FragmentActivity activity = getActivity();
-        miFindDictionaries.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_refresh));
+        miFindDictionaries.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_refresh));
         MenuItem miAddDictionaries = menu.findItem(R.id.action_add_dictionaries);
-        miAddDictionaries.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_add));
+        miAddDictionaries.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_file_plus));
     }
 
     @Override

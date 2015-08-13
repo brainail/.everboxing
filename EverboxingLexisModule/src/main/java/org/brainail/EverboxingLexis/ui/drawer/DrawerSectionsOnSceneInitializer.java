@@ -52,7 +52,7 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle ("Lookup")
                             .withName ("Lookup")
-                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_search))
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_search))
                             .withTarget (new LexisLookupFragment ())
             );
 
@@ -61,7 +61,7 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle ("Bookmarks")
                             .withName ("Bookmarks")
-                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_bookmark_outline))
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_bookmark_outline))
                             .withTarget (new LexisBookmarksFragment ())
             );
 
@@ -70,7 +70,7 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle ("History")
                             .withName ("History")
-                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_history))
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_time_restore))
                             .withTarget (new LexisHistoryFragment ())
             );
 
@@ -79,7 +79,7 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle ("Dictionaries")
                             .withName ("Dictionaries")
-                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_my_library_books))
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_collection_text))
                             .withTarget (new LexisDictionariesFragment ())
             );
 
@@ -88,7 +88,7 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withName ("Settings")
                             .withLocationType (DrawerSection.LocationType.HELP)
-                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.md_settings))
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_settings))
                             .withTarget (SettingsActivity.class)
             );
         }

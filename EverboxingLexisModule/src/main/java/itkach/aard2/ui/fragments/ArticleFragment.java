@@ -41,8 +41,8 @@ public class ArticleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Activity activity = getActivity();
-        icBookmark = BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_bookmark_outline);
-        icBookmarkO = BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_bookmark);
+        icBookmark = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_bookmark_outline);
+        icBookmarkO = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_bookmark);
         setHasOptionsMenu(true);
     }
 

@@ -135,11 +135,11 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
 
         final FragmentActivity activity = getActivity();
 
-        icFilter = BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_filter_list);
-        icClock = BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_access_time);
-        icList = BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_format_list_bulleted);
-        icArrowUp = BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_trending_up);
-        icArrowDown = BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_trending_down);
+        icFilter = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_filter_list);
+        icClock = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_time);
+        icList = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_format_list_bulleted);
+        icArrowUp = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_trending_up);
+        icArrowDown = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_trending_down);
 
         final ListView listView = getListView();
         listView.setOnItemClickListener(new OnItemClickListener() {

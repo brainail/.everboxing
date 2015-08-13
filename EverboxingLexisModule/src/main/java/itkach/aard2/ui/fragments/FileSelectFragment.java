@@ -87,9 +87,9 @@ public class FileSelectFragment extends ListFragment {
     @Override
     public void onPrepareOptionsMenu (Menu menu) {
         MenuItem miParentDir = menu.findItem(R.id.action_goto_parent_dir);
-        miParentDir.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_chevron_left));
+        miParentDir.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_chevron_left));
         MenuItem miReloadDir = menu.findItem(R.id.action_reload_directory);
-        miReloadDir.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_refresh));
+        miReloadDir.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_refresh));
         FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter();
         File root = adapter.getRoot();
         File parent = root.getParentFile();

@@ -1,5 +1,6 @@
 package itkach.aard2.ui.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.method.LinkMovementMethod;
@@ -28,6 +29,10 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
 
     public abstract int getEmptyIcon();
 
+    public Drawable getEmptyStateIcon () {
+        return BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_info);
+    }
+
     public abstract CharSequence getEmptyText();
 
     @Override
@@ -49,7 +54,7 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
         emptyText.setMovementMethod(LinkMovementMethod.getInstance());
         emptyText.setText(getEmptyText());
         ImageView emptyIcon = (ImageView) (emptyView.findViewById(R.id.empty_icon));
-        emptyIcon.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_help));
+        emptyIcon.setImageDrawable(getEmptyStateIcon());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -98,11 +103,11 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
                     inflater.inflate(getSelectionMenuId(), menu);
                     MenuItem miDelete = menu.findItem(R.id.blob_descriptor_delete);
                     if (miDelete != null) {
-                        miDelete.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_delete));
+                        miDelete.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_delete));
                     }
                     MenuItem miSelectAll = menu.findItem(R.id.blob_descriptor_select_all);
                     if (miSelectAll != null) {
-                        miSelectAll.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.md_select_all));
+                        miSelectAll.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_select_all));
                     }
                     setSelectionMode(true);
                     return true;
