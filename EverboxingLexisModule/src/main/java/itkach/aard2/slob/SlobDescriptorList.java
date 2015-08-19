@@ -1,9 +1,9 @@
 package itkach.aard2.slob;
 
-import java.util.Collections;
 import java.util.Comparator;
 
 import itkach.aard2.Application;
+import itkach.aard2.utils.Util;
 import itkach.slob.Slob;
 
 public class SlobDescriptorList extends BaseDescriptorList<SlobDescriptor> {
@@ -20,7 +20,7 @@ public class SlobDescriptorList extends BaseDescriptorList<SlobDescriptor> {
                 //Dictionaries that are unfavorited
                 //go immediately after favorites
                 if (d1.priority == 0 && d2.priority == 0) {
-                    return cmp(d2.lastAccess, d1.lastAccess);
+                    return Util.compare(d2.lastAccess, d1.lastAccess);
                 }
                 //Favorites are always above other
                 if (d1.priority == 0 && d2.priority > 0) {
@@ -30,13 +30,9 @@ public class SlobDescriptorList extends BaseDescriptorList<SlobDescriptor> {
                     return -1;
                 }
                 //Old favorites are above more recent ones
-                return cmp(d1.priority, d2.priority);
+                return Util.compare(d1.priority, d2.priority);
             }
         };
-    }
-
-    private static int cmp(long lhs, long rhs) {
-        return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
     }
 
     public Slob resolve(SlobDescriptor sd) {
@@ -44,7 +40,7 @@ public class SlobDescriptorList extends BaseDescriptorList<SlobDescriptor> {
     }
 
     public void sort() {
-        Collections.sort(this, comparator);
+        Util.sort(this, comparator);
     }
 
     @Override

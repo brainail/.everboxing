@@ -193,7 +193,7 @@ public class ArticleCollectionActivity extends BaseActivity {
             return null;
         }
         Iterator<Slob.Blob> result = app.find(bd.key, bd.slobId);
-        BlobListAdapter data = new BlobListAdapter(this, 3, 1);
+        BlobListAdapter data = new BlobListAdapter(this, 21, 1);
         data.setData(result);
         return new ArticleCollectionPagerAdapter(
                 app, data, blobToBlob, getSupportFragmentManager());
@@ -243,7 +243,7 @@ public class ArticleCollectionActivity extends BaseActivity {
         if (lookupKey == null) {
             lookupKey = intent.getStringExtra(SearchManager.QUERY);
         }
-        BlobListAdapter data = new BlobListAdapter(this, 3, 1);
+        BlobListAdapter data = new BlobListAdapter(this, 21, 1);
         if (lookupKey == null || lookupKey.length() == 0) {
             Toast.makeText(this, R.string.article_collection_nothing_to_lookup, Toast.LENGTH_SHORT).show();
         } else {

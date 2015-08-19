@@ -38,6 +38,7 @@ import java.util.TreeSet;
 import itkach.aard2.Application;
 import itkach.aard2.slob.BlobDescriptor;
 import itkach.aard2.ui.activities.ArticleCollectionActivity;
+import itkach.aard2.utils.Util;
 
 public class ArticleWebView extends WebView {
 
@@ -166,7 +167,6 @@ public class ArticleWebView extends WebView {
                         Log.w(TAG, "Failed to schedule applyStylePref in view " + view.getId(), ex);
                     }
                 }
-
             }
 
             @Override
@@ -187,7 +187,7 @@ public class ArticleWebView extends WebView {
                 } else {
                     Log.w(TAG, "onPageFinished: Unexpected page finished event for " + url);
                 }
-                view.loadUrl("javascript:" + "$SLOB.setStyleTitles($styleSwitcher.getTitles())");
+                view.loadUrl("javascript:" + styleSwitcherJs + ";$SLOB.setStyleTitles($styleSwitcher.getTitles())");
                 applyStylePref();
             }
 
@@ -216,7 +216,7 @@ public class ArticleWebView extends WebView {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view,
-                                                    final String url) {
+                    final String url) {
                 Log.d(TAG, String.format("shouldOverrideUrlLoading: %s (current %s)",
                         url, view.getUrl()));
 
@@ -276,7 +276,7 @@ public class ArticleWebView extends WebView {
                 "userStyles", AppCompatActivity.MODE_PRIVATE);
         Map<String, ?> data = prefs.getAll();
         List<String> names = new ArrayList<String>(data.keySet());
-        Collections.sort(names);
+        Util.sort(names);
         names.addAll(styleTitles);
         names.add(defaultStyleTitle);
         names.add(autoStyleTitle);
@@ -451,7 +451,9 @@ public class ArticleWebView extends WebView {
 
     private void beforeLoadUrl(String url) {
         setCurrentSlobIdFromUrl(url);
-        updateBackgrounColor();
+        if (!url.startsWith("javascript:")) {
+            updateBackgrounColor();
+        }
     }
 
     private void updateBackgrounColor() {
@@ -506,7 +508,6 @@ public class ArticleWebView extends WebView {
                         return false;
                     }
             }
-
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -516,5 +517,4 @@ public class ArticleWebView extends WebView {
         super.destroy();
         timer.cancel();
     }
-
 }
