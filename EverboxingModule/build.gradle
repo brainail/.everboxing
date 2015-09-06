@@ -1,3 +1,12 @@
+// Version stuff for auto generated versionName and versionCode
+def appVersionMajor = 1
+def appVersionMinor = 0
+def appVersionPatch = 0
+
+// Git hash and build time for app's BuildConfig
+def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def appBuildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -46,20 +55,26 @@ repositories {
 }
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "org.brainail.Everboxing"
 
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 23
 
-        versionCode 1
-        versionName "1.0"
+        versionCode appVersionMajor * 10000 + appVersionMinor * 100 + appVersionPatch
+        versionName "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
 
         // Build config fields
         buildConfigField "String", "MODULE_NAME", "\"$project.name\""
+
+        buildConfigField "String", "GIT_SHA_KEY", "\"Git SHA\""
+        buildConfigField "String", "GIT_SHA", "\"${appGitSha}\""
+
+        buildConfigField "String", "BUILD_TIME_KEY", "\"Build TIME\""
+        buildConfigField "String", "BUILD_TIME", "\"${appBuildTime}\""
     }
 
     sourceSets {
@@ -163,12 +178,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support libraries
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:design:23.0.1'
 
     // Google play services
-    compile 'com.google.android.gms:play-services-base:7.3.0'
-    compile 'com.google.android.gms:play-services-drive:7.3.0'
-    compile 'com.google.android.gms:play-services-plus:7.3.0'
+    compile 'com.google.android.gms:play-services-base:7.8.0'
+    compile 'com.google.android.gms:play-services-drive:7.8.0'
+    compile 'com.google.android.gms:play-services-plus:7.8.0'
 
     // Material stuff
     compile 'com.afollestad:material-dialogs:0.7.6.0'

@@ -20,8 +20,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import itkach.aard2.Application;
-import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.callbacks.LookupListener;
+import itkach.aard2.ui.activities.ArticleCollectionActivity;
 
 public class LexisLookupFragment extends BaseListFragment implements LookupListener {
 
@@ -29,7 +29,6 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     private SearchView searchView;
     private Application app;
     private String initialQuery;
-
 
     @Override
     public int getEmptyIcon() {
@@ -141,6 +140,8 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
             searchView.setQuery(initialQuery, true);
             initialQuery = null;
         }
+
+        searchView.clearFocus();
     }
 
     @Override
@@ -179,8 +180,9 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         if (timer != null) {
             timer.cancel();
         }
-        Application app = (Application) getActivity().getApplication();
-        app.removeLookupListener(this);
+        Application app = (Application) getActivity().getApplication ();
+        app.removeLookupListener (this);
+
         super.onDestroy();
     }
 

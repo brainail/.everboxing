@@ -9,6 +9,7 @@ import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.utils.tool.ToolCollections;
+import org.brainail.EverboxingLexis.utils.tool.ToolKeyboard;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import butterknife.ButterKnife;
@@ -179,7 +180,7 @@ public abstract class BaseDrawerActivity extends BaseActivity implements DrawerL
 
     @Override
     public void onDrawerOpened(View drawerView) {
-        // Do nothing
+        ToolKeyboard.hide (this);
     }
 
     @Override
