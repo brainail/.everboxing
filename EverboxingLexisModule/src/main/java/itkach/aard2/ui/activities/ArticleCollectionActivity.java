@@ -56,6 +56,7 @@ public class ArticleCollectionActivity extends BaseActivity {
 
     ArticleCollectionPagerAdapter articleCollectionPagerAdapter;
     ViewPager viewPager;
+    TabLayout tabLayout;
 
     ToBlob blobToBlob = new ToBlob() {
 
@@ -89,7 +90,7 @@ public class ArticleCollectionActivity extends BaseActivity {
         // actionBar.setDisplayHomeAsUpEnabled(true);
         // actionBar.setSubtitle("...");
         final Intent intent = getIntent();
-        final int position = intent.getIntExtra("position", 0);
+        final int position = intent.getIntExtra ("position", 0);
 
         AsyncTask<Void, Void, ArticleCollectionPagerAdapter> createAdapterTask = new AsyncTask<Void, Void, ArticleCollectionPagerAdapter>() {
 
@@ -146,8 +147,27 @@ public class ArticleCollectionActivity extends BaseActivity {
 
                 viewPager = (ViewPager) findViewById(R.id.articles_pager);
                 viewPager.setAdapter (articleCollectionPagerAdapter);
-                TabLayout tabLayout = ((TabLayout) findViewById (R.id.articles_tabs));
-                tabLayout.setupWithViewPager (viewPager);
+                tabLayout = (TabLayout) findViewById (R.id.articles_tabs);
+
+                updateTabsState ();
+
+                tabLayout.setOnTabSelectedListener (new TabLayout.OnTabSelectedListener () {
+                    @Override
+                    public void onTabSelected (TabLayout.Tab tab) {
+                        viewPager.setCurrentItem (tab.getPosition ());
+                    }
+
+                    @Override
+                    public void onTabUnselected (TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected (TabLayout.Tab tab) {
+
+                    }
+                });
+
                 viewPager.addOnPageChangeListener (new OnPageChangeListener () {
 
                     @Override
@@ -158,6 +178,7 @@ public class ArticleCollectionActivity extends BaseActivity {
 
                     @Override
                     public void onPageSelected (final int position) {
+                        updateTabsState ();
                         updateTitle (position);
                         runOnUiThread (new Runnable () {
                             @Override
@@ -171,19 +192,36 @@ public class ArticleCollectionActivity extends BaseActivity {
                 });
                 viewPager.setCurrentItem (position);
 
-                updateTitle(position);
-                articleCollectionPagerAdapter.registerDataSetObserver(new DataSetObserver() {
+                updateTitle (position);
+                articleCollectionPagerAdapter.registerDataSetObserver (new DataSetObserver () {
                     @Override
-                    public void onChanged() {
-                        if (articleCollectionPagerAdapter.getCount() == 0) {
-                            finish();
+                    public void onChanged () {
+                        if (articleCollectionPagerAdapter.getCount () == 0) {
+                            finish ();
+                            return;
                         }
+
+                        updateTabsState ();
                     }
                 });
             }
         };
 
         createAdapterTask.execute();
+
+    }
+
+    private void updateTabsState () {
+        final int LIMIT = 30;
+        final int lastVisiblePage = Math.min (viewPager.getCurrentItem () + LIMIT, articleCollectionPagerAdapter.getCount ());
+        for (int tabIndex = tabLayout.getTabCount (); tabIndex < lastVisiblePage; ++tabIndex) {
+            tabLayout.addTab (tabLayout.newTab ().setText (articleCollectionPagerAdapter.getPageTitle (tabIndex)), false);
+        }
+
+        final TabLayout.Tab selectedTab = tabLayout.getTabAt (viewPager.getCurrentItem ());
+        if (null != selectedTab) {
+            selectedTab.select ();
+        }
 
     }
 
@@ -347,7 +385,7 @@ public class ArticleCollectionActivity extends BaseActivity {
                 @Override
                 public void onChanged() {
                     count = ArticleCollectionPagerAdapter.this.data.getCount();
-                    notifyDataSetChanged();
+                    notifyDataSetChanged ();
                 }
             };
             data.registerDataSetObserver(observer);
