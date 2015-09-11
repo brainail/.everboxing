@@ -1,6 +1,7 @@
 package org.brainail.EverboxingLexis.ui.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
@@ -139,6 +140,10 @@ public abstract class SectionedDrawerActivity
         } else {
             ToolToolbar.updateToolbarTitle(this, section.getTitle());
         }
+    }
+
+    protected final DrawerSection section(final Fragment fragment) {
+        return mDrawerSectionsController.section(fragment);
     }
 
     @Override

@@ -368,6 +368,17 @@ public class Application extends JApplication {
         return slobber.getSlobURI(slobId);
     }
 
+    public int bookmarksSize() {
+        return null != bookmarks ? bookmarks.size() : 0;
+    }
+
+    public int historySize() {
+        return null != history ? history.size() : 0;
+    }
+
+    public int dictionariesSize() {
+        return null != dictionaries ? dictionaries.size() : 0;
+    }
 
     public void addBookmark(String contentURL) {
         bookmarks.add(contentURL);

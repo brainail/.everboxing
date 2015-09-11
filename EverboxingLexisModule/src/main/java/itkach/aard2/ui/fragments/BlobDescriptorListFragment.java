@@ -23,6 +23,7 @@ import android.widget.ListView;
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
 import itkach.aard2.slob.BlobDescriptorList;
@@ -165,6 +166,11 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
             if (checked) {
                 getDescriptorList().remove(position);
             }
+        }
+
+        if (getActivity() instanceof HomeActivity) {
+            final HomeActivity sweetHome = (HomeActivity) getActivity();
+            sweetHome.updateDrawerNotifications();
         }
     }
 

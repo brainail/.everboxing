@@ -34,15 +34,15 @@ public class ArticleFragment extends Fragment {
     private ArticleWebView view;
     private MenuItem miBookmark;
     private Drawable icBookmark;
-    private Drawable icBookmarkO;
+    private Drawable icBookmarkOutline;
     private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Activity activity = getActivity();
-        icBookmark = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_bookmark_outline);
-        icBookmarkO = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_bookmark);
+        icBookmark = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_bookmark);
+        icBookmarkOutline = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_bookmark_outline);
         setHasOptionsMenu(true);
     }
 
@@ -65,7 +65,7 @@ public class ArticleFragment extends Fragment {
             miBookmark.setIcon(icBookmark);
         } else {
             miBookmark.setChecked(false);
-            miBookmark.setIcon(icBookmarkO);
+            miBookmark.setIcon(icBookmarkOutline);
         }
     }
 

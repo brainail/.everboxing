@@ -5,7 +5,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
+
+import itkach.aard2.Application;
+import itkach.aard2.ui.fragments.LexisBookmarksFragment;
+import itkach.aard2.ui.fragments.LexisHistoryFragment;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -73,6 +78,34 @@ public class HomeActivity extends SectionedDrawerActivity {
     @Override
     public DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer() {
         return DrawerSectionsOnSceneInitializer.HOME;
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        updateDrawerNotifications ();
+    }
+
+    // Some ugly solution to update bookmarks size and other stuff ...
+    // It should be reimplemented, anyway.
+    public void updateDrawerNotifications() {
+        // Bookmarks
+        final DrawerSection bookmarksSection = section (new LexisBookmarksFragment ());
+        if (null != bookmarksSection) {
+            final int bookmarksSize = ((Application) getApplication ()).bookmarksSize ();
+            if (bookmarksSize != bookmarksSection.getNumberNotifications()) {
+                bookmarksSection.withNotifications (bookmarksSize);
+            }
+        }
+
+        // History
+        final DrawerSection historySection = section (new LexisHistoryFragment());
+        if (null != historySection) {
+            final int historySize = ((Application) getApplication ()).historySize();
+            if (historySize != historySection.getNumberNotifications()) {
+                historySection.withNotifications (historySize);
+            }
+        }
     }
 
 }
