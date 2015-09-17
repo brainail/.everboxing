@@ -23,6 +23,7 @@ import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -90,7 +91,7 @@ public class ArticleCollectionActivity extends BaseActivity {
         // actionBar.setDisplayHomeAsUpEnabled(true);
         // actionBar.setSubtitle("...");
         final Intent intent = getIntent();
-        final int position = intent.getIntExtra ("position", 0);
+        final int position = intent.getIntExtra("position", 0);
 
         AsyncTask<Void, Void, ArticleCollectionPagerAdapter> createAdapterTask = new AsyncTask<Void, Void, ArticleCollectionPagerAdapter>() {
 
@@ -148,49 +149,52 @@ public class ArticleCollectionActivity extends BaseActivity {
                 viewPager = (ViewPager) findViewById(R.id.articles_pager);
                 viewPager.setAdapter (articleCollectionPagerAdapter);
                 tabLayout = (TabLayout) findViewById (R.id.articles_tabs);
+                viewPager.setCurrentItem (position);
 
-                updateTabsState ();
+                updateTabsState (true);
 
-                tabLayout.setOnTabSelectedListener (new TabLayout.OnTabSelectedListener () {
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
-                    public void onTabSelected (TabLayout.Tab tab) {
-                        viewPager.setCurrentItem (tab.getPosition ());
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        viewPager.setCurrentItem(tab.getPosition());
                     }
 
                     @Override
-                    public void onTabUnselected (TabLayout.Tab tab) {
+                    public void onTabUnselected(TabLayout.Tab tab) {
 
                     }
 
                     @Override
-                    public void onTabReselected (TabLayout.Tab tab) {
+                    public void onTabReselected(TabLayout.Tab tab) {
 
                     }
                 });
 
-                viewPager.addOnPageChangeListener (new OnPageChangeListener () {
+                viewPager.addOnPageChangeListener(new OnPageChangeListener() {
 
                     @Override
-                    public void onPageScrollStateChanged (int arg0) {}
+                    public void onPageScrollStateChanged(int arg0) {
+                    }
 
                     @Override
-                    public void onPageScrolled (int arg0, float arg1, int arg2) {}
+                    public void onPageScrolled(int arg0, float arg1, int arg2) {
+                    }
 
                     @Override
-                    public void onPageSelected (final int position) {
-                        updateTabsState ();
-                        updateTitle (position);
-                        runOnUiThread (new Runnable () {
+                    public void onPageSelected(final int position) {
+                        updateTabsState(false);
+                        updateTitle(position);
+                        runOnUiThread(new Runnable() {
                             @Override
-                            public void run () {
-                                ArticleFragment fragment = (ArticleFragment) articleCollectionPagerAdapter.getItem (position);
-                                fragment.applyTextZoomPref ();
+                            public void run() {
+                                ArticleFragment fragment =
+                                        (ArticleFragment) articleCollectionPagerAdapter.getItem(position);
+                                fragment.applyTextZoomPref();
                             }
                         });
 
                     }
                 });
-                viewPager.setCurrentItem (position);
 
                 updateTitle (position);
                 articleCollectionPagerAdapter.registerDataSetObserver (new DataSetObserver () {
@@ -201,7 +205,7 @@ public class ArticleCollectionActivity extends BaseActivity {
                             return;
                         }
 
-                        updateTabsState ();
+                        updateTabsState (false);
                     }
                 });
             }
@@ -211,18 +215,26 @@ public class ArticleCollectionActivity extends BaseActivity {
 
     }
 
-    private void updateTabsState () {
+    private void updateTabsState (final boolean isInitialization) {
         final int LIMIT = 30;
         final int lastVisiblePage = Math.min (viewPager.getCurrentItem () + LIMIT, articleCollectionPagerAdapter.getCount ());
-        for (int tabIndex = tabLayout.getTabCount (); tabIndex < lastVisiblePage; ++tabIndex) {
+        for (int tabIndex = tabLayout.getTabCount (); tabIndex < lastVisiblePage; ++ tabIndex) {
             tabLayout.addTab (tabLayout.newTab ().setText (articleCollectionPagerAdapter.getPageTitle (tabIndex)), false);
         }
 
         final TabLayout.Tab selectedTab = tabLayout.getTabAt (viewPager.getCurrentItem ());
         if (null != selectedTab) {
-            selectedTab.select ();
+            if (isInitialization) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        selectedTab.select();
+                    }
+                }, 500);
+            } else {
+                selectedTab.select();
+            }
         }
-
     }
 
     private ArticleCollectionPagerAdapter createFromUri(Application app, Uri articleUrl) {
