@@ -25,6 +25,7 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
 import itkach.aard2.Application;
+import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.ui.views.ArticleWebView;
 
 public class ArticleFragment extends Fragment {
@@ -81,8 +82,9 @@ public class ArticleFragment extends Fragment {
             Application app = (Application) getActivity().getApplication();
             if (this.url != null) {
                 if (item.isChecked()) {
-                    app.removeBookmark(this.url);
-                    displayBookmarked(false);
+                    ((ArticleCollectionActivity) getActivity ()).unbookmarkCurrentTab ();
+                    app.removeBookmark (this.url);
+                    displayBookmarked (false);
                 } else {
                     app.addBookmark(this.url);
                     displayBookmarked(true);

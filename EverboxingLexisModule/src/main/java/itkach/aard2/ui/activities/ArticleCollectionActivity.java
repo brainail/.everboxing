@@ -55,6 +55,10 @@ import itkach.slob.Slob.Blob;
 
 public class ArticleCollectionActivity extends BaseActivity {
 
+    public static enum CreatorMode {
+        INTENT, URI, BOOKMARKS_SCREEN, HISTORY_SCREEN, LAST_RESULT, RANDOM
+    }
+
     ArticleCollectionPagerAdapter articleCollectionPagerAdapter;
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -215,11 +219,21 @@ public class ArticleCollectionActivity extends BaseActivity {
 
     }
 
+    public void unbookmarkCurrentTab() {
+        if (CreatorMode.BOOKMARKS_SCREEN == articleCollectionPagerAdapter.creatorMode() && tabLayout.getTabCount () > 1) {
+            tabLayout.removeTabAt (tabLayout.getSelectedTabPosition ());
+        }
+    }
+
     private void updateTabsState (final boolean isInitialization) {
         final int LIMIT = 30;
         final int lastVisiblePage = Math.min (viewPager.getCurrentItem () + LIMIT, articleCollectionPagerAdapter.getCount ());
         for (int tabIndex = tabLayout.getTabCount (); tabIndex < lastVisiblePage; ++ tabIndex) {
             tabLayout.addTab (tabLayout.newTab ().setText (articleCollectionPagerAdapter.getPageTitle (tabIndex)), false);
+        }
+
+        while (tabLayout.getTabCount () > articleCollectionPagerAdapter.getCount ()) {
+            tabLayout.removeTabAt (tabLayout.getTabCount () - 1);
         }
 
         final TabLayout.Tab selectedTab = tabLayout.getTabAt (viewPager.getCurrentItem ());
@@ -246,34 +260,40 @@ public class ArticleCollectionActivity extends BaseActivity {
         BlobListAdapter data = new BlobListAdapter(this, 21, 1);
         data.setData(result);
         return new ArticleCollectionPagerAdapter(
-                app, data, blobToBlob, getSupportFragmentManager());
+                CreatorMode.URI, app, data, blobToBlob, getSupportFragmentManager()
+        );
     }
 
     ;
 
     private ArticleCollectionPagerAdapter createFromLastResult(Application app) {
         return new ArticleCollectionPagerAdapter(
-                app, app.lastResult, blobToBlob, getSupportFragmentManager());
+                CreatorMode.LAST_RESULT, app, app.lastResult, blobToBlob, getSupportFragmentManager()
+        );
     }
 
     private ArticleCollectionPagerAdapter createFromBookmarks(final Application app) {
-        return new ArticleCollectionPagerAdapter(
-                app, new BlobDescriptorListAdapter(app.bookmarks), new ToBlob() {
-            @Override
-            public Blob convert(Object item) {
-                return app.bookmarks.resolve((BlobDescriptor) item);
-            }
-        }, getSupportFragmentManager());
+        return new ArticleCollectionPagerAdapter (
+                CreatorMode.BOOKMARKS_SCREEN, app, new BlobDescriptorListAdapter (app.bookmarks),
+                new ToBlob () {
+                    @Override
+                    public Blob convert (Object item) {
+                        return app.bookmarks.resolve ((BlobDescriptor) item);
+                    }
+                }, getSupportFragmentManager ()
+        );
     }
 
     private ArticleCollectionPagerAdapter createFromHistory(final Application app) {
-        return new ArticleCollectionPagerAdapter(
-                app, new BlobDescriptorListAdapter(app.history), new ToBlob() {
-            @Override
-            public Blob convert(Object item) {
-                return app.history.resolve((BlobDescriptor) item);
-            }
-        }, getSupportFragmentManager());
+        return new ArticleCollectionPagerAdapter (
+                CreatorMode.HISTORY_SCREEN, app, new BlobDescriptorListAdapter (app.history),
+                new ToBlob () {
+                    @Override
+                    public Blob convert (Object item) {
+                        return app.history.resolve ((BlobDescriptor) item);
+                    }
+                }, getSupportFragmentManager ()
+        );
     }
 
     private ArticleCollectionPagerAdapter createFromRandom(Application app) {
@@ -285,7 +305,8 @@ public class ArticleCollectionActivity extends BaseActivity {
         }
         data.setData(result);
         return new ArticleCollectionPagerAdapter(
-                app, data, blobToBlob, getSupportFragmentManager());
+                CreatorMode.RANDOM, app, data, blobToBlob, getSupportFragmentManager()
+        );
     }
 
     private ArticleCollectionPagerAdapter createFromIntent(Application app, Intent intent) {
@@ -301,7 +322,8 @@ public class ArticleCollectionActivity extends BaseActivity {
             data.setData(result);
         }
         return new ArticleCollectionPagerAdapter(
-                app, data, blobToBlob, getSupportFragmentManager());
+                CreatorMode.INTENT, app, data, blobToBlob, getSupportFragmentManager()
+        );
     }
 
     private Iterator<Blob> stemLookup(Application app, String lookupKey) {
@@ -376,6 +398,25 @@ public class ArticleCollectionActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart () {
+        super.onStart ();
+        if (null != articleCollectionPagerAdapter) {
+            if (CreatorMode.BOOKMARKS_SCREEN == articleCollectionPagerAdapter.creatorMode ()
+                    || CreatorMode.HISTORY_SCREEN == articleCollectionPagerAdapter.creatorMode ()) {
+                if (null != tabLayout) {
+                    tabLayout.removeAllTabs ();
+                    updateTabsState (true);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onStop () {
+        super.onStop ();
+    }
+
     static interface ToBlob {
         Slob.Blob convert(Object item);
     }
@@ -387,12 +428,22 @@ public class ArticleCollectionActivity extends BaseActivity {
         private BaseAdapter data;
         private ToBlob toBlob;
         private int count;
+        private CreatorMode creatorMode;
 
-        public ArticleCollectionPagerAdapter(Application app, BaseAdapter data, ToBlob toBlob, FragmentManager fm) {
+        public ArticleCollectionPagerAdapter(
+                CreatorMode creatorMode,
+                Application app,
+                BaseAdapter data,
+                ToBlob toBlob,
+                FragmentManager fm) {
+
             super(fm);
+
             this.app = app;
             this.data = data;
             this.count = data.getCount();
+            this.creatorMode = creatorMode;
+
             this.observer = new DataSetObserver() {
                 @Override
                 public void onChanged() {
@@ -402,6 +453,10 @@ public class ArticleCollectionActivity extends BaseActivity {
             };
             data.registerDataSetObserver(observer);
             this.toBlob = toBlob;
+        }
+
+        public CreatorMode creatorMode() {
+            return creatorMode;
         }
 
         void destroy() {
