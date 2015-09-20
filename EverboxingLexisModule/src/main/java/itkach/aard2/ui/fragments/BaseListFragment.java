@@ -1,6 +1,5 @@
 package itkach.aard2.ui.fragments;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -58,14 +56,6 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
         ImageView emptyIcon = (ImageView) (emptyView.findViewById (R.id.empty_icon));
         emptyIcon.setImageDrawable (getEmptyStateIcon ());
         return super.onCreateView (inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated (savedInstanceState);
-        final InputMethodManager inputManager
-                = (InputMethodManager) getActivity ().getSystemService (Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow (getView ().getWindowToken (), 0);
     }
 
     protected void setSelectionMode (boolean selectionMode) {}

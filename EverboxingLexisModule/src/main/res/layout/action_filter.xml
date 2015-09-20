@@ -1,8 +1,10 @@
-<SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+<SearchView
     android:id="@+id/fldFilter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:actionViewClass="android.widget.SearchView"
+    android:actionViewClass="android.support.v7.widget.SearchView"
     android:iconifiedByDefault="true"
+    android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen"
     android:queryHint="Filter"
-    android:showAsAction="always" />
+    android:showAsAction="always"/>

@@ -10,12 +10,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -23,7 +25,6 @@ import android.widget.ListView;
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
 import itkach.aard2.slob.BlobDescriptorList;
@@ -167,30 +168,35 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
                 getDescriptorList().remove(position);
             }
         }
-
-        if (getActivity() instanceof HomeActivity) {
-            final HomeActivity sweetHome = (HomeActivity) getActivity();
-            sweetHome.updateDrawerNotifications();
-        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_list_filter, menu);
+        inflater.inflate (R.menu.menu_list_filter, menu);
     }
 
     @Override
     public void onPrepareOptionsMenu(final Menu menu) {
-
-        BlobDescriptorList list = getDescriptorList();
+        final BlobDescriptorList list = getDescriptorList();
 
         miFilter = menu.findItem(R.id.action_filter);
-        miFilter.setIcon(icFilter);
 
-        // View filterActionView = miFilter.getActionView();
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(miFilter);
-        // searchView.setQueryHint(miFilter.getTitle());
-        searchView.setQuery(list.getFilter(), true);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(miFilter);
+        if (!TextUtils.isEmpty (list.getFilter())) {
+            searchView.setIconified (false);
+            searchView.setQuery (list.getFilter (), true);
+            MenuItemCompat.expandActionView (miFilter);
+            searchView.clearFocus ();
+        } else {
+            miFilter.setIcon (icFilter);
+        }
+
+        searchView.setImeOptions(searchView.getImeOptions()
+                | EditorInfo.IME_ACTION_SEARCH
+                | EditorInfo.IME_FLAG_NO_EXTRACT_UI
+                | EditorInfo.IME_FLAG_NO_FULLSCREEN
+        );
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -200,9 +206,11 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 BlobDescriptorList list = getDescriptorList();
+
                 if (!newText.equals(list.getFilter())) {
                     getDescriptorList().setFilter(newText);
                 }
+
                 return true;
             }
         });

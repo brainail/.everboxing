@@ -3,13 +3,16 @@ package org.brainail.EverboxingLexis.ui.activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
+import org.brainail.EverboxingLexis.utils.Plogger;
 
 import itkach.aard2.Application;
 import itkach.aard2.ui.fragments.LexisBookmarksFragment;
+import itkach.aard2.ui.fragments.LexisDictionariesFragment;
 import itkach.aard2.ui.fragments.LexisHistoryFragment;
 
 /**
@@ -39,6 +42,8 @@ import itkach.aard2.ui.fragments.LexisHistoryFragment;
  */
 public class HomeActivity extends SectionedDrawerActivity {
 
+    private boolean shouldUpdateDrawerNotifications = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +71,7 @@ public class HomeActivity extends SectionedDrawerActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu (menu);
     }
 
     @Override
@@ -82,14 +87,31 @@ public class HomeActivity extends SectionedDrawerActivity {
 
     @Override
     protected void onResumeFragments() {
-        super.onResumeFragments();
+        super.onResumeFragments ();
         updateDrawerNotifications ();
+    }
+
+    @Override
+    public void onDrawerClosed (View drawerView) {
+        super.onDrawerClosed (drawerView);
+        shouldUpdateDrawerNotifications = true;
+    }
+
+    @Override
+    public void onDrawerSlide (View drawerView, float slideOffset) {
+        super.onDrawerSlide (drawerView, slideOffset);
+        if (slideOffset > 0 && shouldUpdateDrawerNotifications) {
+            shouldUpdateDrawerNotifications = false;
+            updateDrawerNotifications ();
+        }
     }
 
     // Some ugly solution to update bookmarks size and other stuff ...
     // It should be reimplemented, anyway.
     public void updateDrawerNotifications() {
-        // Bookmarks
+        Plogger.logV (Plogger.LogScope.DRAWER, "Update drawer notifications numbers ...");
+
+        // Filtered bookmarks
         final DrawerSection bookmarksSection = section (new LexisBookmarksFragment ());
         if (null != bookmarksSection) {
             final int bookmarksSize = ((Application) getApplication ()).bookmarksSize ();
@@ -98,12 +120,21 @@ public class HomeActivity extends SectionedDrawerActivity {
             }
         }
 
-        // History
+        // Filtered history
         final DrawerSection historySection = section (new LexisHistoryFragment());
         if (null != historySection) {
-            final int historySize = ((Application) getApplication ()).historySize();
+            final int historySize = ((Application) getApplication ()).historySize ();
             if (historySize != historySection.getNumberNotifications()) {
                 historySection.withNotifications (historySize);
+            }
+        }
+
+        // Active dictionaries
+        final DrawerSection dictionarySection = section (new LexisDictionariesFragment ());
+        if (null != dictionarySection) {
+            final int dictionariesSize = ((Application) getApplication ()).activeDictionariesSize ();
+            if (dictionariesSize != dictionarySection.getNumberNotifications()) {
+                dictionarySection.withNotifications (dictionariesSize);
             }
         }
     }

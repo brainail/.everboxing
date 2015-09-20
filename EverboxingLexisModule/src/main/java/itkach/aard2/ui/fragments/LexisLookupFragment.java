@@ -1,5 +1,6 @@
 package itkach.aard2.ui.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -9,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -72,19 +75,30 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         getListView().setAdapter(app.lastResult);
     }
 
+    @Override
+    public void onActivityCreated (Bundle savedInstanceState) {
+        super.onActivityCreated (savedInstanceState);
+        final InputMethodManager inputManager
+                = (InputMethodManager) getActivity ().getSystemService (Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow (getView ().getWindowToken (), 0);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_lookup, menu);
-        MenuItem miFilter = menu.findItem(R.id.action_lookup);
-        View filterActionView = miFilter.getActionView();
+        MenuItem miFilter = menu.findItem (R.id.action_lookup);
 
         timer = new Timer();
 
         searchView = (SearchView) MenuItemCompat.getActionView(miFilter);
-        // searchView = (SearchView) filterActionView.findViewById(R.id.fldLookup);
-        // searchView.setQueryHint(miFilter.getTitle());
         searchView.setIconified(false);
+
+        searchView.setImeOptions(searchView.getImeOptions ()
+                        | EditorInfo.IME_ACTION_SEARCH
+                        | EditorInfo.IME_FLAG_NO_EXTRACT_UI
+                        | EditorInfo.IME_FLAG_NO_FULLSCREEN
+        );
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             TimerTask scheduledLookup = null;

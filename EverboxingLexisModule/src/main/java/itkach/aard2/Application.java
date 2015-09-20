@@ -344,7 +344,7 @@ public class Application extends JApplication {
                 });
             }
         });
-        discoveryThread.start();
+        discoveryThread.start ();
     }
 
     public synchronized boolean addDictionary(File file) {
@@ -356,7 +356,7 @@ public class Application extends JApplication {
                 }
             }
         }
-        dictionaries.add(newDesc);
+        dictionaries.add (newDesc);
         return false;
     }
 
@@ -365,7 +365,7 @@ public class Application extends JApplication {
     }
 
     public String getSlobURI(String slobId) {
-        return slobber.getSlobURI(slobId);
+        return slobber.getSlobURI (slobId);
     }
 
     public int bookmarksSize() {
@@ -378,6 +378,16 @@ public class Application extends JApplication {
 
     public int dictionariesSize() {
         return null != dictionaries ? dictionaries.size() : 0;
+    }
+
+    public int activeDictionariesSize() {
+        int activeDictionaries = 0;
+        if (null != dictionaries) {
+            for (SlobDescriptor dict : dictionaries) {
+                activeDictionaries += dict.active ? 1 : 0;
+            }
+        }
+        return activeDictionaries;
     }
 
     public void addBookmark(String contentURL) {

@@ -37,6 +37,7 @@ public final class Plogger {
 
         WTF ("Wtf?"),
         PLAY_SERVICES_AUTH ("Play Services auth flow"),
+        DRAWER ("Drawer"),
         AUTH_TOKEN ("Auth token");
 
         final String mScopeName;
