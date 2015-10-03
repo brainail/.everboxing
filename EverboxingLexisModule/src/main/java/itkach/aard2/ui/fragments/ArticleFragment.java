@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.malinskiy.materialicons.Iconify;
@@ -24,6 +23,7 @@ import com.malinskiy.materialicons.Iconify;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
+import co.mobiwise.library.ProgressLayout;
 import itkach.aard2.Application;
 import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.ui.views.ArticleWebView;
@@ -143,7 +143,7 @@ public class ArticleFragment extends Fragment {
         }
 
         View layout = inflater.inflate(R.layout.article_view, container, false);
-        final ProgressBar progressBar = (ProgressBar) layout.findViewById(R.id.webViewPogress);
+        final ProgressLayout progressBar = (ProgressLayout) layout.findViewById(R.id.webViewProgress);
         view = (ArticleWebView) layout.findViewById(R.id.webView);
         view.restoreState(savedInstanceState);
         view.loadUrl(url);
@@ -154,8 +154,8 @@ public class ArticleFragment extends Fragment {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar.setProgress(newProgress);
-                            if (newProgress >= progressBar.getMax()) {
+                            progressBar.setCurrentProgress (newProgress);
+                            if (newProgress >= 100) {
                                 progressBar.setVisibility(ViewGroup.GONE);
                             }
                         }

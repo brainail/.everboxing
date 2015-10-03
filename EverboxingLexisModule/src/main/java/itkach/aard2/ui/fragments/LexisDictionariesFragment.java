@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -92,14 +93,18 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View result = super.onCreateView(inflater, container, savedInstanceState);
         View extraEmptyView = inflater.inflate(R.layout.dictionaries_empty_view_extra, container, false);
-        Button btn = (Button) extraEmptyView.findViewById(R.id.dictionaries_empty_btn_scan);
+        Button btn = (Button) extraEmptyView.findViewById(R.id.dictionaries_empty_btn_find_online);
         btn.setCompoundDrawablesWithIntrinsicBounds(
-                getResources().getDrawable(android.R.drawable.ic_menu_help),
+                BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_smartphone_download),
                 null, null, null);
         btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                findDictionaries();
+                // findDictionaries();
+                String url = "https://github.com/itkach/slob/wiki/Dictionaries";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse (url));
+                // intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity ().startActivity(intent);
             }
         });
         LinearLayout emptyViewLayout = (LinearLayout) emptyView;

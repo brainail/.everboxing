@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
@@ -18,7 +19,10 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.malinskiy.materialicons.Iconify;
+
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
 import java.util.Locale;
 
@@ -186,19 +190,21 @@ public class DictionaryListAdapter extends BaseAdapter {
 
         ImageView btnToggleDetail = (ImageView) view
                 .findViewById(R.id.dictionary_btn_toggle_detail);
-        // int toggleIcon = desc.expandDetail ? R.xml.ic_list_angle_up : R.xml.ic_list_angle_down;
-        btnToggleDetail.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        Drawable toggleIcon = desc.expandDetail ?
+             BaseIcon.defIcon (context, Iconify.IconValue.zmdi_chevron_up) :
+                BaseIcon.defIcon (context, Iconify.IconValue.zmdi_chevron_down);
+        btnToggleDetail.setImageDrawable(toggleIcon);
         btnToggleDetail.setTag(position);
 
-        ImageView btnForget = (ImageView) view
-                .findViewById(R.id.dictionary_btn_forget);
-        btnForget.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        ImageView btnForget = (ImageView) view.findViewById (R.id.dictionary_btn_forget);
+        btnForget.setImageDrawable(BaseIcon.defIcon (context, Iconify.IconValue.zmdi_eye_off));
         btnForget.setTag(position);
 
-        ImageView btnToggleFav = (ImageView) view
-                .findViewById(R.id.dictionary_btn_toggle_fav);
-        // int favIcon = desc.priority > 0 ? R.xml.ic_list_star : R.xml.ic_list_star_o;
-        btnToggleFav.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        ImageView btnToggleFav = (ImageView) view.findViewById(R.id.dictionary_btn_toggle_fav);
+        Drawable favIcon = desc.priority > 0 ?
+                BaseIcon.defIcon (context, Iconify.IconValue.zmdi_favorite) :
+                BaseIcon.defIcon (context, Iconify.IconValue.zmdi_favorite_outline);
+        btnToggleFav.setImageDrawable(favIcon);
         btnToggleFav.setTag(position);
         return view;
     }

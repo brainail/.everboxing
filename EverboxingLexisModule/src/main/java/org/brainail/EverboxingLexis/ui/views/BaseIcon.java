@@ -47,6 +47,13 @@ public class BaseIcon extends IconDrawable {
         return drawable;
     }
 
+    public static BaseIcon defIcon (final Context context, final Iconify.IconValue icon) {
+        final BaseIcon drawable = new BaseIcon(context, icon);
+        // drawable.color (ToolResources.retrievePrimaryColor (context));
+        drawable.sizeRes (R.dimen.base_icon_size);
+        return drawable;
+    }
+
     public static BaseIcon barIcon (final Context context, final Iconify.IconValue icon) {
         final BaseIcon drawable = new BaseIcon(context, icon);
         drawable.color (ToolColor.by (R.color.md_white_1000));

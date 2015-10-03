@@ -9,6 +9,6 @@
 
     <item
         android:id="@+id/action_find_dictionaries"
-        android:title="@string/action_find_dictionaries"
+        android:title="@string/action_find_dictionaries_online"
         app:showAsAction="ifRoom"/>
 </menu>

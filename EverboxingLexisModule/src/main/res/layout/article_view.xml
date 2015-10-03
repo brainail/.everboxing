@@ -1,7 +1,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <itkach.aard2.ui.views.ArticleWebView
         android:id="@+id/webView"
@@ -9,18 +10,14 @@
         android:layout_height="match_parent"
         />
 
-    <android.support.v4.widget.ContentLoadingProgressBar
-        android:id="@+id/webViewPogress"
-        style="?android:attr/progressBarStyleHorizontal"
+    <co.mobiwise.library.ProgressLayout
+        android:id="@+id/webViewProgress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="-4dp"
-        android:maxHeight="6dp"
-        android:minHeight="6dp"
-        android:padding="0dp"
-        android:progressDrawable="@drawable/progress"
-        android:indeterminate="false"
-        android:max="100"/>
+        android:layout_height="4dp"
+        app:maxProgress="100"
+        app:autoProgress="false"
+        android:layout_gravity="bottom"
+        app:loadedColor="?attr/colorPrimary"
+        app:emptyColor="#00000000"/>
 
 </FrameLayout>
