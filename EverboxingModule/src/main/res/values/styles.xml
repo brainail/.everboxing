@@ -27,4 +27,9 @@
         <item name="android:background">?attr/listDefaultSelector</item>
     </style>
 
+    <!-- Dialogs -->
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">?attr/colorAccent</item>
+    </style>
+
 </resources>

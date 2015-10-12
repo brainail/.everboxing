@@ -47,5 +47,8 @@
     <dimen name="preference_category_pre_L_vertical_side_spacing">18dp</dimen>
 
     <!-- Other -->
+    <dimen name="md_listitem_textsize">16sp</dimen>
+    <dimen name="md_listitem_margin_left">24dp</dimen>
+    <dimen name="md_icon_margin">16dp</dimen>
 
 </resources>

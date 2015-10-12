@@ -202,7 +202,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-plus:8.1.0'
 
     // Material stuff
-    compile 'com.afollestad:material-dialogs:0.7.6.0'
     compile 'com.malinskiy:materialicons:1.0.2'
 
     // Fonts

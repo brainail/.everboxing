@@ -4,14 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.ColorCircleView;
@@ -45,16 +45,16 @@ import butterknife.ButterKnife;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class ThemeChooser extends DialogFragment implements MaterialDialog.ListCallback {
+public class ThemeChooser extends DialogFragment implements AlertDialog.OnClickListener {
 
     public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#theme.chooser";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.settings_change_theme_dialog_title))
-                .adapter(new ItemAdapter(getActivity(), ThemeManager.AppTheme.themes(getActivity())), this)
-                .build();
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle (getString (R.string.settings_change_theme_dialog_title))
+                .setAdapter (new ItemAdapter (getActivity (), ThemeManager.AppTheme.themes (getActivity ())), this)
+                .create ();
 
         final ListView listView = dialog.getListView();
         if (null != listView) {
@@ -68,8 +68,8 @@ public class ThemeChooser extends DialogFragment implements MaterialDialog.ListC
     }
 
     @Override
-    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-        onThemeSelected(which);
+    public void onClick (DialogInterface dialog, int which) {
+        onThemeSelected (which);
     }
 
     private void onThemeSelected(final int which) {

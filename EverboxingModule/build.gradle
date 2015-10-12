@@ -182,12 +182,11 @@ dependencies {
     compile 'com.android.support:design:23.0.1'
 
     // Google play services
-    compile 'com.google.android.gms:play-services-base:7.8.0'
-    compile 'com.google.android.gms:play-services-drive:7.8.0'
-    compile 'com.google.android.gms:play-services-plus:7.8.0'
+    compile 'com.google.android.gms:play-services-base:8.1.0'
+    compile 'com.google.android.gms:play-services-drive:8.1.0'
+    compile 'com.google.android.gms:play-services-plus:8.1.0'
 
     // Material stuff
-    compile 'com.afollestad:material-dialogs:0.7.6.0'
     compile 'com.malinskiy:materialicons:1.0.1'
 
     // Fonts
