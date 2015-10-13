@@ -2,7 +2,7 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name" translatable="false">Everboxing ҂ Lexis</string>
+    <string name="app_name" translatable="false">LexisPaper</string>
     <string name="action_settings">Settings</string>
 
     <!-- Settings window -->
@@ -31,6 +31,11 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_user_data_name_greetings">&#9728; Greeting you! &#9728;</string>
+
+    <string name="section_dictionaries">Dictionaries</string>
+    <string name="section_history">History</string>
+    <string name="section_lookup">Lookup</string>
+    <string name="section_bookmarks">Bookmarks</string>
 
     <!-- Themes -->
     <string name="theme_name_default">Pink</string>
