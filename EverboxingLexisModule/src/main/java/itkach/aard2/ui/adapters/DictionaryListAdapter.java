@@ -197,7 +197,7 @@ public class DictionaryListAdapter extends BaseAdapter {
         btnToggleDetail.setTag(position);
 
         ImageView btnForget = (ImageView) view.findViewById (R.id.dictionary_btn_forget);
-        btnForget.setImageDrawable(BaseIcon.defIcon (context, Iconify.IconValue.zmdi_eye_off));
+        // btnForget.setImageDrawable(BaseIcon.defIcon (context, Iconify.IconValue.zmdi_eye_off));
         btnForget.setTag(position);
 
         ImageView btnToggleFav = (ImageView) view.findViewById(R.id.dictionary_btn_toggle_fav);
@@ -213,7 +213,7 @@ public class DictionaryListAdapter extends BaseAdapter {
         View pathRow = view.findViewById(R.id.dictionary_path_row);
 
         ImageView pathIcon = (ImageView) view.findViewById(R.id.dictionary_path_icon);
-        pathIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        // pathIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
 
         TextView pathView = (TextView) view.findViewById(R.id.dictionary_path);
         pathView.setText(path);
@@ -225,7 +225,7 @@ public class DictionaryListAdapter extends BaseAdapter {
         View errorRow = view.findViewById(R.id.dictionary_error_row);
 
         ImageView errorIcon = (ImageView) view.findViewById(R.id.dictionary_error_icon);
-        errorIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        // errorIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
 
         TextView errorView = (TextView) view
                 .findViewById(R.id.dictionary_error);
@@ -248,7 +248,7 @@ public class DictionaryListAdapter extends BaseAdapter {
         View copyrightRow = view.findViewById(R.id.dictionary_copyright_row);
 
         ImageView copyrightIcon = (ImageView) view.findViewById(R.id.dictionary_copyright_icon);
-        copyrightIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        // copyrightIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
 
         TextView copyrightView = (TextView) view.findViewById(R.id.dictionary_copyright);
         String copyright = desc.tags.get("copyright");
@@ -262,7 +262,7 @@ public class DictionaryListAdapter extends BaseAdapter {
         View sourceRow = view.findViewById(R.id.dictionary_license_row);
 
         ImageView sourceIcon = (ImageView) view.findViewById(R.id.dictionary_source_icon);
-        sourceIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        // sourceIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
 
         TextView sourceView = (TextView) view.findViewById(R.id.dictionary_source);
         String source = desc.tags.get("source");
@@ -283,7 +283,7 @@ public class DictionaryListAdapter extends BaseAdapter {
         View licenseRow = view.findViewById(R.id.dictionary_license_row);
 
         ImageView licenseIcon = (ImageView) view.findViewById(R.id.dictionary_license_icon);
-        licenseIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
+        // licenseIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
 
         TextView licenseView = (TextView) view.findViewById(R.id.dictionary_license);
         String licenseName = desc.tags.get("license.name");

@@ -64,6 +64,7 @@
     <string name="subtitle_history">History</string>
     <string name="subtitle_dictionaries">Dictionaries</string>
     <string name="action_find_dictionaries_online">Find online</string>
+    <string name="action_find_dictionaries_on_device">Scan device</string>
     <string name="action_find_in_page">Find in page</string>
     <string name="action_bookmark_article">Bookmark</string>
     <string name="action_filter">Filter</string>

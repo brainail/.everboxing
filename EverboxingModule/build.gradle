@@ -8,13 +8,18 @@ def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.t
 def appBuildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
 
 buildscript {
+    ext.kotlin_version = '0.14.451'
+
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
     }
 
     dependencies {
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
     }
 }
 
@@ -25,6 +30,7 @@ buildscript {
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 
 repositories {
@@ -81,6 +87,7 @@ android {
     sourceSets {
         // Remapping the androidTest sourceSet to the test folder
         androidTest.setRoot('src/test')
+        main.java.srcDirs += 'src/main/kotlin'
     }
 
     signingConfigs {
@@ -179,7 +186,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support libraries
-    compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:design:23.1.0'
 
     // Google play services
     compile 'com.google.android.gms:play-services-base:8.1.0'
@@ -199,6 +206,9 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
+
+    // Kotlin stuff
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
 //
