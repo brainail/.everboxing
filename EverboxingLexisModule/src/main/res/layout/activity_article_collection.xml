@@ -19,6 +19,7 @@
             android:id="@+id/articles_tabs"
             app:tabMode="scrollable"
             app:tabGravity="fill"
+            android:background="?attr/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

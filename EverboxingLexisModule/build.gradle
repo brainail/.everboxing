@@ -167,7 +167,12 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
         exclude 'LICENSE.txt'
+        exclude 'NOTICE.txt'
+        exclude 'LICENSE'
+        exclude 'NOTICE'
+        exclude '.readme'
 
         // ButterKnife
         exclude 'META-INF/services/javax.annotation.processing.Processor'
@@ -175,7 +180,7 @@ android {
         // Slob
         project.file("slob_exclude.txt").eachLine {
             line ->
-                println line
+                // println line
                 if (line && line.trim() && !line.startsWith("#")) {
                     exclude line.trim()
                 }
@@ -192,30 +197,24 @@ android {
 dependencies {
     // Libs folder
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     // Support libraries
     compile 'com.android.support:design:23.1.0'
-
     // Google play services
     compile 'com.google.android.gms:play-services-base:8.1.0'
     compile 'com.google.android.gms:play-services-drive:8.1.0'
     compile 'com.google.android.gms:play-services-plus:8.1.0'
-
     // Material stuff
     compile 'com.malinskiy:materialicons:1.0.2'
-
     // Fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-
     // Annotations
     compile 'com.jakewharton:butterknife:6.1.0'
-
+    // UI stuff
     compile 'com.github.iammert:ProgressLayout:a2ac196500'
-
     // Analytics
-    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
-        transitive = true;
-    }
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') { transitive = true; }
+    // Slob stuff
+    compile 'com.ibm.icu:icu4j:52.1', 'org.tukaani:xz:1.5', 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
 }
 
 //

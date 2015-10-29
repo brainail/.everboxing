@@ -15,7 +15,11 @@
 -repackageclasses ''
 
 # Disable some simplifications, modifications for fields & classes merging process
--optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*,!code/allocation/variable
+-optimizations !code/simplification/arithmetic
+-optimizations !code/simplification/cast
+-optimizations !field/*
+-optimizations !class/merging/*
+-optimizations !code/allocation/variable
 
 # Specifies the optimizations to be enabled and disabled.
 # -optimizations code/simplification/*
@@ -246,7 +250,74 @@
 
 # Crashlytics
 -keep class com.crashlytics.** { *; }
+-keep class com.crashlytics.android.**
 -dontwarn com.crashlytics.**
+
+# Some stuff, we don't use it
+-dontwarn javax.xml.**
+-dontwarn javax.xml.stream.events.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+-dontwarn java.awt.Desktop
+
+# Slob
+-dontwarn itkach.slobber.Slobber
+
+# Kotlin
+-dontwarn kotlin.dom.**
+-dontwarn org.w3c.dom.events.**
+
+# Proguard configuration for Jackson 2.x (fasterxml package instead of codehaus package)
+-keep class com.fasterxml.jackson.databind.ObjectMapper {
+    public <methods>;
+    protected <methods>;
+}
+
+-keep class com.fasterxml.jackson.databind.ObjectWriter {
+    public ** writeValueAsString(**);
+}
+
+-keepnames class com.fasterxml.jackson.** { *; }
+-keepnames interface com.fasterxml.jackson.** { *; }
+
+-dontwarn com.fasterxml.jackson.**
+
+# Support design
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+# Support design > CoordinatorLayout resolves the behaviors of its child components with reflection.
+-keep public class * extends android.support.design.widget.CoordinatorLayout$Behavior { *; }
+
+# Support v7
+-keep class android.support.v7.widget.** { *; }
+-keep interface android.support.v7.widget.** { *; }
+-keep public class android.support.v7.internal.widget.** { *; }
+-keep public class android.support.v7.internal.view.menu.** { *; }
+-keep class android.support.v7.app.** { *; }
+-keep interface android.support.v7.app.** { *; }
+-keep class android.support.v7.appcompat.** { *; }
+-keep class android.support.v7.view.** { *; }
+-keep interface android.support.v7.view.** { *; }
+
+# Keep the support v4 library
+-keep class android.support.v4.app.** { *; }
+-keep interface android.support.v4.app.** { *; }
+-keep class android.support.v4.widget.** { *; }
+-keep interface android.support.v4.widget.** { *; }
+-keep class android.support.v4.view.** { *; }
+-keep interface android.support.v4.view.** { *; }
+-keep class android.support.v4.internal.view.** { *; }
+-keep interface android.support.v4.internal.view.** { *; }
+-keep public class * extends android.support.v4.view.ActionProvider { *; }
+
+# Third-party progress
+-keep class co.mobiwise.library.**
+-keep interface co.mobiwise.library.**
+
+# International Components for Unicode
+-keep class com.ibm.icu.**
+-keep interface com.ibm.icu.**
+
 
 
 
