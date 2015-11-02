@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -101,7 +102,7 @@ public class SettingsActivity
     @Override
     protected void onPostCreate (Bundle savedInstanceState) {
         super.onPostCreate (savedInstanceState);
-        ToolUI.fixSettingsPaddingWorkaround(this);
+        ToolUI.fixSettingsPaddingWorkaround (this);
         ToolUI.fixSettingsSelectorWorkaround (this);
     }
 
@@ -205,21 +206,35 @@ public class SettingsActivity
             changeThemePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_palette));
             bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
+            // About
+            final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
+            aboutPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_info_outline));
+
             // Set click listeners
             setOnClickListener (getString (R.string.settings_sync_account_key));
             setOnClickListener (getString (R.string.settings_change_theme_key));
+            setOnClickListener (getString (R.string.settings_open_about_key));
         }
 
         @Override
         public boolean onPreferenceClick (final Preference preference) {
+            // Sync
             if (getString (R.string.settings_sync_account_key).equals (preference.getKey ())) {
                 final Activity scene = getActivity ();
                 if ((scene instanceof ClientApi.Supportable) && ((SwitchPreferenceCompat) preference).isChecked ()) {
                     final ClientApi api = ((ClientApi.Supportable) scene).getPlayServices ();
                     if (null != api) api.connect ();
                 }
-            } else if (getString (R.string.settings_change_theme_key).equals (preference.getKey ())) {
+            } else
+
+            // Theme
+            if (getString (R.string.settings_change_theme_key).equals (preference.getKey ())) {
                 new ThemeChooser ().show (getActivity ().getFragmentManager (), ThemeChooser.MANAGER_TAG);
+            } else
+
+            // About
+            if (getString (R.string.settings_open_about_key).equals (preference.getKey ())) {
+                startActivity (new Intent (getActivity (), AboutActivity.class));
             }
 
             return false;

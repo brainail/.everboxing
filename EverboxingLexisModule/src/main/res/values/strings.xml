@@ -3,6 +3,7 @@
 
     <!-- General -->
     <string name="app_name" translatable="false">LexisPaper</string>
+    <string name="app_name_about">About LexisPaper</string>
     <string name="action_settings">Settings</string>
 
     <!-- Settings window -->
@@ -24,6 +25,10 @@
     <string name="settings_change_theme_title">Theme color</string>
     <string name="settings_change_theme_key" translatable="false">settings_change_theme</string>
     <string name="settings_change_theme_dialog_title">Choose a theme color</string>
+
+    <string name="settings_misc_header">Misc</string>
+    <string name="settings_open_about_title">About</string>
+    <string name="settings_open_about_key" translatable="false">settings_open_about</string>
 
     <string name="settings_ringtone_silent_summary">Silent</string>
 

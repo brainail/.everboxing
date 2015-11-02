@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Aard"></string>
+    <string name="library_Aard_author">Igor Tkach</string>
+    <string name="library_Aard_authorWebsite">http://aarddict.org/</string>
+    <string name="library_Aard_libraryName">Aard</string>
+    <string name="library_Aard_libraryDescription">Aard is a simple dictionary</string>
+    <string name="library_Aard_libraryVersion">0.27</string>
+    <string name="library_Aard_libraryWebsite">http://aarddict.org/</string>
+    <string name="library_Aard_licenseVersion">The GPL License (V3)</string>
+    <string name="library_Aard_licenseLink">http://www.gnu.org/licenses/gpl-3.0.en.html</string>
+    <string name="library_Aard_isOpenSource">true</string>
+    <string name="library_Aard_repositoryLink">https://github.com/itkach/aard2-android</string>
+</resources>

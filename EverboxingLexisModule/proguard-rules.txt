@@ -318,6 +318,12 @@
 -keep class com.ibm.icu.**
 -keep interface com.ibm.icu.**
 
+# About library
+-keep class .R
+-keep class **.R$* {
+    <fields>;
+}
+
 
 
 

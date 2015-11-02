@@ -22,4 +22,13 @@
 
     </org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory>
 
+    <org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory
+        android:title="@string/settings_misc_header">
+
+        <org.brainail.EverboxingLexis.ui.views.preference.Preference
+            android:key="@string/settings_open_about_key"
+            android:title="@string/settings_open_about_title"/>
+
+    </org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory>
+
 </PreferenceScreen>
