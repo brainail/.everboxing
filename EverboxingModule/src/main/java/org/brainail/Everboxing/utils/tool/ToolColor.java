@@ -6,21 +6,21 @@ import org.brainail.Everboxing.JApplication;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -34,34 +34,33 @@ public final class ToolColor {
     private static final float HSV_DARK_COLOR_VALUE_LIMIT = 0.5f;
     private static final float HSV_DARKEN_COLOR_COEFF = 0.8f;
 
-    public static boolean isDarkColor(final int color) {
-        final float [] hsvComponents = new float [3];
-        Color.colorToHSV(color, hsvComponents);
-        return hsvComponents [2] < HSV_DARK_COLOR_VALUE_LIMIT;
+    public static boolean isDarkColor (final int color) {
+        final float [] hsvComponents = new float[3];
+        Color.colorToHSV (color, hsvComponents);
+        return hsvComponents[2] < HSV_DARK_COLOR_VALUE_LIMIT;
     }
 
-    public static int darkenColor(final int color) {
-        final float [] hsvComponents = new float [3];
-        Color.colorToHSV(color, hsvComponents);
+    public static int darkenColor (final int color) {
+        final float [] hsvComponents = new float[3];
+        Color.colorToHSV (color, hsvComponents);
         hsvComponents [2] *= HSV_DARKEN_COLOR_COEFF;
-        return Color.HSVToColor(hsvComponents);
+        return Color.HSVToColor (hsvComponents);
     }
 
     /**
      * Returns color with some alpha percent.
      *
      * @param alphaPercent Alpha component [0% .. 100%] of the color.
-     *
      * @see android.graphics.Color#argb(int, int, int, int)
      */
-    public static int withAlpha(final int color, final float alphaPercent) {
+    public static int withAlpha (final int color, final float alphaPercent) {
         final float opaquePercent = 100 - alphaPercent;
-        final int alpha = Math.max(0, Math.min(255, (int) (255 * opaquePercent / 100.0f)));
-        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
+        final int alpha = Math.max (0, Math.min (255, (int) (255 * opaquePercent / 100.0f)));
+        return Color.argb (alpha, Color.red (color), Color.green (color), Color.blue (color));
     }
 
-    public static int by(final int resId) {
-        return JApplication.appContext().getResources().getColor(resId);
+    public static int by (final int resId) {
+        return JApplication.appContext ().getResources ().getColor (resId);
     }
 
 }

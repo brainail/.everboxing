@@ -1,19 +1,20 @@
 package org.brainail.Everboxing.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.ui.notice.NoticeBar;
+import org.brainail.Everboxing.ui.notice.NoticeController;
 import org.brainail.Everboxing.utils.callable.Colorable;
 import org.brainail.Everboxing.utils.callable.Tagable;
 import org.brainail.Everboxing.utils.callable.Titleable;
-import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -40,34 +41,45 @@ import org.brainail.Everboxing.utils.tool.ToolFragments;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class CFragment1 extends Fragment implements Tagable, Colorable, Titleable {
+public class FragmentOverlay extends Fragment implements Tagable, Colorable, Titleable {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        final FrameLayout view = new FrameLayout(getActivity());
-        final Button button = new Button(getActivity());
-        view.addView(button);
-        button.setOnClickListener(new View.OnClickListener() {
+    public View onCreateView (LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        final FrameLayout view = new FrameLayout (getActivity ());
+
+        final Button button = new Button (getActivity ());
+        button.setText ("You so sexy!");
+        view.addView (button, new FrameLayout.LayoutParams (400, 200, Gravity.CENTER));
+
+        button.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View v) {
-                ToolFragments.openFragment((AppCompatActivity) getActivity(), new CFragmentTop());
+            public void onClick (View v) {
+                NoticeController
+                        .from (getActivity ())
+                        .notifyScene("I will show my snack right now!");
+
+                NoticeController
+                        .from (getActivity ())
+                        .notifyScene ("So sexy! Swipe me down or tap on action!", "No action");
+
+                NoticeController
+                        .from (getActivity ())
+                        .notifyScene ("Are you kidding me? Ha-ha :)", "No action", null, NoticeBar.Style.INFO);
             }
         });
-        view.setBackgroundColor(Color.YELLOW);
+        view.setBackgroundResource (R.color.md_brown_500);
         return view;
     }
 
-    @Override
-    public String tag() {
-        return "cfragment#1";
+    @Override public String tag () {
+        return "FragmentOverlay#Tag";
     }
 
-    @Override
-    public Integer color() {
-        return Color.MAGENTA;
+    @Override public Integer color () {
+        return getResources ().getColor (R.color.md_orange_700);
     }
 
-    @Override
-    public String title() {
-        return "Cfragmento!";
+    @Override public String title () {
+        return "FragmentOverlay";
     }
+
 }

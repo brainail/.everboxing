@@ -53,4 +53,9 @@
     <string name="auth_flow_rejected">The authorization was rejected.</string>
     <string name="auth_flow_pick_account">You must pick an account.</string>
 
+    <!-- Drawer: sections -->
+    <string name="fr_over_fr">Sample section</string>
+    <string name="fr_sex">Sex everywhere</string>
+    <string name="scene_settings">Settings</string>
+
 </resources>

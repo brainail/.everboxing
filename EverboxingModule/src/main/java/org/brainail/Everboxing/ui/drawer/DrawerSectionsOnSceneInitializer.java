@@ -1,14 +1,16 @@
 package org.brainail.Everboxing.ui.drawer;
 
-import android.graphics.Color;
+import com.malinskiy.materialicons.Iconify;
 
+import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.ui.activities.SectionedDrawerActivity;
 import org.brainail.Everboxing.ui.activities.SettingsActivity;
-import org.brainail.Everboxing.ui.fragments.CFragment;
-import org.brainail.Everboxing.ui.fragments.CFragment1;
-import org.brainail.Everboxing.ui.fragments.CFragment2;
-import org.brainail.Everboxing.ui.fragments.CFragment3;
-import org.brainail.Everboxing.ui.fragments.CFragment4;
+import org.brainail.Everboxing.ui.fragments.FragmentChromeCustomTabs;
+import org.brainail.Everboxing.ui.fragments.FragmentSex;
+import org.brainail.Everboxing.ui.fragments.FragmentUnderlay;
+import org.brainail.Everboxing.ui.views.BaseIcon;
+import org.brainail.Everboxing.utils.tool.ToolColor;
+import org.brainail.Everboxing.utils.tool.ToolResources;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -44,55 +46,56 @@ public final class DrawerSectionsOnSceneInitializer {
 
     public static final IDrawerSectionInitializer HOME = new IDrawerSectionInitializer() {
 
-        @Override
-        public void initialize(final SectionedDrawerActivity scene) {
-            scene.addDrawerSection(new DrawerSection(scene).withName("Section One").withTarget(new CFragment()));
-            scene.addDrawerSection(new DrawerSection(scene).withName("Section Two").withTarget(new CFragment1()));
-
-            scene.addDrawerDivider();
-
-            scene.addDrawerSection(
-                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle("Sender Title")
-                            .withName("Sender")
-                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_send))
-                            .withNotifications(10)
-                            .withTarget(new CFragment2())
-            );
-
-            scene.addDrawerSection(
-                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle("Today Title")
-                            .withName("Today")
-                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_today))
-                            .withNotifications(1000)
-                            .withSectionColor(Color.parseColor("#403FD4"))
-                            .withTarget(new CFragment3())
-            );
-
-            scene.addDrawerSubheader("Privacy");
-
-            scene.addDrawerSection(
-                    new DrawerSection(scene)
-                            .withTitle("Sex everywhere")
-                            .withName("Sex everywhere")
-                            .withNotifications(20)
-                            .withNotificationsLimit(18)
-                            .withSectionColor(Color.parseColor("#E05C28"))
-                            .withTarget(new CFragment4())
-            );
-
-            scene.addDrawerSection(
-                    new DrawerSection(scene, DrawerSection.LayoutType.NORMAL)
-                            .withName("Settings")
-                            .withLocationType(DrawerSection.LocationType.HELP)
-                            .withIcon(scene.getResources().getDrawable(android.R.drawable.ic_menu_manage))
-                            .withTarget(SettingsActivity.class)
-            );
+        @Override public void initialize(final SectionedDrawerActivity scene) {
+            scene
+                    // Section
+                    .addDrawerSection (
+                            new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                                    .withTitle (ToolResources.string (R.string.fr_over_fr))
+                                    .withName (ToolResources.string (R.string.fr_over_fr))
+                                    .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.md_android))
+                                    .withTarget (new FragmentUnderlay ())
+                                    .withSectionColor (ToolResources.retrievePrimaryColor (scene))
+                                    .withNotifications (10)
+                                    .withNotificationsLimit (20)
+                    )
+                    // Divider
+                    // .addDrawerDivider ()
+                    // Subheader
+                    .addDrawerSubheader ("Sample subheader ± section")
+                    // Section
+                    .addDrawerSection (
+                            new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                                    .withTitle (ToolResources.string (R.string.fr_sex))
+                                    .withName (ToolResources.string (R.string.fr_sex))
+                                    .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.md_people))
+                                    .withTarget (new FragmentSex ())
+                                    .withSectionColor (ToolColor.by (R.color.md_blue_400))
+                                    .withNotifications (20)
+                                    .withNotificationsLimit (18)
+                    )
+                    // Custom tabs
+                    .addDrawerSubheader ("Chrome custom tabs")
+                    .addDrawerSection (
+                            new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                                    .withTitle ("Chrome custom tabs")
+                                    .withName ("Chrome custom tabs")
+                                    .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.md_laptop_chromebook))
+                                    .withTarget (new FragmentChromeCustomTabs ())
+                                    .withSectionColor (ToolResources.retrievePrimaryColor (scene))
+                    )
+                    // New window section
+                    // App settings
+                    .addDrawerSection (
+                            new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                                    .withName (ToolResources.string (R.string.scene_settings))
+                                    .withLocationType (DrawerSection.LocationType.HELP)
+                                    .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.md_settings))
+                                    .withTarget (SettingsActivity.class)
+                    );
         }
 
-        @Override
-        public boolean isTransparentable() {
+        @Override public boolean isTransparentable() {
             return false;
         }
 

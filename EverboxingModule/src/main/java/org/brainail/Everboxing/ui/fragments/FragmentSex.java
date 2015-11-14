@@ -1,14 +1,18 @@
 package org.brainail.Everboxing.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
+import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.callable.Tagable;
+import org.brainail.Everboxing.utils.callable.Titleable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -35,16 +39,31 @@ import org.brainail.Everboxing.utils.callable.Tagable;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class CFragment3 extends Fragment implements Tagable {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        final FrameLayout view = new FrameLayout(getActivity());
-        view.setBackgroundColor(Color.BLUE);
+public class FragmentSex extends Fragment implements Tagable, Titleable {
+
+    @Override public View onCreateView (LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        final FrameLayout view = new FrameLayout (getActivity ());
+
+        final Button button = new Button (getActivity ());
+        button.setText ("You so sexy!");
+        view.addView (button, new FrameLayout.LayoutParams (400, 200, Gravity.CENTER));
+
+        button.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                Snackbar.make (getView (), "Wow! Thank you ;)", Snackbar.LENGTH_LONG).show ();
+            }
+        });
+        view.setBackgroundResource (R.color.md_orange_300);
         return view;
     }
 
-    @Override
-    public String tag() {
-        return "cfragment#3";
+    @Override public String tag () {
+        return "FragmentSex#Tag";
     }
+
+    @Override public String title () {
+        return "Sex everywhere";
+    }
+
 }

@@ -2,6 +2,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="org.brainail.Everboxing"
+    android:process="org.brainail.EverboxingLexis"
     package="org.brainail.EverboxingLexis">
 
     <!-- Open network sockets -->

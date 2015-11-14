@@ -1,12 +1,6 @@
 package org.brainail.Everboxing.ui.fragments;
 
-import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import org.brainail.Everboxing.utils.callable.Tagable;
 
@@ -35,16 +29,8 @@ import org.brainail.Everboxing.utils.callable.Tagable;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class CFragment2 extends Fragment implements Tagable {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        final FrameLayout view = new FrameLayout(getActivity());
-        view.setBackgroundColor(Color.GREEN);
-        return view;
-    }
-
-    @Override
-    public String tag() {
-        return "cfragment#2";
+public class BaseFragment extends Fragment implements Tagable {
+    @Override public String tag () {
+        return getClass ().getName ();
     }
 }

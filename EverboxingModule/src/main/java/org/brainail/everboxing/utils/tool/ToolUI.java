@@ -5,8 +5,10 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -17,6 +19,7 @@ import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.brainail.Everboxing.JApplication;
@@ -87,6 +90,14 @@ public final class ToolUI {
 
     public static void showToast(final AppCompatActivity activity, final int resId) {
         showToast(activity, JApplication.appContext().getString(resId));
+    }
+
+    public static void showSnack(final View root, final String text) {
+        final Snackbar snack = Snackbar.make (root, text, Snackbar.LENGTH_SHORT);
+        final View snackView = snack.getView ();
+        snackView.setBackgroundColor (Color.parseColor ("#323232"));
+        ((TextView) snackView.findViewById(android.support.design.R.id.snackbar_text)).setTextColor (Color.WHITE);
+        snack.show ();
     }
 
     public static void fixSettingsPaddingWorkaround(final AppCompatActivity activity) {
@@ -228,5 +239,5 @@ public final class ToolUI {
     public static boolean isVisible(final View view) {
         return null != view && View.VISIBLE == view.getVisibility();
     }
-    
+
 }

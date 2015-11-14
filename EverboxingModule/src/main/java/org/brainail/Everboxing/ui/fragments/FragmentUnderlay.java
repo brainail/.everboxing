@@ -1,14 +1,19 @@
 package org.brainail.Everboxing.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
+import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.callable.Tagable;
+import org.brainail.Everboxing.utils.callable.Titleable;
+import org.brainail.Everboxing.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -35,16 +40,35 @@ import org.brainail.Everboxing.utils.callable.Tagable;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class CFragment extends Fragment implements Tagable {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        final FrameLayout view = new FrameLayout(getActivity());
-        view.setBackgroundColor(Color.RED);
+public class FragmentUnderlay extends Fragment implements Tagable, /* Colorable, */ Titleable {
+
+    @Override public View onCreateView (LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        final FrameLayout view = new FrameLayout (getActivity ());
+
+        final Button button = new Button (getActivity ());
+        button.setText ("Go upper!");
+        view.addView (button, new FrameLayout.LayoutParams (400, 200, Gravity.CENTER));
+
+        button.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                ToolFragments.openFragment ((AppCompatActivity) getActivity (), new FragmentOverlay ());
+            }
+        });
+        view.setBackgroundResource (R.color.md_light_blue_A200);
         return view;
     }
 
-    @Override
-    public String tag() {
-        return "cfragment#0";
+    @Override public String tag () {
+        return "FragmentUnderlay#Tag";
     }
+
+    // @Override public Integer color () {
+        // return getResources ().getColor (R.color.md_purple_500);
+    // }
+
+    @Override public String title () {
+        return "FragmentUnderlay";
+    }
+
 }

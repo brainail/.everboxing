@@ -2,6 +2,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="org.brainail.Everboxing"
+    android:process="org.brainail.Everboxing"
     package="org.brainail.Everboxing">
 
     <!-- Open network sockets -->
@@ -40,6 +42,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.brainail.Everboxing.ui.activities.HomeActivity"/>
         </activity>
+
+        <!-- Custom tabs service -->
+        <service
+            android:name=".ui.fragments.FragmentChromeCustomTabs$CustomTabsMainActionService"
+            android:exported="false"/>
 
         <!-- Google Play Services -->
         <meta-data

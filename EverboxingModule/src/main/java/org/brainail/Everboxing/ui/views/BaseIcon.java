@@ -6,6 +6,7 @@ import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.Everboxing.R;
+import org.brainail.Everboxing.utils.tool.ToolColor;
 import org.brainail.Everboxing.utils.tool.ToolResources;
 
 /**
@@ -33,19 +34,31 @@ import org.brainail.Everboxing.utils.tool.ToolResources;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class PreferenceIcon extends IconDrawable {
+public class BaseIcon extends IconDrawable {
 
-    public PreferenceIcon(final Context context, final Iconify.IconValue icon) {
+    public BaseIcon (final Context context, final Iconify.IconValue icon) {
         super(context, icon);
-        init(context);
     }
 
-    private void init(final Context context) {
-        color(ToolResources.retrievePrimaryColor(context)).sizeRes(R.dimen.base_icon_size);
+    public static BaseIcon icon (final Context context, final Iconify.IconValue icon) {
+        final BaseIcon drawable = new BaseIcon(context, icon);
+        drawable.color (ToolResources.retrievePrimaryColor (context));
+        drawable.sizeRes (R.dimen.base_icon_size);
+        return drawable;
     }
 
-    public static PreferenceIcon from(final Context context, final Iconify.IconValue icon) {
-        return new PreferenceIcon(context, icon);
+    public static BaseIcon defIcon (final Context context, final Iconify.IconValue icon) {
+        final BaseIcon drawable = new BaseIcon(context, icon);
+        // drawable.color (ToolResources.retrievePrimaryColor (context));
+        drawable.sizeRes (R.dimen.base_icon_size);
+        return drawable;
+    }
+
+    public static BaseIcon barIcon (final Context context, final Iconify.IconValue icon) {
+        final BaseIcon drawable = new BaseIcon(context, icon);
+        drawable.color (ToolColor.by (R.color.md_white_1000));
+        drawable.sizeRes (R.dimen.base_icon_size);
+        return drawable;
     }
 
 }

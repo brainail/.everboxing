@@ -38,114 +38,112 @@ import org.brainail.Everboxing.utils.manager.ThemeManager;
  */
 public final class ToolResources {
 
-    public static Drawable retrieveThemeDrawable(
+    public static Drawable retrieveThemeDrawable (
             final Context context,
             final int themeResId,
-            final int [] attributes) {
+            final int[] attributes) {
 
-        final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
+        final TypedArray typedArray = context.obtainStyledAttributes (themeResId, attributes);
 
         try {
-            return typedArray.getDrawable(0);
+            return typedArray.getDrawable (0);
         } finally {
-            typedArray.recycle();
+            typedArray.recycle ();
         }
     }
 
-    public static int retrieveThemeColor(
+    public static int retrieveThemeColor (
             final Context context,
             final int themeResId,
-            final int [] attributes,
+            final int[] attributes,
             final int defaultColor) {
 
-        final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
+        final TypedArray typedArray = context.obtainStyledAttributes (themeResId, attributes);
 
         try {
-            return typedArray.getColor(0, context.getResources().getColor(defaultColor));
+            return typedArray.getColor (0, context.getResources ().getColor (defaultColor));
         } finally {
-            typedArray.recycle();
+            typedArray.recycle ();
         }
     }
 
-    public static Drawable retrieveDrawerCover(final Context context) {
-        return retrieveDrawerCover(context, ThemeManager.appTheme().getThemeResId());
+    public static Drawable retrieveDrawerCover (final Context context) {
+        return retrieveDrawerCover (context, ThemeManager.appTheme ().getThemeResId ());
     }
 
-    public static Drawable retrieveDrawerCover(final Context context, final int themeResId) {
-        return retrieveThemeDrawable(context, themeResId, new int[] {R.attr.drawerCover});
+    public static Drawable retrieveDrawerCover (final Context context, final int themeResId) {
+        return retrieveThemeDrawable (context, themeResId, new int[] {R.attr.drawerCover});
     }
 
-    public static int retrieveTextColorPrimary(final Context context) {
+    public static int retrieveTextColorPrimary (final Context context) {
         return retrieveTextColorPrimary (context, ThemeManager.appTheme ().getThemeResId ());
     }
 
-    public static int retrieveTextColorPrimary(final Context context, final int themeResId) {
-        final int [] attrs = new int [] {android.R.attr.textColorPrimary};
-        return retrieveThemeColor(context, themeResId, attrs, R.color.md_white_1000);
+    public static int retrieveTextColorPrimary (final Context context, final int themeResId) {
+        final int[] attrs = new int[] {android.R.attr.textColorPrimary};
+        return retrieveThemeColor (context, themeResId, attrs, R.color.md_white_1000);
     }
 
-    public static int retrievePrimaryColor(final Context context) {
-        return retrievePrimaryColor(context, ThemeManager.appTheme().getThemeResId());
+    public static int retrievePrimaryColor (final Context context) {
+        return retrievePrimaryColor (context, ThemeManager.appTheme ().getThemeResId ());
     }
 
-    public static int retrievePrimaryColor(final Context context, final int themeResId) {
-        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimary}, R.color.primary_default);
+    public static int retrievePrimaryColor (final Context context, final int themeResId) {
+        return retrieveThemeColor (context, themeResId, new int[] {R.attr.colorPrimary}, R.color.primary_default);
     }
 
-    public static int retrievePrimaryDarkColor(final Context context) {
-        return retrievePrimaryDarkColor(context, ThemeManager.appTheme().getThemeResId());
+    public static int retrievePrimaryDarkColor (final Context context) {
+        return retrievePrimaryDarkColor (context, ThemeManager.appTheme ().getThemeResId ());
     }
 
-    public static int retrievePrimaryDarkColor(final Context context, final int themeResId) {
-        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimaryDark}, R.color.primary_default_dark);
+    public static int retrievePrimaryDarkColor (final Context context, final int themeResId) {
+        return retrieveThemeColor (context, themeResId, new int[] {R.attr.colorPrimaryDark}, R.color.primary_default_dark);
     }
 
-    public static int retrieveAccentColor(final Context context) {
-        return retrieveAccentColor(context, ThemeManager.appTheme().getThemeResId());
+    public static int retrieveAccentColor (final Context context) {
+        return retrieveAccentColor (context, ThemeManager.appTheme ().getThemeResId ());
     }
 
-    public static int retrieveAccentColor(final Context context, final int themeResId) {
-        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorAccent}, R.color.accent_default);
+    public static int retrieveAccentColor (final Context context, final int themeResId) {
+        return retrieveThemeColor (context, themeResId, new int[] {R.attr.colorAccent}, R.color.accent_default);
     }
 
     /**
      * Computes height of status bar, only if it is presented at top of the screen and it is visible.
      *
      * @param context Any application {@link android.content.Context}.
-     * @param window {@link android.view.Window} that corresponds to the {@link android.app.AppCompatActivity}
-     *
+     * @param window  {@link android.view.Window} that corresponds to the {@link android.support.v7.app.AppCompatActivity}
      * @return {@code 0} - if the status bar isn't presented
      * at top of the screen or isn't visible, otherwise height in pixels.
      */
-    public static int computeTopStatusBarHeight(final Context context, final Window window) {
+    public static int computeTopStatusBarHeight (final Context context, final Window window) {
         // Privately get a resource Id for status bar's height from the android resources
-        final int resourceId = retrieveSystemDimen(context.getResources(), "status_bar_height");
+        final int resourceId = retrieveSystemDimen (context.getResources (), "status_bar_height");
 
         // Retrieve the overall visible display size in which the window
         // this view is attached to has been positioned in
-        final Rect displayFrame = new Rect();
-        window.getDecorView().getWindowVisibleDisplayFrame(displayFrame);
+        final Rect displayFrame = new Rect ();
+        window.getDecorView ().getWindowVisibleDisplayFrame (displayFrame);
 
         // If the resource is exists and the status bar is presented then grab from the resources
         if (displayFrame.top > 0 && resourceId > 0) {
-            return context.getResources().getDimensionPixelSize(resourceId);
+            return context.getResources ().getDimensionPixelSize (resourceId);
         }
 
         // Otherwise hope for value ​​of the window
         return displayFrame.top;
     }
 
-    public static int computeNavigationBarHeight(final Context context) {
-        int resourceId = retrieveSystemDimen(context.getResources(), "navigation_bar_height");
-        return (resourceId > 0) ? context.getResources().getDimensionPixelSize(resourceId) : 0;
+    public static int computeNavigationBarHeight (final Context context) {
+        int resourceId = retrieveSystemDimen (context.getResources (), "navigation_bar_height");
+        return (resourceId > 0) ? context.getResources ().getDimensionPixelSize (resourceId) : 0;
     }
 
-    public static int retrieveSystemDimen(final Resources resources, final String identifier) {
-        return resources.getIdentifier(identifier, "dimen", "android");
+    public static int retrieveSystemDimen (final Resources resources, final String identifier) {
+        return resources.getIdentifier (identifier, "dimen", "android");
     }
 
-    public static String string(final int resId) {
-        return 0 != resId ? JApplication.appContext().getString(resId) : null;
+    public static String string (final int resId) {
+        return 0 != resId ? JApplication.appContext ().getString (resId) : null;
     }
-
 }
