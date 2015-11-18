@@ -1,4 +1,4 @@
-package org.brainail.EverboxingKotlin.ui.activities
+package org.brainail.Everboxing.ui.activities
 
 import android.app.Activity
 import android.os.Bundle
