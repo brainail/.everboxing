@@ -8,7 +8,9 @@
 
     <!-- Settings window -->
     <string name="settings_activity_title">Settings</string>
+    <string name="settings_preference_screen_root" translatable="false">settings_preference_screen_root</string>
 
+    <string name="settings_category_data_transfer" translatable="false">settings_preference_category_data_transfer</string>
     <string name="settings_account_header">Account</string>
     <string name="settings_add_play_account_title">Google account</string>
     <string name="settings_add_play_account_summary">Sign in</string>

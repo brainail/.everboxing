@@ -4,7 +4,7 @@
     <string name="aboutLibraries_description_showIcon">true</string>
     <string name="aboutLibraries_description_showVersion">true</string>
     <string name="aboutLibraries_description_text">
-        <![CDATA[<b>Read and search through the all your offline wiki books and use it as you dictionary app!</b>]]>
+        <![CDATA[<b>Read and search through the all your offline wiki books and use it as your dictionary app!</b>]]>
     </string>
 
     <string name="aboutLibraries_description_special1_name">Successor</string>

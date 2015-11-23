@@ -115,10 +115,10 @@ android {
             // Build config fields
             buildConfigField "boolean", "LOGGABLE", "true"
 
-            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
-            ext.enableCrashlytics = false
-            // buildConfigField "boolean", "USE_CRASHLYTICS", "true"
-            // ext.enableCrashlytics = true
+            // buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+            // ext.enableCrashlytics = false
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            ext.enableCrashlytics = true
         }
 
         release {
@@ -216,7 +216,7 @@ dependencies {
     // Slob stuff
     compile 'com.ibm.icu:icu4j:52.1', 'org.tukaani:xz:1.5', 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
     // About
-    compile('com.mikepenz:aboutlibraries:5.2.6@aar') { transitive = true }
+    compile('com.mikepenz:aboutlibraries:5.3.3@aar') { transitive = true }
 }
 
 //

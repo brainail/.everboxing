@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsSession;
 import android.support.v4.app.NotificationCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ import org.brainail.Everboxing.R;
 import org.brainail.Everboxing.utils.helper.chrome.CustomTabsSceneHelper;
 import org.brainail.Everboxing.utils.tool.ToolResources;
 import org.brainail.Everboxing.utils.tool.ToolUI;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -56,8 +59,9 @@ import org.brainail.Everboxing.utils.tool.ToolUI;
 public class FragmentChromeCustomTabs extends BaseFragment implements CustomTabsSceneHelper.ConnectionCallback {
 
     public static enum CustomTabsAction {
-        GOOGLE ("Open Google", "http://google.com"),
-        MEDIUM ("Open Medium", "https://medium.com/@brainail");
+        GOOGLE_PLUS ("Open Google+", "https://plus.google.com/+ЕгорМалышев"),
+        MEDIUM ("Open Medium", "https://medium.com/@brainail"),
+        ABOUT_ME ("Open About.Me", "https://about.me/brainail");
 
         private final String mActionDescription;
         private final String mActionUrl;
@@ -84,10 +88,14 @@ public class FragmentChromeCustomTabs extends BaseFragment implements CustomTabs
 
     @Override public View onCreateView (LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         final LinearLayout view = new LinearLayout (getActivity ());
+        view.setOrientation (LinearLayout.VERTICAL);
+        view.setLayoutParams (new ViewGroup.LayoutParams (MATCH_PARENT, MATCH_PARENT));
+        view.setGravity (Gravity.CENTER);
         view.setBackgroundResource (R.color.md_deep_orange_400);
 
-        addAction (view, CustomTabsAction.GOOGLE);
+        addAction (view, CustomTabsAction.GOOGLE_PLUS);
         addAction (view, CustomTabsAction.MEDIUM);
+        addAction (view, CustomTabsAction.ABOUT_ME);
 
         return view;
     }
@@ -114,7 +122,7 @@ public class FragmentChromeCustomTabs extends BaseFragment implements CustomTabs
 
         CustomTabsSceneHelper.openCustomTab (
                 scene,
-                getCustomTabIntent (scene, action, mCustomTabsSceneHelper.getSession ()).build (),
+                getCustomTabIntent (scene, action, mCustomTabsSceneHelper.occupySession ()).build (),
                 Uri.parse (action.actionUrl ())
         );
     }

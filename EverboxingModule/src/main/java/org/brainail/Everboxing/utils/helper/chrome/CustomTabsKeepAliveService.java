@@ -12,8 +12,7 @@ public class CustomTabsKeepAliveService extends Service {
 
     private static final Binder sBinder = new Binder ();
 
-    @Override
-    public IBinder onBind (Intent intent) {
+    @Override public IBinder onBind (Intent intent) {
         return sBinder;
     }
 

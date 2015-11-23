@@ -1,8 +1,10 @@
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/settings_preference_screen_root">
 
     <org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory
         android:enabled="false"
+        android:key="@string/settings_category_data_transfer"
         android:title="@string/settings_data_transfer_header">
 
         <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat

@@ -13,7 +13,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -199,6 +201,13 @@ public class SettingsActivity
             // Sync data
             final Preference syncDataPf = findPreference (getString (R.string.settings_sync_account_key));
             syncDataPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_refresh_sync));
+            if (! syncDataPf.isEnabled ()) {
+                final PreferenceScreen rootScreen
+                        = (PreferenceScreen) findPreference(getString(R.string.settings_preference_screen_root));
+                final PreferenceCategory dataTransferCategory
+                        = (PreferenceCategory) findPreference(getString(R.string.settings_category_data_transfer));
+                rootScreen.removePreference (dataTransferCategory);
+            }
 
             // Change theme
             final String defChangeThemeSummary = SettingsManager.getInstance ().retrieveAppThemeSummary ();

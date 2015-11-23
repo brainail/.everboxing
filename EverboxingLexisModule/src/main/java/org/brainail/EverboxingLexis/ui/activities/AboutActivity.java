@@ -9,6 +9,7 @@ import com.mikepenz.aboutlibraries.ui.LibsActivity;
 
 import org.brainail.EverboxingLexis.R;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -37,8 +38,14 @@ import java.util.Comparator;
  * THE SOFTWARE.
  */
 public class AboutActivity extends LibsActivity {
-    @Override
-    public void onCreate (Bundle savedInstanceState) {
+
+    public static final class LibraryComparator implements Serializable, Comparator<Library> {
+        @Override public int compare (Library lhs, Library rhs) {
+            return -1 * lhs.getLibraryName ().compareTo (rhs.getLibraryName ());
+        }
+    };
+
+    @Override public void onCreate (Bundle savedInstanceState) {
         setIntent (new LibsBuilder ()
                         .withVersionShown (true)
                         .withLicenseShown (true)
@@ -48,16 +55,12 @@ public class AboutActivity extends LibsActivity {
                                 "AboutLibraries", "jackson", "Crashlytics",
                                 "calligraphy", "Butterknife", "androidIconify", "materialicons"
                         )
-                        .withLibraryComparator (new Comparator<Library> () {
-                            @Override
-                            public int compare (Library lhs, Library rhs) {
-                                return -1 * lhs.getLibraryName ().compareTo (rhs.getLibraryName ());
-                            }
-                        })
+                        .withLibraryComparator (new LibraryComparator ())
                         .intent (this)
                         .putExtra (Libs.BUNDLE_TITLE, getString (R.string.app_name_about))
         );
 
         super.onCreate (savedInstanceState);
     }
+
 }

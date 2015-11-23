@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class CustomTabsSceneHelper {
 
-    private CustomTabsSession mCustomTabsSession;
     private CustomTabsClient mClient;
+    private CustomTabsSession mCustomTabsSession;
     private CustomTabsServiceConnection mConnection;
     private ConnectionCallback mConnectionCallback;
 
@@ -31,15 +31,15 @@ public class CustomTabsSceneHelper {
      * @param uri              the Uri to be opened
      */
     public static void openCustomTab (
-            Activity activity,
-            CustomTabsIntent customTabsIntent,
-            Uri uri) {
+            final Activity activity,
+            final CustomTabsIntent customTabsIntent,
+            final Uri uri) {
 
-        String packageName = CustomTabsHelper.getPackageNameToUse (activity);
+        final String packageName = CustomTabsHelper.getPackageNameToUse (activity);
 
         // if we cant find a package name, it means there's no browser that supports
         // Custom Tabs installed. So, we fallback to a view intent
-        if (packageName != null) {
+        if (null != packageName) {
             customTabsIntent.intent.setPackage (packageName);
             customTabsIntent.launchUrl (activity, uri);
         } else {
@@ -52,24 +52,27 @@ public class CustomTabsSceneHelper {
      *
      * @param activity the activity to be bound to the service
      */
-    public void bindCustomTabsService (Activity activity) {
-        if (mClient != null) return;
-
-        String packageName = CustomTabsHelper.getPackageNameToUse (activity);
-        if (packageName == null) return;
+    public void bindCustomTabsService (final Activity activity) {
+        final String packageName = CustomTabsHelper.getPackageNameToUse (activity);
+        if (null == packageName || null == mClient) return;
+        
         mConnection = new CustomTabsServiceConnection () {
             @Override public void onCustomTabsServiceConnected (ComponentName name, CustomTabsClient client) {
-                mClient = client;
-                mClient.warmup (0L);
-                if (mConnectionCallback != null) mConnectionCallback.onCustomTabsConnected ();
-                //Initialize a session as soon as possible.
-                getSession ();
+                (mClient = client).warmup (0L);
+
+                if (null != mConnectionCallback) {
+                    mConnectionCallback.onCustomTabsConnected ();
+                }
+                
+                // Initialize a session as soon as possible.
+                occupySession ();
             }
 
-            @Override
-            public void onServiceDisconnected (ComponentName name) {
+            @Override public void onServiceDisconnected (ComponentName name) {
                 mClient = null;
-                if (mConnectionCallback != null) mConnectionCallback.onCustomTabsDisconnected ();
+                if (null != mConnectionCallback) {
+                    mConnectionCallback.onCustomTabsDisconnected ();
+                }
             }
         };
 
@@ -81,8 +84,8 @@ public class CustomTabsSceneHelper {
      *
      * @param activity the activity that is bound to the service
      */
-    public void unbindCustomTabsService (Activity activity) {
-        if (mConnection == null) return;
+    public void unbindCustomTabsService (final Activity activity) {
+        if (null == mConnection) return;
         activity.unbindService (mConnection);
         mClient = null;
         mCustomTabsSession = null;
@@ -93,12 +96,15 @@ public class CustomTabsSceneHelper {
      *
      * @return a CustomTabsSession
      */
-    public CustomTabsSession getSession () {
-        if (mClient == null) {
+    public CustomTabsSession occupySession () {
+        if (null == mClient) {
+            // No session without client
             mCustomTabsSession = null;
-        } else if (mCustomTabsSession == null) {
+        } else if (null == mCustomTabsSession) {
+            // Create a new one
             mCustomTabsSession = mClient.newSession (null);
         }
+
         return mCustomTabsSession;
     }
 
@@ -116,10 +122,10 @@ public class CustomTabsSceneHelper {
      * @see {@link CustomTabsSession#mayLaunchUrl(Uri, Bundle, List)}
      */
     public boolean mayLaunchUrl (Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {
-        if (mClient == null) return false;
+        if (null == mClient) return false;
 
-        CustomTabsSession session = getSession ();
-        if (session == null) return false;
+        final CustomTabsSession session = occupySession ();
+        if (null == session) return false;
 
         return session.mayLaunchUrl (uri, extras, otherLikelyBundles);
     }
@@ -128,16 +134,16 @@ public class CustomTabsSceneHelper {
      * A Callback for when the service is connected or disconnected. Use those callbacks to
      * handle UI changes when the service is connected or disconnected
      */
-    public interface ConnectionCallback {
+    public static interface ConnectionCallback {
         /**
          * Called when the service is connected
          */
-        void onCustomTabsConnected ();
+        public void onCustomTabsConnected ();
 
         /**
          * Called when the service is disconnected
          */
-        void onCustomTabsDisconnected ();
+        public void onCustomTabsDisconnected ();
     }
 
 }
