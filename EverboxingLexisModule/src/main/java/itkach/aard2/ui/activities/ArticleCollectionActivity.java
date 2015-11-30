@@ -473,6 +473,7 @@ public class ArticleCollectionActivity extends BaseActivity {
                 String articleUrl = app.getUrl(blob);
                 Bundle args = new Bundle();
                 args.putString(ArticleFragment.ARG_URL, articleUrl);
+                args.putString("article_title", getPageTitle(i).toString ());
                 fragment.setArguments(args);
             }
             return fragment;

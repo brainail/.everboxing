@@ -10,7 +10,10 @@
         style="@style/AppContent.FitWindows">
 
         <!-- Toolbar -->
-        <include layout="@layout/toolbar_primary"/>
+        <org.brainail.EverboxingLexis.ui.views.MarqueeSubtitleToolbar
+            android:id="@+id/toolbar_primary"
+            android:layout_width="match_parent"
+            style="@style/AppToolbar.Primary"/>
 
         <!-- Box for content -->
         <include layout="@layout/content_container"/>

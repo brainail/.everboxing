@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
 import java.io.File;
@@ -70,7 +71,7 @@ public class FileSelectFragment extends ListFragment {
                 } else {
                     path = "";
                 }
-                // actionBar.setSubtitle(path);
+                ((BaseActivity) getActivity ()).getPrimaryToolbar ().setSubtitle(path);
                 savePath(path);
             }
         });

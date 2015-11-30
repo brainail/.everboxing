@@ -10,6 +10,11 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/action_search_externally_article"
+        android:title="@string/action_search_externally_article"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_find_in_page"
         android:title="@string/action_find_in_page"
         app:showAsAction="ifRoom"/>
