@@ -20,13 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
+import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.io.File;
 
@@ -196,7 +196,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
                 toastMessage = getString(R.string.msg_dictionary_added, selectedPath);
             }
 
-            Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_LONG).show();
+            ToolUI.showToast (LexisDictionariesFragment.this, toastMessage);
         }
     }
 }

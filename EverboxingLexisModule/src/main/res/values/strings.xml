@@ -122,7 +122,7 @@
     <string name="title_activity_file_select">Select dictionary</string>
     <string name="action_goto_parent_dir">Up</string>
     <string name="action_reload_directory">Reload</string>
-    <string name="msg_dictionary_already_open">Already open</string>
+    <string name="msg_dictionary_already_open">Already opened</string>
     <string name="msg_dictionary_added">Added dictionary from %1$s</string>
     <string name="setting_fav_random_search">Use only favorite dictionaries for random lookup</string>
     <string name="article_collection_invalid_link">Invalid link</string>

@@ -35,12 +35,12 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -146,15 +146,13 @@ public class ArticleCollectionActivity extends BaseActivity {
                     } else {
                         messageId = R.string.article_collection_nothing_found;
                     }
-                    Toast.makeText(ArticleCollectionActivity.this, messageId,
-                            Toast.LENGTH_SHORT).show();
+                    ToolUI.showToast (self (), messageId);
                     finish();
                     return;
                 }
 
                 if (position > articleCollectionPagerAdapter.getCount() - 1) {
-                    Toast.makeText(ArticleCollectionActivity.this, R.string.article_collection_selected_not_available,
-                            Toast.LENGTH_SHORT).show();
+                    ToolUI.showToast (self(), R.string.article_collection_selected_not_available);
                     finish();
                     return;
                 }
@@ -327,7 +325,7 @@ public class ArticleCollectionActivity extends BaseActivity {
         }
         BlobListAdapter data = new BlobListAdapter(this, 21, 1);
         if (lookupKey == null || lookupKey.length() == 0) {
-            Toast.makeText(this, R.string.article_collection_nothing_to_lookup, Toast.LENGTH_SHORT).show();
+            ToolUI.showToast (self(), R.string.article_collection_nothing_to_lookup);
         } else {
             Iterator<Blob> result = stemLookup(app, lookupKey);
             data.setData(result);

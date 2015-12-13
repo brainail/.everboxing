@@ -2,11 +2,13 @@ package org.brainail.EverboxingLexis.utils.tool;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -58,6 +60,7 @@ public final class ToolUI {
 
     public static boolean USE_SNACKBARS = true;
 
+    @SuppressWarnings ("ResourceType")
     public static boolean toggleMenuDrawer(final DrawerLayout drawerLayout, final boolean twoDirections) {
         if (drawerLayout.isDrawerOpen(GRAVITY_START)) {
             drawerLayout.closeDrawer(GRAVITY_START);
@@ -70,12 +73,34 @@ public final class ToolUI {
         return false;
     }
 
+    public static void showToast(final Fragment fragment, final String message) {
+        if (null != fragment) {
+            final Activity scene = fragment.getActivity ();
+            if (null != scene) {
+                scene.runOnUiThread (new Runnable () {
+                    @Override
+                    public void run () {
+                        if (! USE_SNACKBARS) {
+                            Toast.makeText (scene, message, Toast.LENGTH_SHORT).show ();
+                        } else {
+                            NoticeController.from (fragment).notifyScene (message);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    public static void showToast(final Fragment fragment, final int resId) {
+        showToast(fragment, JApplication.appContext().getString(resId));
+    }
+
     public static void showToast(final AppCompatActivity activity, final String message) {
         if (null != activity) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (!USE_SNACKBARS) {
+                    if (! USE_SNACKBARS) {
                         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
                     } else {
                         NoticeController.from(activity).notifyScene(message);
