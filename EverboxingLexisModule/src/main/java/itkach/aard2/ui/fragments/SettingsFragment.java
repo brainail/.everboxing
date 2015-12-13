@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.io.InputStream;
 import java.util.List;
@@ -93,7 +94,7 @@ public class SettingsFragment extends ListFragment {
                     fileName = fileName.substring(0, lastIndexOfDot);
                 }
                 if (fileName.length() == 0) {
-                    fileName = "???";
+                    fileName = ToolResources.string (R.string.wtf_emo);
                 }
                 final SharedPreferences prefs = getActivity().getSharedPreferences(
                         "userStyles", AppCompatActivity.MODE_PRIVATE);

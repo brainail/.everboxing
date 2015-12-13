@@ -2,25 +2,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="6dip"
-    android:paddingLeft="8dip"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingRight="8dip"
-    android:paddingTop="3dip">
+    android:paddingBottom="8dip"
+    android:paddingTop="8dip">
 
     <LinearLayout
+        tools:background="#80aaff44"
         android:id="@+id/blob_descriptor_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/blob_descriptor_key"
             style="@android:style/TextAppearance.Holo.SearchResult.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
             android:layout_marginRight="22dp"
-            android:text="Босния и Герцеговина на зимних Олимпийских играх 1998"
+            android:text="Босния и Герцеговина"
             android:textSize="20sp"/>
 
         <LinearLayout
@@ -31,12 +32,13 @@
 
             <TextView
                 android:id="@+id/blob_descriptor_source"
+                android:paddingLeft="16dp"
                 style="@android:style/TextAppearance.Holo.SearchResult.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_weight="1"
-                android:text="WordNet"/>
+                tools:text="WordNet"/>
 
             <TextView
                 android:id="@+id/blob_descriptor_timestamp"
@@ -45,8 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:paddingLeft="6dp"
-                android:text="1 day ago"
-                android:textStyle="italic"/>
+                tools:text="1 day ago"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -56,11 +57,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:padding="0dp"
+        android:layout_marginTop="-5dp"
         android:layout_marginRight="-5dp"
+        android:includeFontPadding="false"
         android:checked="false"
         android:clickable="false"
         android:focusable="false"
-        android:visibility="gone"
-        />
+        tools:visibility="visible"
+        android:visibility="gone"/>
 
 </itkach.aard2.ui.views.CheckableRelativeLayout>

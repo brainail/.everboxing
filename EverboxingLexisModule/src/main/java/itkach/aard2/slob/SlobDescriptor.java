@@ -2,6 +2,9 @@ package itkach.aard2.slob;
 
 import android.util.Log;
 
+import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +53,7 @@ public class SlobDescriptor extends BaseDescriptor {
     public String getLabel() {
         String label = tags.get("label");
         if (label == null || label.trim().length() == 0) {
-            label = "???";
+            label = ToolResources.string (R.string.wtf_emo);
         }
         return label;
     }

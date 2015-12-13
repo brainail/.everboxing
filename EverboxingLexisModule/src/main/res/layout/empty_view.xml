@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="?android:attr/colorBackground"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:gravity="center"
+    tools:background="#80aa9922"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
         <ImageView
-            android:src="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
             android:id="@+id/empty_icon"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="6sp"
-            android:layout_marginLeft="20sp"
-            />
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:tint="@android:color/darker_gray"
+            android:src="@drawable/ic_mood_bad_black_48dp"/>
+
         <TextView
-            android:text="Nothing found"
             android:id="@+id/empty_text"
-            android:gravity="center"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:text="@string/nothing_found"
             android:textColor="@android:color/darker_gray"
-            android:textSize="24sp"
-            android:layout_marginRight="20sp"
-            />
-        </LinearLayout>
+            android:textSize="24sp"/>
+    </LinearLayout>
 </LinearLayout>

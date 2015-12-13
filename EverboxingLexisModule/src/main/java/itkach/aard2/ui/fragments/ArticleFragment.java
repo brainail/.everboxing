@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malinskiy.materialicons.Iconify;
@@ -76,6 +75,16 @@ public class ArticleFragment extends Fragment implements CustomTabsSceneHelper.C
         menu.findItem(R.id.action_search_externally_article).setIcon(
                 BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_search_for)
         );
+
+        if (null == view) {
+            menu.findItem(R.id.action_bookmark_article).setVisible (false);
+            menu.findItem(R.id.action_find_in_page).setVisible (false);
+            menu.findItem(R.id.action_zoom_in).setVisible (false);
+            menu.findItem(R.id.action_zoom_out).setVisible (false);
+            menu.findItem(R.id.action_zoom_reset).setVisible (false);
+            menu.findItem(R.id.action_load_remote_content).setVisible (false);
+            menu.findItem(R.id.action_select_style).setVisible (false);
+        }
     }
 
     private void displayBookmarked(boolean value) {
@@ -147,7 +156,7 @@ public class ArticleFragment extends Fragment implements CustomTabsSceneHelper.C
         }
         if (itemId == R.id.action_search_externally_article) {
             final Activity scene = getActivity ();
-            mCurrentAction = "https://www.google.com/search?q=" + articleTitle;
+            mCurrentAction = "https://www.google.com/search?q=" + articleTitle + "+definition";
             CustomTabsSceneHelper.openCustomTab (
                     scene,
                     getCustomTabIntent (scene, mCurrentAction, mCustomTabsSceneHelper.occupySession ()).build (),
@@ -169,9 +178,9 @@ public class ArticleFragment extends Fragment implements CustomTabsSceneHelper.C
         // Show title
         intentBuilder.setShowTitle (true);
         // Custom menu item > Share
-        intentBuilder.addMenuItem("Share ...", createPendingShareIntent (context, url));
+        intentBuilder.addMenuItem("Share", createPendingShareIntent (context, url));
         // Custom menu item > Email
-        intentBuilder.addMenuItem("Email ...", createPendingEmailIntent (context, url));
+        intentBuilder.addMenuItem("Email", createPendingEmailIntent (context, url));
         // Specify close button icon
         // final int mainCloseResId = android.support.design.R.drawable.abc_ic_ab_back_mtrl_am_alpha;
         // final Bitmap mainCloseBitmap = BitmapFactory.decodeResource (context.getResources (), mainCloseResId);
@@ -219,13 +228,13 @@ public class ArticleFragment extends Fragment implements CustomTabsSceneHelper.C
 
         Bundle args = getArguments();
         this.url = args == null ? null : args.getString(ARG_URL);
-        this.articleTitle = args == null ? "brainail" : args.getString ("article_title");
+        this.articleTitle = args == null ? ToolResources.string (R.string.wtf_emo) : args.getString ("article_title");
         if (url == null) {
             View layout = inflater.inflate(R.layout.empty_view, container, false);
             TextView textView = (TextView) layout.findViewById(R.id.empty_text);
             textView.setText("");
-            ImageView icon = (ImageView) layout.findViewById(R.id.empty_icon);
-            icon.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_help));
+            // ImageView icon = (ImageView) layout.findViewById(R.id.empty_icon);
+            // icon.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_help));
             return layout;
         }
 

@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,8 +52,8 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
         TextView emptyText = ((TextView) emptyView.findViewById (R.id.empty_text));
         emptyText.setMovementMethod (LinkMovementMethod.getInstance ());
         emptyText.setText (getEmptyText ());
-        ImageView emptyIcon = (ImageView) (emptyView.findViewById (R.id.empty_icon));
-        emptyIcon.setImageDrawable (getEmptyStateIcon ());
+        // ImageView emptyIcon = (ImageView) (emptyView.findViewById (R.id.empty_icon));
+        // emptyIcon.setImageDrawable (getEmptyStateIcon ());
         return super.onCreateView (inflater, container, savedInstanceState);
     }
 

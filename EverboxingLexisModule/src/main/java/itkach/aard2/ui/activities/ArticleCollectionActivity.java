@@ -40,6 +40,7 @@ import android.widget.Toast;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -80,6 +81,16 @@ public class ArticleCollectionActivity extends BaseActivity {
     @Override
     protected Integer getPrimaryToolbarLayoutResourceId () {
         return R.id.toolbar_primary;
+    }
+
+    @Override
+    protected void onResumeFragments () {
+        super.onResumeFragments ();
+
+        // Restore title
+        if (null != viewPager && viewPager.getCurrentItem () >= 0) {
+            updateTitle (viewPager.getCurrentItem ());
+        }
     }
 
     private boolean onDestroyCalled = false;
@@ -359,7 +370,7 @@ public class ArticleCollectionActivity extends BaseActivity {
             Application app = (Application) getApplication();
             app.history.add(app.getUrl(blob));
         } else {
-            if (null != actionBar) actionBar.setTitle("???");
+            if (null != actionBar) actionBar.setTitle(ToolResources.string (R.string.wtf_emo));
         }
         if (null != actionBar) actionBar.setSubtitle(pageTitle);
     }
@@ -469,13 +480,19 @@ public class ArticleCollectionActivity extends BaseActivity {
         public Fragment getItem(int i) {
             Fragment fragment = new ArticleFragment();
             Slob.Blob blob = get(i);
+
             if (blob != null) {
                 String articleUrl = app.getUrl(blob);
                 Bundle args = new Bundle();
                 args.putString(ArticleFragment.ARG_URL, articleUrl);
                 args.putString("article_title", getPageTitle(i).toString ());
                 fragment.setArguments(args);
+            } else {
+                Bundle args = new Bundle();
+                args.putString("article_title", getPageTitle(i).toString ());
+                fragment.setArguments(args);
             }
+
             return fragment;
         }
 
@@ -499,7 +516,7 @@ public class ArticleCollectionActivity extends BaseActivity {
                     return ((Blob) item).key;
                 }
             }
-            return "???";
+            return ToolResources.string (R.string.wtf_emo);
         }
 
         //this is needed so that fragment is properly updated
