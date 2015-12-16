@@ -1,6 +1,2 @@
 <resources>
-
-    <!-- Drawer -->
-    <dimen name="menu_drawer_width">380dp</dimen>
-
 </resources>

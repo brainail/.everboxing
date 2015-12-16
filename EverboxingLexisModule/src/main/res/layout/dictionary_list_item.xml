@@ -1,10 +1,11 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    tools:ignore="RtlHardcoded,RtlSymmetry,ContentDescription"
     tools:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
@@ -19,7 +20,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingBottom="8dip"
-            android:paddingLeft="8dip"
             android:paddingRight="8dip"
             android:paddingTop="6dip"
             tools:background="#8056aa22"
@@ -36,7 +36,6 @@
                     android:id="@+id/dictionary_btn_toggle_fav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_gravity="top"
                     android:layout_marginTop="3dp"
                     android:baselineAlignBottom="true"
@@ -59,8 +58,6 @@
                     android:id="@+id/dictionary_active"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:layout_gravity="top"
                     android:layout_weight="0"
                     android:checked="true"
@@ -74,7 +71,9 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp">
+                android:paddingLeft="16dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/dictionary_error_icon"
@@ -90,10 +89,9 @@
                     style="@android:style/TextAppearance.Holo.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="File does not exist"
                     android:textColor="@android:color/holo_red_dark"
-                    android:visibility="visible"/>
-
+                    android:visibility="visible"
+                    tools:text="File does not exist"/>
             </LinearLayout>
 
             <LinearLayout
@@ -109,9 +107,8 @@
                     style="@android:style/TextAppearance.Holo.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_marginBottom="6dp"
-                    android:text="100,000 items"/>
+                    tools:text="100,000 items"/>
 
                 <LinearLayout
                     android:id="@+id/dictionary_copyright_row"
@@ -135,11 +132,9 @@
                         style="@android:style/TextAppearance.Holo.SearchResult.Subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="2014 Wikipedia editors and contributors"/>
+                        tools:text="2014 Wikipedia editors and contributors"/>
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:id="@+id/dictionary_license_row"
@@ -165,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="false"
-                        android:text="Creative Commons with Attribution"/>
+                        tools:text="Creative Commons with Attribution"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -190,8 +185,7 @@
                         style="@android:style/TextAppearance.Holo.SearchResult.Subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="http://en.wikipedia.org"/>
+                        tools:text="http://en.wikipedia.org"/>
 
                 </LinearLayout>
 
@@ -217,9 +211,8 @@
                         style="@android:style/TextAppearance.Holo.SearchResult.Subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="/mnt/sdcard/wordnet.slob"/>
+                        tools:text="/mnt/sdcard/WordNet-3.0.slob"/>
                 </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -227,6 +220,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+                android:paddingLeft="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -234,15 +228,13 @@
                     android:id="@+id/dictionary_btn_toggle_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_gravity="left"
                     android:background="@null"
-                    android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     tools:src="@drawable/abc_ic_clear_mtrl_alpha"/>
 
                 <Space
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
@@ -250,12 +242,10 @@
                     android:id="@+id/dictionary_btn_forget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_gravity="right"
                     android:background="@null"
                     android:paddingLeft="16dp"
                     android:src="@drawable/ic_delete_black_24dp"/>
-
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
