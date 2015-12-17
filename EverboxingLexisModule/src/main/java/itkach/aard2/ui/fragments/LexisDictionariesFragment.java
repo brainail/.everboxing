@@ -1,6 +1,7 @@
 package itkach.aard2.ui.fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +13,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -153,14 +156,26 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
         }
         this.findDictionariesOnAttach = false;
         final Application app = ((Application) activity.getApplication());
-        final ProgressDialog p = new DiscoveryProgressDialog(getActivity());
+        // final ProgressDialog p = new DiscoveryProgressDialog(getActivity());
+
+        final Dialog wave = new Dialog(activity, android.R.style.Theme_Translucent_NoTitleBar);
+        wave.setCancelable (false);
+        wave.setCanceledOnTouchOutside (false);
+        Window window = wave.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        wave.setContentView (R.layout.dictionary_wave);
+
         app.findDictionaries(new DictionaryDiscoveryCallback() {
             @Override
             public void onDiscoveryFinished() {
-                p.dismiss();
+                wave.dismiss();
+                getView ().setVisibility (View.VISIBLE);
             }
         });
-        p.show();
+
+        getView ().setVisibility (View.INVISIBLE);
+        wave.show();
     }
 
 

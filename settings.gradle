@@ -1,2 +1,6 @@
+// Apps
 include ':EverboxingModule'
 include ':EverboxingLexisModule'
+
+// Libraries
+include ':EverboxingHardyDialogs'

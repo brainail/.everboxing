@@ -1,0 +1,21 @@
+<manifest
+    package="org.brainail.EverboxingHardyDialogs"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application android:supportsRtl="true">
+        <activity
+            android:name=".RemoteDialogActivity"
+            android:configChanges="orientation|screenSize|screenLayout"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:noHistory="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
+
+            <intent-filter>
+                <action android:name="org.brainail.EverboxingHardyDialogs.action.REMOTE_DIALOG"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

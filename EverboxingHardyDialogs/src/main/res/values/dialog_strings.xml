@@ -1,0 +1,19 @@
+<resources>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_button_continue">Continue</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_done">Done</string>
+    <string name="dialog_button_close">Close</string>
+    <string name="dialog_button_clear">Clear</string>
+    <string name="dialog_button_delete">Delete</string>
+    <string name="dialog_button_yes">Yes</string>
+    <string name="dialog_button_no_thanks">No, thanks</string>
+    <string name="dialog_button_later">Later</string>
+    <string name="dialog_button_open">Open</string>
+    <string name="dialog_button_download">Download</string>
+    <string name="dialog_button_save">Save</string>
+    <string name="dialog_button_info">Info</string>
+    <string name="dialog_button_retry">Retry</string>
+
+    <string name="progress_dialog_loading">Loading…</string>
+</resources>
