@@ -1,5 +1,10 @@
 package org.brainail.EverboxingLexis.utils.tool;
 
+import android.graphics.Typeface;
+import android.support.v4.util.ArrayMap;
+
+import itkach.aard2.Application;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  *
@@ -29,6 +34,23 @@ public final class ToolFonts {
 
     public static class RobotoFonts {
         public static String ASSETS_LIGHT = "fonts/Roboto-Light.ttf";
+    }
+
+    private static final ArrayMap<String, Typeface> CACHE = new ArrayMap<String, Typeface> (1);
+
+    private static Typeface typeface (final String fontPath) {
+        synchronized (CACHE) {
+            if (! CACHE.containsKey(fontPath)) {
+                final Typeface typeface = Typeface.createFromAsset (Application.appContext ().getAssets (), fontPath);
+                CACHE.put (fontPath, typeface);
+            }
+
+            return CACHE.get (fontPath);
+        }
+    }
+
+    public static Typeface robotoLight () {
+        return typeface (RobotoFonts.ASSETS_LIGHT);
     }
 
 }

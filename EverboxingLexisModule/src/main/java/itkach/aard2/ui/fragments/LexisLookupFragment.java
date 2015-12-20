@@ -174,7 +174,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     private void setBusy(boolean busy) {
         setListShown(!busy);
         if (!busy) {
-            TextView emptyText = ((TextView) emptyView.findViewById(R.id.empty_text));
+            TextView emptyText = ((TextView) mEmptyPlaceholderView.findViewById(R.id.empty_text));
             String msg = "";
             String query = app.getLookupQuery();
             if (query != null && !query.toString().equals("")) {

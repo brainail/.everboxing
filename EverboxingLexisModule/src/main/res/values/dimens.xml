@@ -51,4 +51,6 @@
     <dimen name="md_listitem_margin_left">24dp</dimen>
     <dimen name="md_icon_margin">16dp</dimen>
 
+    <dimen name="card_margin_horizontal">-4dp</dimen>
+
 </resources>

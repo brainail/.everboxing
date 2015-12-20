@@ -31,6 +31,7 @@ import org.brainail.EverboxingLexis.R;
  */
 public final class LexisPaperHardyDialogs {
 
+    // Scanning device
     public static BaseDialogSpecification.Builder<?> dictionaryScanningDialog () {
         return BaseDialogSpecification.create ()
                 .code (LexisPaperHardyDialogsCode.D_DICTIONARY_SCANNING_PROGRESS)

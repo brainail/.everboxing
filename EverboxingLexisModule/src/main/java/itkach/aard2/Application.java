@@ -78,6 +78,10 @@ public class Application extends JApplication {
     private static final String PREF = "app";
     public static final String PREF_RANDOM_FAV_LOOKUP = "onlyFavDictsForRandomLookup";
 
+    public static Application app () {
+        return (Application) mApp;
+    }
+
     @SuppressLint ("MissingSuperCall")
     @Override
     public void onCreate() {

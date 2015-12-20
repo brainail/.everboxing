@@ -168,8 +168,6 @@ public class DictionaryListAdapter extends BaseAdapter {
                 }
             };
 
-            View btnToggleFav = view.findViewById (R.id.dictionary_btn_toggle_fav);
-            btnToggleFav.setOnClickListener (toggleFavListener);
             View dictLabel = view.findViewById (R.id.dictionary_label);
             dictLabel.setOnClickListener (toggleFavListener);
         }
@@ -204,13 +202,6 @@ public class DictionaryListAdapter extends BaseAdapter {
 
         ImageView btnForget = (ImageView) view.findViewById (R.id.dictionary_btn_forget);
         btnForget.setTag (position);
-
-        ImageView btnToggleFav = (ImageView) view.findViewById (R.id.dictionary_btn_toggle_fav);
-        Drawable favIcon = desc.priority > 0 ?
-                BaseIcon.defIcon (context, Iconify.IconValue.zmdi_favorite) :
-                BaseIcon.defIcon (context, Iconify.IconValue.zmdi_favorite_outline);
-        btnToggleFav.setImageDrawable (favIcon);
-        btnToggleFav.setTag (position);
 
         return view;
     }

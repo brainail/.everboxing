@@ -42,14 +42,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 public class JApplication extends Application {
 
-    private static Context mAppContext;
+    protected static JApplication mApp;
 
     @Override
     public void onCreate () {
         super.onCreate ();
 
         // Store for long use
-        mAppContext = getApplicationContext ();
+        mApp = this;
 
         // Initialize crashlytics via Fabric
         if (BuildConfig.USE_CRASHLYTICS) initFabric ();
@@ -61,7 +61,7 @@ public class JApplication extends Application {
         ThemeManager.init ();
 
         // Init Hardy dialogs
-        HardyDialogsContext.init (mAppContext);
+        HardyDialogsContext.init (mApp.getApplicationContext ());
     }
 
     private void initFabric() {
@@ -94,8 +94,12 @@ public class JApplication extends Application {
         super.onConfigurationChanged (newConfig);
     }
 
+    public static JApplication app () {
+        return mApp;
+    }
+
     public static Context appContext () {
-        return mAppContext;
+        return mApp.getApplicationContext ();
     }
 
 }

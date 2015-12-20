@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -40,8 +41,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
 
     final static int FILE_SELECT_REQUEST = 17;
 
-    private DictionaryListAdapter mListAdapter;
-    private boolean mShouldFindDictionariesOnAttach = false;
+    private boolean mShouldScanDictionariesOnAttach = false;
 
     @Override
     public Drawable getEmptyStateIcon () {
@@ -60,10 +60,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        final Application app = (Application) getActivity().getApplication();
-        mListAdapter = new DictionaryListAdapter(app.dictionaries, getActivity());
-        setListAdapter(mListAdapter);
+        setListAdapter(new DictionaryListAdapter (Application.app ().dictionaries, getActivity ()));
     }
 
     @Override
@@ -80,21 +77,15 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
         btn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                // findDictionaries();
                 String url = "https://github.com/itkach/slob/wiki/Dictionaries";
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse (url));
-                // intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
                 getActivity ().startActivity(intent);
             }
         });
 
-        LinearLayout emptyViewLayout = (LinearLayout) emptyView;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
+        final LinearLayout box = (LinearLayout) mEmptyPlaceholderView;
+        box.addView(extraEmptyView, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
-        emptyViewLayout.addView(extraEmptyView, layoutParams);
         return result;
     }
 
@@ -127,15 +118,14 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     }
 
     public void findDictionaries() {
-        Activity activity = getActivity();
+        final Activity activity = getActivity();
         if (activity == null) {
-            this.mShouldFindDictionariesOnAttach = true;
+            mShouldScanDictionariesOnAttach = true;
             return;
         }
-        this.mShouldFindDictionariesOnAttach = false;
-        final Application app = ((Application) activity.getApplication());
 
-        app.findDictionaries(new DictionaryDiscoveryCallback() {
+        mShouldScanDictionariesOnAttach = false;
+        Application.app ().findDictionaries(new DictionaryDiscoveryCallback() {
             @Override
             public void onDiscoveryFinished() {
                 HardyDialogsHelper.dismissDialog (LexisDictionariesFragment.this, D_DICTIONARY_SCANNING_PROGRESS);
@@ -150,7 +140,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if (mShouldFindDictionariesOnAttach) {
+        if (mShouldScanDictionariesOnAttach) {
             findDictionaries();
         }
     }
@@ -169,8 +159,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
 
         String selectedPath = data == null ? null : data.getStringExtra(FileSelectActivity.KEY_SELECTED_FILE_PATH);
         if (resultCode == AppCompatActivity.RESULT_OK && selectedPath != null && selectedPath.length() > 0) {
-            final Application app = ((Application) getActivity().getApplication());
-            boolean alreadyExists = app.addDictionary(new File(selectedPath));
+            boolean alreadyExists = Application.app ().addDictionary(new File(selectedPath));
 
             String toastMessage;
             if (alreadyExists) {

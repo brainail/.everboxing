@@ -1,5 +1,6 @@
 package org.brainail.EverboxingLexis.ui.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.mikepenz.aboutlibraries.Libs;
@@ -11,6 +12,8 @@ import org.brainail.EverboxingLexis.R;
 
 import java.io.Serializable;
 import java.util.Comparator;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -61,6 +64,12 @@ public class AboutActivity extends LibsActivity {
         );
 
         super.onCreate (savedInstanceState);
+    }
+
+    @Override
+    protected void attachBaseContext (final Context baseContext) {
+        // Attach the Calligraphy
+        super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
     }
 
 }

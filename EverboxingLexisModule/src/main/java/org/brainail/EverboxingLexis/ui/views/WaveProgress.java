@@ -19,6 +19,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -198,6 +199,9 @@ public class WaveProgress extends View {
         mBottomTitlePaint.setAntiAlias (true);
         mBottomTitlePaint.setTextSize (attributes.getDimension (
                 R.styleable.WaveProgress_mlv_titleBottomSize, sp2px (DEFAULT_TITLE_BOTTOM_SIZE)));
+
+        mBottomTitlePaint.setTypeface (ToolFonts.robotoLight ());
+
         mBottomTitle = attributes.getString (R.styleable.WaveProgress_mlv_titleBottom);
     }
 
