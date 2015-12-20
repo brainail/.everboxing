@@ -1,4 +1,8 @@
-package org.brainail.EverboxingHardyDialogs;
+package org.brainail.EverboxingLexis.ui.views.dialogs.hardy;
+
+import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.LayoutParams;
+import org.brainail.EverboxingLexis.R;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -25,6 +29,15 @@ package org.brainail.EverboxingHardyDialogs;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ViberDialogHandlers {
+public final class LexisPaperHardyDialogs {
+
+    public static BaseDialogSpecification.Builder<?> dictionaryScanningDialog () {
+        return BaseDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_DICTIONARY_SCANNING_PROGRESS)
+                .contentLayoutParams (new LayoutParams (200 /*dp*/, 200 /*dp*/))
+                .content (R.layout.dictionary_wave)
+                .cancelable (false)
+                .translucent (true);
+    }
 
 }

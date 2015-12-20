@@ -1,5 +1,8 @@
 package org.brainail.EverboxingHardyDialogs;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>
@@ -25,24 +28,23 @@ package org.brainail.EverboxingHardyDialogs;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public enum DialogCode {
-    UNKNOWN ("unknown"),
+public final class HardyDialogsContext {
 
-    // progress
-    D_PROGRESS ("progress"),
-    ;
+    private static volatile Context sContext;
 
-    private final String mCode;
-
-    private DialogCode (final String code) {
-        mCode = code;
+    public static void init(@NonNull final Context context) {
+        sContext = context.getApplicationContext ();
     }
 
-    String code () {
-        return mCode;
+    public static @NonNull Context get () {
+        return sContext;
     }
 
-    String managerTag () {
-        return HardyDialogFragment.MANAGER_TAG_PREFIX + mCode;
+    static void verify () {
+        if (null == sContext && BuildConfig.DEBUG) {
+            throw new IllegalStateException ("You have to initialize "
+                    + HardyDialogsContext.class.getSimpleName () + " before using");
+        }
     }
+
 }

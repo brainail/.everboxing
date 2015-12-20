@@ -1,5 +1,7 @@
 package org.brainail.EverboxingHardyDialogs;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -28,21 +30,27 @@ import android.support.v4.app.FragmentManager;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ViberDialogsHelper {
+public final class HardyDialogsHelper {
 
-    public static void dismissDialog (final Fragment fragment, final DialogCode code) {
-        if (!dismissDialog (fragment.getChildFragmentManager (), code)) {
+    public static void dismissIsolated (final Context context, final BaseHardyDialogsCode code) {
+        final Intent intent = new Intent (RemoteHardyDialogsActivity.FilterAction.HIDE_REMOTE_DIALOG);
+        intent.putExtra (RemoteHardyDialogsActivity.FilterExtra.DIALOG_CODE, code);
+        context.sendBroadcast (intent);
+    }
+
+    public static void dismissDialog (final Fragment fragment, final BaseHardyDialogsCode code) {
+        if (! dismissDialog (fragment.getChildFragmentManager (), code)) {
             dismissDialog (fragment.getFragmentManager (), code);
         }
     }
 
-    public static void dismissDialogAllowingStateLoss (final Fragment fragment, final DialogCode code) {
-        if (!dismissDialogAllowingStateLoss (fragment.getChildFragmentManager (), code)) {
+    public static void dismissDialogAllowingStateLoss (final Fragment fragment, final BaseHardyDialogsCode code) {
+        if (! dismissDialogAllowingStateLoss (fragment.getChildFragmentManager (), code)) {
             dismissDialogAllowingStateLoss (fragment.getFragmentManager (), code);
         }
     }
 
-    public static boolean dismissDialog (final FragmentManager fragmentManager, final DialogCode code) {
+    public static boolean dismissDialog (final FragmentManager fragmentManager, final BaseHardyDialogsCode code) {
         final HardyDialogFragment dialog = findDialog (fragmentManager, code);
 
         if (null != dialog) {
@@ -53,7 +61,7 @@ public final class ViberDialogsHelper {
         return false;
     }
 
-    public static boolean dismissDialogAllowingStateLoss (final FragmentManager fragmentManager, final DialogCode code) {
+    public static boolean dismissDialogAllowingStateLoss (final FragmentManager fragmentManager, final BaseHardyDialogsCode code) {
         final HardyDialogFragment dialog = findDialog (fragmentManager, code);
 
         if (null != dialog) {
@@ -64,7 +72,7 @@ public final class ViberDialogsHelper {
         return false;
     }
 
-    public static HardyDialogFragment findDialog (final FragmentManager fragmentManager, final DialogCode code) {
+    public static HardyDialogFragment findDialog (final FragmentManager fragmentManager, final BaseHardyDialogsCode code) {
         final Fragment currentDialog = fragmentManager.findFragmentByTag (code.managerTag ());
 
         if (currentDialog instanceof HardyDialogFragment) {

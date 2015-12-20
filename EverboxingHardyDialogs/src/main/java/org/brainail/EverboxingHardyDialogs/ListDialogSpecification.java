@@ -32,7 +32,7 @@ import java.util.Arrays;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class ListDialogSpecification extends BaseDialogSpecification {
+public class ListDialogSpecification extends BaseDialogSpecification {
 
     private ArrayList<String> mItems;
 
@@ -66,7 +66,7 @@ class ListDialogSpecification extends BaseDialogSpecification {
 
             int index = 0;
             for (final int itemResource : itemsResources) {
-                items[index++] = ViberApplication.getInstance ().getString (itemResource);
+                items [index ++] = HardyDialogsContext.get ().getString (itemResource);
             }
 
             return items (items);

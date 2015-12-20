@@ -8,6 +8,7 @@ import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
 
+import org.brainail.EverboxingHardyDialogs.HardyDialogsContext;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
 
@@ -58,6 +59,9 @@ public class JApplication extends Application {
 
         // Initialize theme
         ThemeManager.init ();
+
+        // Init Hardy dialogs
+        HardyDialogsContext.init (mAppContext);
     }
 
     private void initFabric() {
@@ -68,7 +72,7 @@ public class JApplication extends Application {
 
     private void initFont () {
         final CalligraphyConfig.Builder fontBuilder = new CalligraphyConfig.Builder ();
-        fontBuilder.setDefaultFontPath (ToolFonts.RobotoFonts.ASSETS_REGULAR);
+        fontBuilder.setDefaultFontPath (ToolFonts.RobotoFonts.ASSETS_LIGHT);
         fontBuilder.setFontAttrId (R.attr.fontPath);
 
         CalligraphyConfig.initDefault (fontBuilder.build ());

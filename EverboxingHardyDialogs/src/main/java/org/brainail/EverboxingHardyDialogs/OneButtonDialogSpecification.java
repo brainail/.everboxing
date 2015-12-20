@@ -29,7 +29,7 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class OneButtonDialogSpecification extends BaseDialogSpecification {
+public class OneButtonDialogSpecification extends BaseDialogSpecification {
     
     private final String mPositiveButton;
     private final int mPositiveButtonId;
@@ -93,7 +93,7 @@ class OneButtonDialogSpecification extends BaseDialogSpecification {
         }
         
         public T positiveButton (final int stringId) {
-            return positiveButton (ViberApplication.getInstance ().getString (stringId));
+            return positiveButton (HardyDialogsContext.get ().getString (stringId));
         }
         
         public T positiveActionRequestCode (final int positiveActionRequestCode) {

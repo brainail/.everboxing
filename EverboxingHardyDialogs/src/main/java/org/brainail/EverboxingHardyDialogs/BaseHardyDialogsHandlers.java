@@ -1,9 +1,4 @@
-package itkach.aard2.ui.fragments;
-
-import org.brainail.EverboxingLexis.R;
-
-import itkach.aard2.Application;
-import itkach.aard2.slob.BlobDescriptorList;
+package org.brainail.EverboxingHardyDialogs;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -30,31 +25,4 @@ import itkach.aard2.slob.BlobDescriptorList;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class LexisBookmarksFragment extends
-        BlobDescriptorListFragment {
-    @Override
-    public String getItemClickAction() {
-        return "showBookmarks";
-    }
-
-    @Override
-    public BlobDescriptorList getDescriptorList() {
-        Application app = (Application) getActivity().getApplication();
-        return app.bookmarks;
-    }
-
-    @Override
-    public String getEmptyText() {
-        return getString(R.string.main_empty_bookmarks);
-    }
-
-    @Override
-    public int getDeleteConfirmationItemCountResId() {
-        return R.plurals.confirm_delete_bookmark_count;
-    }
-
-    @Override
-    public String getPreferencesNS() {
-        return "bookmarks";
-    }
-}
+public class BaseHardyDialogsHandlers {}

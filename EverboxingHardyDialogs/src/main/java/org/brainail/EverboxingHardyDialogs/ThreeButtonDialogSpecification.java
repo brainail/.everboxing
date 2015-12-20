@@ -30,7 +30,7 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification {
+public class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification {
 
     private final String mNeutralButton;
     private final int mNeutralButtonId;
@@ -79,7 +79,7 @@ class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification {
         }
 
         public T neutralButton (final int stringId) {
-            return neutralButton (ViberApplication.getInstance ().getString (stringId));
+            return neutralButton (HardyDialogsContext.get ().getString (stringId));
         }
 
         public T customNeutralButton (final int resourceId, final int stringId) {

@@ -18,7 +18,7 @@ public class SlobDescriptor extends BaseDescriptor {
 
     public String path;
     public Map<String, String> tags = new HashMap<String, String>();
-    public boolean active = true;
+    public boolean isActive = true;
     public long priority;
     public long blobCount;
     public String error;
@@ -45,7 +45,7 @@ public class SlobDescriptor extends BaseDescriptor {
                 Log.d(TAG, "Error while opening " + this.path, e);
             }
             expandDetail = true;
-            active = false;
+            isActive = false;
         }
         return slob;
     }

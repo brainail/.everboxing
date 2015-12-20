@@ -30,7 +30,7 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
+public class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
 
     private final String mNegativeButton;
     private final int mNegativeButtonId;
@@ -81,7 +81,7 @@ class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
         }
 
         public T negativeButton (final int stringId) {
-            return negativeButton (ViberApplication.getInstance ().getString (stringId));
+            return negativeButton (HardyDialogsContext.get ().getString (stringId));
         }
 
         public T customNegativeButton (final int resourceId, final int stringId) {

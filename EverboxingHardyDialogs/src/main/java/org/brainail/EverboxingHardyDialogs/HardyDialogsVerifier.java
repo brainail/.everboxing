@@ -2,6 +2,7 @@ package org.brainail.EverboxingHardyDialogs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.brainail.EverboxingHardyDialogs.utils.IoUtils;
 
@@ -35,18 +36,20 @@ import java.lang.reflect.Modifier;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class HardyDialogVerifier {
+final class HardyDialogsVerifier {
+
+    public static final String LOG_TAG = "[" + HardyDialogsVerifier.class.getSimpleName () + "]";
 
     public static boolean verify (final BaseDialogSpecification dialogSpecification, final boolean isIsolated) {
         if (isIsolated) {
-            if (!verifyUselessCallbacks (dialogSpecification)) {
+            if (! verifyUselessCallbacks (dialogSpecification)) {
                 return false;
             }
         }
 
         verifyRestorableOption (dialogSpecification);
 
-        if (!verifyAttachedData (dialogSpecification.attachedData (), dialogSpecification.code ())) {
+        if (! verifyAttachedData (dialogSpecification.attachedData (), dialogSpecification.code ())) {
             if (BuildConfig.DEBUG) {
                 throw new IllegalArgumentException ("Your attached data isn't correct/transferable");
             }
@@ -58,7 +61,7 @@ public final class HardyDialogVerifier {
                 && dialogSpecification.hasCallbacks ()
                 && null != dialogSpecification.isolatedHandler ()) {
 
-            if (!verifyAttachedData (dialogSpecification.isolatedHandler (), dialogSpecification.code ())) {
+            if (! verifyAttachedData (dialogSpecification.isolatedHandler (), dialogSpecification.code ())) {
                 if (BuildConfig.DEBUG) {
                     throw new IllegalArgumentException ("Your IsolatedDialogHandler isn't correct/transferable");
                 }
@@ -66,7 +69,7 @@ public final class HardyDialogVerifier {
                 return false;
             }
 
-            if (!Modifier.isStatic (dialogSpecification.isolatedHandler ().getClass ().getModifiers ())) {
+            if (! Modifier.isStatic (dialogSpecification.isolatedHandler ().getClass ().getModifiers ())) {
                 if (BuildConfig.DEBUG) {
                     throw new IllegalArgumentException ("Your IsolatedDialogHandler isn't an instance of static class");
                 }
@@ -91,12 +94,13 @@ public final class HardyDialogVerifier {
     }
 
     private static void verifyRestorableOption (final BaseDialogSpecification dialogSpecification) {
-        if (!dialogSpecification.isRestorable () && BuildConfig.DEBUG) {
-            // LogWarn("You are going to show a non-restorable dialog (code: ?). Please recheck it.", dialogDescriptor.code());
+        if (! dialogSpecification.isRestorable () && BuildConfig.DEBUG) {
+            Log.w (LOG_TAG, "You are going to show a non-restorable dialog (code: "
+                    +  dialogSpecification.code() + "). Please recheck it.");
         }
     }
 
-    private static boolean verifyAttachedData (final Object attachedData, DialogCode code) {
+    private static boolean verifyAttachedData (final Object attachedData, BaseHardyDialogsCode code) {
         try {
             if (attachedData instanceof Serializable) {
                 ObjectOutputStream objectStream = null;
@@ -110,7 +114,7 @@ public final class HardyDialogVerifier {
                 ((Parcelable) attachedData).writeToParcel (Parcel.obtain (), 0);
             }
         } catch (final Exception exception) {
-            // LogError(exception, "verifyAttachedData failed, dialog code: ?", code);
+            Log.e (LOG_TAG, "verifyAttachedData failed, dialog code: " + code.code ());
             return false;
         }
 

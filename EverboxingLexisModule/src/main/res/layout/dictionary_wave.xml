@@ -2,15 +2,14 @@
 <org.brainail.EverboxingLexis.ui.views.WaveProgress
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/waveProgress"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     app:mlv_borderColor="@android:color/transparent"
     app:mlv_borderGateWidth="3dp"
     app:mlv_progressValue="40"
     app:mlv_shapeType="circle"
     app:mlv_titleBottom="@string/dictionaries_scanning_device"
-    app:mlv_titleBottomSize="14sp"
     app:mlv_titleBottomColor="@android:color/white"
+    app:mlv_titleBottomSize="14sp"
     app:mlv_waveAmplitude="70"
     app:mlv_waveColor="?attr/colorAccent"/>

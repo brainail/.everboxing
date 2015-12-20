@@ -28,7 +28,7 @@ package org.brainail.EverboxingLexis.utils.tool;
 public final class ToolFonts {
 
     public static class RobotoFonts {
-        public static String ASSETS_REGULAR = "fonts/Roboto-Light.ttf";
+        public static String ASSETS_LIGHT = "fonts/Roboto-Light.ttf";
     }
 
 }

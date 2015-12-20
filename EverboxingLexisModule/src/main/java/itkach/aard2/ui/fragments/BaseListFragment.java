@@ -26,8 +26,6 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
     protected View emptyView;
     ActionMode actionMode;
 
-    public abstract int getEmptyIcon ();
-
     public Drawable getEmptyStateIcon () {
         return BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_info);
     }
@@ -49,11 +47,11 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         emptyView = inflater.inflate (R.layout.empty_view, container, false);
+
         TextView emptyText = ((TextView) emptyView.findViewById (R.id.empty_text));
         emptyText.setMovementMethod (LinkMovementMethod.getInstance ());
         emptyText.setText (getEmptyText ());
-        // ImageView emptyIcon = (ImageView) (emptyView.findViewById (R.id.empty_icon));
-        // emptyIcon.setImageDrawable (getEmptyStateIcon ());
+
         return super.onCreateView (inflater, container, savedInstanceState);
     }
 
@@ -69,14 +67,6 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
 
     protected boolean supportsSelection () {
         return true;
-    }
-
-    public boolean finishActionMode () {
-        if (actionMode != null) {
-            actionMode.finish ();
-            return true;
-        }
-        return false;
     }
 
     @Override

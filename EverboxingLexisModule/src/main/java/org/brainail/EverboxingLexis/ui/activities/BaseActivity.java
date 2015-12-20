@@ -129,7 +129,7 @@ public abstract class BaseActivity
     }
 
     protected String getDefaultFont () {
-        return ToolFonts.RobotoFonts.ASSETS_REGULAR;
+        return ToolFonts.RobotoFonts.ASSETS_LIGHT;
     }
 
     protected Integer getLayoutResourceId () {
@@ -192,7 +192,7 @@ public abstract class BaseActivity
 
     @Override
     public void onBackPressed () {
-        if (!ToolFragments.navigateBack(this)) {
+        if (! ToolFragments.navigateBack(this)) {
             supportFinishAfterTransition();
         }
     }
@@ -224,7 +224,7 @@ public abstract class BaseActivity
     }
 
     protected void updateToolbarColor () {
-        ToolToolbar.updateToolbarColor(this, null);
+        ToolToolbar.updateToolbarColor (this, null);
     }
 
     protected void updateToolbarTitle () {
@@ -245,7 +245,7 @@ public abstract class BaseActivity
 
         // Destroy APIs
         for (final ClientApi api : mClientApis) {
-            if (api.useOn(this)) api.onDestroy ();
+            if (api.useOn (this)) api.onDestroy ();
         }
 
         super.onDestroy ();

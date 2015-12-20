@@ -25,15 +25,15 @@ package org.brainail.EverboxingHardyDialogs;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HardyDialogs {
+public final class BaseHardyDialogs {
 
     /**
      * Common progress dialog.
      * <br/><br/>
      */
-    public static ProgressDialogSpecification.Builder<?> progressDialog () {
+    public static ProgressDialogSpecification.Builder<?> loadingProgressDialog () {
         return ProgressDialogSpecification.create ()
-                .code (DialogCode.D_PROGRESS)
+                .code (BaseHardyDialogsCode.D_PROGRESS)
                 .body (R.string.progress_dialog_loading);
     }
 

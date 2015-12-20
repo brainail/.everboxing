@@ -34,11 +34,6 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     private String initialQuery;
 
     @Override
-    public int getEmptyIcon() {
-        return android.R.drawable.ic_menu_help;
-    }
-
-    @Override
     public CharSequence getEmptyText() {
         return "";
     }

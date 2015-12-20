@@ -1,7 +1,6 @@
 package org.brainail.EverboxingHardyDialogs;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import java.io.Serializable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -28,36 +27,27 @@ import android.support.v7.app.AppCompatActivity;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class RemoteDialogActivity extends AppCompatActivity {
+public class BaseHardyDialogsCode implements Serializable {
 
-    static final String EXTRA_TYPE = "extra_type";
-    static final String TYPE_REMOTE_DIALOG = "remote_dialog";
-    static final String INTENT_ACTION = "org.brainail.EverboxingHardyDialogs.action.REMOTE_DIALOG";
+    public static final BaseHardyDialogsCode UNKNOWN = new BaseHardyDialogsCode ("unknown");
 
-    public static Intent getIntent (String type) {
-        return new Intent (INTENT_ACTION).putExtra (EXTRA_TYPE, type);
+    // progress
+    public static final BaseHardyDialogsCode D_PROGRESS = new BaseHardyDialogsCode ("progress");
+
+    private String mCode;
+
+    private BaseHardyDialogsCode () {}
+
+    public BaseHardyDialogsCode (final String code) {
+        mCode = code;
     }
 
-    @Override
-    protected void onStart () {
-        super.onStart ();
-        resolveIntent (getIntent ());
+    final String code () {
+        return mCode;
     }
 
-    @Override
-    protected void onNewIntent (Intent intent) {
-        resolveIntent (intent);
-        super.onNewIntent (intent);
-    }
-
-    private void resolveIntent (final Intent intent) {
-        final String type = intent.getStringExtra (EXTRA_TYPE);
-
-        // Try to show an isolated dialog
-        if (TYPE_REMOTE_DIALOG.equals (type)) {
-            HardyDialogFragment.handleIsolated (this, intent);
-            return;
-        }
+    final String managerTag () {
+        return HardyDialogFragment.MANAGER_TAG_PREFIX + mCode;
     }
 
 }

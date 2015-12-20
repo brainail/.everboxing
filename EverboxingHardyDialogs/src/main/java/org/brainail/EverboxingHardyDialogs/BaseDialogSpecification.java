@@ -64,8 +64,9 @@ public class BaseDialogSpecification implements Serializable {
     private String mBody;
     // Body id inside of some layout/content
     private int mBodyId;
-    // Layout id for content
+    // Layout id for content (like setView for builder)
     private int mContentLayoutId;
+    private HardyDialogFragment.LayoutParams mContentLayoutParams;
     // Request code for cancel action
     private int mCancelActionRequestCode;
     // Request code for dismiss action
@@ -75,13 +76,15 @@ public class BaseDialogSpecification implements Serializable {
     private transient Fragment mTargetFragment;
     private boolean mHasTargetFragment;
     // Dialog code/ID from the spec or custom
-    private DialogCode mCode;
+    private BaseHardyDialogsCode mCode;
     // Isolated handler to handle some dialog actions/preparations
     private IsolatedDialogHandler mIsolatedHandler;
     // Would you like to handle some actions/preparations from dialog?
     private boolean mHasCallbacks;
     // Sometimes we don't wanna give abilities to cancel our dialog (back key, touch outside)
     private boolean mIsCancelable;
+    // Sometimes we want to remove dialog's underlay (transparent)
+    private boolean mIsTranslucent;
     // We can attach some own data (Serializable object or Parcelable object)
     private Object mAttachedData;
     // If you want to handle some actions/preparations by non-serializable callback
@@ -102,6 +105,7 @@ public class BaseDialogSpecification implements Serializable {
         mBody = builder.body;
         mBodyId = builder.bodyId;
         mContentLayoutId = builder.contentLayoutId;
+        mContentLayoutParams = builder.contentLayoutParams;
         mCancelActionRequestCode = builder.cancelActionRequestCode;
         mDismissActionRequestCode = builder.dismissActionRequestCode;
         mTargetFragment = builder.targetFragment;
@@ -110,6 +114,7 @@ public class BaseDialogSpecification implements Serializable {
         mIsolatedHandler = builder.isolatedHandler;
         mHasCallbacks = builder.hasCallbacks;
         mIsCancelable = builder.isCancelable;
+        mIsTranslucent = builder.isTranslucent;
         mAttachedData = builder.attachedData;
         mIsRestorable = builder.isRestorable;
         mHasDestroyableUnderlay = builder.hasDestroyableUnderlay;
@@ -122,19 +127,22 @@ public class BaseDialogSpecification implements Serializable {
         private String body = null;
         private int bodyId = HardyDialogFragment.NO_RESOURCE_ID;
         private int contentLayoutId = HardyDialogFragment.NO_RESOURCE_ID;
+        private HardyDialogFragment.LayoutParams contentLayoutParams = null;
         private int cancelActionRequestCode = ActionRequestCode.CANCEL;
         private int dismissActionRequestCode = ActionRequestCode.UNHANDLED;
         private transient Fragment targetFragment = null;
         private boolean hasTargetFragment = false;
-        private DialogCode code = DialogCode.UNKNOWN;
+        private BaseHardyDialogsCode code = BaseHardyDialogsCode.UNKNOWN;
         private IsolatedDialogHandler isolatedHandler = null;
         private boolean hasCallbacks = false;
         private boolean isCancelable = true;
+        private boolean isTranslucent = false;
         private transient Object attachedData = null;
         private boolean isRestorable = true;
         private boolean hasDestroyableUnderlay = false;
         
         protected Builder () {
+            HardyDialogsContext.verify ();
             fillDefaultValues ();
         }
         
@@ -143,6 +151,7 @@ public class BaseDialogSpecification implements Serializable {
             body = specification.mBody;
             bodyId = specification.mBodyId;
             contentLayoutId = specification.mContentLayoutId;
+            contentLayoutParams = specification.mContentLayoutParams;
             cancelActionRequestCode = specification.mCancelActionRequestCode;
             dismissActionRequestCode = specification.mDismissActionRequestCode;
             targetFragment = specification.mTargetFragment;
@@ -151,12 +160,13 @@ public class BaseDialogSpecification implements Serializable {
             isolatedHandler = specification.mIsolatedHandler;
             hasCallbacks = specification.mHasCallbacks;
             isCancelable = specification.mIsCancelable;
+            isTranslucent = specification.mIsTranslucent;
             attachedData = specification.mAttachedData;
             isRestorable = specification.mIsRestorable;
             hasDestroyableUnderlay = specification.mHasDestroyableUnderlay;
         }
         
-        // Fills all default values which are related to this dialog
+        // Fills all default values which are related to this dialog (it's useless here but just to show)
         protected void fillDefaultValues () {
             // Use the predefined request code for cancel action
             cancelActionRequestCode (ActionRequestCode.CANCEL);
@@ -165,13 +175,16 @@ public class BaseDialogSpecification implements Serializable {
             // No layout id for content
             content (HardyDialogFragment.NO_RESOURCE_ID);
             // No code
-            code (DialogCode.UNKNOWN);
+            code (BaseHardyDialogsCode.UNKNOWN);
             // We don't want to be annoying guys by default
             cancelable (true);
+            // We want to use default behaviour by default from Android (has non-translucent underlay)
+            translucent (false);
             // By default we restore our dialog for instance after orientation changes
             restorable (true);
             // Don't finish underlay by default
             hasDestroyableUnderlay (false);
+            // ...
         }
         
         @SuppressWarnings ("unchecked")
@@ -197,13 +210,18 @@ public class BaseDialogSpecification implements Serializable {
             this.isCancelable = isCancelable;
             return self ();
         }
-        
+
+        public T translucent (final boolean isTranslucent) {
+            this.isTranslucent = isTranslucent;
+            return self ();
+        }
+
         public T hasDestroyableUnderlay (final boolean hasDestroyableUnderlay) {
             this.hasDestroyableUnderlay = hasDestroyableUnderlay;
             return self ();
         }
         
-        public T code (final DialogCode code) {
+        public T code (final BaseHardyDialogsCode code) {
             this.code = code;
             return self ();
         }
@@ -224,14 +242,14 @@ public class BaseDialogSpecification implements Serializable {
         }
         
         public T title (final int stringId) {
-            return title (ViberApplication.getInstance ().getString (stringId));
+            return title (HardyDialogsContext.get ().getString (stringId));
         }
         
         public T title (final int stringId, final Object... args) {
             if (KEEP_DEFAULT_VALUE == stringId) {
                 return title (String.format (Locale.US, title, args));
             } else {
-                return title (ViberApplication.getInstance ().getString (stringId, args));
+                return title (HardyDialogsContext.get ().getString (stringId, args));
             }
         }
         
@@ -259,16 +277,21 @@ public class BaseDialogSpecification implements Serializable {
             this.contentLayoutId = contentLayoutId;
             return self ();
         }
-        
+
+        public T contentLayoutParams (final HardyDialogFragment.LayoutParams contentLayoutParams) {
+            this.contentLayoutParams = contentLayoutParams;
+            return self ();
+        }
+
         public T body (final int stringId) {
-            return body (ViberApplication.getInstance ().getString (stringId));
+            return body (HardyDialogsContext.get ().getString (stringId));
         }
         
         public T body (final int stringId, final Object... args) {
             if (KEEP_DEFAULT_VALUE == stringId) {
                 return body (String.format (Locale.US, body, BiDiFormatterUtils.wrapArguments (args)));
             } else {
-                return body (BiDiFormatterUtils.wrapStringArguments (ViberApplication.getInstance (), stringId, args));
+                return body (BiDiFormatterUtils.wrapStringArguments (HardyDialogsContext.get (), stringId, args));
             }
         }
         
@@ -434,30 +457,30 @@ public class BaseDialogSpecification implements Serializable {
     
     // Shows without Context via the provided activity
     public void showIsolated (final Class<?> activity) {
-        final Intent dialogIntent = new Intent (ViberApplication.getInstance (), activity);
+        final Intent dialogIntent = new Intent (HardyDialogsContext.get (), activity);
         showIsolated (dialogIntent, true);
     }
     
     // Shows without Context via the SystemDialogActivity
     public void showIsolated () {
-        final Intent dialogIntent = RemoteDialogActivity.getIntent (RemoteDialogActivity.TYPE_REMOTE_DIALOG);
+        final Intent dialogIntent = RemoteHardyDialogsActivity.getIntent (RemoteHardyDialogsActivity.Value.REMOTE_DIALOG);
         showIsolated (dialogIntent, true);
     }
     
     // Returns an intent to show this dialog without Context via the provided activity
     public Intent getIsolatedIntent (final Class<?> activity) {
-        final Intent dialogIntent = new Intent (ViberApplication.getInstance (), activity);
+        final Intent dialogIntent = new Intent (HardyDialogsContext.get (), activity);
         return showIsolated (dialogIntent, false);
     }
     
     // Returns an intent to show this dialog without Context via the SystemDialogActivity
     public Intent getIsolatedIntent () {
-        final Intent dialogIntent = RemoteDialogActivity.getIntent (RemoteDialogActivity.TYPE_REMOTE_DIALOG);
+        final Intent dialogIntent = RemoteHardyDialogsActivity.getIntent (RemoteHardyDialogsActivity.Value.REMOTE_DIALOG);
         return showIsolated (dialogIntent, false);
     }
     
     private Intent showIsolated (final Intent dialogIntent, final boolean showImmediately) {
-        if (BuildConfig.DEBUG && !HardyDialogVerifier.verify (this, true)) {
+        if (BuildConfig.DEBUG && ! HardyDialogsVerifier.verify (this, true)) {
             return null;
         }
         
@@ -471,7 +494,7 @@ public class BaseDialogSpecification implements Serializable {
         dialogIntent.putExtra (EXTRA_DIALOG_INSTANCE, this);
         
         if (showImmediately) {
-            ViberApplication.getInstance ().startActivity (dialogIntent);
+            HardyDialogsContext.get ().startActivity (dialogIntent);
         }
         
         return dialogIntent;
@@ -556,10 +579,16 @@ public class BaseDialogSpecification implements Serializable {
             // Check that you pass a right FragmentManager to show this dialog
             if (BuildConfig.DEBUG && fragmentManager != mTargetFragment.getChildFragmentManager ()) {
                 throw new IllegalArgumentException (
-                        "If you want to handle some actions/preparations\n " +
-                                "on the target Fragment then you have to pass a child FragmentManager from this Fragment\n " +
-                                "to show this dialog (@see Fragment#getChildFragmentManager()),\n " +
-                                "otherwise it tries to handle all stuff on the owner Activity or via an isolated handler."
+                        "If you want to handle " +
+                                "some actions/preparations\n " +
+                                "on the target Fragment then you " +
+                                "have to pass a child FragmentManager " +
+                                "from this Fragment\n " +
+                                "to show this dialog " +
+                                "(@see Fragment#getChildFragmentManager()),\n " +
+                                "otherwise it tries to handle " +
+                                "all stuff on the owner Activity " +
+                                "or via an isolated handler."
                 );
             }
         }
@@ -573,12 +602,12 @@ public class BaseDialogSpecification implements Serializable {
             final FragmentManager fragmentManager,
             final boolean allowingStateLoss) {
         
-        if (BuildConfig.DEBUG && !HardyDialogVerifier.verify (this, false)) {
+        if (BuildConfig.DEBUG && ! HardyDialogsVerifier.verify (this, false)) {
             return null;
         }
         
         try {
-            if (!allowingStateLoss) {
+            if (! allowingStateLoss) {
                 try {
                     newDialog.show (newTransaction (fragmentManager), mCode.managerTag ());
                 } catch (final Exception exception) {
@@ -613,12 +642,14 @@ public class BaseDialogSpecification implements Serializable {
         args.putString (Args.BODY, mBody);
         args.putInt (Args.BODY_ID, mBodyId);
         args.putInt (Args.CONTENT_LAYOUT_ID, mContentLayoutId);
+        args.putSerializable (Args.CONTENT_LAYOUT_PARAMS, mContentLayoutParams);
         args.putInt (Args.CANCEL_ACTION_REQUEST_CODE, mCancelActionRequestCode);
         args.putInt (Args.DISMISS_ACTION_REQUEST_CODE, mDismissActionRequestCode);
         args.putSerializable (Args.DIALOG_CODE, mCode);
         args.putSerializable (Args.ISOLATED_HANDLER, mIsolatedHandler);
         args.putBoolean (Args.HAS_CALLBACKS, mHasCallbacks);
         args.putBoolean (Args.IS_CANCELABLE, mIsCancelable);
+        args.putBoolean (Args.IS_TRANSLUCENT, mIsTranslucent);
         args.putBoolean (Args.HAS_TARGET_FRAGMENT, mHasTargetFragment);
         args.putBoolean (Args.IS_RESTORABLE, mIsRestorable);
         args.putBoolean (Args.HAS_DESTROYABLE_UNDERLAY, mHasDestroyableUnderlay);
@@ -646,7 +677,7 @@ public class BaseDialogSpecification implements Serializable {
         return mIsolatedHandler;
     }
     
-    public DialogCode code () {
+    public BaseHardyDialogsCode code () {
         return mCode;
     }
     

@@ -44,11 +44,6 @@ public class LexisHistoryFragment extends BlobDescriptorListFragment {
     }
 
     @Override
-    public int getEmptyIcon() {
-        return android.R.drawable.ic_menu_help;
-    }
-
-    @Override
     public String getEmptyText() {
         return getString(R.string.main_empty_history);
     }

@@ -1,9 +1,12 @@
-package itkach.aard2.ui.fragments;
+package org.brainail.EverboxingLexis.ui.views.dialogs.hardy;
 
-import org.brainail.EverboxingLexis.R;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
-import itkach.aard2.Application;
-import itkach.aard2.slob.BlobDescriptorList;
+import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -30,31 +33,31 @@ import itkach.aard2.slob.BlobDescriptorList;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class LexisBookmarksFragment extends
-        BlobDescriptorListFragment {
+public class RemoteHardyDialogsActivity extends org.brainail.EverboxingHardyDialogs.RemoteHardyDialogsActivity {
+
+    // Theme. I use null to define that this is full recreating
+    private ThemeManager.AppTheme mTheme = null;
+
     @Override
-    public String getItemClickAction() {
-        return "showBookmarks";
+    protected void onCreate (@Nullable Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
+
+        getWindow ().setBackgroundDrawable (null);
+
+        // Init & check theme
+        mTheme = ThemeManager.checkOnCreate (this, mTheme);
     }
 
     @Override
-    public BlobDescriptorList getDescriptorList() {
-        Application app = (Application) getActivity().getApplication();
-        return app.bookmarks;
+    protected void attachBaseContext (final Context baseContext) {
+        // Attach the Calligraphy
+        super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
     }
 
     @Override
-    public String getEmptyText() {
-        return getString(R.string.main_empty_bookmarks);
+    protected void onResume () {
+        ThemeManager.checkOnResume (this, mTheme);
+        super.onResume ();
     }
 
-    @Override
-    public int getDeleteConfirmationItemCountResId() {
-        return R.plurals.confirm_delete_bookmark_count;
-    }
-
-    @Override
-    public String getPreferencesNS() {
-        return "bookmarks";
-    }
 }

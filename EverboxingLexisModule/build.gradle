@@ -202,9 +202,9 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:customtabs:23.1.1'
     // Google play services
-    compile 'com.google.android.gms:play-services-base:8.3.0'
-    compile 'com.google.android.gms:play-services-drive:8.3.0'
-    compile 'com.google.android.gms:play-services-plus:8.3.0'
+    compile 'com.google.android.gms:play-services-base:8.4.0'
+    compile 'com.google.android.gms:play-services-drive:8.4.0'
+    compile 'com.google.android.gms:play-services-plus:8.4.0'
     // Material stuff
     compile 'com.malinskiy:materialicons:1.0.2'
     // Fonts
@@ -219,6 +219,9 @@ dependencies {
     compile 'com.ibm.icu:icu4j:52.1', 'org.tukaani:xz:1.5', 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
     // About
     compile('com.mikepenz:aboutlibraries:5.3.3@aar') { transitive = true }
+    // Hardy dialogs
+    debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
+    releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
 }
 
 //

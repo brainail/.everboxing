@@ -29,6 +29,7 @@
         <activity
             android:name="org.brainail.EverboxingLexis.ui.activities.HomeActivity"
             android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -78,6 +79,21 @@
             android:theme="@style/AboutLibrariesTheme"
             android:name=".ui.activities.AboutActivity"
             android:label="@string/app_name">
+        </activity>
+
+        <!-- Hardy dialogs -->
+        <activity
+            android:name=".ui.views.dialogs.hardy.RemoteHardyDialogsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:noHistory="false"
+            android:theme="@style/AppTheme.Default.Translucent.NoActionBar">
+            <intent-filter>
+                <action android:name="org.brainail.EverboxingHardyDialogs.action.view.remote.dialog"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
 
         <!-- Google Play Services -->

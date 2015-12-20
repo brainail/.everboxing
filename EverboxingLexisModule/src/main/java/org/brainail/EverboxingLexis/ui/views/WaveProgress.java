@@ -68,11 +68,11 @@ public class WaveProgress extends View {
     private static final float DEFAULT_WAVE_LENGTH_RATIO = 1.0f;
     private static final float DEFAULT_WAVE_SHIFT_RATIO = 0.0f;
     private static final int DEFAULT_WAVE_PROGRESS_VALUE = 50;
-    private static final int DEFAULT_WAVE_COLOR = Color.parseColor("#212121");
-    private static final int DEFAULT_TITLE_COLOR = Color.parseColor("#212121");
+    private static final int DEFAULT_WAVE_COLOR = Color.parseColor ("#212121");
+    private static final int DEFAULT_TITLE_COLOR = Color.parseColor ("#212121");
     private static final float DEFAULT_BORDER_WIDTH = 0;
 
-    private static final int DEFAULT_WAVE_SHAPE = ShapeType.CIRCLE.ordinal();
+    private static final int DEFAULT_WAVE_SHAPE = ShapeType.CIRCLE.ordinal ();
     private static final float DEFAULT_TITLE_TOP_SIZE = 18.0f;
     private static final float DEFAULT_TITLE_CENTER_SIZE = 22.0f;
     private static final float DEFAULT_TITLE_BOTTOM_SIZE = 18.0f;
@@ -118,228 +118,228 @@ public class WaveProgress extends View {
 
     // Constructor & Init Method.
     public WaveProgress (final Context context) {
-        this(context, null);
+        this (context, null);
     }
 
     public WaveProgress (Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        this (context, attrs, 0);
     }
 
     public WaveProgress (Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context, attrs, defStyleAttr);
+        super (context, attrs, defStyleAttr);
+        init (context, attrs, defStyleAttr);
     }
 
-    private void init(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void init (Context context, AttributeSet attrs, int defStyleAttr) {
         mContext = context;
         // Init Wave.
-        mShaderMatrix = new Matrix();
-        mWavePaint = new Paint();
+        mShaderMatrix = new Matrix ();
+        mWavePaint = new Paint ();
         // The ANTI_ALIAS_FLAG bit AntiAliasing smooths out the edges of what is being drawn,
         // but is has no impact on the interior of the shape.
-        mWavePaint.setAntiAlias(true);
+        mWavePaint.setAntiAlias (true);
 
         // Init Animation
-        initAnimation();
+        initAnimation ();
 
         // Load the styled attributes and set their properties
-        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.WaveProgress, defStyleAttr, 0);
+        TypedArray attributes = context.obtainStyledAttributes (attrs, R.styleable.WaveProgress, defStyleAttr, 0);
 
         // Init ShapeType
-        mShapeType = attributes.getInteger(R.styleable.WaveProgress_mlv_shapeType, DEFAULT_WAVE_SHAPE);
+        mShapeType = attributes.getInteger (R.styleable.WaveProgress_mlv_shapeType, DEFAULT_WAVE_SHAPE);
 
         // Init Wave
-        mWaveColor = attributes.getColor(R.styleable.WaveProgress_mlv_waveColor, DEFAULT_WAVE_COLOR);
+        mWaveColor = attributes.getColor (R.styleable.WaveProgress_mlv_waveColor, DEFAULT_WAVE_COLOR);
 
         // Init AmplitudeRatio
-        float amplitudeRatioAttr = attributes.getFloat(
+        float amplitudeRatioAttr = attributes.getFloat (
                 R.styleable.WaveProgress_mlv_waveAmplitude, DEFAULT_AMPLITUDE_RATIO) / 1000;
         mAmplitudeRatio = (amplitudeRatioAttr > DEFAULT_AMPLITUDE_RATIO)
                 ? DEFAULT_AMPLITUDE_RATIO : amplitudeRatioAttr;
 
         // Init Progress
-        mProgressValue = attributes.getInteger(
+        mProgressValue = attributes.getInteger (
                 R.styleable.WaveProgress_mlv_progressValue, DEFAULT_WAVE_PROGRESS_VALUE);
-        setProgressValue(mProgressValue);
+        setProgressValue (mProgressValue);
 
         // Init Border
-        mBorderPaint = new Paint();
-        mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setStyle(Paint.Style.STROKE);
-        mBorderPaint.setStrokeWidth(attributes.getDimension(
-                R.styleable.WaveProgress_mlv_borderGateWidth, dp2px(DEFAULT_BORDER_WIDTH)));
-        mBorderPaint.setColor(attributes.getColor(
+        mBorderPaint = new Paint ();
+        mBorderPaint.setAntiAlias (true);
+        mBorderPaint.setStyle (Paint.Style.STROKE);
+        mBorderPaint.setStrokeWidth (attributes.getDimension (
+                R.styleable.WaveProgress_mlv_borderGateWidth, dp2px (DEFAULT_BORDER_WIDTH)));
+        mBorderPaint.setColor (attributes.getColor (
                 R.styleable.WaveProgress_mlv_borderColor, DEFAULT_WAVE_COLOR));
 
         // Init Title
-        mTopTitlePaint = new Paint();
-        mTopTitlePaint.setColor(attributes.getColor(
+        mTopTitlePaint = new Paint ();
+        mTopTitlePaint.setColor (attributes.getColor (
                 R.styleable.WaveProgress_mlv_titleTopColor, DEFAULT_TITLE_COLOR));
-        mTopTitlePaint.setStyle(Paint.Style.FILL);
-        mTopTitlePaint.setAntiAlias(true);
-        mTopTitlePaint.setTextSize(attributes.getDimension(
-                R.styleable.WaveProgress_mlv_titleTopSize, sp2px(DEFAULT_TITLE_TOP_SIZE)));
-        mTopTitle = attributes.getString(
+        mTopTitlePaint.setStyle (Paint.Style.FILL);
+        mTopTitlePaint.setAntiAlias (true);
+        mTopTitlePaint.setTextSize (attributes.getDimension (
+                R.styleable.WaveProgress_mlv_titleTopSize, sp2px (DEFAULT_TITLE_TOP_SIZE)));
+        mTopTitle = attributes.getString (
                 R.styleable.WaveProgress_mlv_titleTop);
 
-        mCenterTitlePaint = new Paint();
-        mCenterTitlePaint.setColor(attributes.getColor(
+        mCenterTitlePaint = new Paint ();
+        mCenterTitlePaint.setColor (attributes.getColor (
                 R.styleable.WaveProgress_mlv_titleCenterColor, DEFAULT_TITLE_COLOR));
-        mCenterTitlePaint.setStyle(Paint.Style.FILL);
-        mCenterTitlePaint.setAntiAlias(true);
-        mCenterTitlePaint.setTextSize(attributes.getDimension(
-                R.styleable.WaveProgress_mlv_titleCenterSize, sp2px(DEFAULT_TITLE_CENTER_SIZE)));
-        mCenterTitle = attributes.getString(R.styleable.WaveProgress_mlv_titleCenter);
+        mCenterTitlePaint.setStyle (Paint.Style.FILL);
+        mCenterTitlePaint.setAntiAlias (true);
+        mCenterTitlePaint.setTextSize (attributes.getDimension (
+                R.styleable.WaveProgress_mlv_titleCenterSize, sp2px (DEFAULT_TITLE_CENTER_SIZE)));
+        mCenterTitle = attributes.getString (R.styleable.WaveProgress_mlv_titleCenter);
 
-        mBottomTitlePaint = new Paint();
-        mBottomTitlePaint.setColor(attributes.getColor(
+        mBottomTitlePaint = new Paint ();
+        mBottomTitlePaint.setColor (attributes.getColor (
                 R.styleable.WaveProgress_mlv_titleBottomColor, DEFAULT_TITLE_COLOR));
-        mBottomTitlePaint.setStyle(Paint.Style.FILL);
-        mBottomTitlePaint.setAntiAlias(true);
-        mBottomTitlePaint.setTextSize(attributes.getDimension(
-                R.styleable.WaveProgress_mlv_titleBottomSize, sp2px(DEFAULT_TITLE_BOTTOM_SIZE)));
-        mBottomTitle = attributes.getString(R.styleable.WaveProgress_mlv_titleBottom);
+        mBottomTitlePaint.setStyle (Paint.Style.FILL);
+        mBottomTitlePaint.setAntiAlias (true);
+        mBottomTitlePaint.setTextSize (attributes.getDimension (
+                R.styleable.WaveProgress_mlv_titleBottomSize, sp2px (DEFAULT_TITLE_BOTTOM_SIZE)));
+        mBottomTitle = attributes.getString (R.styleable.WaveProgress_mlv_titleBottom);
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
-        mCanvasSize = canvas.getWidth();
-        if (canvas.getHeight() < mCanvasSize) {
-            mCanvasSize = canvas.getHeight();
+    public void onDraw (Canvas canvas) {
+        mCanvasSize = canvas.getWidth ();
+        if (canvas.getHeight () < mCanvasSize) {
+            mCanvasSize = canvas.getHeight ();
         }
         // Draw Wave.
         // Modify paint shader according to mShowWave state.
         if (mWaveShader != null) {
             // First call after mShowWave, assign it to our paint.
-            if (mWavePaint.getShader() == null) {
-                mWavePaint.setShader(mWaveShader);
+            if (mWavePaint.getShader () == null) {
+                mWavePaint.setShader (mWaveShader);
             }
 
             // Sacle shader according to waveLengthRatio and amplitudeRatio.
             // This decides the size(waveLengthRatio for width, amplitudeRatio for height) of waves.
-            mShaderMatrix.setScale(1, mAmplitudeRatio / DEFAULT_AMPLITUDE_RATIO, 0, mDefaultWaterLevel);
+            mShaderMatrix.setScale (1, mAmplitudeRatio / DEFAULT_AMPLITUDE_RATIO, 0, mDefaultWaterLevel);
             // Translate shader according to waveShiftRatio and waterLevelRatio.
             // This decides the start position(waveShiftRatio for x, waterLevelRatio for y) of waves.
-            mShaderMatrix.postTranslate(mWaveShiftRatio * getWidth(),
-                    (DEFAULT_WATER_LEVEL_RATIO - mWaterLevelRatio) * getHeight());
+            mShaderMatrix.postTranslate (mWaveShiftRatio * getWidth (),
+                    (DEFAULT_WATER_LEVEL_RATIO - mWaterLevelRatio) * getHeight ());
 
             // Assign matrix to invalidate the shader.
-            mWaveShader.setLocalMatrix(mShaderMatrix);
+            mWaveShader.setLocalMatrix (mShaderMatrix);
 
             // Get borderWidth.
-            float borderWidth = mBorderPaint.getStrokeWidth();
+            float borderWidth = mBorderPaint.getStrokeWidth ();
 
             // The default type is circle.
             switch (mShapeType) {
                 case 0:
                     if (borderWidth > 0) {
-                        canvas.drawCircle(getWidth() / 2f, getHeight() / 2f,
-                                (getWidth() - borderWidth) / 2f - 1f, mBorderPaint);
+                        canvas.drawCircle (getWidth () / 2f, getHeight () / 2f,
+                                (getWidth () - borderWidth) / 2f - 1f, mBorderPaint);
                     }
-                    float radius = getWidth() / 2f - borderWidth;
-                    canvas.drawCircle(getWidth() / 2f, getHeight() / 2f, radius, mWavePaint);
+                    float radius = getWidth () / 2f - borderWidth;
+                    canvas.drawCircle (getWidth () / 2f, getHeight () / 2f, radius, mWavePaint);
                     break;
                 case 1:
                     if (borderWidth > 0) {
-                        canvas.drawRect(
+                        canvas.drawRect (
                                 borderWidth / 2f,
                                 borderWidth / 2f,
-                                getWidth() - borderWidth / 2f - 0.5f,
-                                getHeight() - borderWidth / 2f - 0.5f,
+                                getWidth () - borderWidth / 2f - 0.5f,
+                                getHeight () - borderWidth / 2f - 0.5f,
                                 mBorderPaint);
                     }
-                    canvas.drawRect(borderWidth, borderWidth, getWidth() - borderWidth,
-                            getHeight() - borderWidth, mWavePaint);
+                    canvas.drawRect (borderWidth, borderWidth, getWidth () - borderWidth,
+                            getHeight () - borderWidth, mWavePaint);
                     break;
             }
 
             // I know, the code written here is very shit.
-            if (!TextUtils.isEmpty(mTopTitle)) {
-                float top = mTopTitlePaint.measureText(mTopTitle);
-                canvas.drawText(mTopTitle, (getWidth() - top) / 2,
-                        getHeight() * 2 / 10.0f, mTopTitlePaint);
+            if (!TextUtils.isEmpty (mTopTitle)) {
+                float top = mTopTitlePaint.measureText (mTopTitle);
+                canvas.drawText (mTopTitle, (getWidth () - top) / 2,
+                        getHeight () * 2 / 10.0f, mTopTitlePaint);
             }
 
-            if (!TextUtils.isEmpty(mCenterTitle)) {
-                float middle = mCenterTitlePaint.measureText(mCenterTitle);
+            if (!TextUtils.isEmpty (mCenterTitle)) {
+                float middle = mCenterTitlePaint.measureText (mCenterTitle);
                 // Draw the text centered.
-                canvas.drawText(mCenterTitle, (getWidth() - middle) / 2,
-                        getHeight() / 2
-                                - ((mCenterTitlePaint.descent() + mCenterTitlePaint.ascent()) / 2), mCenterTitlePaint);
+                canvas.drawText (mCenterTitle, (getWidth () - middle) / 2,
+                        getHeight () / 2
+                                - ((mCenterTitlePaint.descent () + mCenterTitlePaint.ascent ()) / 2), mCenterTitlePaint);
             }
 
-            if (!TextUtils.isEmpty(mBottomTitle)) {
-                float bottom = mBottomTitlePaint.measureText(mBottomTitle);
-                canvas.drawText(mBottomTitle, (getWidth() - bottom) / 2,
-                        getHeight() * 8 / 10.0f
-                                - ((mBottomTitlePaint.descent() + mBottomTitlePaint.ascent()) / 2), mBottomTitlePaint);
+            if (!TextUtils.isEmpty (mBottomTitle)) {
+                float bottom = mBottomTitlePaint.measureText (mBottomTitle);
+                canvas.drawText (mBottomTitle, (getWidth () - bottom) / 2,
+                        getHeight () * 8 / 10.0f
+                                - ((mBottomTitlePaint.descent () + mBottomTitlePaint.ascent ()) / 2), mBottomTitlePaint);
             }
         } else {
-            mWavePaint.setShader(null);
+            mWavePaint.setShader (null);
         }
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged (int w, int h, int oldw, int oldh) {
+        super.onSizeChanged (w, h, oldw, oldh);
         mCanvasSize = w;
         if (h < mCanvasSize)
             mCanvasSize = h;
-        updateWaveShader();
+        updateWaveShader ();
     }
 
 
-    private void updateWaveShader() {
-        double defaultAngularFrequency = 2.0f * Math.PI / DEFAULT_WAVE_LENGTH_RATIO / getWidth();
-        float defaultAmplitude = getHeight() * DEFAULT_AMPLITUDE_RATIO;
-        mDefaultWaterLevel = getHeight() * DEFAULT_WATER_LEVEL_RATIO;
-        float defaultWaveLength = getWidth();
+    private void updateWaveShader () {
+        double defaultAngularFrequency = 2.0f * Math.PI / DEFAULT_WAVE_LENGTH_RATIO / getWidth ();
+        float defaultAmplitude = getHeight () * DEFAULT_AMPLITUDE_RATIO;
+        mDefaultWaterLevel = getHeight () * DEFAULT_WATER_LEVEL_RATIO;
+        float defaultWaveLength = getWidth ();
 
-        Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
+        Bitmap bitmap = Bitmap.createBitmap (getWidth (), getHeight (), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas (bitmap);
 
-        Paint wavePaint = new Paint();
-        wavePaint.setStrokeWidth(2);
-        wavePaint.setAntiAlias(true);
+        Paint wavePaint = new Paint ();
+        wavePaint.setStrokeWidth (2);
+        wavePaint.setAntiAlias (true);
 
         // Draw default waves into the bitmap.
         // y=Asin(ωx+φ)+h
-        final int endX = getWidth() + 1;
-        final int endY = getHeight() + 1;
+        final int endX = getWidth () + 1;
+        final int endY = getHeight () + 1;
 
         float[] waveY = new float[endX];
 
-        wavePaint.setColor(adjustAlpha(mWaveColor, 0.3f));
+        wavePaint.setColor (adjustAlpha (mWaveColor, 0.3f));
         for (int beginX = 0; beginX < endX; beginX++) {
             double wx = beginX * defaultAngularFrequency;
-            float beginY = (float) (mDefaultWaterLevel + defaultAmplitude * Math.sin(wx));
-            canvas.drawLine(beginX, beginY, beginX, endY, wavePaint);
+            float beginY = (float) (mDefaultWaterLevel + defaultAmplitude * Math.sin (wx));
+            canvas.drawLine (beginX, beginY, beginX, endY, wavePaint);
             waveY[beginX] = beginY;
         }
 
-        wavePaint.setColor(mWaveColor);
+        wavePaint.setColor (mWaveColor);
         final int wave2Shift = (int) (defaultWaveLength / 4);
         for (int beginX = 0; beginX < endX; beginX++) {
-            canvas.drawLine(beginX, waveY[(beginX + wave2Shift) % endX], beginX, endY, wavePaint);
+            canvas.drawLine (beginX, waveY[(beginX + wave2Shift) % endX], beginX, endY, wavePaint);
         }
 
         // Use the bitamp to create the shader.
-        mWaveShader = new BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.CLAMP);
-        this.mWavePaint.setShader(mWaveShader);
+        mWaveShader = new BitmapShader (bitmap, Shader.TileMode.REPEAT, Shader.TileMode.CLAMP);
+        this.mWavePaint.setShader (mWaveShader);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = measureWidth(widthMeasureSpec);
-        int height = measureHeight(heightMeasureSpec);
+    protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+        int width = measureWidth (widthMeasureSpec);
+        int height = measureHeight (heightMeasureSpec);
         int imageSize = (width < height) ? width : height;
-        setMeasuredDimension(imageSize, imageSize);
+        setMeasuredDimension (imageSize, imageSize);
     }
 
-    private int measureWidth(int measureSpec) {
+    private int measureWidth (int measureSpec) {
         int result;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
+        int specMode = MeasureSpec.getMode (measureSpec);
+        int specSize = MeasureSpec.getSize (measureSpec);
 
         if (specMode == MeasureSpec.EXACTLY) {
             // The parent has determined an exact size for the child.
@@ -354,10 +354,10 @@ public class WaveProgress extends View {
         return result;
     }
 
-    private int measureHeight(int measureSpecHeight) {
+    private int measureHeight (int measureSpecHeight) {
         int result;
-        int specMode = MeasureSpec.getMode(measureSpecHeight);
-        int specSize = MeasureSpec.getSize(measureSpecHeight);
+        int specMode = MeasureSpec.getMode (measureSpecHeight);
+        int specSize = MeasureSpec.getSize (measureSpecHeight);
 
         if (specMode == MeasureSpec.EXACTLY) {
             // We were told how big to be.
@@ -372,43 +372,43 @@ public class WaveProgress extends View {
         return (result + 2);
     }
 
-    public void setWaveColor(int color) {
+    public void setWaveColor (int color) {
         mWaveColor = color;
         // Need to recreate shader when color changed ?
 //        mWaveShader = null;
-        updateWaveShader();
-        invalidate();
+        updateWaveShader ();
+        invalidate ();
     }
 
-    public int getWaveColor() {
+    public int getWaveColor () {
         return mWaveColor;
     }
 
-    public void setBorderWidth(float width) {
-        mBorderPaint.setStrokeWidth(width);
-        invalidate();
+    public void setBorderWidth (float width) {
+        mBorderPaint.setStrokeWidth (width);
+        invalidate ();
     }
 
-    public float getBorderWidth() {
-        return mBorderPaint.getStrokeWidth();
+    public float getBorderWidth () {
+        return mBorderPaint.getStrokeWidth ();
     }
 
-    public void setBorderColor(int color) {
-        mBorderPaint.setColor(color);
-        updateWaveShader();
-        invalidate();
+    public void setBorderColor (int color) {
+        mBorderPaint.setColor (color);
+        updateWaveShader ();
+        invalidate ();
     }
 
-    public int getBorderColor() {
-        return mBorderPaint.getColor();
+    public int getBorderColor () {
+        return mBorderPaint.getColor ();
     }
 
-    public void setShapeType(ShapeType shapeType) {
-        mShapeType = shapeType.ordinal();
-        invalidate();
+    public void setShapeType (ShapeType shapeType) {
+        mShapeType = shapeType.ordinal ();
+        invalidate ();
     }
 
-    public int getShapeType() {
+    public int getShapeType () {
         return mShapeType;
     }
 
@@ -417,14 +417,14 @@ public class WaveProgress extends View {
      *
      * @param amplitudeRatio Default to be 0.05. Result of amplitudeRatio + waterLevelRatio should be less than 1.
      */
-    public void setAmplitudeRatio(int amplitudeRatio) {
+    public void setAmplitudeRatio (int amplitudeRatio) {
         if (this.mAmplitudeRatio != (float) amplitudeRatio / 1000) {
             this.mAmplitudeRatio = (float) amplitudeRatio / 1000;
-            invalidate();
+            invalidate ();
         }
     }
 
-    public float getAmplitudeRatio() {
+    public float getAmplitudeRatio () {
         return mAmplitudeRatio;
     }
 
@@ -433,40 +433,40 @@ public class WaveProgress extends View {
      *
      * @param progress Default to be 50.
      */
-    public void setProgressValue(int progress) {
+    public void setProgressValue (int progress) {
         mProgressValue = progress;
         ObjectAnimator waterLevelAnim
-                = ObjectAnimator.ofFloat(this, "waterLevelRatio", mWaterLevelRatio, 1f - ((float) progress / 100));
-        waterLevelAnim.setDuration(1000);
-        waterLevelAnim.setInterpolator(new DecelerateInterpolator ());
-        AnimatorSet animatorSetProgress = new AnimatorSet();
-        animatorSetProgress.play(waterLevelAnim);
-        animatorSetProgress.start();
+                = ObjectAnimator.ofFloat (this, "waterLevelRatio", mWaterLevelRatio, 1f - ((float) progress / 100));
+        waterLevelAnim.setDuration (1000);
+        waterLevelAnim.setInterpolator (new DecelerateInterpolator ());
+        AnimatorSet animatorSetProgress = new AnimatorSet ();
+        animatorSetProgress.play (waterLevelAnim);
+        animatorSetProgress.start ();
     }
 
-    public int getProgressValue() {
+    public int getProgressValue () {
         return mProgressValue;
     }
 
-    public void setWaveShiftRatio(float waveShiftRatio) {
+    public void setWaveShiftRatio (float waveShiftRatio) {
         if (this.mWaveShiftRatio != waveShiftRatio) {
             this.mWaveShiftRatio = waveShiftRatio;
-            invalidate();
+            invalidate ();
         }
     }
 
-    public float getWaveShiftRatio() {
+    public float getWaveShiftRatio () {
         return mWaveShiftRatio;
     }
 
-    public void setWaterLevelRatio(float waterLevelRatio) {
+    public void setWaterLevelRatio (float waterLevelRatio) {
         if (this.mWaterLevelRatio != waterLevelRatio) {
             this.mWaterLevelRatio = waterLevelRatio;
-            invalidate();
+            invalidate ();
         }
     }
 
-    public float getWaterLevelRatio() {
+    public float getWaterLevelRatio () {
         return mWaterLevelRatio;
     }
 
@@ -475,111 +475,111 @@ public class WaveProgress extends View {
      *
      * @param topTitle Default to be null.
      */
-    public void setTopTitle(String topTitle) {
+    public void setTopTitle (String topTitle) {
         mTopTitle = topTitle;
     }
 
-    public String getTopTitle() {
+    public String getTopTitle () {
         return mTopTitle;
     }
 
-    public void setCenterTitle(String centerTitle) {
+    public void setCenterTitle (String centerTitle) {
         mCenterTitle = centerTitle;
     }
 
-    public String getCenterTitle() {
+    public String getCenterTitle () {
         return mCenterTitle;
     }
 
-    public void setBottomTitle(String bottomTitle) {
+    public void setBottomTitle (String bottomTitle) {
         mBottomTitle = bottomTitle;
     }
 
-    public String getBottomTitle() {
+    public String getBottomTitle () {
         return mBottomTitle;
     }
 
-    public void setTopTitleColor(int topTitleColor) {
-        mTopTitlePaint.setColor(topTitleColor);
+    public void setTopTitleColor (int topTitleColor) {
+        mTopTitlePaint.setColor (topTitleColor);
     }
 
-    public int getTopTitleColor() {
-        return mTopTitlePaint.getColor();
+    public int getTopTitleColor () {
+        return mTopTitlePaint.getColor ();
     }
 
-    public void setCenterTitleColor(int centerTitleColor) {
-        mCenterTitlePaint.setColor(centerTitleColor);
+    public void setCenterTitleColor (int centerTitleColor) {
+        mCenterTitlePaint.setColor (centerTitleColor);
     }
 
-    public int getCenterTitleColor() {
-        return mCenterTitlePaint.getColor();
+    public int getCenterTitleColor () {
+        return mCenterTitlePaint.getColor ();
     }
 
-    public void setBottomTitleColor(int bottomTitleColor) {
-        mBottomTitlePaint.setColor(bottomTitleColor);
+    public void setBottomTitleColor (int bottomTitleColor) {
+        mBottomTitlePaint.setColor (bottomTitleColor);
     }
 
-    public int getBottomTitleColor() {
-        return mBottomTitlePaint.getColor();
+    public int getBottomTitleColor () {
+        return mBottomTitlePaint.getColor ();
     }
 
-    public void setTopTitleSize(float topTitleSize) {
-        mTopTitlePaint.setTextSize(sp2px(topTitleSize));
+    public void setTopTitleSize (float topTitleSize) {
+        mTopTitlePaint.setTextSize (sp2px (topTitleSize));
     }
 
-    public float getsetTopTitleSize() {
-        return mTopTitlePaint.getTextSize();
+    public float getsetTopTitleSize () {
+        return mTopTitlePaint.getTextSize ();
     }
 
-    public void setCenterTitleSize(float centerTitleSize) {
-        mCenterTitlePaint.setTextSize(sp2px(centerTitleSize));
+    public void setCenterTitleSize (float centerTitleSize) {
+        mCenterTitlePaint.setTextSize (sp2px (centerTitleSize));
     }
 
-    public float getCenterTitleSize() {
-        return mCenterTitlePaint.getTextSize();
+    public float getCenterTitleSize () {
+        return mCenterTitlePaint.getTextSize ();
     }
 
-    public void setBottomTitleSize(float bottomTitleSize) {
-        mBottomTitlePaint.setTextSize(sp2px(bottomTitleSize));
+    public void setBottomTitleSize (float bottomTitleSize) {
+        mBottomTitlePaint.setTextSize (sp2px (bottomTitleSize));
     }
 
-    public float getBottomTitleSize() {
-        return mBottomTitlePaint.getTextSize();
+    public float getBottomTitleSize () {
+        return mBottomTitlePaint.getTextSize ();
     }
 
-    private void startAnimation() {
+    private void startAnimation () {
         if (mAnimatorSet != null) {
-            mAnimatorSet.start();
+            mAnimatorSet.start ();
         }
     }
 
-    private void initAnimation() {
+    private void initAnimation () {
         // Wave waves infinitely.
-        ObjectAnimator waveShiftAnim = ObjectAnimator.ofFloat(this, "waveShiftRatio", 0f, 1f);
-        waveShiftAnim.setRepeatCount(ValueAnimator.INFINITE);
-        waveShiftAnim.setDuration(1000);
-        waveShiftAnim.setInterpolator(new LinearInterpolator ());
+        ObjectAnimator waveShiftAnim = ObjectAnimator.ofFloat (this, "waveShiftRatio", 0f, 1f);
+        waveShiftAnim.setRepeatCount (ValueAnimator.INFINITE);
+        waveShiftAnim.setDuration (1000);
+        waveShiftAnim.setInterpolator (new LinearInterpolator ());
 
-        mAnimatorSet = new AnimatorSet();
-        mAnimatorSet.play(waveShiftAnim);
+        mAnimatorSet = new AnimatorSet ();
+        mAnimatorSet.play (waveShiftAnim);
     }
 
-    private void cancel() {
+    private void cancel () {
         if (mAnimatorSet != null) {
-            mAnimatorSet.end();
+            mAnimatorSet.end ();
         }
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        startAnimation();
-        super.onAttachedToWindow();
+    protected void onAttachedToWindow () {
+        startAnimation ();
+        super.onAttachedToWindow ();
     }
 
     @Override
-    protected void onDetachedFromWindow() {
-        cancel();
-        super.onDetachedFromWindow();
+    protected void onDetachedFromWindow () {
+        cancel ();
+        super.onDetachedFromWindow ();
     }
 
     /**
@@ -590,12 +590,12 @@ public class WaveProgress extends View {
      * @param factor 1.0f to 0.0f
      * @return int - A transplanted color
      */
-    private int adjustAlpha(int color, float factor) {
-        int alpha = Math.round(Color.alpha(color) * factor);
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
+    private int adjustAlpha (int color, float factor) {
+        int alpha = Math.round (Color.alpha (color) * factor);
+        int red = Color.red (color);
+        int green = Color.green (color);
+        int blue = Color.blue (color);
+        return Color.argb (alpha, red, green, blue);
     }
 
     /**
@@ -604,13 +604,13 @@ public class WaveProgress extends View {
      * @param spValue The real size of text
      * @return int - A transplanted sp
      */
-    public int sp2px(float spValue) {
-        final float fontScale = mContext.getResources().getDisplayMetrics().scaledDensity;
+    public int sp2px (float spValue) {
+        final float fontScale = mContext.getResources ().getDisplayMetrics ().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
 
-    protected int dp2px(float dp) {
-        final float scale = mContext.getResources().getDisplayMetrics().density;
+    protected int dp2px (float dp) {
+        final float scale = mContext.getResources ().getDisplayMetrics ().density;
         return (int) (dp * scale + 0.5f);
     }
 

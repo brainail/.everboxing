@@ -242,7 +242,7 @@ public class Application extends JApplication {
     public Slob[] getActiveSlobs() {
         List<Slob> result = new ArrayList(dictionaries.size());
         for (SlobDescriptor sd : dictionaries) {
-            if (sd.active) {
+            if (sd.isActive) {
                 Slob s = slobber.getSlob(sd.id);
                 if (s != null) {
                     result.add(s);
@@ -255,7 +255,7 @@ public class Application extends JApplication {
     public Slob[] getFavoriteSlobs() {
         List<Slob> result = new ArrayList(dictionaries.size());
         for (SlobDescriptor sd : dictionaries) {
-            if (sd.active && sd.priority > 0) {
+            if (sd.isActive && sd.priority > 0) {
                 Slob s = slobber.getSlob(sd.id);
                 if (s != null) {
                     result.add(s);
@@ -325,8 +325,7 @@ public class Application extends JApplication {
     public synchronized void findDictionaries(
             final DictionaryDiscoveryCallback callback) {
         if (discoveryThread != null) {
-            throw new RuntimeException(
-                    "Dictionary discovery is already running");
+            return;
         }
         dictionaries.clear();
         discoveryThread = new Thread(new Runnable() {
@@ -384,7 +383,7 @@ public class Application extends JApplication {
         int activeDictionaries = 0;
         if (null != dictionaries) {
             for (SlobDescriptor dict : dictionaries) {
-                activeDictionaries += dict.active ? 1 : 0;
+                activeDictionaries += dict.isActive ? 1 : 0;
             }
         }
         return activeDictionaries;

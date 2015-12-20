@@ -29,7 +29,7 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class ProgressDialogSpecification extends BaseDialogSpecification {
+public class ProgressDialogSpecification extends BaseDialogSpecification {
 
     private final boolean mIsIndeterminate;
 
