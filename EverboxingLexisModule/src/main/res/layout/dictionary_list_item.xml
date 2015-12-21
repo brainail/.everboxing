@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_account_balance_black_18dp"/>
+                        android:src="@drawable/ic_copyright_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_copyright"
@@ -152,7 +152,7 @@
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
                         android:layout_gravity="top"
-                        android:src="@drawable/ic_vpn_key_black_18dp"/>
+                        android:src="@drawable/ic_perm_identity_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_license"
@@ -180,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_open_in_new_black_18dp"/>
+                        android:src="@drawable/ic_open_in_browser_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_source"
@@ -207,7 +207,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_save_black_18dp"/>
+                        android:src="@drawable/ic_memory_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_path"
@@ -236,8 +236,7 @@
                     android:layout_gravity="left"
                     android:background="@null"
                     android:adjustViewBounds="true"
-                    android:layout_marginLeft="-3dp"
-                    tools:src="@drawable/abc_ic_clear_mtrl_alpha"/>
+                    android:src="@drawable/ic_swap_vertical_circle_black_24dp"/>
 
                 <Space
                     android:layout_width="0dp"

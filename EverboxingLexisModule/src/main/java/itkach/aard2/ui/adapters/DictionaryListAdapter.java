@@ -7,11 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.malinskiy.materialicons.Iconify;
-
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
 import java.util.Locale;
 
@@ -34,19 +29,18 @@ import static java.lang.String.format;
 
 public class DictionaryListAdapter extends BaseAdapter {
 
-    private final static String TAG = DictionaryListAdapter.class.getName ();
-
     private final SlobDescriptorList mData;
-    private final Activity context;
-    private View.OnClickListener openUrlOnClick;
+    private final Activity mContext;
+    private View.OnClickListener mOnUrlTapListener;
     private AlertDialog deleteConfirmationDialog;
 
     private final static String hrefTemplate = "<a href=\'%1$s\'>%2$s</a>";
 
     public DictionaryListAdapter (SlobDescriptorList data, Activity context) {
-        this.mData = data;
-        this.context = context;
-        DataSetObserver observer = new DataSetObserver () {
+        mData = data;
+        mContext = context;
+
+        final DataSetObserver observer = new DataSetObserver () {
             @Override
             public void onChanged () {
                 notifyDataSetChanged ();
@@ -57,19 +51,19 @@ public class DictionaryListAdapter extends BaseAdapter {
                 notifyDataSetInvalidated ();
             }
         };
-        this.mData.registerDataSetObserver (observer);
+        mData.registerDataSetObserver (observer);
 
-        openUrlOnClick = new View.OnClickListener () {
+        mOnUrlTapListener = new View.OnClickListener () {
             @Override
             public void onClick (View v) {
                 String url = (String) v.getTag ();
-                if (!isBlank (url)) {
+                if (! isBlank (url)) {
                     try {
                         Uri uri = Uri.parse (url);
                         Intent browserIntent = new Intent (Intent.ACTION_VIEW, uri);
                         v.getContext ().startActivity (browserIntent);
                     } catch (Exception e) {
-                        Log.d (TAG, "Failed to launch browser with url " + url, e);
+                        // ...
                     }
                 }
             }
@@ -96,23 +90,22 @@ public class DictionaryListAdapter extends BaseAdapter {
         SlobDescriptor desc = (SlobDescriptor) getItem (position);
         String label = desc.getLabel ();
         String path = desc.path;
+
         long blobCount = desc.blobCount;
         boolean available = this.mData.resolve (desc) != null;
         View view;
+
         if (convertView != null) {
             view = convertView;
         } else {
-
-            LayoutInflater inflater = (LayoutInflater) parent.getContext ()
-                    .getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate (R.layout.dictionary_list_item, parent,
-                    false);
+            LayoutInflater inflater = (LayoutInflater) parent.getContext ().getSystemService (Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate (R.layout.dictionary_list_item, parent, false);
 
             View licenseView = view.findViewById (R.id.dictionary_license);
-            licenseView.setOnClickListener (openUrlOnClick);
+            licenseView.setOnClickListener (mOnUrlTapListener);
 
             View sourceView = view.findViewById (R.id.dictionary_source);
-            sourceView.setOnClickListener (openUrlOnClick);
+            sourceView.setOnClickListener (mOnUrlTapListener);
 
             SwitchCompat activeSwitch = (SwitchCompat) view.findViewById (R.id.dictionary_active);
             activeSwitch.setOnClickListener (new View.OnClickListener () {
@@ -121,6 +114,7 @@ public class DictionaryListAdapter extends BaseAdapter {
                     onDictionarySwitchChanged (view);
                 }
             });
+
             activeSwitch.setOnCheckedChangeListener (new CompoundButton.OnCheckedChangeListener () {
                 @Override
                 public void onCheckedChanged (CompoundButton view, boolean isChecked) {
@@ -147,29 +141,6 @@ public class DictionaryListAdapter extends BaseAdapter {
                     mData.set (position, desc);
                 }
             });
-
-
-            View.OnClickListener toggleFavListener = new View.OnClickListener () {
-                @Override
-                public void onClick (View view) {
-                    Integer position = (Integer) view.getTag ();
-                    SlobDescriptor desc = mData.get (position);
-                    long currentTime = System.currentTimeMillis ();
-                    if (desc.priority == 0) {
-                        desc.priority = currentTime;
-                    } else {
-                        desc.priority = 0;
-                    }
-                    desc.lastAccess = currentTime;
-                    mData.beginUpdate ();
-                    mData.set (position, desc);
-                    mData.sort ();
-                    mData.endUpdate (true);
-                }
-            };
-
-            View dictLabel = view.findViewById (R.id.dictionary_label);
-            dictLabel.setOnClickListener (toggleFavListener);
         }
 
         Resources r = parent.getResources ();
@@ -194,10 +165,6 @@ public class DictionaryListAdapter extends BaseAdapter {
         setupErrorView (desc, view);
 
         ImageView btnToggleDetail = (ImageView) view.findViewById (R.id.dictionary_btn_toggle_detail);
-        Drawable toggleIcon = desc.expandDetail ?
-                BaseIcon.defIcon (context, Iconify.IconValue.zmdi_chevron_up) :
-                BaseIcon.defIcon (context, Iconify.IconValue.zmdi_chevron_down);
-        btnToggleDetail.setImageDrawable (toggleIcon);
         btnToggleDetail.setTag (position);
 
         ImageView btnForget = (ImageView) view.findViewById (R.id.dictionary_btn_forget);
@@ -209,9 +176,6 @@ public class DictionaryListAdapter extends BaseAdapter {
     private void setupPathView (String path, boolean available, View view) {
         View pathRow = view.findViewById (R.id.dictionary_path_row);
 
-        ImageView pathIcon = (ImageView) view.findViewById (R.id.dictionary_path_icon);
-        // pathIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
-
         TextView pathView = (TextView) view.findViewById (R.id.dictionary_path);
         pathView.setText (path);
 
@@ -221,31 +185,24 @@ public class DictionaryListAdapter extends BaseAdapter {
     private void setupErrorView (SlobDescriptor desc, View view) {
         View errorRow = view.findViewById (R.id.dictionary_error_row);
 
-        ImageView errorIcon = (ImageView) view.findViewById (R.id.dictionary_error_icon);
-        // errorIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
-
-        TextView errorView = (TextView) view
-                .findViewById (R.id.dictionary_error);
+        TextView errorView = (TextView) view.findViewById (R.id.dictionary_error);
         errorView.setText (desc.error);
 
         errorRow.setVisibility (desc.error == null ? View.GONE : View.VISIBLE);
     }
 
     private void setupBlobCountView (SlobDescriptor desc, long blobCount, boolean available, View view, Resources r) {
-        TextView blobCountView = (TextView) view
-                .findViewById (R.id.dictionary_blob_count);
+        TextView blobCountView = (TextView) view.findViewById (R.id.dictionary_blob_count);
+
         blobCountView.setEnabled (available);
         blobCountView.setVisibility (desc.error == null ? View.VISIBLE : View.GONE);
 
-        blobCountView.setText (format (Locale.getDefault (),
+        blobCountView.setText (format (Locale.US,
                 r.getQuantityString (R.plurals.dict_item_count, (int) blobCount), blobCount));
     }
 
     private void setupCopyrightView (SlobDescriptor desc, boolean available, View view) {
         View copyrightRow = view.findViewById (R.id.dictionary_copyright_row);
-
-        ImageView copyrightIcon = (ImageView) view.findViewById (R.id.dictionary_copyright_icon);
-        // copyrightIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
 
         TextView copyrightView = (TextView) view.findViewById (R.id.dictionary_copyright);
         String copyright = desc.tags.get ("copyright");
@@ -257,19 +214,18 @@ public class DictionaryListAdapter extends BaseAdapter {
 
     private void setupSourceView (SlobDescriptor desc, boolean available, View view) {
         View sourceRow = view.findViewById (R.id.dictionary_license_row);
-
-        ImageView sourceIcon = (ImageView) view.findViewById (R.id.dictionary_source_icon);
-        // sourceIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
-
         TextView sourceView = (TextView) view.findViewById (R.id.dictionary_source);
+        View sourceIcon = view.findViewById (R.id.dictionary_source_icon);
+
         String source = desc.tags.get ("source");
         CharSequence sourceHtml = Html.fromHtml (String.format (hrefTemplate, source, source));
         sourceView.setText (sourceHtml);
         sourceView.setTag (source);
 
         int visibility = isBlank (source) ? View.GONE : View.VISIBLE;
-        //Setting visibility on layout seems to have no effect
-        //if one of the children is a link
+
+        // Setting visibility on layout seems to have no effect
+        // if one of the children is a link
         sourceIcon.setVisibility (visibility);
         sourceView.setVisibility (visibility);
         sourceRow.setVisibility (visibility);
@@ -278,13 +234,12 @@ public class DictionaryListAdapter extends BaseAdapter {
 
     private void setupLicenseView (SlobDescriptor desc, boolean available, View view) {
         View licenseRow = view.findViewById (R.id.dictionary_license_row);
-
-        ImageView licenseIcon = (ImageView) view.findViewById (R.id.dictionary_license_icon);
-        // licenseIcon.setImageDrawable(context.getResources().getDrawable(android.R.drawable.ic_menu_help));
-
         TextView licenseView = (TextView) view.findViewById (R.id.dictionary_license);
+        View licenseIcon = view.findViewById (R.id.dictionary_license_icon);
+
         String licenseName = desc.tags.get ("license.name");
         String licenseUrl = desc.tags.get ("license.url");
+
         CharSequence license;
         if (isBlank (licenseUrl)) {
             license = licenseName;
@@ -294,6 +249,7 @@ public class DictionaryListAdapter extends BaseAdapter {
             }
             license = Html.fromHtml (String.format (hrefTemplate, licenseUrl, licenseName));
         }
+
         licenseView.setText (license);
         licenseView.setTag (licenseUrl);
 
@@ -307,8 +263,8 @@ public class DictionaryListAdapter extends BaseAdapter {
     private void forget (final int position) {
         SlobDescriptor desc = mData.get (position);
         final String label = desc.getLabel ();
-        String message = context.getString (R.string.dictionaries_confirm_forget, label);
-        deleteConfirmationDialog = new AlertDialog.Builder (context)
+        String message = mContext.getString (R.string.dictionaries_confirm_forget, label);
+        deleteConfirmationDialog = new AlertDialog.Builder (mContext)
                 .setIcon (android.R.drawable.ic_dialog_alert)
                 .setTitle ("")
                 .setMessage (message)
