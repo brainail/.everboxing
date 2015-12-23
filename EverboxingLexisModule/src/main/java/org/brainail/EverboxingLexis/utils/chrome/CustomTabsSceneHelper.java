@@ -1,26 +1,33 @@
 package org.brainail.EverboxingLexis.utils.chrome;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
+
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.util.List;
 
 /**
  * This is a helper class to manage the connection to the Custom Tabs Service and
  */
-public class CustomTabsSceneHelper {
+public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
 
     private CustomTabsClient mClient;
     private CustomTabsSession mCustomTabsSession;
     private CustomTabsServiceConnection mConnection;
-    private ConnectionCallback mConnectionCallback;
+    private CustomTabsConnectionCallbacks mConnectionCallback;
+    private String mCurrentAction;
 
     /**
      * Opens the URL on a Custom Tab if possible; otherwise falls back to opening it via
@@ -57,7 +64,8 @@ public class CustomTabsSceneHelper {
         if (null == packageName || null == mClient) return;
         
         mConnection = new CustomTabsServiceConnection () {
-            @Override public void onCustomTabsServiceConnected (ComponentName name, CustomTabsClient client) {
+            @Override
+            public void onCustomTabsServiceConnected (ComponentName name, CustomTabsClient client) {
                 (mClient = client).warmup (0L);
 
                 if (null != mConnectionCallback) {
@@ -68,7 +76,8 @@ public class CustomTabsSceneHelper {
                 occupySession ();
             }
 
-            @Override public void onServiceDisconnected (ComponentName name) {
+            @Override
+            public void onServiceDisconnected (ComponentName name) {
                 mClient = null;
                 if (null != mConnectionCallback) {
                     mConnectionCallback.onCustomTabsDisconnected ();
@@ -113,8 +122,8 @@ public class CustomTabsSceneHelper {
      *
      * @param connectionCallback
      */
-    public void setConnectionCallback (ConnectionCallback connectionCallback) {
-        this.mConnectionCallback = connectionCallback;
+    public void setConnectionCallback (CustomTabsConnectionCallbacks connectionCallback) {
+        mConnectionCallback = connectionCallback;
     }
 
     /**
@@ -130,20 +139,100 @@ public class CustomTabsSceneHelper {
         return session.mayLaunchUrl (uri, extras, otherLikelyBundles);
     }
 
-    /**
-     * A Callback for when the service is connected or disconnected. Use those callbacks to
-     * handle UI changes when the service is connected or disconnected
-     */
-    public static interface ConnectionCallback {
-        /**
-         * Called when the service is connected
-         */
-        public void onCustomTabsConnected ();
+    public void openCustomTab (final Activity scene, final String url) {
+        mCurrentAction = url;
 
-        /**
-         * Called when the service is disconnected
-         */
-        public void onCustomTabsDisconnected ();
+        CustomTabsSceneHelper.openCustomTab (
+                scene,
+                createCustomTabIntent (scene, mCurrentAction, occupySession ()).build (),
+                Uri.parse (mCurrentAction)
+        );
+    }
+
+    private static CustomTabsIntent.Builder createCustomTabIntent (
+            @NonNull Context context,
+            @NonNull String url,
+            @Nullable CustomTabsSession session) {
+
+        // Construct our intent via builder
+        final CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder (session);
+        // Toolbar color
+        intentBuilder.setToolbarColor (ToolResources.retrievePrimaryColor (context));
+        // Show title
+        intentBuilder.setShowTitle (true);
+        // Custom menu item > Share
+        intentBuilder.addMenuItem ("Share", createPendingShareIntent (context, url));
+        // Custom menu item > Email
+        intentBuilder.addMenuItem ("Email", createPendingEmailIntent (context, url));
+        // Specify close button icon
+        // final int mainCloseResId = android.support.design.R.drawable.abc_ic_ab_back_mtrl_am_alpha;
+        // final Bitmap mainCloseBitmap = BitmapFactory.decodeResource (context.getResources (), mainCloseResId);
+        // intentBuilder.setCloseButtonIcon (mainCloseBitmap);
+        // Specify main action icon and doings
+        // final int mainActionResId = android.support.design.R.drawable.abc_ic_commit_search_api_mtrl_alpha;
+        // final Bitmap mainActionBitmap = BitmapFactory.decodeResource (context.getResources (), mainActionResId);
+        // intentBuilder.setActionButton (mainActionBitmap, "Notify me!", createPendingMainActionNotifyIntent (context, action));
+        // Custom animation (start + exit)
+        // intentBuilder.setExitAnimations (context, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        // intentBuilder.setStartAnimations (
+        // context,
+        // android.support.design.R.anim.abc_slide_in_bottom,
+        // android.support.design.R.anim.abc_slide_out_bottom
+        // );
+        // Allow hiding for toolbar
+        intentBuilder.enableUrlBarHiding ();
+
+        return intentBuilder;
+    }
+
+    private static PendingIntent createPendingEmailIntent (
+            @NonNull final Context context,
+            @NonNull final String action) {
+
+        Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:"));
+        actionIntent.putExtra (Intent.EXTRA_SUBJECT, "Check this out");
+        actionIntent.putExtra (Intent.EXTRA_TEXT, action);
+        return PendingIntent.getActivity (context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private static PendingIntent createPendingShareIntent (
+            @NonNull final Context context,
+            @NonNull final String action) {
+
+        Intent actionIntent = new Intent (Intent.ACTION_SEND);
+        actionIntent.setType ("text/plain");
+        actionIntent.putExtra (Intent.EXTRA_TEXT, "Check this out: " + action);
+        return PendingIntent.getActivity (context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    @Override
+    public void onCustomTabsConnected () {
+        // ToolUI.showSnack (getView (), "Custom Tabs > Connected");
+
+        if (null != mCurrentAction) {
+            mayLaunchUrl (Uri.parse (mCurrentAction), null, null);
+        }
+    }
+
+    @Override
+    public void onCustomTabsDisconnected () {
+        // ToolUI.showSnack (getView (), "Custom Tabs > Disconnected");
+    }
+
+    public void onCreateScene (final Activity scene) {
+        setConnectionCallback (this);
+    }
+
+    public void onStartScene (final Activity scene) {
+        bindCustomTabsService (scene);
+    }
+
+    public void onStopScene (final Activity scene) {
+        unbindCustomTabsService (scene);
+    }
+
+    public void onDestroyScene (final Activity scene) {
+        setConnectionCallback (null);
     }
 
 }
