@@ -168,4 +168,7 @@
     </plurals>
 
     <string name="wtf_emo" translatable="false">ヽ(｀⌒´メ)ノ</string>
+
+    <string name="dictionaries_store_mirror_one">Store (CloudMail)</string>
+    <string name="dictionaries_store_mirror_two">Store (GitHub)</string>
 </resources>

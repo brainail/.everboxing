@@ -11,11 +11,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
@@ -42,6 +46,10 @@ public class ArticleFragment extends Fragment {
 
     private String mArticleUrl;
     private String mArticleTitle;
+
+    private FloatingActionMenu mFabMenuRight;
+    private FloatingActionButton mFabZoomIn;
+    private FloatingActionButton mFabZoomOut;
 
     private MenuItem mMenuItemBookmark;
 
@@ -100,11 +108,9 @@ public class ArticleFragment extends Fragment {
 
         if (null == mArticleWebView) {
             mMenuItemBookmark.setVisible (false);
-//            menu.findItem (R.id.action_find_in_page).setVisible (false);
-//            menu.findItem (R.id.action_zoom_in).setVisible (false);
-//            menu.findItem (R.id.action_zoom_out).setVisible (false);
-//            menu.findItem (R.id.action_zoom_reset).setVisible (false);
-//            menu.findItem (R.id.action_load_remote_content).setVisible (false);
+            menu.findItem (R.id.action_find_in_page).setVisible (false);
+            menu.findItem (R.id.action_zoom_reset).setVisible (false);
+            menu.findItem (R.id.action_load_remote_content).setVisible (false);
             menu.findItem (R.id.action_select_style).setVisible (false);
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
@@ -131,21 +137,13 @@ public class ArticleFragment extends Fragment {
     public boolean onOptionsItemSelected (MenuItem item) {
         int itemId = item.getItemId ();
 
-//        if (itemId == R.id.action_find_in_page) {
-//            mArticleWebView.showFindDialog (null, true);
-//            return true;
-//        } else if (itemId == R.id.action_zoom_in) {
-//            mArticleWebView.textZoomIn ();
-//            return true;
-//        } else if (itemId == R.id.action_zoom_out) {
-//            mArticleWebView.textZoomOut ();
-//            return true;
-//        } else if (itemId == R.id.action_zoom_reset) {
-//            mArticleWebView.resetTextZoom ();
-//            return true;
-//        } else
-
-        if (itemId == R.id.action_load_remote_content) {
+        if (itemId == R.id.action_find_in_page) {
+            mArticleWebView.showFindDialog (null, true);
+            return true;
+        } else if (itemId == R.id.action_zoom_reset) {
+            mArticleWebView.resetTextZoom ();
+            return true;
+        } else if (itemId == R.id.action_load_remote_content) {
             mArticleWebView.forceLoadRemoteContent = true;
             mArticleWebView.reload ();
             return true;
@@ -201,18 +199,67 @@ public class ArticleFragment extends Fragment {
             View layout = inflater.inflate (R.layout.view_empty_page, container, false);
             TextView textView = (TextView) layout.findViewById (R.id.empty_text);
             textView.setText ("");
+            ToolUI.updateVisibility (mFabMenuRight, View.GONE);
             return layout;
         }
 
         final View layout = inflater.inflate (R.layout.view_page_article, container, false);
+
+        mFabMenuRight = (FloatingActionMenu) layout.findViewById (R.id.fab_menu);
+        ToolUI.updateVisibility (mFabMenuRight, View.VISIBLE);
+        mFabMenuRight.setClosedOnTouchOutside (true);
+
+        mFabZoomIn = (FloatingActionButton) layout.findViewById (R.id.fab_menu_item_zoom_in);
+        mFabZoomIn.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                mArticleWebView.textZoomIn ();
+            }
+        });
+
+        mFabZoomOut = (FloatingActionButton) layout.findViewById (R.id.fab_menu_item_zoom_out);
+        mFabZoomOut.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                mArticleWebView.textZoomOut ();
+            }
+        });
 
         mArticleWebView = (ArticleWebView) layout.findViewById (R.id.webView);
         mArticleLoadingProgress = (ProgressLayout) layout.findViewById (R.id.webViewProgress);
 
         mArticleWebView.restoreState (savedInstanceState);
         mArticleWebView.loadUrl (mArticleUrl);
-
         mArticleWebView.setWebChromeClient (mArticleWebChromeClient);
+
+        mArticleWebView.setOnScrollDirectionListener (new ArticleWebView.OnScrollDirectionListener () {
+            @Override
+            public void onScrollUp () {
+                if (null != mFabMenuRight && ! mFabMenuRight.isOpened ()) {
+                    mFabMenuRight.showMenu (true);
+                }
+            }
+
+            @Override
+            public void onScrollDown () {
+                if (null != mFabMenuRight && ! mFabMenuRight.isOpened ()) {
+                    mFabMenuRight.hideMenu (true);
+                }
+            }
+        });
+
+        mArticleWebView.setOnTouchListener (new View.OnTouchListener () {
+            @Override
+            public boolean onTouch (View v, MotionEvent event) {
+                if (MotionEvent.ACTION_DOWN == event.getAction ()) {
+                    if (null != mFabMenuRight) {
+                        mFabMenuRight.close (true);
+                    }
+                }
+
+                return false;
+            }
+        });
 
         return layout;
     }
@@ -269,6 +316,15 @@ public class ArticleFragment extends Fragment {
         if (mArticleWebView != null) {
             mArticleWebView.applyStylePref ();
         }
+    }
+
+    public boolean onBackPressed () {
+        if (null != mFabMenuRight && mFabMenuRight.isOpened ()) {
+            mFabMenuRight.close (true);
+            return true;
+        }
+
+        return false;
     }
 
     public boolean onKeyUp (int keyCode, KeyEvent event) {

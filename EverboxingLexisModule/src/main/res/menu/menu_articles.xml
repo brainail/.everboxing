@@ -21,45 +21,33 @@
         android:orderInCategory="16"
         tools:ignore="AlwaysShowAction"/>
 
-    <!--<item-->
-        <!--android:id="@+id/action_find_in_page"-->
-        <!--android:title="@string/action_find_in_page"-->
-        <!--android:orderInCategory="12"-->
-        <!--app:showAsAction="never"/>-->
+    <item
+        android:id="@+id/action_find_in_page"
+        android:title="@string/action_find_in_page"
+        android:orderInCategory="32"
+        app:showAsAction="never"/>
 
-    <!--<item-->
-        <!--android:id="@+id/action_zoom_in"-->
-        <!--android:title="@string/action_zoom_in"-->
-        <!--android:orderInCategory="13"-->
-        <!--app:showAsAction="never"/>-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_zoom_out"-->
-        <!--android:title="@string/action_zoom_out"-->
-        <!--android:orderInCategory="14"-->
-        <!--app:showAsAction="never"/>-->
-
-    <!--<item-->
-        <!--android:id="@+id/action_zoom_reset"-->
-        <!--android:title="@string/action_zoom_reset"-->
-        <!--android:orderInCategory="15"-->
-        <!--app:showAsAction="never"/>-->
+    <item
+        android:id="@+id/action_zoom_reset"
+        android:title="@string/action_zoom_reset"
+        android:orderInCategory="64"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_load_remote_content"
         android:title="@string/action_load_remote_content"
-        android:orderInCategory="32"
+        android:orderInCategory="128"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_print_article"
         android:title="@string/action_print_article"
-        android:orderInCategory="64"
+        android:orderInCategory="256"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_select_style"
         android:title="@string/action_select_style"
-        android:orderInCategory="128"
+        android:orderInCategory="512"
         app:showAsAction="never"/>
 </menu>

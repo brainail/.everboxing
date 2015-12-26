@@ -8,15 +8,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.malinskiy.materialicons.Iconify;
 
@@ -34,7 +29,6 @@ import itkach.aard2.callbacks.DictionaryDiscoveryCallback;
 import itkach.aard2.ui.activities.FileSelectActivity;
 import itkach.aard2.ui.adapters.DictionaryListAdapter;
 
-import static android.view.View.OnClickListener;
 import static org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode.D_DICTIONARY_SCANNING_PROGRESS;
 
 public class LexisDictionariesFragment extends BaseListFragment implements Tagable {
@@ -64,32 +58,6 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View result = super.onCreateView(inflater, container, savedInstanceState);
-
-        View extraEmptyView = inflater.inflate(R.layout.view_empty_page_dictionaries_extra, container, false);
-        Button btn = (Button) extraEmptyView.findViewById(R.id.dictionaries_empty_btn_find_online);
-
-        btn.setCompoundDrawablesWithIntrinsicBounds(
-                BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_smartphone_download),
-                null, null, null);
-
-        btn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String url = "https://github.com/itkach/slob/wiki/Dictionaries";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse (url));
-                getActivity ().startActivity(intent);
-            }
-        });
-
-        final LinearLayout box = (LinearLayout) mEmptyPlaceholderView;
-        box.addView(extraEmptyView, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-        return result;
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_dictionaries, menu);
     }
@@ -112,6 +80,14 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
             Intent intent = new Intent(getActivity(), FileSelectActivity.class);
             startActivityForResult(intent, FILE_SELECT_REQUEST);
             return true;
+        } else if (item.getItemId () == R.id.action_dic_store_mirror_one) {
+            String url = "https://cloud.mail.ru/public/GZha/fW3MRhSCf";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse (url));
+            getActivity ().startActivity(intent);
+        } else if (item.getItemId () == R.id.action_dic_store_mirror_two) {
+            String url = "https://github.com/itkach/slob/wiki/Dictionaries";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse (url));
+            getActivity ().startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

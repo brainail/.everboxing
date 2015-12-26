@@ -23,27 +23,20 @@
         android:id="@+id/fab_menu"
         android:layout_gravity="bottom|end"
         android:layout_margin="10dp"
-        app:menu_icon="@drawable/ic_store_white_24dp"
+        android:visibility="gone"
+        app:menu_icon="@drawable/ic_format_size_white_24dp"
         style="@style/FabMenuStyle">
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="Zoom Reset"
-            android:src="@drawable/ic_bookmark_white_24dp"
+            android:id="@+id/fab_menu_item_zoom_out"
+            app:fab_label="@string/action_zoom_out"
+            android:src="@drawable/ic_zoom_out_white_24dp"
             style="@style/FabMenuButtonSmallStyle"/>
 
         <com.github.clans.fab.FloatingActionButton
-            app:fab_label="Zoom Out"
-            android:src="@drawable/ic_delete_white_24dp"
-            style="@style/FabMenuButtonSmallStyle"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            app:fab_label="Zoom In"
-            android:src="@drawable/ic_store_white_24dp"
-            style="@style/FabMenuButtonSmallStyle"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            app:fab_label="Find Text"
-            android:src="@drawable/ic_store_white_24dp"
+            android:id="@+id/fab_menu_item_zoom_in"
+            app:fab_label="@string/action_zoom_in"
+            android:src="@drawable/ic_zoom_in_white_24dp"
             style="@style/FabMenuButtonSmallStyle"/>
     </com.github.clans.fab.FloatingActionMenu>
 </FrameLayout>

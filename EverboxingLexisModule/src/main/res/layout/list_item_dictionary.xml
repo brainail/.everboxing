@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:ignore="RtlHardcoded,RtlSymmetry,ContentDescription"
     tools:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardElevation="4dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="2dp"
+        app:contentPaddingTop="0dp"
         android:layout_marginLeft="@dimen/card_margin_horizontal"
         android:layout_marginRight="@dimen/card_margin_horizontal"
         app:cardCornerRadius="0dp"
@@ -20,42 +21,37 @@
         <LinearLayout
             android:id="@+id/dictionary_item"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="8dip"
             android:paddingRight="8dip"
-            android:paddingTop="6dip"
-            tools:background="#8056aa22"
-            tools:layout_height="wrap_content">
+            android:paddingTop="4dip"
+            tools:background="#8056aa22">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
-                android:gravity="top"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/dictionary_label"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|top"
-                    android:includeFontPadding="false"
+                    android:includeFontPadding="true"
                     android:layout_weight="1"
-                    android:gravity="top"
+                    android:gravity="left|top"
                     android:paddingLeft="16dp"
                     android:textSize="18sp"
                     fontPath="fonts/Roboto-Regular.ttf"
-                    tools:text="シシシ, シシシ, シシシ, WordNet, シシシ, シシシ, シシシ"
+                    tools:text="The collobarative dictionary シシシ シシシ シシシ シシシ シシシシシシ シシシ"
                     tools:ignore="MissingPrefix"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/dictionary_active"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
                     android:minHeight="0dp"
-                    android:layout_weight="0"
                     android:background="@null"
                     android:checked="true"
                     android:enabled="true"/>
@@ -65,7 +61,7 @@
                 android:id="@+id/dictionary_error_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:paddingTop="4dp"
                 android:layout_marginBottom="4dp"
                 android:gravity="top"
                 android:orientation="horizontal"
@@ -107,7 +103,7 @@
                     android:includeFontPadding="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="4dp"
                     tools:text="1,000,000,000 items"/>
 
                 <LinearLayout
@@ -207,7 +203,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_memory_black_18dp"/>
+                        android:src="@drawable/ic_sd_storage_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_path"
@@ -236,7 +232,9 @@
                     android:layout_gravity="left"
                     android:background="@null"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_swap_vertical_circle_black_24dp"/>
+                    android:layout_marginLeft="-5dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/ic_expand_more_black_24dp"/>
 
                 <Space
                     android:layout_width="0dp"
@@ -253,8 +251,8 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <Space
+    <View
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="6dp"
         android:background="@null"/>
 </LinearLayout>

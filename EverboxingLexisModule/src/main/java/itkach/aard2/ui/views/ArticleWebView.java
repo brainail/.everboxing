@@ -42,7 +42,6 @@ import itkach.aard2.utils.Util;
 
 public class ArticleWebView extends WebView {
 
-    public static final String LOCALHOST = Application.LOCALHOST;
     private final String styleSwitcherJs;
     private final String defaultStyleTitle;
     private final String autoStyleTitle;
@@ -58,15 +57,9 @@ public class ArticleWebView extends WebView {
     public static final String PREF_REMOTE_CONTENT_WIFI = "wifi";
     public static final String PREF_REMOTE_CONTENT_NEVER = "never";
 
-    public Set<String> externalSchemes = new HashSet<String> () {
-        {
-            add ("https");
-            add ("ftp");
-            add ("sftp");
-            add ("mailto");
-            add ("geo");
-        }
-    };
+    public Set<String> externalSchemes = new HashSet<String> () {{
+        add ("https"); add ("ftp"); add ("sftp"); add ("mailto"); add ("geo");
+    }};
 
     private SortedSet<String> styleTitles = new TreeSet<String> ();
 
@@ -229,7 +222,7 @@ public class ArticleWebView extends WebView {
                     return null;
                 }
                 String host = parsed.getHost ();
-                if (host == null || host.toLowerCase ().equals (LOCALHOST)) {
+                if (host == null || host.toLowerCase ().equals (Application.LOCALHOST)) {
                     return null;
                 }
                 if (allowRemoteContent()) {
@@ -250,13 +243,16 @@ public class ArticleWebView extends WebView {
                 String host = uri.getHost ();
 
                 if (externalSchemes.contains (scheme) ||
-                        (scheme.equals ("http") && !host.equals (LOCALHOST))) {
+                        (scheme.equals ("http") && !host.equals (Application.LOCALHOST))) {
                     Intent browserIntent = new Intent (Intent.ACTION_VIEW, uri);
                     getContext ().startActivity (browserIntent);
                     return true;
                 }
 
-                if (scheme.equals ("http") && host.equals (LOCALHOST) && uri.getQueryParameter ("blob") == null) {
+                if (scheme.equals ("http")
+                        && host.equals (Application.LOCALHOST)
+                        && uri.getQueryParameter ("blob") == null) {
+
                     Intent intent = new Intent (getContext (), ArticleCollectionActivity.class);
                     intent.setData (uri);
                     getContext ().startActivity (intent);
@@ -473,17 +469,13 @@ public class ArticleWebView extends WebView {
         setBackgroundColor (color);
     }
 
-    private Application getApplication () {
-        return (Application) ((AppCompatActivity) getContext ()).getApplication ();
-    }
-
     private void setCurrentSlobIdFromUrl (String url) {
         if (!url.startsWith ("javascript:")) {
             Uri uri = Uri.parse (url);
             BlobDescriptor bd = BlobDescriptor.fromUri (uri);
             if (bd != null) {
                 currentSlobId = bd.slobId;
-                currentSlobUri = getApplication ().getSlobURI (currentSlobId);
+                currentSlobUri = Application.app ().getSlobURI (currentSlobId);
                 loadAvailableStylesPref ();
             } else {
                 currentSlobId = null;
@@ -516,6 +508,32 @@ public class ArticleWebView extends WebView {
     public void destroy () {
         super.destroy ();
         timer.cancel ();
+    }
+
+    public static interface OnScrollDirectionListener {
+        public void onScrollUp ();
+        public void onScrollDown ();
+    }
+
+    public static final int SCROLL_DIRECTION_DISTANCE = 30;
+
+    public OnScrollDirectionListener mOnScrollDirectionListener;
+
+    public void setOnScrollDirectionListener (final OnScrollDirectionListener listener) {
+        mOnScrollDirectionListener = listener;
+    }
+
+    @Override
+    protected void onScrollChanged (int l, int t, int oldl, int oldt) {
+        super.onScrollChanged (l, t, oldl, oldt);
+
+        if (null != mOnScrollDirectionListener) {
+            if (t - oldt > SCROLL_DIRECTION_DISTANCE) {
+                mOnScrollDirectionListener.onScrollDown ();
+            } else if (t - oldt < -SCROLL_DIRECTION_DISTANCE) {
+                mOnScrollDirectionListener.onScrollUp ();
+            }
+        }
     }
 
 }

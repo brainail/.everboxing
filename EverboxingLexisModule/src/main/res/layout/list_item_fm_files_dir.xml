@@ -6,14 +6,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        tools:src="@drawable/ic_memory_black_18dp"
+        tools:src="@drawable/ic_sd_storage_black_18dp"
         android:id="@+id/file_select_directory_icon"
         style="@style/FileManagerItem.Icon"
+        android:background="@null"
         tools:ignore="ContentDescription"/>
 
     <TextView
+        android:background="@null"
         tools:text="シシシTemp folder, let's have some fun! Enjoy! シシシシシシシシ, シシシシシシ, シシシシシシ"
         android:id="@+id/file_select_file_name"
         style="@style/FileManagerItem.Title.AfterIcon"/>
-
 </org.brainail.EverboxingLexis.ui.views.HotspotSectionLayout>

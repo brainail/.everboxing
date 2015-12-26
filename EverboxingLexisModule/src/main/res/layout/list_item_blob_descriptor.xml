@@ -15,6 +15,7 @@
         android:id="@+id/blob_descriptor_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@null"
         android:orientation="vertical">
 
         <TextView
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="28dp"
             android:layout_marginEnd="28dp"
+            android:background="@null"
             style="@style/FileManagerItem.Title"
             tools:text="シ シ シ シ Ryū Murakami (村上 龍 Murakami Ryū ?, born シ シ シ Februar y 19, 1952 in Sasebo, Nagasaki) シ シ シ"/>
 
@@ -30,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@null"
             android:paddingTop="8dp">
 
             <TextView
@@ -38,9 +41,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="14sp"
+                android:background="@null"
                 fontPath="fonts/Roboto-Regular.ttf"
                 android:textColor="@color/md_green_600"
-                tools:text="WordNet"
+                tools:text="シシシ シシシ シシシ シシシ WordNet シシシ シシシ シシシ シシシ"
                 tools:ignore="MissingPrefix"/>
 
             <TextView
@@ -51,7 +55,9 @@
                 android:textSize="14sp"
                 android:textColor="@color/md_blue_grey_600"
                 tools:text="1 day ago"
-                tools:ignore="MissingPrefix"/>
+                android:background="@null"
+                android:paddingLeft="10dp"
+                tools:ignore="MissingPrefix,RtlHardcoded,RtlSymmetry"/>
         </LinearLayout>
     </LinearLayout>
 

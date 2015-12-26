@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@null"
         style="@style/FileManagerItem.Title"
         tools:text="シシシ.enwikiシ-シ20141212シ.シシシシシシシシシシシextシ_シimgシ.シlzma2シ.シslob.シシシ.シシ.シ"
         tools:ignore="MissingPrefix"/>
@@ -28,6 +29,7 @@
         android:layout_marginTop="2dp"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@null"
         android:orientation="horizontal">
 
         <TextView
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="14sp"
+            android:background="@null"
             fontPath="fonts/Roboto-Regular.ttf"
             android:textColor="@color/md_green_600"
             tools:text="12,978,347,999"
@@ -48,6 +51,8 @@
             fontPath="fonts/Roboto-Regular.ttf"
             android:textSize="14sp"
             tools:text="1 day ago"
+            android:background="@null"
+            android:paddingLeft="10dp"
             android:textColor="@color/md_blue_grey_600"
             tools:ignore="MissingPrefix,RtlSymmetry"/>
     </LinearLayout>

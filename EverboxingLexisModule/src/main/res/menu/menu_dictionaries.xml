@@ -1,14 +1,30 @@
 <menu
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_add_dictionaries"
         android:title="@string/action_add_dictionaries"
-        app:showAsAction="ifRoom"/>
+        android:orderInCategory="8"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_find_dictionaries"
         android:title="@string/action_find_dictionaries_on_device"
-        app:showAsAction="ifRoom"/>
+        android:orderInCategory="16"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction"/>
+
+    <item
+        android:id="@+id/action_dic_store_mirror_one"
+        android:title="@string/dictionaries_store_mirror_one"
+        android:orderInCategory="32"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_dic_store_mirror_two"
+        android:title="@string/dictionaries_store_mirror_two"
+        android:orderInCategory="64"
+        app:showAsAction="never"/>
 </menu>

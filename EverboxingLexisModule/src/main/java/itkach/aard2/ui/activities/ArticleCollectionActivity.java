@@ -400,6 +400,18 @@ public class ArticleCollectionActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed () {
+        if (null != mPagerAdapter) {
+            final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();
+            if (null != articlePage && articlePage.onBackPressed ()) {
+                return;
+            }
+        }
+
+        super.onBackPressed ();
+    }
+
+    @Override
     public boolean onKeyUp (int keyCode, KeyEvent event) {
         if (null != mPagerAdapter) {
             final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();

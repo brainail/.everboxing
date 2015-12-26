@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="FabMenuStyle">
-        <item name="fab_size">mini</item>
+        <item name="menu_fab_size">normal</item>
         <item name="menu_colorNormal">?attr/fabDefaultColorNormal</item>
         <item name="menu_colorPressed">?attr/fabDefaultColorPressed</item>
         <item name="menu_colorRipple">?attr/fabDefaultColorRipple</item>
@@ -10,6 +10,10 @@
         <item name="menu_labels_ellipsize">end</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="menu_fab_show_animation">@anim/fab_jump_from_down_animation</item>
+        <item name="menu_fab_hide_animation">@anim/fab_jump_to_down_animation</item>
+        <item name="menu_labels_showAnimation">@anim/fab_slide_in_from_right</item>
+        <item name="menu_labels_hideAnimation">@anim/fab_slide_out_to_right</item>
     </style>
 
     <style name="FabMenuLabelsStyle">

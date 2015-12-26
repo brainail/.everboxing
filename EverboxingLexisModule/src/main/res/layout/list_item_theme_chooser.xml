@@ -2,12 +2,14 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
     style="@style/ThemeChooserItem">
 
     <TextView
+        android:background="@null"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +17,7 @@
         android:gravity="start|left|center_horizontal"
         android:layout_marginLeft="@dimen/md_listitem_margin_left"
         android:layout_marginStart="@dimen/md_listitem_margin_left"
+        tools:text="Pink"
         android:layout_gravity="left|start|center"/>
 
     <org.brainail.EverboxingLexis.ui.views.ColorCircleView
@@ -27,6 +30,6 @@
         android:layout_marginTop="@dimen/theme_chooser_item_color_circle_vertical_margin"
         android:layout_marginBottom="@dimen/theme_chooser_item_color_circle_vertical_margin"
         app:circleRadius="@dimen/theme_chooser_item_color_circle_radius"
+        android:background="@null"
         app:fillColor="?attr/colorPrimary"/>
-
 </FrameLayout>

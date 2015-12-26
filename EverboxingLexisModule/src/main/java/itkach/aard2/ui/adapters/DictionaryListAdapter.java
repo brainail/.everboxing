@@ -131,7 +131,7 @@ public class DictionaryListAdapter extends BaseAdapter {
                 }
             });
 
-            View btnToggleDetail = view.findViewById (R.id.dictionary_btn_toggle_detail);
+            final ImageView btnToggleDetail = (ImageView) view.findViewById (R.id.dictionary_btn_toggle_detail);
             btnToggleDetail.setOnClickListener (new View.OnClickListener () {
                 @Override
                 public void onClick (View view) {
@@ -139,6 +139,11 @@ public class DictionaryListAdapter extends BaseAdapter {
                     SlobDescriptor desc = mData.get (position);
                     desc.expandDetail = !desc.expandDetail;
                     mData.set (position, desc);
+
+                    btnToggleDetail.setImageResource (desc.expandDetail
+                            ? R.drawable.ic_expand_less_black_24dp
+                            : R.drawable.ic_expand_more_black_24dp
+                    );
                 }
             });
         }
@@ -166,6 +171,11 @@ public class DictionaryListAdapter extends BaseAdapter {
 
         ImageView btnToggleDetail = (ImageView) view.findViewById (R.id.dictionary_btn_toggle_detail);
         btnToggleDetail.setTag (position);
+
+        btnToggleDetail.setImageResource (desc.expandDetail
+                ? R.drawable.ic_expand_less_black_24dp
+                : R.drawable.ic_expand_more_black_24dp
+        );
 
         ImageView btnForget = (ImageView) view.findViewById (R.id.dictionary_btn_forget);
         btnForget.setTag (position);
