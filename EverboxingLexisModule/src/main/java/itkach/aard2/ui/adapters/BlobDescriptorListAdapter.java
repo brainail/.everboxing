@@ -80,7 +80,7 @@ public class BlobDescriptorListAdapter extends BaseAdapter {
         } else {
             LayoutInflater inflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.blob_descriptor_list_item, parent,
+            view = inflater.inflate(R.layout.list_item_blob_descriptor, parent,
                     false);
         }
         TextView titleView = (TextView) view

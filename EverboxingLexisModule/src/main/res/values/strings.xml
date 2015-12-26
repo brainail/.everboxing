@@ -85,6 +85,7 @@
     <string name="action_zoom_in">Zoom In</string>
     <string name="action_zoom_reset">Zoom Reset</string>
     <string name="action_select_style">Style …</string>
+    <string name="action_print_article">Print</string>
     <string name="select_style">Select style</string>
     <string name="default_style_title">Default</string>
     <string name="subtitle_settings">Settings</string>

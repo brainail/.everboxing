@@ -2,54 +2,54 @@
 <resources>
 
     <!-- Theme colors. #Default Pink -->
-    <color name="primary_default">#ffe91e63</color>
-    <color name="primary_default_dark">#ffc2185b</color>
-    <color name="accent_default">#ff475ed4</color>
+    <color name="primary_default">@color/md_pink_500</color>
+    <color name="primary_default_dark">@color/md_pink_700</color>
+    <color name="accent_default">@color/md_indigo_400</color>
 
     <!-- Theme colors. #Indigo -->
-    <color name="primary_indigo">#ff3f51b5</color>
-    <color name="primary_indigo_dark">#ff303f9f</color>
-    <color name="accent_indigo">#ffd7366c</color>
+    <color name="primary_indigo">@color/md_indigo_500</color>
+    <color name="primary_indigo_dark">@color/md_indigo_700</color>
+    <color name="accent_indigo">@color/md_pink_400</color>
 
     <!-- Theme colors. #Blue -->
-    <color name="primary_blue">#ff208ae1</color>
-    <color name="primary_blue_dark">#ff1869bd</color>
-    <color name="accent_blue">#ffdd7a00</color>
+    <color name="primary_blue">@color/md_blue_500</color>
+    <color name="primary_blue_dark">@color/md_blue_700</color>
+    <color name="accent_blue">@color/md_orange_400</color>
 
     <!-- Theme colors. #Cyan -->
-    <color name="primary_cyan">#ff0098af</color>
-    <color name="primary_cyan_dark">#ff006d7b</color>
-    <color name="accent_cyan">#ffd7a107</color>
+    <color name="primary_cyan">@color/md_cyan_500</color>
+    <color name="primary_cyan_dark">@color/md_cyan_700</color>
+    <color name="accent_cyan">@color/md_amber_400</color>
 
     <!-- Theme colors. #Teal -->
-    <color name="primary_teal">#ff009688</color>
-    <color name="primary_teal_dark">#ff00796b</color>
-    <color name="accent_teal">#ffdf4848</color>
+    <color name="primary_teal">@color/md_teal_500</color>
+    <color name="primary_teal_dark">@color/md_teal_700</color>
+    <color name="accent_teal">@color/md_red_400</color>
 
     <!-- Theme colors. #Green -->
-    <color name="primary_green">#ff4caf50</color>
-    <color name="primary_green_dark">#ff38993c</color>
-    <color name="accent_green">#ffda4c21</color>
+    <color name="primary_green">@color/md_green_500</color>
+    <color name="primary_green_dark">@color/md_green_700</color>
+    <color name="accent_green">@color/md_deep_orange_400</color>
 
     <!-- Theme colors. #Light Green -->
-    <color name="primary_lgreen">#ff94ce4f</color>
-    <color name="primary_lgreen_dark">#ff72ae3d</color>
-    <color name="accent_lgreen">#ff0390cf</color>
+    <color name="primary_lgreen">@color/md_light_green_500</color>
+    <color name="primary_lgreen_dark">@color/md_light_green_700</color>
+    <color name="accent_lgreen">@color/md_light_blue_400</color>
 
     <!-- Theme colors. #Purple -->
-    <color name="primary_purple">#ff9c27b0</color>
-    <color name="primary_purple_dark">#ff7b1fa2</color>
-    <color name="accent_purple">#ff009688</color>
+    <color name="primary_purple">@color/md_purple_500</color>
+    <color name="primary_purple_dark">@color/md_purple_700</color>
+    <color name="accent_purple">@color/md_teal_400</color>
 
     <!-- Theme colors. #Brown -->
-    <color name="primary_brown">#ff795548</color>
-    <color name="primary_brown_dark">#ff5d4037</color>
-    <color name="accent_brown">#ff577381</color>
+    <color name="primary_brown">@color/md_brown_500</color>
+    <color name="primary_brown_dark">@color/md_brown_700</color>
+    <color name="accent_brown">@color/md_blue_grey_400</color>
 
     <!-- Theme colors. #Orange -->
-    <color name="primary_orange">#ffda7e00</color>
-    <color name="primary_orange_dark">#ffba5e00</color>
-    <color name="accent_orange">#795548</color>
+    <color name="primary_orange">@color/md_orange_500</color>
+    <color name="primary_orange_dark">@color/md_orange_700</color>
+    <color name="accent_orange">@color/md_brown_400</color>
 
     <!-- Drawer -->
     <color name="menu_drawer_background_default">#fffafafa</color>

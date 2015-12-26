@@ -66,7 +66,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         CLASS,
         CALLBACK;
 
-        public boolean isInplace() {
+        public boolean isInplace () {
             boolean inplace = this == FRAGMENT;
             inplace |= this == CALLBACK;
             return inplace;
@@ -77,12 +77,12 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     // Display (how?)
     public static enum LayoutType {
 
-        BASE(R.layout.drawer_section_base),
-        NORMAL(R.layout.drawer_section_normal);
+        BASE (R.layout.drawer_section_base),
+        NORMAL (R.layout.drawer_section_normal);
 
         public final int layoutId;
 
-        private LayoutType(final int layoutId) {
+        private LayoutType (final int layoutId) {
             this.layoutId = layoutId;
         }
 
@@ -114,283 +114,283 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     // Feedback for click events
     private DrawerSectionCallback mCallback = null;
 
-    public DrawerSection(final Context context) {
-        this(context, LayoutType.BASE);
+    public DrawerSection (final Context context) {
+        this (context, LayoutType.BASE);
     }
 
-    public DrawerSection(final Context context, final LayoutType layoutType) {
-        mViewHolder = DrawerSectionHolder.inflate(context, layoutType);
-        mViewHolder.selfView.setOnClickListener(mInternalClickCallback);
+    public DrawerSection (final Context context, final LayoutType layoutType) {
+        mViewHolder = DrawerSectionHolder.inflate (context, layoutType);
+        mViewHolder.selfView.setOnClickListener (mInternalClickCallback);
     }
 
     // @package-local for controller.
-    DrawerSection withPosition(final int position) {
+    DrawerSection withPosition (final int position) {
         mPosition = position;
         return this;
     }
 
     // @package-local for controller.
-    DrawerSection withController(final DrawerSectionsController controller) {
+    DrawerSection withController (final DrawerSectionsController controller) {
         mDrawerController = controller;
         return this;
     }
 
     // @package-local for controller.
-    View selfView() {
+    View selfView () {
         return mViewHolder.selfView;
     }
 
-    public DrawerSection select(final boolean internalAction) {
-        mViewHolder.selfView.setSelected(true);
-        updateColors();
+    public DrawerSection select (final boolean internalAction) {
+        mViewHolder.selfView.setSelected (true);
+        updateColors ();
 
-        mDrawerController.selectSection(this);
+        mDrawerController.selectSection (this);
 
         if (null != mCallback && !internalAction) {
-            mCallback.onClick(this);
+            mCallback.onClick (this);
         }
 
         return this;
     }
 
-    public void unselect() {
-        mViewHolder.selfView.setSelected(false);
-        resetColors();
+    public void unselect () {
+        mViewHolder.selfView.setSelected (false);
+        resetColors ();
 
-        mDrawerController.unselectSection(this);
+        mDrawerController.unselectSection (this);
     }
 
-    public int getPosition() {
+    public int getPosition () {
         return mPosition;
     }
 
-    public DrawerSection withOnClickCallback(final DrawerSectionCallback callback) {
+    public DrawerSection withOnClickCallback (final DrawerSectionCallback callback) {
         mCallback = callback;
         return this;
     }
 
-    public String getTitle() {
+    public String getTitle () {
         return mTitle;
     }
 
-    public DrawerSection withTitle(final String title) {
+    public DrawerSection withTitle (final String title) {
         mTitle = title;
 
-        if (TextUtils.isEmpty(mName)) {
+        if (TextUtils.isEmpty (mName)) {
             mName = mTitle;
         }
 
         return this;
     }
 
-    public String getName() {
+    public String getName () {
         return mName;
     }
 
-    public DrawerSection withName(final String name) {
+    public DrawerSection withName (final String name) {
         mName = name;
-        mViewHolder.selfText.setText(name);
+        mViewHolder.selfText.setText (name);
         return this;
     }
 
-    public DrawerSection withIcon(final Drawable icon) {
+    public DrawerSection withIcon (final Drawable icon) {
         if (null != mViewHolder.selfIcon) {
-            mViewHolder.selfIcon.setImageDrawable(icon);
+            mViewHolder.selfIcon.setImageDrawable (icon);
         }
 
-        updateTextAndIconColor();
+        updateTextAndIconColor ();
         return this;
     }
 
-    public DrawerSection withIcon(final Bitmap icon) {
+    public DrawerSection withIcon (final Bitmap icon) {
         if (null != mViewHolder.selfIcon) {
-            mViewHolder.selfIcon.setImageBitmap(icon);
+            mViewHolder.selfIcon.setImageBitmap (icon);
         }
 
-        updateTextAndIconColor();
+        updateTextAndIconColor ();
         return this;
     }
 
-    public DrawerSection withTarget(final DrawerSectionCallback target) {
+    public DrawerSection withTarget (final DrawerSectionCallback target) {
         mTargetType = TargetType.CALLBACK;
         mTarget = target;
         return this;
     }
 
-    public DrawerSection withTarget(final Fragment target) {
+    public DrawerSection withTarget (final Fragment target) {
         mTargetType = TargetType.FRAGMENT;
         mTarget = target;
         return this;
     }
 
-    public DrawerSection withTarget(final Intent target) {
+    public DrawerSection withTarget (final Intent target) {
         mTargetType = TargetType.INTENT;
         mTarget = target;
         return this;
     }
 
-    public DrawerSection withTarget(final Class<? extends AppCompatActivity> target) {
+    public DrawerSection withTarget (final Class<? extends AppCompatActivity> target) {
         mTargetType = TargetType.CLASS;
         mTarget = target;
         return this;
     }
 
-    public TargetType getTargetType() {
+    public TargetType getTargetType () {
         return mTargetType;
     }
 
-    public Object getTarget() {
+    public Object getTarget () {
         return mTarget;
     }
 
-    public DrawerSection withLocationType(final LocationType type) {
+    public DrawerSection withLocationType (final LocationType type) {
         mLocationType = type;
         return this;
     }
 
-    public LocationType getLocationType() {
+    public LocationType getLocationType () {
         return mLocationType;
     }
 
-    public DrawerSection withSectionColor(final Integer color) {
+    public DrawerSection withSectionColor (final Integer color) {
         mHasColor = null != color;
         mColor = null != color ? color : Color.BLACK;
-        updateTextAndIconColor();
+        updateTextAndIconColor ();
         return this;
     }
 
-    private void updateTextAndIconColor() {
-        if (isSelected()) {
-            updateColors();
+    private void updateTextAndIconColor () {
+        if (isSelected ()) {
+            updateColors ();
         } else {
-            resetColors();
+            resetColors ();
         }
     }
 
-    public boolean hasColor() {
+    public boolean hasColor () {
         return mHasColor;
     }
 
-    public int getColor() {
+    public int getColor () {
         return mColor;
     }
 
-    public DrawerSection withNotificationsLimit(final int notificationsLimit) {
+    public DrawerSection withNotificationsLimit (final int notificationsLimit) {
         mNotificationsLimit = notificationsLimit;
-        withNotifications(mNumberNotifications);
+        withNotifications (mNumberNotifications);
         return this;
     }
 
-    public DrawerSection withNotifications(final int numberNotifications) {
-        String notificationsText = String.valueOf(numberNotifications);
+    public DrawerSection withNotifications (final int numberNotifications) {
+        String notificationsText = String.valueOf (numberNotifications);
         if (numberNotifications < 1 || numberNotifications > mNotificationsLimit) {
             notificationsText = numberNotifications < 1 ? ToolStrings.EMPTY : mNotificationsLimit + ToolStrings.PLUS;
         }
 
-        mViewHolder.selfNotifications.setText(notificationsText);
+        mViewHolder.selfNotifications.setText (notificationsText);
         mNumberNotifications = numberNotifications;
 
         return this;
     }
 
-    public int getNumberNotifications() {
+    public int getNumberNotifications () {
         return mNumberNotifications;
     }
 
-    private boolean isSelected() {
-        return mViewHolder.selfView.isSelected();
+    private boolean isSelected () {
+        return mViewHolder.selfView.isSelected ();
     }
 
-    void target() {
+    void target () {
         mOpenTarget = true;
-        ToolUI.toggleMenuDrawer(drawerLayout(), false);
+        ToolUI.toggleMenuDrawer (drawerLayout (), false);
     }
 
-    void openTarget(final boolean internalAction) {
+    void openTarget (final boolean internalAction) {
         mOpenTarget = false;
 
         // We don't want to be selected for targets which open a new window
-        if (null != mTargetType && !mTargetType.isInplace()) unselect();
+        if (null != mTargetType && !mTargetType.isInplace ()) unselect ();
 
         if (TargetType.CALLBACK == mTargetType) {
-            ((DrawerSectionCallback) mTarget).onTargetClick(this);
+            ((DrawerSectionCallback) mTarget).onTargetClick (this);
         } else if (TargetType.CLASS == mTargetType) {
-            final Intent targetIntent = new Intent(scene(), (Class<?>) mTarget);
-            scene().startActivity(wrapIntentOnStart(targetIntent));
+            final Intent targetIntent = new Intent (scene (), (Class<?>) mTarget);
+            scene ().startActivity (wrapIntentOnStart (targetIntent));
         } else if (TargetType.INTENT == mTargetType) {
-            scene().startActivity(wrapIntentOnStart((Intent) mTarget));
+            scene ().startActivity (wrapIntentOnStart ((Intent) mTarget));
         } else if (TargetType.FRAGMENT == mTargetType) {
-            if (!internalAction || !ToolFragments.isPresented(scene(), (Fragment) mTarget)) {
-                ToolFragments.openDrawerFragment(scene(), (Fragment) mTarget);
+            if (!internalAction || !ToolFragments.isPresented (scene (), (Fragment) mTarget)) {
+                ToolFragments.openDrawerFragment (scene (), (Fragment) mTarget);
             }
         }
     }
 
-    private Intent wrapIntentOnStart(final Intent intent) {
-        final Intent wrappedIntent = new Intent(intent);
-        wrappedIntent.putExtra(ExtraKey.COLOR, hasColor() ? (Integer) mColor : (Integer) null);
-        wrappedIntent.putExtra(ExtraKey.TITLE, getTitle());
+    private Intent wrapIntentOnStart (final Intent intent) {
+        final Intent wrappedIntent = new Intent (intent);
+        wrappedIntent.putExtra (ExtraKey.COLOR, hasColor () ? (Integer) mColor : (Integer) null);
+        wrappedIntent.putExtra (ExtraKey.TITLE, getTitle ());
         return wrappedIntent;
     }
 
-    private SectionedDrawerActivity scene() {
-        return mDrawerController.scene();
+    private SectionedDrawerActivity scene () {
+        return mDrawerController.scene ();
     }
 
-    private DrawerLayout drawerLayout() {
-        return scene().getDrawerLayout();
+    private DrawerLayout drawerLayout () {
+        return scene ().getDrawerLayout ();
     }
 
-    private final View.OnClickListener mInternalClickCallback = new View.OnClickListener() {
+    private final View.OnClickListener mInternalClickCallback = new View.OnClickListener () {
         @Override
-        public void onClick(View v) {
-            select(false);
-            target();
+        public void onClick (View v) {
+            select (false);
+            target ();
         }
     };
 
-    private void updateColors() {
+    private void updateColors () {
         if (mHasColor) {
-            mViewHolder.selfText.setTextColor(mColor);
+            mViewHolder.selfText.setTextColor (mColor);
 
             if (null != mViewHolder.selfIcon) {
-                mViewHolder.selfIcon.setColorFilter(mColor);
+                mViewHolder.selfIcon.setColorFilter (mColor);
             }
         }
     }
 
-    private void resetColors() {
-        mViewHolder.selfText.setTextColor(ToolColor.by(R.color.menu_drawer_section_text_color));
+    private void resetColors () {
+        mViewHolder.selfText.setTextColor (ToolColor.by (R.color.menu_drawer_section_text_color));
 
         if (mHasColor) {
             if (null != mViewHolder.selfIcon) {
-                mViewHolder.selfIcon.setColorFilter(mColor);
+                mViewHolder.selfIcon.setColorFilter (mColor);
             }
         } else {
             if (null != mViewHolder.selfIcon) {
-                mViewHolder.selfIcon.clearColorFilter();
+                mViewHolder.selfIcon.clearColorFilter ();
             }
         }
     }
 
     @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
+    public void onDrawerSlide (View drawerView, float slideOffset) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerOpened(View drawerView) {
+    public void onDrawerOpened (View drawerView) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerStateChanged(int newState) {
+    public void onDrawerStateChanged (int newState) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
-        if (mOpenTarget) openTarget(false);
+    public void onDrawerClosed (View drawerView) {
+        if (mOpenTarget) openTarget (false);
     }
 
 }

@@ -29,8 +29,8 @@ import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
  */
 public class DrawerSectionsControllerFactory {
 
-    public static IDrawerSectionsController create(final SectionedDrawerActivity scene) {
-        return new DrawerSectionsController(scene);
+    public static IDrawerSectionsController create (final SectionedDrawerActivity scene) {
+        return new DrawerSectionsController (scene);
     }
 
 }

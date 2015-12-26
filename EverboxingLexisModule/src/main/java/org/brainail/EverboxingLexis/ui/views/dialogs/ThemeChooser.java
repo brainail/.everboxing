@@ -119,7 +119,7 @@ public class ThemeChooser extends DialogFragment implements AlertDialog.OnClickL
         @Override
         @SuppressLint("ViewHolder")
         public View getView(int position, View convertView, ViewGroup parent) {
-            final View view = View.inflate(mContext, R.layout.theme_chooser_item, null);
+            final View view = View.inflate(mContext, R.layout.list_item_theme_chooser, null);
 
             // Title
             final TextView titleView = ButterKnife.findById(view, R.id.title);

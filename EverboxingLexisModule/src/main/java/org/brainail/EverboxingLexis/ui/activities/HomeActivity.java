@@ -42,7 +42,7 @@ import itkach.aard2.ui.fragments.LexisHistoryFragment;
  */
 public class HomeActivity extends SectionedDrawerActivity {
 
-    private boolean shouldUpdateDrawerNotifications = true;
+    private boolean mShouldUpdateDrawerNotifications = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +94,14 @@ public class HomeActivity extends SectionedDrawerActivity {
     @Override
     public void onDrawerClosed (View drawerView) {
         super.onDrawerClosed (drawerView);
-        shouldUpdateDrawerNotifications = true;
+        mShouldUpdateDrawerNotifications = true;
     }
 
     @Override
     public void onDrawerSlide (View drawerView, float slideOffset) {
         super.onDrawerSlide (drawerView, slideOffset);
-        if (slideOffset > 0 && shouldUpdateDrawerNotifications) {
-            shouldUpdateDrawerNotifications = false;
+        if (slideOffset > 0 && mShouldUpdateDrawerNotifications) {
+            mShouldUpdateDrawerNotifications = false;
             updateDrawerNotifications ();
         }
     }

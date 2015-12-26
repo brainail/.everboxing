@@ -67,7 +67,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View result = super.onCreateView(inflater, container, savedInstanceState);
 
-        View extraEmptyView = inflater.inflate(R.layout.dictionaries_empty_view_extra, container, false);
+        View extraEmptyView = inflater.inflate(R.layout.view_empty_page_dictionaries_extra, container, false);
         Button btn = (Button) extraEmptyView.findViewById(R.id.dictionaries_empty_btn_find_online);
 
         btn.setCompoundDrawablesWithIntrinsicBounds(

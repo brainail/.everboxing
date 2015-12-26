@@ -44,11 +44,11 @@ public class DrawerSectionHolder {
     @Optional @InjectView(R.id.drawer_section_icon) ImageView selfIcon;
     @Optional @InjectView(R.id.drawer_section_notification) TextView selfNotifications;
 
-    public static DrawerSectionHolder inflate(final Context context, final DrawerSection.LayoutType type) {
-        final DrawerSectionHolder viewHolder = new DrawerSectionHolder();
+    public static DrawerSectionHolder inflate (final Context context, final DrawerSection.LayoutType type) {
+        final DrawerSectionHolder viewHolder = new DrawerSectionHolder ();
 
-        viewHolder.selfView = ToolUI.linearWrapper(context, type.layoutId);
-        ButterKnife.inject(viewHolder, viewHolder.selfView);
+        viewHolder.selfView = ToolUI.linearWrapper (context, type.layoutId);
+        ButterKnife.inject (viewHolder, viewHolder.selfView);
 
         return viewHolder;
     }

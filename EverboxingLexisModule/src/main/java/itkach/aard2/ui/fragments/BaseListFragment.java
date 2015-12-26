@@ -40,7 +40,7 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mEmptyPlaceholderView = inflater.inflate (R.layout.empty_view, container, false);
+        mEmptyPlaceholderView = inflater.inflate (R.layout.view_empty_page, container, false);
         return super.onCreateView (inflater, container, savedInstanceState);
     }
 

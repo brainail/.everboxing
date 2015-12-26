@@ -27,6 +27,11 @@
         <item name="android:background">?attr/listDefaultSelector</item>
     </style>
 
+    <!-- Blob item -->
+    <style name="BlobItem">
+        <item name="android:background">?attr/listDefaultSelector</item>
+    </style>
+
     <!-- Dialogs -->
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- ... -->

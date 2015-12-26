@@ -111,7 +111,7 @@ public class FileSelectListAdapter extends BaseAdapter {
         } else {
             LayoutInflater inflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            int viewId = isDir ? R.layout.file_select_directory_item : R.layout.file_select_file_item;
+            int viewId = isDir ? R.layout.list_item_fm_files_dir : R.layout.list_item_fm_files_file;
             view = inflater.inflate(viewId, parent, false);
             if (isDir) {
                 ImageView dirIconView = (ImageView) view.findViewById(R.id.file_select_directory_icon);

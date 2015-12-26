@@ -41,4 +41,9 @@
     <!-- Drawer: user cover -->
     <attr name="drawerCover" format="reference"/>
 
+    <!-- FAB -->
+    <attr name="fabDefaultColorNormal" format="reference"/>
+    <attr name="fabDefaultColorPressed" format="reference"/>
+    <attr name="fabDefaultColorRipple" format="reference"/>
+
 </resources>

@@ -43,24 +43,26 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class AboutActivity extends LibsActivity {
 
     public static final class LibraryComparator implements Serializable, Comparator<Library> {
-        @Override public int compare (Library lhs, Library rhs) {
+        @Override
+        public int compare (Library lhs, Library rhs) {
             return -1 * lhs.getLibraryName ().compareTo (rhs.getLibraryName ());
         }
-    };
+    }
 
-    @Override public void onCreate (Bundle savedInstanceState) {
+    @Override
+    public void onCreate (Bundle savedInstanceState) {
         setIntent (new LibsBuilder ()
-                        .withVersionShown (true)
-                        .withLicenseShown (true)
-                        .withFields (R.string.class.getFields ())
-                        .withLibraries ("Everboxing", "Aard")
-                        .withExcludedLibraries (
-                                "AboutLibraries", "jackson", "Crashlytics",
-                                "calligraphy", "Butterknife", "androidIconify", "materialicons"
-                        )
-                        .withLibraryComparator (new LibraryComparator ())
-                        .intent (this)
-                        .putExtra (Libs.BUNDLE_TITLE, getString (R.string.app_name_about))
+                .withVersionShown (true)
+                .withLicenseShown (true)
+                .withFields (R.string.class.getFields ())
+                .withLibraries ("Everboxing", "Aard")
+                .withExcludedLibraries (
+                        "AboutLibraries", "jackson", "Crashlytics",
+                        "calligraphy", "Butterknife", "androidIconify", "materialicons"
+                )
+                .withLibraryComparator (new LibraryComparator ())
+                .intent (this)
+                .putExtra (Libs.BUNDLE_TITLE, getString (R.string.app_name_about))
         );
 
         super.onCreate (savedInstanceState);

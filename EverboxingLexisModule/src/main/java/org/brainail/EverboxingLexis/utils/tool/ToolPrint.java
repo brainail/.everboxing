@@ -1,13 +1,19 @@
-package org.brainail.EverboxingLexis.ui.drawer;
+package org.brainail.EverboxingLexis.utils.tool;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintManager;
+import android.support.annotation.Nullable;
+import android.webkit.WebView;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.utils.tool.ToolColor;
+import org.brainail.EverboxingLexis.utils.Sdk;
+
+import itkach.aard2.Application;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -34,19 +40,25 @@ import org.brainail.EverboxingLexis.utils.tool.ToolColor;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController
-        extends DrawerLayout.DrawerListener, UserInfoApi.AuthCallback {
+public final class ToolPrint {
 
-    public static final int DRAWER_COLOR = ToolColor.by (R.color.menu_drawer_background_default);
+    @TargetApi (Build.VERSION_CODES.KITKAT)
+    public static void print (final Activity context, final WebView webView, @Nullable final String docId) {
+        if (! Sdk.isSdkSupported (Sdk.KITKAT)) {
+            return;
+        }
 
-    public void addDivider ();
-    public void addSubheader (final String titleText);
-    public void addSection (final DrawerSection section);
-    public void saveState (final Bundle state);
-    public void restoreState (final Bundle state);
-    public void investigateFragmentsStack ();
-    public DrawerSection section (final Fragment fragment);
-    public AppCompatActivity scene ();
-    public void updateUserInfo (final UserInfoApi userInfo);
+        // Get a PrintManager instance
+        final PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
+
+        // Get a print adapter instance
+        final PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
+
+        // Create a print job with name and adapter instance
+        final String jobName = Application.app ().getString (R.string.app_name) + (null != docId ? ", " + docId : "");
+
+        // Print!
+        printManager.print(jobName, printAdapter, new PrintAttributes.Builder().build());
+    }
 
 }

@@ -207,6 +207,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-plus:8.4.0'
     // Material stuff
     compile 'com.malinskiy:materialicons:1.0.2'
+    compile 'com.github.clans:fab:1.6.2'
     // Fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     // Annotations

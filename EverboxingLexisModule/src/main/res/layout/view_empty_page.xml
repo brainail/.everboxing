@@ -30,5 +30,4 @@
         android:text="@string/nothing_found"
         android:textColor="@android:color/darker_gray"
         android:textSize="24sp"/>
-
 </LinearLayout>

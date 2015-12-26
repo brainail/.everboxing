@@ -6,42 +6,49 @@
     android:orientation="vertical"
     android:paddingBottom="8dip"
     android:minHeight="48dp"
+    tools:background="@color/md_pink_700"
     android:paddingLeft="@dimen/menu_drawer_section_horizontal_margin"
-    android:paddingRight="8dip"
+    android:paddingRight="16dip"
+    style="@style/FileManagerItem"
     android:paddingTop="6dip"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="RtlHardcoded">
 
     <TextView
         android:id="@+id/file_select_file_name"
-        style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginRight="22dip"
         android:layout_weight="1"
-        tools:text="enwiki-20141212.ext_img.lzma2.slob"/>
+        style="@style/FileManagerItem.Title"
+        tools:text="シシシ.enwikiシ-シ20141212シ.シシシシシシシシシシシextシ_シimgシ.シlzma2シ.シslob.シシシ.シシ.シ"
+        tools:ignore="MissingPrefix"/>
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="2dp"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/file_select_file_size"
-            style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="3.25 Gb"/>
+            android:textSize="14sp"
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:textColor="@color/md_green_600"
+            tools:text="12,978,347,999"
+            tools:ignore="MissingPrefix,NestedWeights"/>
 
         <TextView
             android:id="@+id/file_select_file_timestamp"
-            style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="6dp"
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:textSize="14sp"
             tools:text="1 day ago"
-            tools:ignore="RtlSymmetry"/>
+            android:textColor="@color/md_blue_grey_600"
+            tools:ignore="MissingPrefix,RtlSymmetry"/>
     </LinearLayout>
 </LinearLayout>

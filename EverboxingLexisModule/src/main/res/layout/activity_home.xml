@@ -10,10 +10,10 @@
         style="@style/AppContent.FitWindows">
 
         <!-- Toolbar -->
-        <include layout="@layout/toolbar_primary"/>
+        <include layout="@layout/view_toolbar_primary"/>
 
         <!-- Box for content -->
-        <include layout="@layout/content_container"/>
+        <include layout="@layout/view_content_container"/>
 
     </LinearLayout>
 

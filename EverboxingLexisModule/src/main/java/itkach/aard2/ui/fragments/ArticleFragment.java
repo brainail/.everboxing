@@ -19,8 +19,11 @@ import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
+import org.brainail.EverboxingLexis.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
+import org.brainail.EverboxingLexis.utils.tool.ToolPrint;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import co.mobiwise.library.ProgressLayout;
 import itkach.aard2.Application;
@@ -35,12 +38,14 @@ public class ArticleFragment extends Fragment {
     }
 
     private ArticleWebView mArticleWebView;
+    private ProgressLayout mArticleLoadingProgress;
 
     private String mArticleUrl;
     private String mArticleTitle;
 
     private MenuItem mMenuItemBookmark;
 
+    // Chrome tabs stuff
     private CustomTabsSceneHelper mCustomTabsSceneHelper;
 
     @Override
@@ -48,6 +53,7 @@ public class ArticleFragment extends Fragment {
         super.onCreate (savedInstanceState);
         setHasOptionsMenu (true);
 
+        // Chrome tabs stuff
         mCustomTabsSceneHelper = new CustomTabsSceneHelper ();
         mCustomTabsSceneHelper.onCreateScene (getActivity ());
     }
@@ -56,6 +62,7 @@ public class ArticleFragment extends Fragment {
     public void onStart () {
         super.onStart ();
 
+        // Chrome tabs stuff
         mCustomTabsSceneHelper.onStartScene (getActivity ());
     }
 
@@ -63,11 +70,13 @@ public class ArticleFragment extends Fragment {
     public void onStop () {
         super.onStop ();
 
+        // Chrome tabs stuff
         mCustomTabsSceneHelper.onStopScene (getActivity ());
     }
 
     @Override
     public void onDestroy () {
+        // Chrome tabs stuff
         mCustomTabsSceneHelper.onDestroyScene (getActivity ());
 
         if (mArticleWebView != null) {
@@ -86,18 +95,23 @@ public class ArticleFragment extends Fragment {
         menu.clear ();
         inflater.inflate (R.menu.menu_articles, menu);
 
-        if (null == mArticleWebView) {
-            menu.findItem (R.id.action_bookmark_article).setVisible (false);
-            menu.findItem (R.id.action_find_in_page).setVisible (false);
-            menu.findItem (R.id.action_zoom_in).setVisible (false);
-            menu.findItem (R.id.action_zoom_out).setVisible (false);
-            menu.findItem (R.id.action_zoom_reset).setVisible (false);
-            menu.findItem (R.id.action_load_remote_content).setVisible (false);
-            menu.findItem (R.id.action_select_style).setVisible (false);
-        }
-
         // To change state later
         mMenuItemBookmark = menu.findItem (R.id.action_bookmark_article);
+
+        if (null == mArticleWebView) {
+            mMenuItemBookmark.setVisible (false);
+//            menu.findItem (R.id.action_find_in_page).setVisible (false);
+//            menu.findItem (R.id.action_zoom_in).setVisible (false);
+//            menu.findItem (R.id.action_zoom_out).setVisible (false);
+//            menu.findItem (R.id.action_zoom_reset).setVisible (false);
+//            menu.findItem (R.id.action_load_remote_content).setVisible (false);
+            menu.findItem (R.id.action_select_style).setVisible (false);
+            menu.findItem (R.id.action_print_article).setVisible (false);
+        }
+
+        if (! Sdk.isSdkSupported (Sdk.KITKAT)) {
+            menu.findItem (R.id.action_print_article).setVisible (false);                                    
+        }
     }
 
     private void displayBookmarked (final boolean isBookmarked) {
@@ -117,8 +131,23 @@ public class ArticleFragment extends Fragment {
     public boolean onOptionsItemSelected (MenuItem item) {
         int itemId = item.getItemId ();
 
-        if (itemId == R.id.action_find_in_page) {
-            mArticleWebView.showFindDialog (null, true);
+//        if (itemId == R.id.action_find_in_page) {
+//            mArticleWebView.showFindDialog (null, true);
+//            return true;
+//        } else if (itemId == R.id.action_zoom_in) {
+//            mArticleWebView.textZoomIn ();
+//            return true;
+//        } else if (itemId == R.id.action_zoom_out) {
+//            mArticleWebView.textZoomOut ();
+//            return true;
+//        } else if (itemId == R.id.action_zoom_reset) {
+//            mArticleWebView.resetTextZoom ();
+//            return true;
+//        } else
+
+        if (itemId == R.id.action_load_remote_content) {
+            mArticleWebView.forceLoadRemoteContent = true;
+            mArticleWebView.reload ();
             return true;
         } else if (itemId == R.id.action_bookmark_article) {
             Application app = (Application) getActivity ().getApplication ();
@@ -132,19 +161,6 @@ public class ArticleFragment extends Fragment {
                     displayBookmarked (true);
                 }
             }
-            return true;
-        } else if (itemId == R.id.action_zoom_in) {
-            mArticleWebView.textZoomIn ();
-            return true;
-        } else if (itemId == R.id.action_zoom_out) {
-            mArticleWebView.textZoomOut ();
-            return true;
-        } else if (itemId == R.id.action_zoom_reset) {
-            mArticleWebView.resetTextZoom ();
-            return true;
-        } else if (itemId == R.id.action_load_remote_content) {
-            mArticleWebView.forceLoadRemoteContent = true;
-            mArticleWebView.reload ();
             return true;
         } else if (itemId == R.id.action_select_style) {
             AlertDialog.Builder builder = new AlertDialog.Builder (getActivity ());
@@ -163,6 +179,8 @@ public class ArticleFragment extends Fragment {
         } else if (itemId == R.id.action_search_externally_article) {
             final String url = "https://www.google.com/search?q=" + mArticleTitle + "+definition";
             mCustomTabsSceneHelper.openCustomTab (getActivity (), url);
+        } else if (itemId == R.id.action_print_article) {
+            ToolPrint.print (getActivity (), mArticleWebView, mArticleTitle);
         }
 
         return super.onOptionsItemSelected (item);
@@ -171,43 +189,49 @@ public class ArticleFragment extends Fragment {
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Bundle args = getArguments ();
-        mArticleUrl = args == null ? null : args.getString (Args.ARTICLE_URL);
-        mArticleTitle = args == null ? ToolResources.string (R.string.wtf_emo) : args.getString (Args.ARTICLE_TITLE);
+        if (null != getArguments ()) {
+            mArticleUrl = getArguments ().getString (Args.ARTICLE_URL);
+            mArticleTitle = getArguments ().getString (Args.ARTICLE_TITLE);
+        } else {
+            mArticleUrl = null;
+            mArticleTitle = ToolResources.string (R.string.wtf_emo);
+        }
 
         if (mArticleUrl == null) {
-            View layout = inflater.inflate (R.layout.empty_view, container, false);
+            View layout = inflater.inflate (R.layout.view_empty_page, container, false);
             TextView textView = (TextView) layout.findViewById (R.id.empty_text);
             textView.setText ("");
             return layout;
         }
 
-        View layout = inflater.inflate (R.layout.article_view, container, false);
-        final ProgressLayout progressBar = (ProgressLayout) layout.findViewById (R.id.webViewProgress);
+        final View layout = inflater.inflate (R.layout.view_page_article, container, false);
 
         mArticleWebView = (ArticleWebView) layout.findViewById (R.id.webView);
+        mArticleLoadingProgress = (ProgressLayout) layout.findViewById (R.id.webViewProgress);
+
         mArticleWebView.restoreState (savedInstanceState);
         mArticleWebView.loadUrl (mArticleUrl);
 
-        mArticleWebView.setWebChromeClient (new WebChromeClient () {
-            public void onProgressChanged (WebView view, final int newProgress) {
-                final Activity activity = getActivity ();
-                if (activity != null) {
-                    activity.runOnUiThread (new Runnable () {
-                        @Override
-                        public void run () {
-                            progressBar.setCurrentProgress (newProgress);
-                            if (newProgress >= 100) {
-                                progressBar.setVisibility (ViewGroup.GONE);
-                            }
-                        }
-                    });
-                }
-            }
-        });
+        mArticleWebView.setWebChromeClient (mArticleWebChromeClient);
 
         return layout;
     }
+
+    private final WebChromeClient mArticleWebChromeClient = new WebChromeClient () {
+        @Override
+        public void onProgressChanged (final WebView view, final int progress) {
+            final Activity activity = getActivity ();
+            if (activity != null) {
+                activity.runOnUiThread (new Runnable () {
+                    @Override
+                    public void run () {
+                        mArticleLoadingProgress.setCurrentProgress (progress);
+                        ToolUI.updateVisibility (mArticleLoadingProgress, progress >= 100 ? View.GONE : View.VISIBLE);
+                    }
+                });
+            }
+        }
+    };
 
     @Override
     public void onResume () {

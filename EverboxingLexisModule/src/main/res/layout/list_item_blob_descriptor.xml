@@ -1,14 +1,17 @@
 <itkach.aard2.ui.views.CheckableRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
+    tools:background="@color/md_pink_700"
+    style="@style/BlobItem"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingRight="8dip"
-    android:paddingBottom="8dip"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    android:paddingBottom="8dp"
     android:paddingTop="8dip">
 
     <LinearLayout
-        tools:background="#80aaff44"
         android:id="@+id/blob_descriptor_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,38 +19,39 @@
 
         <TextView
             android:id="@+id/blob_descriptor_key"
-            style="@android:style/TextAppearance.Holo.SearchResult.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp"
-            android:layout_marginRight="22dp"
-            android:text="Босния и Герцеговина"
-            android:textSize="20sp"/>
+            android:layout_marginRight="28dp"
+            android:layout_marginEnd="28dp"
+            style="@style/FileManagerItem.Title"
+            tools:text="シ シ シ シ Ryū Murakami (村上 龍 Murakami Ryū ?, born シ シ シ Februar y 19, 1952 in Sasebo, Nagasaki) シ シ シ"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="6dp">
+            android:paddingTop="8dp">
 
             <TextView
                 android:id="@+id/blob_descriptor_source"
-                android:paddingLeft="16dp"
-                style="@android:style/TextAppearance.Holo.SearchResult.Subtitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_weight="1"
-                tools:text="WordNet"/>
+                android:textSize="14sp"
+                fontPath="fonts/Roboto-Regular.ttf"
+                android:textColor="@color/md_green_600"
+                tools:text="WordNet"
+                tools:ignore="MissingPrefix"/>
 
             <TextView
                 android:id="@+id/blob_descriptor_timestamp"
-                style="@android:style/TextAppearance.Holo.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:paddingLeft="6dp"
-                tools:text="1 day ago"/>
+                fontPath="fonts/Roboto-Regular.ttf"
+                android:textSize="14sp"
+                android:textColor="@color/md_blue_grey_600"
+                tools:text="1 day ago"
+                tools:ignore="MissingPrefix"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -55,16 +59,19 @@
         android:id="@+id/blob_descriptor_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignRight="@id/blob_descriptor_item"
+        android:layout_alignEnd="@id/blob_descriptor_item"
+        android:layout_alignTop="@id/blob_descriptor_item"
         android:padding="0dp"
-        android:layout_marginTop="-5dp"
-        android:layout_marginRight="-5dp"
+        android:layout_marginTop="-6dp"
+        android:layout_marginRight="-6dp"
+        android:layout_marginEnd="-6dp"
         android:includeFontPadding="false"
         android:checked="false"
+        tools:checked="true"
         android:clickable="false"
         android:focusable="false"
         tools:visibility="visible"
+        android:background="@null"
         android:visibility="gone"/>
-
 </itkach.aard2.ui.views.CheckableRelativeLayout>

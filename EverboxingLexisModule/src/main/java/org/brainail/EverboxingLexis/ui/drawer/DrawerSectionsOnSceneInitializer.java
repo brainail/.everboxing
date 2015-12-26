@@ -96,7 +96,6 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withLocationType (DrawerSection.LocationType.HELP)
                             .withIcon (BaseIcon.icon(scene, Iconify.IconValue.zmdi_settings))
                             .withTarget (SettingsActivity.class)
-                            // .withSectionColor(ToolResources.retrievePrimaryColor (scene))
             );
         }
 

@@ -1,0 +1,49 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <itkach.aard2.ui.views.ArticleWebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <co.mobiwise.library.ProgressLayout
+        android:id="@+id/webViewProgress"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        app:maxProgress="100"
+        app:autoProgress="false"
+        android:layout_gravity="bottom"
+        app:loadedColor="?attr/colorPrimary"
+        app:emptyColor="#00000000"/>
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        app:menu_icon="@drawable/ic_store_white_24dp"
+        style="@style/FabMenuStyle">
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="Zoom Reset"
+            android:src="@drawable/ic_bookmark_white_24dp"
+            style="@style/FabMenuButtonSmallStyle"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="Zoom Out"
+            android:src="@drawable/ic_delete_white_24dp"
+            style="@style/FabMenuButtonSmallStyle"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="Zoom In"
+            android:src="@drawable/ic_store_white_24dp"
+            style="@style/FabMenuButtonSmallStyle"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            app:fab_label="Find Text"
+            android:src="@drawable/ic_store_white_24dp"
+            style="@style/FabMenuButtonSmallStyle"/>
+    </com.github.clans.fab.FloatingActionMenu>
+</FrameLayout>

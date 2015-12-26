@@ -1,9 +1,5 @@
 package itkach.aard2.ui.views;
 
-/**
- * From http://www.marvinlabs.com/2010/10/29/custom-listview-ability-check-items/
- */
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -14,11 +10,10 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckableRelativeLayout extends RelativeLayout implements
-        Checkable {
+public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
 
-    private boolean isChecked;
-    private List<Checkable> checkableViews = new ArrayList<Checkable>();
+    private boolean mIsChecked;
+    private List<Checkable> mCheckableViews = new ArrayList<Checkable>();
 
     public CheckableRelativeLayout(Context context) {
         super(context);
@@ -34,22 +29,22 @@ public class CheckableRelativeLayout extends RelativeLayout implements
 
     @Override
     public void setChecked(boolean checked) {
-        this.isChecked = checked;
-        for (Checkable c : checkableViews) {
+        this.mIsChecked = checked;
+        for (Checkable c : mCheckableViews) {
             // Pass the information to all the child Checkable widgets
-            c.setChecked(isChecked);
+            c.setChecked(mIsChecked);
         }
     }
 
     @Override
     public boolean isChecked() {
-        return isChecked;
+        return mIsChecked;
     }
 
     @Override
     public void toggle() {
-        this.isChecked = !this.isChecked;
-        for (Checkable c : checkableViews) {
+        mIsChecked = ! mIsChecked;
+        for (Checkable c : mCheckableViews) {
             // Pass the information to all the child Checkable widgets
             c.toggle();
         }
@@ -70,8 +65,9 @@ public class CheckableRelativeLayout extends RelativeLayout implements
      */
     private void findCheckableChildren(View v) {
         if (v instanceof Checkable) {
-            this.checkableViews.add((Checkable) v);
+            mCheckableViews.add((Checkable) v);
         }
+
         if (v instanceof ViewGroup) {
             final ViewGroup vg = (ViewGroup) v;
             final int childCount = vg.getChildCount();

@@ -18,21 +18,21 @@ import static android.support.v4.widget.DrawerLayout.DrawerListener;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -50,146 +50,146 @@ public abstract class BaseDrawerActivity extends BaseActivity implements DrawerL
     protected boolean mIsDrawerPresented = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate (Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
 
         // Init main stuff
-        mIsDrawerPresented = initMenuDrawer();
+        mIsDrawerPresented = initMenuDrawer ();
     }
 
-    protected boolean initMenuDrawer() {
+    protected boolean initMenuDrawer () {
         Integer resourceId;
 
         // Try to find drawer layout
-        if (null != (resourceId = getDrawerLayoutResourceId())) {
-            mDrawerLayout = ButterKnife.findById(this, resourceId);
+        if (null != (resourceId = getDrawerLayoutResourceId ())) {
+            mDrawerLayout = ButterKnife.findById (this, resourceId);
         } else {
             return false;
         }
 
         // Try to find drawer's actions
-        if (null != (resourceId = getDrawerActionsLayoutResourceId())) {
-            mDrawerActions = ButterKnife.findById(this, resourceId);
+        if (null != (resourceId = getDrawerActionsLayoutResourceId ())) {
+            mDrawerActions = ButterKnife.findById (this, resourceId);
         } else {
             return false;
         }
 
         // Check that each component is presented
-        if (ToolCollections.isAnyNull(mDrawerLayout, mDrawerActions, getPrimaryToolbar())) {
+        if (ToolCollections.isAnyNull (mDrawerLayout, mDrawerActions, getPrimaryToolbar ())) {
             return false;
         }
 
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, getPrimaryToolbar(), R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle (
+                this, mDrawerLayout, getPrimaryToolbar (), R.string.drawer_open, R.string.drawer_close) {
 
             @Override
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                invalidateOptionsMenu();
+            public void onDrawerClosed (View view) {
+                super.onDrawerClosed (view);
+                invalidateOptionsMenu ();
 
                 // Give others
-                ((DrawerListener) self()).onDrawerClosed(view);
+                ((DrawerListener) self ()).onDrawerClosed (view);
             }
 
             @Override
-            public void onDrawerOpened(View view) {
-                super.onDrawerOpened(view);
-                invalidateOptionsMenu();
+            public void onDrawerOpened (View view) {
+                super.onDrawerOpened (view);
+                invalidateOptionsMenu ();
 
                 // Give others
-                ((DrawerListener) self()).onDrawerOpened(view);
+                ((DrawerListener) self ()).onDrawerOpened (view);
             }
 
             @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
+            public void onDrawerSlide (View drawerView, float slideOffset) {
+                super.onDrawerSlide (drawerView, slideOffset);
 
                 // Give others
-                ((DrawerListener) self()).onDrawerSlide(drawerView, slideOffset);
+                ((DrawerListener) self ()).onDrawerSlide (drawerView, slideOffset);
             }
 
             @Override
-            public void onDrawerStateChanged(int newState) {
-                super.onDrawerStateChanged(newState);
+            public void onDrawerStateChanged (int newState) {
+                super.onDrawerStateChanged (newState);
 
                 // Give others
-                ((DrawerListener) self()).onDrawerStateChanged(newState);
+                ((DrawerListener) self ()).onDrawerStateChanged (newState);
             }
 
         };
 
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        mDrawerToggle.setDrawerIndicatorEnabled (true);
+        mDrawerLayout.setDrawerListener (mDrawerToggle);
+        mDrawerToggle.syncState ();
 
         return true;
     }
 
-    public final DrawerLayout getDrawerLayout() {
+    public final DrawerLayout getDrawerLayout () {
         return mDrawerLayout;
     }
 
-    protected Integer getDrawerLayoutResourceId() {
+    protected Integer getDrawerLayoutResourceId () {
         return null;
     }
 
-    protected Integer getDrawerActionsLayoutResourceId() {
+    protected Integer getDrawerActionsLayoutResourceId () {
         return null;
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (mIsDrawerPresented) mDrawerToggle.syncState();
+    protected void onPostCreate (Bundle savedInstanceState) {
+        super.onPostCreate (savedInstanceState);
+        if (mIsDrawerPresented) mDrawerToggle.syncState ();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (mIsDrawerPresented) mDrawerToggle.onConfigurationChanged(newConfig);
+    public void onConfigurationChanged (Configuration newConfig) {
+        super.onConfigurationChanged (newConfig);
+        if (mIsDrawerPresented) mDrawerToggle.onConfigurationChanged (newConfig);
     }
 
     @Override
-    public void onBackPressed() {
-        if (mIsDrawerPresented && ToolUI.toggleMenuDrawer(mDrawerLayout, false)) return;
-        super.onBackPressed();
+    public void onBackPressed () {
+        if (mIsDrawerPresented && ToolUI.toggleMenuDrawer (mDrawerLayout, false)) return;
+        super.onBackPressed ();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected (MenuItem item) {
+        switch (item.getItemId ()) {
             case android.R.id.home:
-                if (mIsDrawerPresented) ToolUI.toggleMenuDrawer(mDrawerLayout, true);
+                if (mIsDrawerPresented) ToolUI.toggleMenuDrawer (mDrawerLayout, true);
                 return true;
 
             default:
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected (item);
     }
 
-    protected boolean drawerCanHandleMenuItem(final MenuItem item) {
-        return mIsDrawerPresented && mDrawerToggle.onOptionsItemSelected(item);
+    protected boolean drawerCanHandleMenuItem (final MenuItem item) {
+        return mIsDrawerPresented && mDrawerToggle.onOptionsItemSelected (item);
     }
 
     @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
+    public void onDrawerSlide (View drawerView, float slideOffset) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerOpened(View drawerView) {
+    public void onDrawerOpened (View drawerView) {
         ToolKeyboard.hide (this);
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
+    public void onDrawerClosed (View drawerView) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerStateChanged(int newState) {
+    public void onDrawerStateChanged (int newState) {
         // Do nothing
     }
 

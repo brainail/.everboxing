@@ -61,46 +61,46 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     private DrawerSection mCurrentSection;
 
-    private final LinkedList<DrawerSection> mPrimaryDrawerSections = new LinkedList<DrawerSection>();
-    private final LinkedList<DrawerSection> mHelpDrawerSections = new LinkedList<DrawerSection>();
+    private final LinkedList<DrawerSection> mPrimaryDrawerSections = new LinkedList<DrawerSection> ();
+    private final LinkedList<DrawerSection> mHelpDrawerSections = new LinkedList<DrawerSection> ();
 
     private final SectionedDrawerActivity mScene;
 
-    public DrawerSectionsController(final SectionedDrawerActivity scene) {
+    public DrawerSectionsController (final SectionedDrawerActivity scene) {
         mScene = scene;
-        ButterKnife.inject(this, scene);
+        ButterKnife.inject (this, scene);
         updateUserInfo (PlayServices.formSettingsUserInfo ());
     }
 
     @Override
-    public void addDivider() {
+    public void addDivider () {
         addDivider (R.layout.drawer_section_divider);
     }
 
     @Override
-    public void addSubheader(final String titleText) {
-        final View subheader = getInflater().inflate(R.layout.drawer_section_subheader, mPrimarySections, false);
-        final TextView title = ButterKnife.findById(subheader, R.id.drawer_section_subheader_text);
-        title.setText(titleText);
+    public void addSubheader (final String titleText) {
+        final View subheader = getInflater ().inflate (R.layout.drawer_section_subheader, mPrimarySections, false);
+        final TextView title = ButterKnife.findById (subheader, R.id.drawer_section_subheader_text);
+        title.setText (titleText);
 
-        addDivider(R.layout.drawer_section_divider_subheader);
+        addDivider (R.layout.drawer_section_divider_subheader);
         mPrimarySections.addView (subheader);
     }
 
-    private void addDivider(final int layoutId) {
-        mPrimarySections.addView(ToolUI.linearWrapper(mScene, layoutId));
+    private void addDivider (final int layoutId) {
+        mPrimarySections.addView (ToolUI.linearWrapper (mScene, layoutId));
     }
 
     @Override
-    public void addSection(final DrawerSection section) {
+    public void addSection (final DrawerSection section) {
         section.withController (this);
 
-        switch (section.getLocationType()) {
+        switch (section.getLocationType ()) {
             case PRIMARY:
-                addPrimarySection(section);
+                addPrimarySection (section);
                 break;
             case HELP:
-                addHelpSection(section);
+                addHelpSection (section);
                 break;
             default:
                 break;
@@ -108,31 +108,31 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     // Section by position
-    private DrawerSection section(final int position) {
+    private DrawerSection section (final int position) {
         for (final DrawerSection primarySection : mPrimaryDrawerSections) {
-            if (position == primarySection.getPosition()) return primarySection;
+            if (position == primarySection.getPosition ()) return primarySection;
         }
 
         for (final DrawerSection helpSection : mHelpDrawerSections) {
-            if (position == helpSection.getPosition()) return helpSection;
+            if (position == helpSection.getPosition ()) return helpSection;
         }
 
         return null;
     }
 
     // Checks that our sections aren't presented somewhere
-    private boolean anyPresented() {
+    private boolean anyPresented () {
         for (final DrawerSection primarySection : mPrimaryDrawerSections) {
-            final Object sectionTarget = primarySection.getTarget();
+            final Object sectionTarget = primarySection.getTarget ();
             if (sectionTarget instanceof Tagable) {
-                if (ToolFragments.isPresented(scene(), (Tagable) sectionTarget)) return true;
+                if (ToolFragments.isPresented (scene (), (Tagable) sectionTarget)) return true;
             }
         }
 
         for (final DrawerSection helpSection : mHelpDrawerSections) {
-            final Object sectionTarget = helpSection.getTarget();
+            final Object sectionTarget = helpSection.getTarget ();
             if (sectionTarget instanceof Tagable) {
-                if (ToolFragments.isPresented(scene(), (Tagable) sectionTarget)) return true;
+                if (ToolFragments.isPresented (scene (), (Tagable) sectionTarget)) return true;
             }
         }
 
@@ -141,24 +141,24 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     @Override
     // Section by fragment
-    public DrawerSection section(final Fragment target) {
+    public DrawerSection section (final Fragment target) {
         // It isn't our client
         if (!(target instanceof Tagable)) return null;
 
-        final String tagIdentifier = ((Tagable) target).tag();
+        final String tagIdentifier = ((Tagable) target).tag ();
 
         for (final DrawerSection primarySection : mPrimaryDrawerSections) {
-            final Object sectionTarget = primarySection.getTarget();
+            final Object sectionTarget = primarySection.getTarget ();
             if (sectionTarget instanceof Tagable) {
-                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag();
+                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag ();
                 if (sectionTagIdentifier.equals (tagIdentifier)) return primarySection;
             }
         }
 
         for (final DrawerSection helpSection : mHelpDrawerSections) {
-            final Object sectionTarget = helpSection.getTarget();
+            final Object sectionTarget = helpSection.getTarget ();
             if (sectionTarget instanceof Tagable) {
-                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag();
+                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag ();
                 if (sectionTagIdentifier.equals (tagIdentifier)) return helpSection;
             }
         }
@@ -167,108 +167,108 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     // Unselects sections by position of selected section
-    private void selectSection(final int position) {
-        mCurrentSection = section(position);
+    private void selectSection (final int position) {
+        mCurrentSection = section (position);
 
         for (final DrawerSection primarySection : mPrimaryDrawerSections) {
-            if (position != primarySection.getPosition()) primarySection.unselect();
+            if (position != primarySection.getPosition ()) primarySection.unselect ();
         }
 
         for (final DrawerSection helpSection : mHelpDrawerSections) {
-            if (position != helpSection.getPosition()) helpSection.unselect();
+            if (position != helpSection.getPosition ()) helpSection.unselect ();
         }
     }
 
     // Unselects sections by instance of selected section
-    protected void selectSection(final DrawerSection section) {
-        selectSection(section.getPosition());
+    protected void selectSection (final DrawerSection section) {
+        selectSection (section.getPosition ());
     }
 
     // Unselects current section If necessary
-    protected void unselectSection(final DrawerSection section) {
+    protected void unselectSection (final DrawerSection section) {
         mCurrentSection = (mCurrentSection == section) ? null : mCurrentSection;
     }
 
     @Override
-    public SectionedDrawerActivity scene() {
+    public SectionedDrawerActivity scene () {
         return mScene;
     }
 
-    private void addPrimarySection(final DrawerSection section) {
-        section.withPosition(mPrimaryDrawerSections.size());
-        mPrimaryDrawerSections.add(section);
-        mPrimarySections.addView(section.selfView());
+    private void addPrimarySection (final DrawerSection section) {
+        section.withPosition (mPrimaryDrawerSections.size ());
+        mPrimaryDrawerSections.add (section);
+        mPrimarySections.addView (section.selfView ());
     }
 
-    private void addHelpSection(final DrawerSection section) {
-        section.withPosition(-mHelpDrawerSections.size() - 1);
+    private void addHelpSection (final DrawerSection section) {
+        section.withPosition (-mHelpDrawerSections.size () - 1);
         mHelpDrawerSections.add (section);
         mHelpSections.addView (section.selfView ());
         notifySectionsChanged ();
     }
 
-    private void notifySectionsChanged() {
+    private void notifySectionsChanged () {
         mHelpSectionsSeparator.setVisibility (mHelpDrawerSections.isEmpty () ? View.GONE : View.VISIBLE);
     }
 
-    private LayoutInflater getInflater() {
-        return LayoutInflater.from(mScene);
+    private LayoutInflater getInflater () {
+        return LayoutInflater.from (mScene);
     }
 
     @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-        if (mScene.sectionInitializer().isTransparentable()) {
+    public void onDrawerSlide (View drawerView, float slideOffset) {
+        if (mScene.sectionInitializer ().isTransparentable ()) {
             // Change alpha by offset
-            mUserCoverArea.setAlpha(slideOffset);
-            mDrawerView.setBackgroundColor(ToolColor.withAlpha(DRAWER_COLOR, (1 - slideOffset) * 100));
+            mUserCoverArea.setAlpha (slideOffset);
+            mDrawerView.setBackgroundColor (ToolColor.withAlpha (DRAWER_COLOR, (1 - slideOffset) * 100));
         }
     }
 
     @Override
-    public void onDrawerOpened(View drawerView) {
+    public void onDrawerOpened (View drawerView) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerStateChanged(int newState) {
+    public void onDrawerStateChanged (int newState) {
         // Do nothing
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
+    public void onDrawerClosed (View drawerView) {
         if (null != mCurrentSection) {
-            mCurrentSection.onDrawerClosed(drawerView);
+            mCurrentSection.onDrawerClosed (drawerView);
         }
     }
 
     // See AppCompatActivity#onSaveInstanceState
-    public void saveState(final Bundle state) {
+    public void saveState (final Bundle state) {
         if (null != mCurrentSection) {
             state.putInt (DrawerSection.ExtraKey.POSITION, mCurrentSection.getPosition ());
         }
     }
 
     // See AppCompatActivity#onRestoreInstanceState
-    public void restoreState(final Bundle state) {
+    public void restoreState (final Bundle state) {
         // Find & select section from saved state if necessary
-        if (null == mCurrentSection && !anyPresented()) {
-            final DrawerSection restoredSection = section(null != state ? state.getInt(DrawerSection.ExtraKey.POSITION, 0) : 0);
-            if (null != restoredSection) restoredSection.select(true).openTarget(true);
+        if (null == mCurrentSection && !anyPresented ()) {
+            final DrawerSection restoredSection = section (null != state ? state.getInt (DrawerSection.ExtraKey.POSITION, 0) : 0);
+            if (null != restoredSection) restoredSection.select (true).openTarget (true);
         }
     }
 
-    public void investigateFragmentsStack() {
+    public void investigateFragmentsStack () {
         // Get current
-        final DrawerSection investigatedSection = section(ToolFragments.topFragment(scene()));
+        final DrawerSection investigatedSection = section (ToolFragments.topFragment (scene ()));
 
         if (null != mCurrentSection && mCurrentSection != investigatedSection) {
             // Investigated section is preferable to current
-            mCurrentSection.unselect();
+            mCurrentSection.unselect ();
         }
 
         if (null != investigatedSection && null == mCurrentSection) {
             // Just select via internal action because it's already here
-            investigatedSection.select(true);
+            investigatedSection.select (true);
         }
     }
 

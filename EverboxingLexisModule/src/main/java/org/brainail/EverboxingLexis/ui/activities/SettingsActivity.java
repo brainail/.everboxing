@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
@@ -80,8 +81,14 @@ public class SettingsActivity
 
     private void initSettingsBox () {
         if (null == getFragmentManager ().findFragmentByTag (SettingsFragment.MANAGER_TAG)) {
-            final FragmentTransaction fragmentTransaction = getFragmentManager ().beginTransaction ();
-            fragmentTransaction.replace (R.id.base_fragment_container, new SettingsFragment (), SettingsFragment.MANAGER_TAG).commit ();
+            final FragmentTransaction fragmentTransaction
+                    = getFragmentManager ().beginTransaction ();
+
+            fragmentTransaction.replace (
+                    R.id.base_fragment_container,
+                    new SettingsFragment (),
+                    SettingsFragment.MANAGER_TAG
+            ).commit ();
         }
     }
 
@@ -109,8 +116,7 @@ public class SettingsActivity
     }
 
     // A preference value change listener that updates the preference's summary to reflect its new value.
-    private static Preference.OnPreferenceChangeListener SUMMARY_BINDER = new Preference.OnPreferenceChangeListener () {
-
+    private static OnPreferenceChangeListener SUMMARY_BINDER = new OnPreferenceChangeListener () {
         @Override
         public boolean onPreferenceChange (final Preference preference, final Object value) {
             if (preference instanceof ListPreference) {
@@ -131,7 +137,6 @@ public class SettingsActivity
             
             return true;
         }
-
     };
 
     // Binds a preference's summary to its value. More specifically, when the

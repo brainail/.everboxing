@@ -99,7 +99,7 @@ public class DictionaryListAdapter extends BaseAdapter {
             view = convertView;
         } else {
             LayoutInflater inflater = (LayoutInflater) parent.getContext ().getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate (R.layout.dictionary_list_item, parent, false);
+            view = inflater.inflate (R.layout.list_item_dictionary, parent, false);
 
             View licenseView = view.findViewById (R.id.dictionary_license);
             licenseView.setOnClickListener (mOnUrlTapListener);

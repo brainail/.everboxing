@@ -14,21 +14,21 @@ import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -44,106 +44,106 @@ public abstract class SectionedDrawerActivity
     private IDrawerSectionsController mDrawerSectionsController;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate (Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
 
         // Instantiate section controller for drawer
-        mDrawerSectionsController = DrawerSectionsControllerFactory.create(this);
+        mDrawerSectionsController = DrawerSectionsControllerFactory.create (this);
         // Initialize drawer's sections
-        sectionInitializer().initialize(this);
+        sectionInitializer ().initialize (this);
         // The first part: investigate by fragment manager due to AppCompatActivity creating
-        mDrawerSectionsController.investigateFragmentsStack();
+        mDrawerSectionsController.investigateFragmentsStack ();
         // The second part: try to restore section by saved instance
-        mDrawerSectionsController.restoreState(savedInstanceState);
+        mDrawerSectionsController.restoreState (savedInstanceState);
         // Restore some data for toolbar
-        updateToolbarColor();
-        updateToolbarTitle();
+        updateToolbarColor ();
+        updateToolbarTitle ();
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        mDrawerSectionsController.saveState(state);
+    protected void onSaveInstanceState (Bundle state) {
+        super.onSaveInstanceState (state);
+        mDrawerSectionsController.saveState (state);
     }
 
-    public void addDrawerSection(final DrawerSection section) {
-        mDrawerSectionsController.addSection(section);
+    public void addDrawerSection (final DrawerSection section) {
+        mDrawerSectionsController.addSection (section);
     }
 
-    public void addDrawerDivider() {
-        mDrawerSectionsController.addDivider();
+    public void addDrawerDivider () {
+        mDrawerSectionsController.addDivider ();
     }
 
-    public void addDrawerSubheader(final String title) {
-        mDrawerSectionsController.addSubheader(title);
-    }
-
-    @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-        super.onDrawerSlide(drawerView, slideOffset);
-        mDrawerSectionsController.onDrawerSlide(drawerView, slideOffset);
+    public void addDrawerSubheader (final String title) {
+        mDrawerSectionsController.addSubheader (title);
     }
 
     @Override
-    public void onDrawerOpened(View drawerView) {
-        super.onDrawerOpened(drawerView);
-        mDrawerSectionsController.onDrawerOpened(drawerView);
+    public void onDrawerSlide (View drawerView, float slideOffset) {
+        super.onDrawerSlide (drawerView, slideOffset);
+        mDrawerSectionsController.onDrawerSlide (drawerView, slideOffset);
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
-        super.onDrawerClosed(drawerView);
-        mDrawerSectionsController.onDrawerClosed(drawerView);
+    public void onDrawerOpened (View drawerView) {
+        super.onDrawerOpened (drawerView);
+        mDrawerSectionsController.onDrawerOpened (drawerView);
     }
 
     @Override
-    public void onDrawerStateChanged(int newState) {
-        super.onDrawerStateChanged(newState);
-        mDrawerSectionsController.onDrawerStateChanged(newState);
+    public void onDrawerClosed (View drawerView) {
+        super.onDrawerClosed (drawerView);
+        mDrawerSectionsController.onDrawerClosed (drawerView);
     }
 
     @Override
-    public void onBackStackChanged() {
-        super.onBackStackChanged();
+    public void onDrawerStateChanged (int newState) {
+        super.onDrawerStateChanged (newState);
+        mDrawerSectionsController.onDrawerStateChanged (newState);
+    }
+
+    @Override
+    public void onBackStackChanged () {
+        super.onBackStackChanged ();
 
         // Investigate section selection state by fragment manager (check the top)
         // due to back stack has changed
-        mDrawerSectionsController.investigateFragmentsStack();
+        mDrawerSectionsController.investigateFragmentsStack ();
     }
 
     @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
+    protected void onResumeFragments () {
+        super.onResumeFragments ();
 
         // Investigate section selection state by fragment manager (check the top)
         // due to fragments resuming
-        mDrawerSectionsController.investigateFragmentsStack();
+        mDrawerSectionsController.investigateFragmentsStack ();
     }
 
     @Override
-    protected void updateToolbarColor() {
-        final DrawerSection section = mDrawerSectionsController.section(ToolFragments.topFragment(this));
+    protected void updateToolbarColor () {
+        final DrawerSection section = mDrawerSectionsController.section (ToolFragments.topFragment (this));
 
         if (null == section) {
-            super.updateToolbarColor();
+            super.updateToolbarColor ();
         } else {
-            ToolToolbar.updateToolbarColor(this, section.hasColor() ? section.getColor() : null);
+            ToolToolbar.updateToolbarColor (this, section.hasColor () ? section.getColor () : null);
         }
     }
 
     @Override
-    protected void updateToolbarTitle() {
-        final DrawerSection section = mDrawerSectionsController.section(ToolFragments.topFragment(this));
+    protected void updateToolbarTitle () {
+        final DrawerSection section = mDrawerSectionsController.section (ToolFragments.topFragment (this));
 
         if (null == section) {
-            super.updateToolbarTitle();
+            super.updateToolbarTitle ();
         } else {
-            ToolToolbar.updateToolbarTitle(this, section.getTitle());
+            ToolToolbar.updateToolbarTitle (this, section.getTitle ());
         }
     }
 
-    protected final DrawerSection section(final Fragment fragment) {
-        return mDrawerSectionsController.section(fragment);
+    protected final DrawerSection section (final Fragment fragment) {
+        return mDrawerSectionsController.section (fragment);
     }
 
     @Override
@@ -156,6 +156,6 @@ public abstract class SectionedDrawerActivity
         mDrawerSectionsController.onUnauthSucceeded ();
     }
 
-    public abstract DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer();
+    public abstract DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer ();
 
 }

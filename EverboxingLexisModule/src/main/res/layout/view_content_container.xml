@@ -11,8 +11,7 @@
             style="@style/AppContent"/>
 
         <!-- Toolbar dropshadow -->
-        <include layout="@layout/toolbar_dropshadow"/>
+        <include layout="@layout/view_toolbar_dropshadow"/>
 
     </FrameLayout>
-
 </merge>

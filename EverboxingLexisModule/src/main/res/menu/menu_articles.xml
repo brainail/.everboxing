@@ -1,4 +1,5 @@
 <menu
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -8,41 +9,57 @@
         android:checked="false"
         android:icon="@drawable/ic_bookmark_border_white_24dp"
         android:title="@string/action_bookmark_article"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:orderInCategory="8"
+        tools:ignore="AlwaysShowAction"/>
 
     <item
         android:id="@+id/action_search_externally_article"
         android:title="@string/action_search_externally_article"
         android:icon="@drawable/ic_youtube_searched_for_white_24dp"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:orderInCategory="16"
+        tools:ignore="AlwaysShowAction"/>
 
-    <item
-        android:id="@+id/action_find_in_page"
-        android:title="@string/action_find_in_page"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/action_find_in_page"-->
+        <!--android:title="@string/action_find_in_page"-->
+        <!--android:orderInCategory="12"-->
+        <!--app:showAsAction="never"/>-->
 
-    <item
-        android:id="@+id/action_zoom_in"
-        android:title="@string/action_zoom_in"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/action_zoom_in"-->
+        <!--android:title="@string/action_zoom_in"-->
+        <!--android:orderInCategory="13"-->
+        <!--app:showAsAction="never"/>-->
 
-    <item
-        android:id="@+id/action_zoom_out"
-        android:title="@string/action_zoom_out"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/action_zoom_out"-->
+        <!--android:title="@string/action_zoom_out"-->
+        <!--android:orderInCategory="14"-->
+        <!--app:showAsAction="never"/>-->
 
-    <item
-        android:id="@+id/action_zoom_reset"
-        android:title="@string/action_zoom_reset"
-        app:showAsAction="never"/>
+    <!--<item-->
+        <!--android:id="@+id/action_zoom_reset"-->
+        <!--android:title="@string/action_zoom_reset"-->
+        <!--android:orderInCategory="15"-->
+        <!--app:showAsAction="never"/>-->
 
     <item
         android:id="@+id/action_load_remote_content"
         android:title="@string/action_load_remote_content"
+        android:orderInCategory="32"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_print_article"
+        android:title="@string/action_print_article"
+        android:orderInCategory="64"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_select_style"
         android:title="@string/action_select_style"
+        android:orderInCategory="128"
         app:showAsAction="never"/>
 </menu>

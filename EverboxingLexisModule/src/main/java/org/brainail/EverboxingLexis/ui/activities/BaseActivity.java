@@ -75,13 +75,13 @@ public abstract class BaseActivity
         getWindow ().setBackgroundDrawable (null);
 
         // Monitor fragments
-        getSupportFragmentManager().addOnBackStackChangedListener (this);
+        getSupportFragmentManager ().addOnBackStackChangedListener (this);
 
         // Init & check theme
         mTheme = ThemeManager.checkOnCreate (this, mTheme);
 
         // Create notice controller
-        NoticeController.from(this).onCreate (savedInstanceState);
+        NoticeController.from (this).onCreate (savedInstanceState);
 
         // Init content view
         initContent ();
@@ -154,7 +154,7 @@ public abstract class BaseActivity
 
         // Start APIs
         for (final ClientApi api : mClientApis) {
-            if (api.useOn(this)) api.onStart ();
+            if (api.useOn (this)) api.onStart ();
         }
 
         super.onStart ();
@@ -166,7 +166,7 @@ public abstract class BaseActivity
 
         // Save APIs
         for (final ClientApi api : mClientApis) {
-            if (api.useOn(this)) api.onSave (outState);
+            if (api.useOn (this)) api.onSave (outState);
         }
 
         super.onSaveInstanceState (outState);
@@ -178,7 +178,7 @@ public abstract class BaseActivity
 
         // Stop APIs
         for (final ClientApi api : mClientApis) {
-            if (api.useOn(this)) api.onStop ();
+            if (api.useOn (this)) api.onStop ();
         }
 
         super.onStop ();
@@ -192,8 +192,8 @@ public abstract class BaseActivity
 
     @Override
     public void onBackPressed () {
-        if (! ToolFragments.navigateBack(this)) {
-            supportFinishAfterTransition();
+        if (!ToolFragments.navigateBack (this)) {
+            supportFinishAfterTransition ();
         }
     }
 
@@ -278,7 +278,7 @@ public abstract class BaseActivity
 
     @Override
     public boolean usePlayServices () {
-        return SettingsManager.getInstance().retrieveSyncDataFlag ();
+        return SettingsManager.getInstance ().retrieveSyncDataFlag ();
     }
 
     @Override

@@ -57,7 +57,7 @@ public class SwitchPreferenceCompat extends CheckBoxPreference {
     }
 
     private void init() {
-        setWidgetLayoutResource(R.layout.preference_switch_layout);
+        setWidgetLayoutResource(R.layout.view_preference_switch);
     }
 
 }

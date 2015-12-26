@@ -15,7 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,21 +30,21 @@ import butterknife.ButterKnife;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p/>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p/>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p/>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p/>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p/>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -55,32 +55,32 @@ import butterknife.ButterKnife;
  */
 public final class ToolUI {
 
-    @SuppressLint("RtlHardcoded")
+    @SuppressLint ("RtlHardcoded")
     public final static int GRAVITY_START = Gravity.START | Gravity.LEFT;
 
     public static boolean USE_SNACKBARS = true;
 
     @SuppressWarnings ("ResourceType")
-    public static boolean toggleMenuDrawer(final DrawerLayout drawerLayout, final boolean twoDirections) {
-        if (drawerLayout.isDrawerOpen(GRAVITY_START)) {
-            drawerLayout.closeDrawer(GRAVITY_START);
+    public static boolean toggleMenuDrawer (final DrawerLayout drawerLayout, final boolean twoDirections) {
+        if (drawerLayout.isDrawerOpen (GRAVITY_START)) {
+            drawerLayout.closeDrawer (GRAVITY_START);
             return true;
         } else if (twoDirections) {
-            drawerLayout.openDrawer(GRAVITY_START);
+            drawerLayout.openDrawer (GRAVITY_START);
             return true;
         }
 
         return false;
     }
 
-    public static void showToast(final Fragment fragment, final String message) {
+    public static void showToast (final Fragment fragment, final String message) {
         if (null != fragment) {
             final Activity scene = fragment.getActivity ();
             if (null != scene) {
                 scene.runOnUiThread (new Runnable () {
                     @Override
                     public void run () {
-                        if (! USE_SNACKBARS) {
+                        if (!USE_SNACKBARS) {
                             Toast.makeText (scene, message, Toast.LENGTH_SHORT).show ();
                         } else {
                             NoticeController.from (fragment).notifyScene (message);
@@ -91,64 +91,66 @@ public final class ToolUI {
         }
     }
 
-    public static void showToast(final Fragment fragment, final int resId) {
-        showToast(fragment, JApplication.appContext().getString(resId));
+    public static void showToast (final Fragment fragment, final int resId) {
+        showToast (fragment, JApplication.appContext ().getString (resId));
     }
 
-    public static void showToast(final AppCompatActivity activity, final String message) {
+    public static void showToast (final AppCompatActivity activity, final String message) {
         if (null != activity) {
-            activity.runOnUiThread(new Runnable() {
+            activity.runOnUiThread (new Runnable () {
                 @Override
-                public void run() {
-                    if (! USE_SNACKBARS) {
-                        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+                public void run () {
+                    if (!USE_SNACKBARS) {
+                        Toast.makeText (activity, message, Toast.LENGTH_SHORT).show ();
                     } else {
-                        NoticeController.from(activity).notifyScene(message);
+                        NoticeController.from (activity).notifyScene (message);
                     }
                 }
             });
         }
     }
 
-    public static void showToast(final AppCompatActivity activity, final int resId) {
-        showToast(activity, JApplication.appContext().getString(resId));
+    public static void showToast (final AppCompatActivity activity, final int resId) {
+        showToast (activity, JApplication.appContext ().getString (resId));
     }
 
-    public static void fixSettingsPaddingWorkaround(final AppCompatActivity activity) {
+    public static void fixSettingsPaddingWorkaround (final AppCompatActivity activity) {
         try {
-            final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
-            allPreferences.setPadding(0, 0, 0, 0);
-            final ViewGroup parent = (ViewGroup) allPreferences.getParent();
-            parent.setPadding(parent.getPaddingLeft(), 0, parent.getPaddingRight(), 0);
+            final ListView allPreferences = ButterKnife.findById (activity, android.R.id.list);
+            allPreferences.setPadding (0, 0, 0, 0);
+            final ViewGroup parent = (ViewGroup) allPreferences.getParent ();
+            parent.setPadding (parent.getPaddingLeft (), 0, parent.getPaddingRight (), 0);
         } catch (Exception exception) {
             // Do nothing
         }
     }
 
-    public static void fixSettingsSelectorWorkaround(final AppCompatActivity activity) {
+    public static void fixSettingsSelectorWorkaround (final AppCompatActivity activity) {
         try {
-            final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
-            if (!Sdk.isSdkSupported(Sdk.LOLLIPOP)) allPreferences.setSelector(R.drawable.list_item_default_selector);
+            final ListView allPreferences = ButterKnife.findById (activity, android.R.id.list);
+            if (!Sdk.isSdkSupported (Sdk.LOLLIPOP)) {
+                allPreferences.setSelector (R.drawable.list_item_default_selector);
+            }
         } catch (Exception exception) {
             // Do nothing
         }
     }
 
-    public static void fixSettingsDividersWorkaround(final AppCompatActivity activity) {
+    public static void fixSettingsDividersWorkaround (final AppCompatActivity activity) {
         try {
-            final ListView allPreferences = ButterKnife.findById(activity, android.R.id.list);
-            allPreferences.setDivider(null);
-            allPreferences.setDividerHeight(0);
+            final ListView allPreferences = ButterKnife.findById (activity, android.R.id.list);
+            allPreferences.setDivider (null);
+            allPreferences.setDividerHeight (0);
         } catch (Exception exception) {
             // Do nothing
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @TargetApi (Build.VERSION_CODES.JELLY_BEAN)
     // @see https://developer.android.com/training/system-ui/navigation.html#behind
-    public static boolean hasHideNavigationFlag(final ViewGroup root) {
-        if (Sdk.isSdkSupported(Sdk.JELLY_BEAN) && null != root) {
-            final int visibilityFlags = root.getWindowSystemUiVisibility();
+    public static boolean hasHideNavigationFlag (final ViewGroup root) {
+        if (Sdk.isSdkSupported (Sdk.JELLY_BEAN) && null != root) {
+            final int visibilityFlags = root.getWindowSystemUiVisibility ();
             final int hideNavigationFlag = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
             return hideNavigationFlag == (visibilityFlags & hideNavigationFlag);
         }
@@ -156,11 +158,11 @@ public final class ToolUI {
         return false;
     }
 
-    public static void removeViewFully(final View view) {
+    public static void removeViewFully (final View view) {
         if (null != view) {
             try {
-                if (view.getParent() instanceof ViewGroup) {
-                    ((ViewGroup) view.getParent()).removeView(view);
+                if (view.getParent () instanceof ViewGroup) {
+                    ((ViewGroup) view.getParent ()).removeView (view);
                 }
             } catch (Exception exception) {
                 // Do nothing
@@ -168,7 +170,7 @@ public final class ToolUI {
 
             try {
                 if (view instanceof ViewGroup) {
-                    ((ViewGroup) view).removeAllViews();
+                    ((ViewGroup) view).removeAllViews ();
                 }
             } catch (Exception exception) {
                 // Do nothing
@@ -177,25 +179,29 @@ public final class ToolUI {
     }
 
     // Computes the coordinates of view on the screen. You should use it only after the view has been located.
-    public static Rect computeLocationOnScreen(final View view) {
+    public static Rect computeLocationOnScreen (final View view) {
         if (null != view) {
-            final int [] locationOnScreen = new int [2];
-            view.getLocationOnScreen(locationOnScreen);
-            int leftPosition = locationOnScreen [0], topPosition = locationOnScreen [1];
-            return new Rect(leftPosition, topPosition, leftPosition + view.getWidth(), topPosition + view.getHeight());
+            final int[] locationOnScreen = new int[2];
+            view.getLocationOnScreen (locationOnScreen);
+            int leftPosition = locationOnScreen[0], topPosition = locationOnScreen[1];
+
+            return new Rect (
+                    leftPosition, topPosition,
+                    leftPosition + view.getWidth (), topPosition + view.getHeight ()
+            );
         }
 
         return null;
     }
 
-    public static boolean isLocatedWithinScreen(final Context context, final View view) {
+    public static boolean isLocatedWithinScreen (final Context context, final View view) {
         if (null != view) {
-            final Rect location = computeLocationOnScreen(view);
+            final Rect location = computeLocationOnScreen (view);
 
-            final int screenHeight = ToolPhone.screenHeightInPixels(context);
+            final int screenHeight = ToolPhone.screenHeightInPixels (context);
             final boolean isOutsideVertically = location.bottom <= 0 || location.top >= screenHeight;
 
-            final int screenWidth = ToolPhone.screenWidthInPixels(context);
+            final int screenWidth = ToolPhone.screenWidthInPixels (context);
             final boolean isOutsideHorizontally = location.right <= 0 || location.left >= screenWidth;
 
             return !isOutsideVertically && !isOutsideHorizontally;
@@ -204,19 +210,19 @@ public final class ToolUI {
         return false;
     }
 
-    public static void dismissDialog(final Dialog dialog) {
-        if (null != dialog && dialog.isShowing()) {
-            dialog.dismiss();
+    public static void dismissDialog (final Dialog dialog) {
+        if (null != dialog && dialog.isShowing ()) {
+            dialog.dismiss ();
         }
     }
 
     // Converts view to bitmap.
-    public static Bitmap takeViewScreenshot(final WebView view) {
+    public static Bitmap takeViewScreenshot (final WebView view) {
         try {
             if (null != view) {
-                view.setDrawingCacheEnabled(true);
-                final Bitmap screenshot = Bitmap.createBitmap(view.getDrawingCache());
-                view.setDrawingCacheEnabled(false);
+                view.setDrawingCacheEnabled (true);
+                final Bitmap screenshot = Bitmap.createBitmap (view.getDrawingCache ());
+                view.setDrawingCacheEnabled (false);
                 return screenshot;
             }
         } catch (Exception exception) {
@@ -226,32 +232,41 @@ public final class ToolUI {
         return null;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static void addOnGlobalLayoutListenerOnce(final View view, final ViewTreeObserver.OnGlobalLayoutListener callback) {
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    @TargetApi (Build.VERSION_CODES.JELLY_BEAN)
+    public static void addOnGlobalLayoutListenerOnce (
+            final View view,
+            final OnGlobalLayoutListener callback) {
+
+        view.getViewTreeObserver ().addOnGlobalLayoutListener (new OnGlobalLayoutListener () {
 
             @Override
-            public void onGlobalLayout() {
-                callback.onGlobalLayout();
+            public void onGlobalLayout () {
+                callback.onGlobalLayout ();
 
-                if (Sdk.isSdkSupported(Sdk.JELLY_BEAN)) {
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (Sdk.isSdkSupported (Sdk.JELLY_BEAN)) {
+                    view.getViewTreeObserver ().removeOnGlobalLayoutListener (this);
                 } else {
-                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    view.getViewTreeObserver ().removeGlobalOnLayoutListener (this);
                 }
             }
 
         });
     }
 
-    public static View linearWrapper(final Context context, final int layoutId) {
-        final LinearLayout layoutWrapper = new LinearLayout(context);
-        LayoutInflater.from(context).inflate(layoutId, layoutWrapper, true);
+    public static View linearWrapper (final Context context, final int layoutId) {
+        final LinearLayout layoutWrapper = new LinearLayout (context);
+        LayoutInflater.from (context).inflate (layoutId, layoutWrapper, true);
         return layoutWrapper;
     }
 
-    public static boolean isVisible(final View view) {
-        return null != view && View.VISIBLE == view.getVisibility();
+    public static boolean isVisible (final View view) {
+        return null != view && View.VISIBLE == view.getVisibility ();
+    }
+
+    public static void updateVisibility (final View view, final int visibility) {
+        if (null != view && visibility != view.getVisibility ()) {
+            view.setVisibility (visibility);
+        }
     }
     
 }

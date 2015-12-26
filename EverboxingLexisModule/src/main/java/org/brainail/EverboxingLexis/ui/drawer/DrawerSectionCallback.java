@@ -26,6 +26,6 @@ package org.brainail.EverboxingLexis.ui.drawer;
  * THE SOFTWARE.
  */
 public interface DrawerSectionCallback {
-    public void onClick(final DrawerSection section);
-    public void onTargetClick(final DrawerSection section);
+    public void onClick (final DrawerSection section);
+    public void onTargetClick (final DrawerSection section);
 }

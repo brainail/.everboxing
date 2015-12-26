@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <org.brainail.EverboxingLexis.ui.views.HotspotSectionLayout
+    tools:background="@color/md_pink_700"
     style="@style/FileManagerItem.Section"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
+        tools:src="@drawable/ic_memory_black_18dp"
         android:id="@+id/file_select_directory_icon"
         style="@style/FileManagerItem.Icon"
         tools:ignore="ContentDescription"/>
 
     <TextView
+        tools:text="シシシTemp folder, let's have some fun! Enjoy! シシシシシシシシ, シシシシシシ, シシシシシシ"
         android:id="@+id/file_select_file_name"
         style="@style/FileManagerItem.Title.AfterIcon"/>
 

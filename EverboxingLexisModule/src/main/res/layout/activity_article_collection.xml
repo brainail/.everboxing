@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <!-- Toolbar -->
-        <include layout="@layout/toolbar_primary"/>
+        <include layout="@layout/view_toolbar_primary"/>
 
         <!-- Tabs -->
         <android.support.design.widget.TabLayout
@@ -28,20 +28,5 @@
             android:id="@+id/articles_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
-        <!-- Loading state -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <ProgressBar
-                android:id="@+id/webViewProgress"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true"/>
-        </FrameLayout>
     </LinearLayout>
 </FrameLayout>

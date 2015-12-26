@@ -36,7 +36,7 @@ public final class LexisPaperHardyDialogs {
         return BaseDialogSpecification.create ()
                 .code (LexisPaperHardyDialogsCode.D_DICTIONARY_SCANNING_PROGRESS)
                 .contentLayoutParams (new LayoutParams (200 /*dp*/, 200 /*dp*/))
-                .content (R.layout.dictionary_wave)
+                .content (R.layout.view_scanning_dictionaries)
                 .cancelable (false)
                 .translucent (true);
     }
