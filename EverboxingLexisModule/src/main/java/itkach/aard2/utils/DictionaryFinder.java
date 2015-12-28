@@ -1,10 +1,9 @@
 package itkach.aard2.utils;
 
-import android.util.Log;
+import org.brainail.EverboxingLexis.utils.Plogger;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -49,28 +48,15 @@ public class DictionaryFinder {
         }
         String absolutePath = dir.getAbsolutePath();
         if (excludedScanDirs.contains(absolutePath)) {
-            Log.d(T, String.format("%s is excluded", absolutePath));
-            return Collections.emptyList();
-        }
-        boolean symlink = false;
-        try {
-            symlink = isSymlink(dir);
-        } catch (IOException e) {
-            Log.e(T,
-                    String.format("Failed to check if %s is symlink",
-                            dir.getAbsolutePath()));
-        }
-
-        if (symlink) {
-            Log.d(T, String.format("%s is a symlink", absolutePath));
+            Plogger.logD(String.format("%s is excluded", absolutePath));
             return Collections.emptyList();
         }
 
         if (dir.isHidden()) {
-            Log.d(T, String.format("%s is hidden", absolutePath));
+            Plogger.logD(String.format("%s is hidden", absolutePath));
             return Collections.emptyList();
         }
-        Log.d(T, "Scanning " + absolutePath);
+        Plogger.logD("Scanning " + absolutePath);
         List<File> candidates = new ArrayList<File>();
         File[] files = dir.listFiles(fileFilter);
         if (files != null) {
@@ -91,28 +77,12 @@ public class DictionaryFinder {
         return candidates;
     }
 
-    private static boolean isSymlink(File file) throws IOException {
-        File fileInCanonicalDir = null;
-        if (file.getParent() == null) {
-            fileInCanonicalDir = file;
-        } else {
-            File canonicalDir = file.getParentFile().getCanonicalFile();
-            fileInCanonicalDir = new File(canonicalDir, file.getName());
-        }
-        if (fileInCanonicalDir.getCanonicalFile().equals(
-                fileInCanonicalDir.getAbsoluteFile())) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public synchronized List<SlobDescriptor> findDictionaries() {
         cancelRequested = false;
-        Log.d(T, "starting dictionary discovery");
+        Plogger.logD("starting dictionary discovery");
         long t0 = System.currentTimeMillis();
         List<File> candidates = discover();
-        Log.d(T, "dictionary discovery took " + (System.currentTimeMillis() - t0));
+        Plogger.logD("dictionary discovery took " + (System.currentTimeMillis() - t0));
         List<SlobDescriptor> descriptors = new ArrayList<SlobDescriptor>();
         Set<String> seen = new HashSet<String>();
         for (File f : candidates) {

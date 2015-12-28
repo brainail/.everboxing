@@ -2,12 +2,9 @@ package itkach.aard2.ui.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,15 +33,6 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     final static int FILE_SELECT_REQUEST = 17;
 
     private boolean mShouldScanDictionariesOnAttach = false;
-
-    @Override
-    public Drawable getEmptyStateIcon () {
-        return BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_collection_text);
-    }
-
-    public CharSequence getEmptyText() {
-        return Html.fromHtml(getString(R.string.main_empty_dictionaries));
-    }
 
     @Override
     protected boolean supportsSelection() {
@@ -81,13 +69,9 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
             startActivityForResult(intent, FILE_SELECT_REQUEST);
             return true;
         } else if (item.getItemId () == R.id.action_dic_store_mirror_one) {
-            String url = "https://cloud.mail.ru/public/GZha/fW3MRhSCf";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse (url));
-            getActivity ().startActivity(intent);
+            openUrl ("https://cloud.mail.ru/public/GZha/fW3MRhSCf");
         } else if (item.getItemId () == R.id.action_dic_store_mirror_two) {
-            String url = "https://github.com/itkach/slob/wiki/Dictionaries";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse (url));
-            getActivity ().startActivity(intent);
+            openUrl ("https://github.com/itkach/slob/wiki/Dictionaries");
         }
 
         return super.onOptionsItemSelected(item);

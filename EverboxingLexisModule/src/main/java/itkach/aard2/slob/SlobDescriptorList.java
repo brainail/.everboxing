@@ -8,12 +8,10 @@ import itkach.slob.Slob;
 
 public class SlobDescriptorList extends BaseDescriptorList<SlobDescriptor> {
 
-    private final Application app;
     private Comparator<SlobDescriptor> comparator;
 
-    public SlobDescriptorList (Application app, DescriptorStore<SlobDescriptor> store) {
+    public SlobDescriptorList (DescriptorStore<SlobDescriptor> store) {
         super (SlobDescriptor.class, store);
-        this.app = app;
 
         comparator = new Comparator<SlobDescriptor> () {
             @Override
@@ -37,7 +35,7 @@ public class SlobDescriptorList extends BaseDescriptorList<SlobDescriptor> {
     }
 
     public Slob resolve (SlobDescriptor sd) {
-        return app.getSlob (sd.id);
+        return Application.app ().getSlob (sd.id);
     }
 
     public void sort () {

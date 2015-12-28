@@ -28,9 +28,13 @@ import org.brainail.EverboxingLexis.oauth.api.ClientApi;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 import org.brainail.EverboxingLexis.ui.views.dialogs.ThemeChooser;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsHandlers.ArticleLoadRemoteContentMode;
 import org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
+
+import itkach.aard2.utils.RemoteContentMode;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -149,7 +153,7 @@ public class SettingsActivity
         preference.setOnPreferenceChangeListener (SUMMARY_BINDER);
 
         // Trigger the listener immediately with the preference's current value.
-        if (!useDef) {
+        if (! useDef) {
             final SharedPreferences preferences = SettingsManager.getInstance ().defaultPreferences ();
             final String value = preferences.getString (preference.getKey (), defSummary);
 
@@ -189,7 +193,7 @@ public class SettingsActivity
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
     @TargetApi (Build.VERSION_CODES.HONEYCOMB)
-    public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+    public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
         public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#settings.fragment";
 
@@ -220,6 +224,12 @@ public class SettingsActivity
             changeThemePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_palette));
             bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
+            // Load remote content
+            final String defLoadRemoteContentSummary = SettingsManager.getInstance ().retrieveLoadRemoteContentModeSummary ();
+            final Preference loadRemoteContentPf = findPreference (getString (R.string.settings_load_remote_content_key));
+            loadRemoteContentPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_remote_control));
+            bindPreferenceSummary (loadRemoteContentPf, defLoadRemoteContentSummary, true);
+
             // About
             final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
             aboutPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_info_outline));
@@ -227,6 +237,7 @@ public class SettingsActivity
             // Set click listeners
             setOnClickListener (getString (R.string.settings_sync_account_key));
             setOnClickListener (getString (R.string.settings_change_theme_key));
+            setOnClickListener (getString (R.string.settings_load_remote_content_key));
             setOnClickListener (getString (R.string.settings_open_about_key));
         }
 
@@ -246,6 +257,23 @@ public class SettingsActivity
                 new ThemeChooser ().show (getActivity ().getFragmentManager (), ThemeChooser.MANAGER_TAG);
             } else
 
+            // Load remote content mode
+            if (getString (R.string.settings_load_remote_content_key).equals (preference.getKey ())) {
+                LexisPaperHardyDialogs.articleLoadRemoteContentModeDialog ()
+                        .items (new int [] {
+                                R.string.setting_remote_content_never,
+                                R.string.setting_remote_content_wifi,
+                                R.string.setting_remote_content_always
+                        })
+                        .tags (new String [] {
+                                RemoteContentMode.NEVER.name (),
+                                RemoteContentMode.WIFI.name (),
+                                RemoteContentMode.ALWAYS.name ()
+                        })
+                        .setCallbacks (new ArticleLoadRemoteContentMode ())
+                        .show (getActivity ());
+            } else
+
             // About
             if (getString (R.string.settings_open_about_key).equals (preference.getKey ())) {
                 startActivity (new Intent (getActivity (), AboutActivity.class));
@@ -258,6 +286,28 @@ public class SettingsActivity
             final Preference preference = findPreference (preferenceKey);
             if (null != preference) {
                 preference.setOnPreferenceClickListener (this);
+            }
+        }
+
+        @Override
+        public void onResume () {
+            super.onResume ();
+            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged (SharedPreferences sharedPreferences, String key) {
+            // Load remote content mode
+            if (getString (R.string.settings_load_remote_content_key).equals (key)) {
+                final String loadRemoteContentSummary
+                        = SettingsManager.getInstance ().retrieveLoadRemoteContentModeSummary ();
+                SUMMARY_BINDER.onPreferenceChange (findPreference (key), loadRemoteContentSummary);
             }
         }
 

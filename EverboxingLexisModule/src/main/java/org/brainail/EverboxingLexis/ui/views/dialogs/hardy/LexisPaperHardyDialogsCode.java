@@ -29,9 +29,25 @@ import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsCode;
  */
 public class LexisPaperHardyDialogsCode extends BaseHardyDialogsCode {
 
-    // progress
+    // Dictionaries scanning
     public static final BaseHardyDialogsCode D_DICTIONARY_SCANNING_PROGRESS
-            = new BaseHardyDialogsCode ("dictionary_scanning_progress");
+            = new BaseHardyDialogsCode ("dictionary.scanning.progress");
+
+    // Choose daily style (dark or light ...)
+    public static final BaseHardyDialogsCode D_ARTICLE_DAILY_STYLE
+            = new BaseHardyDialogsCode ("article.daily.style");
+
+    // Choose load remote content mode
+    public static final BaseHardyDialogsCode D_ARTICLE_LOAD_REMOTE_CONTENT_MODE
+            = new BaseHardyDialogsCode ("article.load.remote.content.mode");
+
+    // Confirm that you want to remove a dictionary
+    public static final BaseHardyDialogsCode D_DICTIONARY_REMOVING_CONFIRMATION
+            = new BaseHardyDialogsCode ("dictionary.removing.confirmation");
+
+    // Confirm that you want to remove selected items
+    public static final BaseHardyDialogsCode D_LIST_ITEMS_REMOVING_CONFIRMATION
+            = new BaseHardyDialogsCode ("list.items.removing.confirmation");
 
     public LexisPaperHardyDialogsCode (String code) {
         super (code);

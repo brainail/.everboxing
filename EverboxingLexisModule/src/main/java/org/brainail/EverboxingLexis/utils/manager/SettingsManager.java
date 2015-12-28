@@ -6,6 +6,9 @@ import android.preference.PreferenceManager;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+
+import itkach.aard2.utils.RemoteContentMode;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -39,6 +42,8 @@ public final class SettingsManager {
     private String mSyncDataPfKey;
     private String mAppThemePfKey;
     private String mAppThemeNamePfKey;
+    private String mLoadRemoteContentModePfKey;
+    private String mLoadRemoteContentModeNamePfKey;
 
     private SettingsManager () {
         initializePreferences ();
@@ -46,10 +51,12 @@ public final class SettingsManager {
     }
 
     private void initializePreferencesKeys () {
-        mPlayAccountPfKey = JApplication.appContext ().getString (R.string.settings_add_play_account_key);
-        mSyncDataPfKey = JApplication.appContext ().getString (R.string.settings_sync_account_key);
-        mAppThemeNamePfKey = JApplication.appContext ().getString (R.string.settings_change_theme_key);
+        mPlayAccountPfKey = ToolResources.string (R.string.settings_add_play_account_key);
+        mSyncDataPfKey = ToolResources.string (R.string.settings_sync_account_key);
+        mAppThemeNamePfKey = ToolResources.string (R.string.settings_change_theme_key);
         mAppThemePfKey = "settings_app_theme";
+        mLoadRemoteContentModeNamePfKey = ToolResources.string (R.string.settings_load_remote_content_key);
+        mLoadRemoteContentModePfKey = "settings_load_remote_content";
     }
 
     private void initializePreferences () {
@@ -95,12 +102,51 @@ public final class SettingsManager {
 
     public ThemeManager.AppTheme retrieveAppTheme () {
         final String sTheme = mDefaultPreferences.getString (mAppThemePfKey, ThemeManager.AppTheme.PINK.name ());
-        return ThemeManager.AppTheme.valueOf (sTheme);
+
+        try {
+            return ThemeManager.AppTheme.valueOf (sTheme);
+        } catch (final Exception exception) {
+            return ThemeManager.AppTheme.PINK;
+        }
     }
 
     public String retrieveAppThemeSummary () {
         final String sTheme = mDefaultPreferences.getString (mAppThemePfKey, ThemeManager.AppTheme.PINK.name ());
-        return JApplication.appContext ().getString (ThemeManager.AppTheme.valueOf (sTheme).getNameResId ());
+
+        try {
+            return ToolResources.string (ThemeManager.AppTheme.valueOf (sTheme).getNameResId ());
+        } catch (final Exception exception) {
+            return ToolResources.string (ThemeManager.AppTheme.PINK.getNameResId ());
+        }
+    }
+
+    public void saveLoadRemoteContentMode (final RemoteContentMode mode) {
+        final String modeName = JApplication.appContext ().getString (mode.getNameResId ());
+
+        mDefaultPreferences.edit ()
+                .putString (mLoadRemoteContentModeNamePfKey, modeName)
+                .putString (mLoadRemoteContentModePfKey, mode.name ())
+                .apply ();
+    }
+
+    public RemoteContentMode retrieveLoadRemoteContentMode () {
+        final String sMode = mDefaultPreferences.getString (mLoadRemoteContentModePfKey, RemoteContentMode.WIFI.name ());
+
+        try {
+            return RemoteContentMode.valueOf (sMode);
+        } catch (final Exception exception) {
+            return RemoteContentMode.WIFI;
+        }
+    }
+
+    public String retrieveLoadRemoteContentModeSummary () {
+        final String sMode = mDefaultPreferences.getString (mLoadRemoteContentModePfKey, RemoteContentMode.WIFI.name ());
+
+        try {
+            return ToolResources.string (RemoteContentMode.valueOf (sMode).getNameResId ());
+        } catch (final Exception exception) {
+            return ToolResources.string (RemoteContentMode.WIFI.getNameResId ());
+        }
     }
 
 }

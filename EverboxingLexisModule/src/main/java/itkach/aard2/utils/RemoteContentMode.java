@@ -1,9 +1,8 @@
-package itkach.aard2.ui.fragments;
+package itkach.aard2.utils;
+
+import android.content.Context;
 
 import org.brainail.EverboxingLexis.R;
-
-import itkach.aard2.Application;
-import itkach.aard2.slob.BlobDescriptorList;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -30,26 +29,30 @@ import itkach.aard2.slob.BlobDescriptorList;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class LexisHistoryFragment extends BlobDescriptorListFragment {
+public enum RemoteContentMode {
 
-    @Override
-    public String getItemClickAction() {
-        return "showHistory";
+    NEVER(R.string.setting_remote_content_never),
+    WIFI(R.string.setting_remote_content_wifi),
+    ALWAYS(R.string.setting_remote_content_always);
+
+    private final int mNameResId;
+
+    private RemoteContentMode(final int nameResId) {
+        mNameResId = nameResId;
     }
 
-    @Override
-    public BlobDescriptorList getDescriptorList() {
-        return Application.app ().history;
+    public int getNameResId() {
+        return mNameResId;
     }
 
-    @Override
-    public int getDeleteConfirmationItemCountResId() {
-        return R.plurals.confirm_delete_history_count;
-    }
+    public static String [] modes (final Context context) {
+        final String [] modes = new String [values().length];
 
-    @Override
-    public String getPreferencesNS() {
-        return "history";
+        for (int themeIndex = 0; themeIndex < values().length; ++ themeIndex) {
+            modes [themeIndex] = context.getString(values() [themeIndex].getNameResId());
+        }
+
+        return modes;
     }
 
 }

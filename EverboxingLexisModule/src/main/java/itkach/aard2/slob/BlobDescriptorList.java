@@ -5,11 +5,12 @@ import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.text.RuleBasedCollator;
 import com.ibm.icu.text.StringSearch;
+
+import org.brainail.EverboxingLexis.utils.Plogger;
 
 import java.text.StringCharacterIterator;
 import java.util.AbstractList;
@@ -30,8 +31,6 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
 
     public static enum SortOrder { TIME, NAME }
 
-    private Application app;
-
     private DescriptorStore<BlobDescriptor> store;
     private List<BlobDescriptor> list;
     private List<BlobDescriptor> filteredList;
@@ -50,12 +49,11 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
     private RuleBasedCollator filterCollator;
     private Handler handler;
 
-    public BlobDescriptorList(Application app, DescriptorStore<BlobDescriptor> store) {
-        this(app, store, 100);
+    public BlobDescriptorList(DescriptorStore<BlobDescriptor> store) {
+        this(store, 100);
     }
 
-    public BlobDescriptorList(Application app, DescriptorStore<BlobDescriptor> store, int maxSize) {
-        this.app = app;
+    public BlobDescriptorList(DescriptorStore<BlobDescriptor> store, int maxSize) {
         this.store = store;
         this.maxSize = maxSize;
         this.list = new ArrayList<BlobDescriptor>();
@@ -175,9 +173,9 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
     }
 
     public Slob resolveOwner(BlobDescriptor bd) {
-        Slob slob = app.getSlob(bd.slobId);
+        Slob slob = Application.app ().getSlob(bd.slobId);
         if (slob == null || !slob.file.exists()) {
-            slob = app.findSlob(bd.slobUri);
+            slob = Application.app ().findSlob(bd.slobUri);
         }
         return slob;
     }
@@ -201,9 +199,8 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
                     bd.blobId = blob.id;
                 }
             } catch (Exception ex) {
-                Log.w(TAG,
-                        String.format("Failed to resolve descriptor %s (%s) in %s (%s)",
-                                bd.blobId, bd.key, slob.getId(), slob.file.getAbsolutePath()), ex);
+                Plogger.logW(TAG, String.format("Failed to resolve descriptor %s (%s) in %s (%s)",
+                                bd.blobId, bd.key, slob.getId(), slob.file.getAbsolutePath()));
                 blob = null;
             }
         }
@@ -214,11 +211,11 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
     }
 
     public BlobDescriptor createDescriptor(String contentUrl) {
-        Log.d(TAG, "Create descriptor from content url: " + contentUrl);
+        Plogger.logD("Create descriptor from content url: " + contentUrl);
         Uri uri = Uri.parse(contentUrl);
         BlobDescriptor bd = BlobDescriptor.fromUri(uri);
         if (bd != null) {
-            String slobUri = app.getSlobURI(bd.slobId);
+            String slobUri = Application.app ().getSlobURI(bd.slobId);
             bd.slobUri = slobUri;
         }
         return bd;
@@ -263,7 +260,7 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
         BlobDescriptor bd = this.list.remove(index);
         if (bd != null) {
             boolean removed = store.delete(bd.id);
-            Log.d(TAG, String.format("Item (%s) %s removed? %s", bd.key, bd.id, removed));
+            Plogger.logD(String.format("Item (%s) %s removed? %s", bd.key, bd.id, removed));
             if (removed) {
                 notifyDataSetChanged();
             }
@@ -275,7 +272,7 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
         BlobDescriptor bd = createDescriptor(contentUrl);
         int index = this.list.indexOf(bd);
         boolean result = index > -1;
-        Log.d(TAG, "Is bookmarked?" + result);
+        Plogger.logD("Is bookmarked?" + result);
         return result;
     }
 

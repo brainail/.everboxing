@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.Plogger;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,19 +30,12 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
 
     private Timer timer;
     private SearchView searchView;
-    private Application app;
     private String initialQuery;
-
-    @Override
-    public CharSequence getEmptyText() {
-        return "";
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        app = (Application) getActivity().getApplication();
-        app.addLookupListener(this);
+        Application.app ().addLookupListener(this);
     }
 
     @Override
@@ -59,15 +52,15 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Log.i("--", "Item clicked: " + position);
+                Plogger.logI("Item clicked: " + position);
                 Intent intent = new Intent(getActivity(),
                         ArticleCollectionActivity.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
             }
         });
-        Application app = (Application) getActivity().getApplication();
-        getListView().setAdapter(app.lastResult);
+
+        getListView().setAdapter(Application.app ().lastResult);
     }
 
     @Override
@@ -100,32 +93,32 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.i("SUBMIT", query);
+                Plogger.logI("SUBMIT -> " + query);
                 onQueryTextChange(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.i("CHANGE", "New text: " + newText);
+                Plogger.logI("CHANGE -> New text: " + newText);
                 TimerTask doLookup = new TimerTask() {
                     @Override
                     public void run() {
                         final String query = searchView.getQuery().toString();
-                        if (app.getLookupQuery().equals(query)) {
+                        if (Application.app ().getLookupQuery().equals(query)) {
                             return;
                         }
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                app.lookup(query);
+                                Application.app ().lookup(query);
                             }
                         });
                         scheduledLookup = null;
                     }
                 };
                 final String query = searchView.getQuery().toString();
-                if (!app.getLookupQuery().equals(query)) {
+                if (! Application.app ().getLookupQuery().equals(query)) {
                     if (scheduledLookup != null) {
                         scheduledLookup.cancel();
                     }
@@ -155,8 +148,8 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        searchView.setQuery(app.getLookupQuery(), true);
-        if (app.lastResult.getCount() > 0) {
+        searchView.setQuery(Application.app ().getLookupQuery(), true);
+        if (Application.app ().lastResult.getCount() > 0) {
             searchView.clearFocus();
         }
         super.onPrepareOptionsMenu(menu);
@@ -176,7 +169,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         if (!busy) {
             TextView emptyText = ((TextView) mEmptyPlaceholderView.findViewById(R.id.empty_text));
             String msg = "";
-            String query = app.getLookupQuery();
+            String query = Application.app ().getLookupQuery();
             if (query != null && !query.toString().equals("")) {
                 msg = getString(R.string.lookup_nothing_found);
             }
@@ -189,9 +182,8 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         if (timer != null) {
             timer.cancel();
         }
-        Application app = (Application) getActivity().getApplication ();
-        app.removeLookupListener (this);
 
+        Application.app ().removeLookupListener (this);
         super.onDestroy();
     }
 

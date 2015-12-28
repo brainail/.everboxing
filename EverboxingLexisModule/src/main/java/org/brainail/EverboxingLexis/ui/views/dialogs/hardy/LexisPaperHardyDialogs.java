@@ -2,6 +2,8 @@ package org.brainail.EverboxingLexis.ui.views.dialogs.hardy;
 
 import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.LayoutParams;
+import org.brainail.EverboxingHardyDialogs.ListDialogSpecification;
+import org.brainail.EverboxingHardyDialogs.TwoButtonDialogSpecification;
 import org.brainail.EverboxingLexis.R;
 
 /**
@@ -31,7 +33,6 @@ import org.brainail.EverboxingLexis.R;
  */
 public final class LexisPaperHardyDialogs {
 
-    // Scanning device
     public static BaseDialogSpecification.Builder<?> dictionaryScanningDialog () {
         return BaseDialogSpecification.create ()
                 .code (LexisPaperHardyDialogsCode.D_DICTIONARY_SCANNING_PROGRESS)
@@ -39,6 +40,35 @@ public final class LexisPaperHardyDialogs {
                 .content (R.layout.view_scanning_dictionaries)
                 .cancelable (false)
                 .translucent (true);
+    }
+
+    public static ListDialogSpecification.Builder<?> articleDailyStyleDialog () {
+        return ListDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_ARTICLE_DAILY_STYLE)
+                .title (R.string.select_style);
+    }
+
+    public static ListDialogSpecification.Builder<?> articleLoadRemoteContentModeDialog () {
+        return ListDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_ARTICLE_LOAD_REMOTE_CONTENT_MODE)
+                .title (R.string.settings_load_remote_content_dialog_title);
+    }
+
+    public static TwoButtonDialogSpecification.Builder<?> dictionaryRemovingConfirmationDialog (final String label) {
+        return TwoButtonDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_DICTIONARY_REMOVING_CONFIRMATION)
+                .body (R.string.dictionaries_confirm_forget, label)
+                .positiveButton (R.string.dialog_button_yes)
+                .negativeButton (R.string.dialog_button_no)
+                .restorable (false);
+    }
+
+    public static TwoButtonDialogSpecification.Builder<?> listItemsRemovingConfirmationDialog (final String count) {
+        return TwoButtonDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_LIST_ITEMS_REMOVING_CONFIRMATION)
+                .body (R.string.blob_descriptor_confirm_delete, count)
+                .positiveButton (R.string.dialog_button_yes)
+                .negativeButton (R.string.dialog_button_no);
     }
 
 }

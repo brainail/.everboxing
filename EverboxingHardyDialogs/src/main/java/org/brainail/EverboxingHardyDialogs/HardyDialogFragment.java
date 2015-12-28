@@ -111,6 +111,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         public static final String HAS_DESTROYABLE_UNDERLAY = "has_destroyable_underlay";
         public static final String HAS_LIST = "has_list";
         public static final String LIST_ITEMS = "list_items";
+        public static final String LIST_ITEMS_TAGS = "list_items_tags";
     }
 
     /**
@@ -181,6 +182,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     
     private boolean mHasList;
     private CharSequence [] mListItems;
+    private String [] mListItemsTags;
     
     // Callback for actions
     public static interface OnDialogActionCallback {
@@ -189,7 +191,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     
     // Callback for list actions
     public static interface OnDialogListActionCallback {
-        public void onDialogListAction (final HardyDialogFragment dialog, final int whichItem);
+        public void onDialogListAction (final HardyDialogFragment dialog, final int whichItem, final String itemTag);
     }
     
     // Callback for preparation of dialog
@@ -213,7 +215,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         public void onDialogAction (HardyDialogFragment dialog, int actionRequestCode) {}
         
         @Override
-        public void onDialogListAction (HardyDialogFragment dialog, int whichItem) {}
+        public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String itemTag) {}
         
         @Override
         public void onPrepareDialogView (HardyDialogFragment dialog, View view, int layoutId) {}
@@ -271,9 +273,13 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         // List's stuff
         mHasList = args.getBoolean (Args.HAS_LIST);
         final ArrayList<String> items = getArguments ().getStringArrayList (Args.LIST_ITEMS);
-        mListItems = (null != items && !items.isEmpty ())
-                ? items.toArray (new CharSequence[items.size ()])
-                : new CharSequence[] {};
+        mListItems = (null != items && ! items.isEmpty ())
+                ? items.toArray (new CharSequence [items.size ()])
+                : new CharSequence [] {};
+        final ArrayList<String> itemsTags = getArguments ().getStringArrayList (Args.LIST_ITEMS_TAGS);
+        mListItemsTags = (null != itemsTags && ! itemsTags.isEmpty ())
+                ? itemsTags.toArray (new String [itemsTags.size ()])
+                : new String [] {};
         
         if (! mIsRestorable) {
             // Remove to avoid leaks and crashes
@@ -517,12 +523,13 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     
     private void handleDialogListAction (final int which) {
         if (mHasCallbacks) {
+            final String itemTag = which < mListItemsTags.length ? mListItemsTags [which] : null;
             if (null != mIsolatedHandler) {
-                mIsolatedHandler.onDialogListAction (this, which);
+                mIsolatedHandler.onDialogListAction (this, which, itemTag);
             } else if (mHasTargetFragment && getParentFragment () instanceof OnDialogListActionCallback) {
-                ((OnDialogListActionCallback) getParentFragment ()).onDialogListAction (this, which);
+                ((OnDialogListActionCallback) getParentFragment ()).onDialogListAction (this, which, itemTag);
             } else if (getActivity () instanceof OnDialogListActionCallback) {
-                ((OnDialogListActionCallback) getActivity ()).onDialogListAction (this, which);
+                ((OnDialogListActionCallback) getActivity ()).onDialogListAction (this, which, itemTag);
             }
         }
     }

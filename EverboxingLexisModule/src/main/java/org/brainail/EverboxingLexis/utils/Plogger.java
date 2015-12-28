@@ -101,6 +101,12 @@ public final class Plogger {
         }
     }
 
+    public static void logW (final Throwable error, final String message) {
+        if (LOGGABLE) {
+            Log.w (TAG, message, error);
+        }
+    }
+
     public static void logW (final String message, final Object... params) {
         if (LOGGABLE) {
             Log.w (TAG, String.format (Locale.US, message, params));
@@ -110,6 +116,12 @@ public final class Plogger {
     public static void logE (final String message) {
         if (LOGGABLE) {
             Log.e (TAG, message);
+        }
+    }
+
+    public static void logE (final Throwable error, final String message) {
+        if (LOGGABLE) {
+            Log.e (TAG, message, error);
         }
     }
 

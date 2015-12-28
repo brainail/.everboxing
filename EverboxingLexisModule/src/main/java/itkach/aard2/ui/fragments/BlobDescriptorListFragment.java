@@ -1,7 +1,5 @@
 package itkach.aard2.ui.fragments;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -24,14 +22,20 @@ import android.widget.ListView;
 
 import com.malinskiy.materialicons.Iconify;
 
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
+import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 
 import itkach.aard2.slob.BlobDescriptorList;
 import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.ui.adapters.BlobDescriptorListAdapter;
 
-public abstract class BlobDescriptorListFragment extends BaseListFragment {
+public abstract class BlobDescriptorListFragment
+        extends BaseListFragment
+        implements HardyDialogFragment.OnDialogActionCallback {
 
     private Drawable icFilter;
     private Drawable icClock;
@@ -40,22 +44,11 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
     private Drawable icArrowDown;
 
     private BlobDescriptorListAdapter listAdapter;
-    private AlertDialog deleteConfirmationDialog = null;
+
+    private ActionMode mLastActionMode;
 
     private final static String PREF_SORT_ORDER = "sortOrder";
     private final static String PREF_SORT_DIRECTION = "sortDir";
-
-    private MenuItem miFilter = null;
-
-    public boolean isFilterExpanded() {
-        return miFilter != null && miFilter.isActionViewExpanded();
-    }
-
-    public void collapseFilter() {
-        if (miFilter != null) {
-            miFilter.collapseActionView();
-        }
-    }
 
     public abstract BlobDescriptorList getDescriptorList();
 
@@ -77,34 +70,16 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
         return getActivity().getSharedPreferences(getPreferencesNS(), AppCompatActivity.MODE_PRIVATE);
     }
 
-
     protected boolean onSelectionActionItemClicked(final ActionMode mode, MenuItem item) {
-        ListView listView = getListView();
+        final ListView listView = getListView();
+        mLastActionMode = mode;
+
         switch (item.getItemId()) {
             case R.id.blob_descriptor_delete:
-                int count = listView.getCheckedItemCount();
-                String countStr = getResources().getQuantityString(getDeleteConfirmationItemCountResId(), count, count);
-                String message = getString(R.string.blob_descriptor_confirm_delete, countStr);
-                deleteConfirmationDialog = new AlertDialog.Builder(getActivity())
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("")
-                        .setMessage(message)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteSelectedItems();
-                                mode.finish();
-                                deleteConfirmationDialog = null;
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null).create();
-                deleteConfirmationDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        deleteConfirmationDialog = null;
-                    }
-                });
-                deleteConfirmationDialog.show();
+                final int count = listView.getCheckedItemCount ();
+                final int countResId = getDeleteConfirmationItemCountResId ();
+                final String sCount = getResources().getQuantityString(countResId, count, count);
+                LexisPaperHardyDialogs.listItemsRemovingConfirmationDialog (sCount).setCallbacks (this).show (this);
                 return true;
             case R.id.blob_descriptor_select_all:
                 int itemCount = listView.getCount();
@@ -114,6 +89,20 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
                 return true;
             default:
                 return false;
+        }
+    }
+
+    @Override
+    public void onDialogAction (HardyDialogFragment dialog, int actionRequestCode) {
+        if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_LIST_ITEMS_REMOVING_CONFIRMATION)) {
+            if (HardyDialogFragment.ActionRequestCode.POSITIVE == actionRequestCode) {
+                deleteSelectedItems();
+
+                if (null != mLastActionMode) {
+                    mLastActionMode.finish ();
+                    mLastActionMode = null;
+                }
+            }
         }
     }
 
@@ -179,16 +168,16 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
     public void onPrepareOptionsMenu(final Menu menu) {
         final BlobDescriptorList list = getDescriptorList();
 
-        miFilter = menu.findItem(R.id.action_filter);
+        MenuItem menuItemFilter = menu.findItem (R.id.action_filter);
 
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(miFilter);
-        if (!TextUtils.isEmpty (list.getFilter())) {
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItemFilter);
+        if (! TextUtils.isEmpty (list.getFilter())) {
             searchView.setIconified (false);
             searchView.setQuery (list.getFilter (), true);
-            MenuItemCompat.expandActionView (miFilter);
+            MenuItemCompat.expandActionView (menuItemFilter);
             searchView.clearFocus ();
         } else {
-            miFilter.setIcon (icFilter);
+            menuItemFilter.setIcon (icFilter);
         }
 
         searchView.setImeOptions(searchView.getImeOptions()
@@ -214,6 +203,7 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
                 return true;
             }
         });
+
         setSortOrder(menu.findItem(R.id.action_sort_order), list.getSortOrder());
         setAscending(menu.findItem(R.id.action_sort_asc), list.isAscending());
 
@@ -260,12 +250,12 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
     public boolean onOptionsItemSelected(MenuItem mi) {
         BlobDescriptorList list = getDescriptorList();
         int itemId = mi.getItemId();
+
         if (itemId == R.id.action_sort_asc) {
             list.setSort(!list.isAscending());
             setAscending(mi, list.isAscending());
             return true;
-        }
-        if (itemId == R.id.action_sort_order) {
+        } else if (itemId == R.id.action_sort_order) {
             if (list.getSortOrder() == BlobDescriptorList.SortOrder.TIME) {
                 list.setSort(BlobDescriptorList.SortOrder.NAME);
             } else {
@@ -274,6 +264,7 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
             setSortOrder(mi, list.getSortOrder());
             return true;
         }
+
         return super.onOptionsItemSelected(mi);
     }
 
@@ -281,8 +272,7 @@ public abstract class BlobDescriptorListFragment extends BaseListFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (deleteConfirmationDialog != null) {
-            deleteConfirmationDialog.dismiss();
-        }
+        HardyDialogsHelper.dismissDialog (this, LexisPaperHardyDialogsCode.D_LIST_ITEMS_REMOVING_CONFIRMATION);
     }
+
 }

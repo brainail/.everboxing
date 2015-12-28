@@ -1,6 +1,8 @@
 package org.brainail.EverboxingLexis.ui.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,8 +11,11 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 
 import itkach.aard2.Application;
+import itkach.aard2.ui.fragments.BaseFragment;
+import itkach.aard2.ui.fragments.BaseListFragment;
 import itkach.aard2.ui.fragments.LexisBookmarksFragment;
 import itkach.aard2.ui.fragments.LexisDictionariesFragment;
 import itkach.aard2.ui.fragments.LexisHistoryFragment;
@@ -47,6 +52,29 @@ public class HomeActivity extends SectionedDrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ...
+    }
+
+    @Override
+    public void onStart () {
+        super.onStart ();
+
+        // ...
+    }
+
+    @Override
+    protected void onStop () {
+        super.onStop ();
+
+        // ...
+    }
+
+    @Override
+    protected void onDestroy () {
+        super.onDestroy ();
+
+        // ...
     }
 
     @Override
@@ -106,13 +134,18 @@ public class HomeActivity extends SectionedDrawerActivity {
         }
     }
 
+    // Lexis stuff
+    private final Fragment LEXIS_BOOKMARKS_SECTION_TEMPLATE_FRAGMENT = new LexisBookmarksFragment ();
+    private final Fragment LEXIS_HISTORY_SECTION_TEMPLATE_FRAGMENT = new LexisHistoryFragment ();
+    private final Fragment LEXIS_DICTIONARIES_SECTION_TEMPLATE_FRAGMENT = new LexisDictionariesFragment ();
+
     // Some ugly solution to update bookmarks size and other stuff ...
     // It should be reimplemented, anyway.
     public void updateDrawerNotifications() {
         Plogger.logV (Plogger.LogScope.DRAWER, "Update drawer notifications numbers ...");
 
         // Filtered bookmarks
-        final DrawerSection bookmarksSection = section (new LexisBookmarksFragment ());
+        final DrawerSection bookmarksSection = section (LEXIS_BOOKMARKS_SECTION_TEMPLATE_FRAGMENT);
         if (null != bookmarksSection) {
             final int bookmarksSize = ((Application) getApplication ()).bookmarksSize ();
             if (bookmarksSize != bookmarksSection.getNumberNotifications()) {
@@ -121,7 +154,7 @@ public class HomeActivity extends SectionedDrawerActivity {
         }
 
         // Filtered history
-        final DrawerSection historySection = section (new LexisHistoryFragment());
+        final DrawerSection historySection = section (LEXIS_HISTORY_SECTION_TEMPLATE_FRAGMENT);
         if (null != historySection) {
             final int historySize = ((Application) getApplication ()).historySize ();
             if (historySize != historySection.getNumberNotifications()) {
@@ -130,13 +163,31 @@ public class HomeActivity extends SectionedDrawerActivity {
         }
 
         // Active dictionaries
-        final DrawerSection dictionarySection = section (new LexisDictionariesFragment ());
+        final DrawerSection dictionarySection = section (LEXIS_DICTIONARIES_SECTION_TEMPLATE_FRAGMENT);
         if (null != dictionarySection) {
             final int dictionariesSize = ((Application) getApplication ()).activeDictionariesSize ();
             if (dictionariesSize != dictionarySection.getNumberNotifications()) {
                 dictionarySection.withNotifications (dictionariesSize);
             }
         }
+    }
+
+    @Override
+    public boolean onKeyUp (int keyCode, KeyEvent event) {
+        final Fragment target = ToolFragments.topFragment (self ());
+        if (target instanceof BaseListFragment) {
+            if (((BaseListFragment) target).onKeyUp (keyCode, event)) {
+                return true;
+            }
+        } else {
+            if (target instanceof BaseFragment) {
+                if (((BaseFragment) target).onKeyUp (keyCode, event)) {
+                    return true;
+                }
+            }
+        }
+
+        return super.onKeyUp (keyCode, event);
     }
 
 }

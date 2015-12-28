@@ -1,6 +1,8 @@
 package itkach.aard2.ui.views;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -11,7 +13,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceResponse;
@@ -20,6 +21,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
+import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ import java.util.TreeSet;
 import itkach.aard2.Application;
 import itkach.aard2.slob.BlobDescriptor;
 import itkach.aard2.ui.activities.ArticleCollectionActivity;
+import itkach.aard2.utils.RemoteContentMode;
 import itkach.aard2.utils.Util;
 
 public class ArticleWebView extends WebView {
@@ -46,16 +51,10 @@ public class ArticleWebView extends WebView {
     private final String defaultStyleTitle;
     private final String autoStyleTitle;
 
-    String TAG = getClass ().getSimpleName ();
-
-    public static final String PREF = "articleView";
+    public static final String PREF = "articlePreferences";
     private static final String PREF_TEXT_ZOOM = "textZoom";
     private static final String PREF_STYLE = "style.";
     private static final String PREF_STYLE_AVAILABLE = "style.available.";
-    public static final String PREF_REMOTE_CONTENT = "remoteContent";
-    public static final String PREF_REMOTE_CONTENT_ALWAYS = "always";
-    public static final String PREF_REMOTE_CONTENT_WIFI = "wifi";
-    public static final String PREF_REMOTE_CONTENT_NEVER = "never";
 
     public Set<String> externalSchemes = new HashSet<String> () {{
         add ("https"); add ("ftp"); add ("sftp"); add ("mailto"); add ("geo");
@@ -72,9 +71,18 @@ public class ArticleWebView extends WebView {
 
     public boolean forceLoadRemoteContent;
 
+    public static interface OnScrollDirectionListener {
+        public void onScrollUp ();
+        public void onScrollDown ();
+    }
+
+    public static final int SCROLL_RECOGNIZE_DIRECTION_DISTANCE = 30;
+
+    public OnScrollDirectionListener mOnScrollDirectionListener;
+
     @JavascriptInterface
     public void setStyleTitles (String[] titles) {
-        Log.d (TAG, String.format ("Got %d style titles", titles.length));
+        Plogger.logD (String.format ("Got %d style titles", titles.length));
         if (titles.length == 0) {
             return;
         }
@@ -84,9 +92,9 @@ public class ArticleWebView extends WebView {
             saveAvailableStylesPref (this.styleTitles);
         }
 
-        if (Log.isLoggable (TAG, Log.DEBUG)) {
+        if (Plogger.LOGGABLE) {
             for (String title : titles) {
-                Log.d (TAG, title);
+                Plogger.logD (title);
             }
         }
     }
@@ -95,24 +103,27 @@ public class ArticleWebView extends WebView {
         if (forceLoadRemoteContent) {
             return true;
         }
-        SharedPreferences prefs = this.prefs();
-        String prefValue = prefs.getString(PREF_REMOTE_CONTENT, PREF_REMOTE_CONTENT_WIFI);
-        if (prefValue.equals(PREF_REMOTE_CONTENT_ALWAYS)) {
+
+        final RemoteContentMode mode = SettingsManager.getInstance ().retrieveLoadRemoteContentMode ();
+        if (RemoteContentMode.ALWAYS == mode) {
             return true;
         }
-        if (prefValue.equals(PREF_REMOTE_CONTENT_NEVER)) {
+
+        if (RemoteContentMode.NEVER == mode) {
             return false;
         }
-        if (prefValue.equals(PREF_REMOTE_CONTENT_WIFI)) {
+
+        if (RemoteContentMode.WIFI == mode) {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null) {
                 int networkType = networkInfo.getType();
-                if (networkType == ConnectivityManager.TYPE_WIFI ||
-                        networkType == ConnectivityManager.TYPE_ETHERNET) {
+                if (networkType == ConnectivityManager.TYPE_WIFI
+                        || networkType == ConnectivityManager.TYPE_ETHERNET) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
@@ -166,12 +177,12 @@ public class ArticleWebView extends WebView {
 
             @Override
             public void onPageStarted (WebView view, String url, Bitmap favicon) {
-                Log.d (TAG, "onPageStarted: " + url);
+                Plogger.logD ("onPageStarted: " + url);
                 if (url.startsWith ("about:")) {
                     return;
                 }
                 if (times.containsKey (url)) {
-                    Log.d (TAG, "onPageStarted: already ready seen " + url);
+                    Plogger.logD ("onPageStarted: already ready seen " + url);
                     times.get (url).add (System.currentTimeMillis ());
                     return;
                 } else {
@@ -182,28 +193,28 @@ public class ArticleWebView extends WebView {
                     try {
                         timer.schedule (applyStylePref, 250, 200);
                     } catch (IllegalStateException ex) {
-                        Log.w (TAG, "Failed to schedule applyStylePref in view " + view.getId (), ex);
+                        Plogger.logW (ex, "Failed to schedule applyStylePref in view " + view.getId ());
                     }
                 }
             }
 
             @Override
             public void onPageFinished (WebView view, String url) {
-                Log.d (TAG, "onPageFinished: " + url);
+                Plogger.logD ("onPageFinished: " + url);
                 if (url.startsWith ("about:")) {
                     return;
                 }
                 if (times.containsKey (url)) {
                     List<Long> tsList = times.get (url);
                     long ts = tsList.remove (tsList.size () - 1);
-                    Log.d (TAG, "onPageFinished: finished: " + url + " in " + (System.currentTimeMillis () - ts));
+                    Plogger.logD ("onPageFinished: finished: " + url + " in " + (System.currentTimeMillis () - ts));
                     if (tsList.isEmpty ()) {
-                        Log.d (TAG, "onPageFinished: really done with " + url);
+                        Plogger.logD ("onPageFinished: really done with " + url);
                         times.remove (url);
                         applyStylePref.cancel ();
                     }
                 } else {
-                    Log.w (TAG, "onPageFinished: Unexpected page finished event for " + url);
+                    Plogger.logW ("onPageFinished: Unexpected page finished event for " + url);
                 }
                 view.loadUrl ("javascript:" + styleSwitcherJs + ";$SLOB.setStyleTitles($styleSwitcher.getTitles())");
                 applyStylePref ();
@@ -215,7 +226,7 @@ public class ArticleWebView extends WebView {
                 try {
                     parsed = Uri.parse (url);
                 } catch (Exception e) {
-                    Log.d (TAG, "Failed to parse url: " + url, e);
+                    Plogger.logW (e, "Failed to parse url: " + url);
                     return super.shouldInterceptRequest (view, url);
                 }
                 if (parsed.isRelative ()) {
@@ -233,10 +244,8 @@ public class ArticleWebView extends WebView {
             }
 
             @Override
-            public boolean shouldOverrideUrlLoading (WebView view,
-                                                     final String url) {
-                Log.d (TAG, String.format ("shouldOverrideUrlLoading: %s (current %s)",
-                        url, view.getUrl ()));
+            public boolean shouldOverrideUrlLoading (WebView view, final String url) {
+                Plogger.logD (String.format ("shouldOverrideUrlLoading: %s (current %s)", url, view.getUrl ()));
 
                 Uri uri = Uri.parse (url);
                 String scheme = uri.getScheme ();
@@ -244,8 +253,8 @@ public class ArticleWebView extends WebView {
 
                 if (externalSchemes.contains (scheme) ||
                         (scheme.equals ("http") && !host.equals (Application.LOCALHOST))) {
-                    Intent browserIntent = new Intent (Intent.ACTION_VIEW, uri);
-                    getContext ().startActivity (browserIntent);
+
+                    openUrl (url);
                     return true;
                 }
 
@@ -253,18 +262,45 @@ public class ArticleWebView extends WebView {
                         && host.equals (Application.LOCALHOST)
                         && uri.getQueryParameter ("blob") == null) {
 
-                    Intent intent = new Intent (getContext (), ArticleCollectionActivity.class);
+                    final Intent intent = new Intent (getContext (), ArticleCollectionActivity.class);
                     intent.setData (uri);
                     getContext ().startActivity (intent);
-                    Log.d (TAG, "Overriding loading of " + url);
+
+                    Plogger.logD ("Overriding loading of " + url);
                     return true;
                 }
-                Log.d (TAG, "NOT overriding loading of " + url);
+
+                Plogger.logD ("NOT overriding loading of " + url);
                 return false;
             }
         });
 
         applyTextZoomPref ();
+    }
+
+    private void openUrl (final String url) {
+        final Context context = hostContext ();
+        if (context instanceof BaseActivity) {
+            final BaseActivity urlOpener = (BaseActivity) context;
+            urlOpener.openUrl (url);
+        } else {
+            final Uri uri = Uri.parse (url);
+            final Intent browserIntent = new Intent (Intent.ACTION_VIEW, uri);
+            getContext ().startActivity (browserIntent);
+        }
+    }
+
+    private Context hostContext () {
+        Context context = getContext ();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            } else {
+                context = ((ContextWrapper) context).getBaseContext ();
+            }
+        }
+
+        return context;
     }
 
     public String[] getAvailableStyles () {
@@ -280,7 +316,7 @@ public class ArticleWebView extends WebView {
     }
 
     private String getAutoStyle () {
-        Log.d (TAG, "Auto style will return " + defaultStyleTitle);
+        Plogger.logD ("Auto style will return " + defaultStyleTitle);
         return defaultStyleTitle;
     }
 
@@ -298,9 +334,7 @@ public class ArticleWebView extends WebView {
                     "javascript:" + Application.jsClearUserStyle + Application.jsSetCannedStyle,
                     getCurrentSlobId (), styleTitle);
         }
-        if (Log.isLoggable (TAG, Log.DEBUG)) {
-            Log.d (TAG, js);
-        }
+        Plogger.logD (js);
         this.loadUrl (js);
     }
 
@@ -322,7 +356,7 @@ public class ArticleWebView extends WebView {
         e.putInt (PREF_TEXT_ZOOM, textZoom);
         boolean success = e.commit ();
         if (!success) {
-            Log.w (TAG, "Failed to save article view text zoom pref");
+            Plogger.logW ("Failed to save article view text zoom pref");
         }
     }
 
@@ -336,26 +370,24 @@ public class ArticleWebView extends WebView {
         editor.putStringSet (PREF_STYLE_AVAILABLE + currentSlobUri, styleTitles);
         boolean success = editor.commit ();
         if (!success) {
-            Log.w (TAG, "Failed to save article view available styles pref");
+            Plogger.logW ("Failed to save article view available styles pref");
         }
     }
 
     private void loadAvailableStylesPref () {
         if (currentSlobUri == null) {
-            Log.w (TAG, "Can't load article view available styles pref - slob uri is null");
+            Plogger.logW ("Can't load article view available styles pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
-        Log.d (TAG, "Available styles before pref load: " + styleTitles.size ());
-        styleTitles = new TreeSet (
-                prefs.getStringSet (PREF_STYLE_AVAILABLE + currentSlobUri,
-                        Collections.EMPTY_SET));
-        Log.d (TAG, "Loaded available styles: " + styleTitles.size ());
+        Plogger.logD ("Available styles before pref load: " + styleTitles.size ());
+        styleTitles = new TreeSet (prefs.getStringSet (PREF_STYLE_AVAILABLE + currentSlobUri, Collections.EMPTY_SET));
+        Plogger.logD ("Loaded available styles: " + styleTitles.size ());
     }
 
     public void saveStylePref (String styleTitle) {
         if (currentSlobUri == null) {
-            Log.w (TAG, "Can't save article view style pref - slob uri is null");
+            Plogger.logW ("Can't save article view style pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
@@ -364,7 +396,7 @@ public class ArticleWebView extends WebView {
         editor.putString (prefName, styleTitle);
         boolean success = editor.commit ();
         if (!success) {
-            Log.w (TAG, "Failed to save article view style pref");
+            Plogger.logW ("Failed to save article view style pref");
         }
     }
 
@@ -383,7 +415,7 @@ public class ArticleWebView extends WebView {
         }
         String styleTitle = getStylePreferenceValue ();
         String result = isAutoStyle (styleTitle) ? getAutoStyle () : styleTitle;
-        Log.d (TAG, "getPreferredStyle() will return " + result);
+        Plogger.logD ("getPreferredStyle() will return " + result);
         return result;
     }
 
@@ -394,7 +426,7 @@ public class ArticleWebView extends WebView {
 
     @JavascriptInterface
     public void onStyleSet (String title) {
-        Log.d (TAG, "Style set! " + title);
+        Plogger.logD ("Style set! " + title);
         applyStylePref.cancel ();
     }
 
@@ -481,10 +513,7 @@ public class ArticleWebView extends WebView {
                 currentSlobId = null;
                 currentSlobUri = null;
             }
-            if (Log.isLoggable (TAG, Log.DEBUG)) {
-                Log.d (TAG, String.format ("currentSlobId set from url %s to %s, uri %s",
-                        url, currentSlobId, currentSlobUri));
-            }
+            Plogger.logD (String.format ("currentSlobId set from url %s to %s, uri %s", url, currentSlobId, currentSlobUri));
         }
     }
 
@@ -510,15 +539,6 @@ public class ArticleWebView extends WebView {
         timer.cancel ();
     }
 
-    public static interface OnScrollDirectionListener {
-        public void onScrollUp ();
-        public void onScrollDown ();
-    }
-
-    public static final int SCROLL_DIRECTION_DISTANCE = 30;
-
-    public OnScrollDirectionListener mOnScrollDirectionListener;
-
     public void setOnScrollDirectionListener (final OnScrollDirectionListener listener) {
         mOnScrollDirectionListener = listener;
     }
@@ -528,9 +548,9 @@ public class ArticleWebView extends WebView {
         super.onScrollChanged (l, t, oldl, oldt);
 
         if (null != mOnScrollDirectionListener) {
-            if (t - oldt > SCROLL_DIRECTION_DISTANCE) {
+            if (t - oldt > SCROLL_RECOGNIZE_DIRECTION_DISTANCE) {
                 mOnScrollDirectionListener.onScrollDown ();
-            } else if (t - oldt < -SCROLL_DIRECTION_DISTANCE) {
+            } else if (t - oldt < -SCROLL_RECOGNIZE_DIRECTION_DISTANCE) {
                 mOnScrollDirectionListener.onScrollUp ();
             }
         }

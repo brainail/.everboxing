@@ -1,6 +1,6 @@
 package itkach.aard2.utils;
 
-import android.util.Log;
+import org.brainail.EverboxingLexis.utils.Plogger;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,9 +17,8 @@ public class Util {
     public static <T extends Comparable<? super T>> void sort(List<T> list) {
         try {
             Collections.sort(list);
-        }
-        catch(Exception e) {
-            Log.w(TAG, "Error while sorting:", e);
+        } catch(Exception e) {
+            Plogger.logW(e, "Error while sorting");
         }
     };
 
@@ -45,7 +44,7 @@ public class Util {
             //does at least for some keys in ICU 53.1.
             //Incorrect or no sorting seems preferable than a crashing app.
             //TODO perhaps java.util.Collections.sort shouldn't be used at all
-            Log.w(TAG, "Error while sorting:", e);
+            Plogger.logW(e, "Error while sorting");
         }
     }
 }

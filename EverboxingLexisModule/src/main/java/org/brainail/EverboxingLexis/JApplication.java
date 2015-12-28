@@ -14,6 +14,7 @@ import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
 
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -76,6 +77,12 @@ public class JApplication extends Application {
         fontBuilder.setFontAttrId (R.attr.fontPath);
 
         CalligraphyConfig.initDefault (fontBuilder.build ());
+    }
+
+    @Override
+    protected void attachBaseContext (final Context baseContext) {
+        // Attach the Calligraphy
+        super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
     }
 
     @Override

@@ -1,9 +1,7 @@
 package itkach.aard2.ui.adapters;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
@@ -19,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsHandlers.DictionaryRemovingConfirmation;
 
 import java.util.Locale;
 
@@ -32,7 +33,6 @@ public class DictionaryListAdapter extends BaseAdapter {
     private final SlobDescriptorList mData;
     private final Activity mContext;
     private View.OnClickListener mOnUrlTapListener;
-    private AlertDialog deleteConfirmationDialog;
 
     private final static String hrefTemplate = "<a href=\'%1$s\'>%2$s</a>";
 
@@ -59,9 +59,14 @@ public class DictionaryListAdapter extends BaseAdapter {
                 String url = (String) v.getTag ();
                 if (! isBlank (url)) {
                     try {
-                        Uri uri = Uri.parse (url);
-                        Intent browserIntent = new Intent (Intent.ACTION_VIEW, uri);
-                        v.getContext ().startActivity (browserIntent);
+                        if (mContext instanceof HomeActivity) {
+                            final HomeActivity urlOpener = (HomeActivity) mContext;
+                            urlOpener.openUrl (url);
+                        } else {
+                            Uri uri = Uri.parse (url);
+                            Intent browserIntent = new Intent (Intent.ACTION_VIEW, uri);
+                            v.getContext ().startActivity (browserIntent);
+                        }
                     } catch (Exception e) {
                         // ...
                     }
@@ -271,28 +276,8 @@ public class DictionaryListAdapter extends BaseAdapter {
     }
 
     private void forget (final int position) {
-        SlobDescriptor desc = mData.get (position);
-        final String label = desc.getLabel ();
-        String message = mContext.getString (R.string.dictionaries_confirm_forget, label);
-        deleteConfirmationDialog = new AlertDialog.Builder (mContext)
-                .setIcon (android.R.drawable.ic_dialog_alert)
-                .setTitle ("")
-                .setMessage (message)
-                .setPositiveButton (android.R.string.yes, new DialogInterface.OnClickListener () {
-                    @Override
-                    public void onClick (DialogInterface dialog, int which) {
-                        mData.remove (position);
-                    }
-                })
-                .setNegativeButton (android.R.string.no, null)
-                .create ();
-        deleteConfirmationDialog.setOnDismissListener (new DialogInterface.OnDismissListener () {
-            @Override
-            public void onDismiss (DialogInterface dialogInterface) {
-                deleteConfirmationDialog = null;
-            }
-        });
-        deleteConfirmationDialog.show ();
+        LexisPaperHardyDialogs.dictionaryRemovingConfirmationDialog (mData.get (position).getLabel ())
+                .setCallbacks (new DictionaryRemovingConfirmation (mData, position)).show (mContext);
     }
 
     @Override

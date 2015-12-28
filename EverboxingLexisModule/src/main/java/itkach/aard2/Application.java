@@ -8,13 +8,13 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.webkit.WebView;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.brainail.EverboxingLexis.JApplication;
+import org.brainail.EverboxingLexis.utils.Plogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -93,8 +93,7 @@ public class Application extends JApplication {
                         "setWebContentsDebuggingEnabled", boolean.class);
                 setWebContentsDebuggingEnabledMethod.invoke(null, true);
             } catch (NoSuchMethodException e1) {
-                Log.d(getClass().getName(),
-                        "setWebContentsDebuggingEnabledMethod method not found");
+                Plogger.logE("setWebContentsDebuggingEnabledMethod method not found");
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -117,8 +116,7 @@ public class Application extends JApplication {
 
         startWebServer();
 
-        Log.d(getClass().getName(), String.format("Started web server on port %d in %d ms",
-                port, (System.currentTimeMillis() - t0)));
+        Plogger.logD(String.format("Started web server on port %d in %d ms", port, (System.currentTimeMillis() - t0)));
         try {
             InputStream is;
             is = getClass().getClassLoader().getResourceAsStream("styleswitcher.js");
@@ -137,9 +135,9 @@ public class Application extends JApplication {
 
         lastResult = new BlobListAdapter(this);
 
-        dictionaries = new SlobDescriptorList(this, dictStore);
-        bookmarks = new BlobDescriptorList(this, bookmarkStore);
-        history = new BlobDescriptorList(this, historyStore);
+        dictionaries = new SlobDescriptorList(dictStore);
+        bookmarks = new BlobDescriptorList(bookmarkStore);
+        history = new BlobDescriptorList(historyStore);
 
         dictionaries.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -192,9 +190,7 @@ public class Application extends JApplication {
             slobber.start("127.0.0.1", portCandidate);
             port = portCandidate;
         } catch (IOException e) {
-            Log.w(getClass().getName(),
-                    String.format("Failed to start on preferred port %d",
-                            portCandidate), e);
+            Plogger.logW(String.format("Failed to start on preferred port %d", portCandidate));
             Set<Integer> seen = new HashSet<Integer>();
             seen.add(PREFERRED_PORT);
             Random rand = new Random();
@@ -214,9 +210,7 @@ public class Application extends JApplication {
                     break;
                 } catch (IOException e1) {
                     lastError = e1;
-                    Log.w(getClass().getName(),
-                            String.format("Failed to start on port %d",
-                                    portCandidate), e1);
+                    Plogger.logW(String.format("Failed to start on port %d", portCandidate));
                 }
                 if (attemptCount >= 20) {
                     throw new RuntimeException("Failed to start web server", lastError);
@@ -231,9 +225,9 @@ public class Application extends JApplication {
 
     public void push(AppCompatActivity activity) {
         this.articleActivities.add(activity);
-        Log.d(getClass().getName(), "AppCompatActivity added, stack size " + this.articleActivities.size());
+        Plogger.logD("AppCompatActivity added, stack size " + this.articleActivities.size());
         if (this.articleActivities.size() > 3) {
-            Log.d(getClass().getName(), "Max stack size exceeded, finishing oldest activity");
+            Plogger.logD("Max stack size exceeded, finishing oldest activity");
             this.articleActivities.get(0).finish();
         }
     }
@@ -289,7 +283,7 @@ public class Application extends JApplication {
         long t0 = System.currentTimeMillis();
         Slob[] slobs = activeOnly ? getActiveSlobs() : slobber.getSlobs();
         Slob.PeekableIterator<Blob> result = Slob.find(key, slobs, slobber.getSlob(preferredSlobId), upToStrength);
-        Log.d(getClass().getName(), String.format("find ran in %dms", System.currentTimeMillis() - t0));
+        Plogger.logD(String.format("find ran in %dms", System.currentTimeMillis() - t0));
         return result;
     }
 

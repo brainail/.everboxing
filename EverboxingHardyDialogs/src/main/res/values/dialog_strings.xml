@@ -8,6 +8,7 @@
     <string name="dialog_button_delete">Delete</string>
     <string name="dialog_button_yes">Yes</string>
     <string name="dialog_button_no_thanks">No, thanks</string>
+    <string name="dialog_button_no">No</string>
     <string name="dialog_button_later">Later</string>
     <string name="dialog_button_open">Open</string>
     <string name="dialog_button_download">Download</string>

@@ -35,15 +35,18 @@ import java.util.Arrays;
 public class ListDialogSpecification extends BaseDialogSpecification {
 
     private ArrayList<String> mItems;
+    private ArrayList<String> mTags;
 
     protected ListDialogSpecification (final Builder<?> builder) {
         super (builder);
         mItems = builder.items;
+        mTags = builder.tags;
     }
 
     public static class Builder <T extends Builder<T>> extends BaseDialogSpecification.Builder<T> {
 
         private ArrayList<String> items;
+        private ArrayList<String> tags;
 
         protected Builder () {
             super ();
@@ -52,6 +55,7 @@ public class ListDialogSpecification extends BaseDialogSpecification {
         protected Builder (final ListDialogSpecification specification) {
             super (specification);
             items = specification.mItems;
+            tags = specification.mTags;
         }
 
         @Override
@@ -59,9 +63,11 @@ public class ListDialogSpecification extends BaseDialogSpecification {
             super.fillDefaultValues ();
             // No items by default
             items (new ArrayList<String> ());
+            // No tags by default
+            tags (new ArrayList<String> ());
         }
 
-        public T items (final int[] itemsResources) {
+        public T items (final int [] itemsResources) {
             final String[] items = new String[itemsResources.length];
 
             int index = 0;
@@ -72,12 +78,21 @@ public class ListDialogSpecification extends BaseDialogSpecification {
             return items (items);
         }
 
-        public T items (final String[] items) {
+        public T items (final String [] items) {
             return items (new ArrayList<String> (Arrays.asList (items)));
+        }
+
+        public T tags (final String [] tags) {
+            return tags (new ArrayList<String> (Arrays.asList (tags)));
         }
 
         public T items (final ArrayList<String> items) {
             this.items = items;
+            return self ();
+        }
+
+        public T tags (final ArrayList<String> tags) {
+            this.tags = tags;
             return self ();
         }
 
@@ -102,6 +117,7 @@ public class ListDialogSpecification extends BaseDialogSpecification {
     protected void fillBundle (final Bundle args) {
         args.putBoolean (Args.HAS_LIST, true);
         args.putStringArrayList (Args.LIST_ITEMS, mItems);
+        args.putStringArrayList (Args.LIST_ITEMS_TAGS, mTags);
         super.fillBundle (args);
     }
 

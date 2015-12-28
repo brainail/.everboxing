@@ -30,8 +30,8 @@ import itkach.aard2.slob.BlobDescriptorList;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class LexisBookmarksFragment extends
-        BlobDescriptorListFragment {
+public final class LexisBookmarksFragment extends BlobDescriptorListFragment {
+
     @Override
     public String getItemClickAction() {
         return "showBookmarks";
@@ -44,11 +44,6 @@ public final class LexisBookmarksFragment extends
     }
 
     @Override
-    public String getEmptyText() {
-        return getString(R.string.main_empty_bookmarks);
-    }
-
-    @Override
     public int getDeleteConfirmationItemCountResId() {
         return R.plurals.confirm_delete_bookmark_count;
     }
@@ -57,4 +52,5 @@ public final class LexisBookmarksFragment extends
     public String getPreferencesNS() {
         return "bookmarks";
     }
+
 }

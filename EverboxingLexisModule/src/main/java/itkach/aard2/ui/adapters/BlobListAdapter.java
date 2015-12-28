@@ -3,7 +3,6 @@ package itkach.aard2.ui.adapters;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.util.ArrayList;
@@ -85,8 +85,7 @@ public class BlobListAdapter extends BaseAdapter {
                 }
             });
         }
-        Log.d(TAG,
-                String.format("Loaded chunk of %d (adapter size %d) in %d ms",
+        Plogger.logD(String.format("Loaded chunk of %d (adapter size %d) in %d ms",
                         count, list.size(), (System.currentTimeMillis() - t0)));
     }
 

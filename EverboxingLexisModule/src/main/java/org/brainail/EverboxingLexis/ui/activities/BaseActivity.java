@@ -14,6 +14,7 @@ import org.brainail.EverboxingLexis.oauth.api.ClientApi;
 import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
 import org.brainail.EverboxingLexis.ui.notice.NoticeBar;
 import org.brainail.EverboxingLexis.ui.notice.NoticeController;
+import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
@@ -66,6 +67,9 @@ public abstract class BaseActivity
     protected List<ClientApi> mClientApis;
     protected PlayServices mPlayServices;
 
+    // Chrome tabs stuff
+    private CustomTabsSceneHelper mCustomTabsSceneHelper;
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -91,6 +95,10 @@ public abstract class BaseActivity
 
         // Init all APIs (Play, ...)
         initAPIs (savedInstanceState);
+
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper = new CustomTabsSceneHelper ();
+        mCustomTabsSceneHelper.onCreateScene (self ());
     }
 
     private void initAPIs (Bundle savedInstanceState) {
@@ -158,6 +166,9 @@ public abstract class BaseActivity
         }
 
         super.onStart ();
+
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.onStartScene (self ());
     }
 
     @Override
@@ -182,6 +193,9 @@ public abstract class BaseActivity
         }
 
         super.onStop ();
+
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.onStopScene (self ());
     }
 
     @Override
@@ -248,6 +262,9 @@ public abstract class BaseActivity
             if (api.useOn (this)) api.onDestroy ();
         }
 
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.onDestroyScene (self ());
+
         super.onDestroy ();
     }
 
@@ -289,6 +306,11 @@ public abstract class BaseActivity
     public void onPlayErrorDismissed () {
         // To reset error flag
         if (null != mPlayServices) mPlayServices.onErrorDismissed ();
+    }
+
+    public void openUrl (final String url) {
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.openCustomTab (self (), url);
     }
 
 }

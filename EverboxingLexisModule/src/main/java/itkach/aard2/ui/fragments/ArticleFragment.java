@@ -1,12 +1,7 @@
 package itkach.aard2.ui.fragments;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +16,11 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 import org.brainail.EverboxingLexis.utils.Sdk;
-import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 import org.brainail.EverboxingLexis.utils.tool.ToolPrint;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
@@ -34,7 +30,7 @@ import itkach.aard2.Application;
 import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.ui.views.ArticleWebView;
 
-public class ArticleFragment extends Fragment {
+public class ArticleFragment extends BaseFragment implements HardyDialogFragment.OnDialogListActionCallback {
 
     public static class Args {
         public static final String ARTICLE_URL = "articleUrl";
@@ -53,40 +49,14 @@ public class ArticleFragment extends Fragment {
 
     private MenuItem mMenuItemBookmark;
 
-    // Chrome tabs stuff
-    private CustomTabsSceneHelper mCustomTabsSceneHelper;
-
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setHasOptionsMenu (true);
-
-        // Chrome tabs stuff
-        mCustomTabsSceneHelper = new CustomTabsSceneHelper ();
-        mCustomTabsSceneHelper.onCreateScene (getActivity ());
-    }
-
-    @Override
-    public void onStart () {
-        super.onStart ();
-
-        // Chrome tabs stuff
-        mCustomTabsSceneHelper.onStartScene (getActivity ());
-    }
-
-    @Override
-    public void onStop () {
-        super.onStop ();
-
-        // Chrome tabs stuff
-        mCustomTabsSceneHelper.onStopScene (getActivity ());
     }
 
     @Override
     public void onDestroy () {
-        // Chrome tabs stuff
-        mCustomTabsSceneHelper.onDestroyScene (getActivity ());
-
         if (mArticleWebView != null) {
             mArticleWebView.destroy ();
             mArticleWebView = null;
@@ -148,35 +118,23 @@ public class ArticleFragment extends Fragment {
             mArticleWebView.reload ();
             return true;
         } else if (itemId == R.id.action_bookmark_article) {
-            Application app = (Application) getActivity ().getApplication ();
             if (mArticleUrl != null) {
                 if (item.isChecked ()) {
                     ((ArticleCollectionActivity) getActivity ()).unbookmarkCurrentTab ();
-                    app.removeBookmark (mArticleUrl);
+                    Application.app ().removeBookmark (mArticleUrl);
                     displayBookmarked (false);
                 } else {
-                    app.addBookmark (mArticleUrl);
+                    Application.app ().addBookmark (mArticleUrl);
                     displayBookmarked (true);
                 }
             }
             return true;
         } else if (itemId == R.id.action_select_style) {
-            AlertDialog.Builder builder = new AlertDialog.Builder (getActivity ());
-            final String[] styleTitles = mArticleWebView.getAvailableStyles ();
-            builder.setTitle (R.string.select_style)
-                    .setItems (styleTitles, new DialogInterface.OnClickListener () {
-                        public void onClick (DialogInterface dialog, int which) {
-                            String title = styleTitles[which];
-                            mArticleWebView.saveStylePref (title);
-                            mArticleWebView.applyStylePref ();
-                        }
-                    });
-            AlertDialog dialog = builder.create ();
-            dialog.show ();
-            return true;
+            final String [] styles = mArticleWebView.getAvailableStyles ();
+            LexisPaperHardyDialogs.articleDailyStyleDialog ()
+                    .items (styles).tags (styles).setCallbacks (this).show(this);
         } else if (itemId == R.id.action_search_externally_article) {
-            final String url = "https://www.google.com/search?q=" + mArticleTitle + "+definition";
-            mCustomTabsSceneHelper.openCustomTab (getActivity (), url);
+            openUrl ("https://www.google.com/search?q=" + mArticleTitle + "+definition");
         } else if (itemId == R.id.action_print_article) {
             ToolPrint.print (getActivity (), mArticleWebView, mArticleTitle);
         }
@@ -184,6 +142,13 @@ public class ArticleFragment extends Fragment {
         return super.onOptionsItemSelected (item);
     }
 
+    @Override
+    public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String itemTag) {
+        if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_ARTICLE_DAILY_STYLE)) {
+            mArticleWebView.saveStylePref (itemTag);
+            mArticleWebView.applyStylePref ();
+        }
+    }
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -322,29 +287,6 @@ public class ArticleFragment extends Fragment {
         if (null != mFabMenuRight && mFabMenuRight.isOpened ()) {
             mFabMenuRight.close (true);
             return true;
-        }
-
-        return false;
-    }
-
-    public boolean onKeyUp (int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_MENU:
-                final Activity scene = getActivity ();
-                if (scene instanceof BaseActivity) {
-                    final Toolbar toolbar = ((BaseActivity) scene).getPrimaryToolbar ();
-
-                    if (null != toolbar && toolbar.isOverflowMenuShowing ()) {
-                        // toolbar.hideOverflowMenu();
-                        toolbar.dismissPopupMenus ();
-                        return true;
-                    } else if (null != toolbar) {
-                        toolbar.showOverflowMenu ();
-                        return true;
-                    }
-                }
-
-                break;
         }
 
         return false;

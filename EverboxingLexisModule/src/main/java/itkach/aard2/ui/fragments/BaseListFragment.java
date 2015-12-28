@@ -1,9 +1,11 @@
 package itkach.aard2.ui.fragments;
 
-import android.graphics.drawable.Drawable;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,18 +15,17 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
+import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 
 public abstract class BaseListFragment extends ListFragment implements Tagable {
 
-    View mEmptyPlaceholderView;
-    ActionMode mActionMode;
+    protected View mEmptyPlaceholderView;
+    protected ActionMode mActionMode;
 
-    public Drawable getEmptyStateIcon () {
-        return null;
-    }
-
-    public abstract CharSequence getEmptyText ();
+    // Chrome tabs stuff
+    private CustomTabsSceneHelper mCustomTabsSceneHelper;
 
     @Override
     public String tag () {
@@ -36,6 +37,62 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
         super.onCreate (savedInstanceState);
         setHasOptionsMenu (true);
         setRetainInstance (true);
+
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper = new CustomTabsSceneHelper ();
+        mCustomTabsSceneHelper.onCreateScene (getActivity ());
+    }
+
+    @Override
+    public void onStart () {
+        super.onStart ();
+
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.onStartScene (getActivity ());
+    }
+
+    @Override
+    public void onStop () {
+        super.onStop ();
+
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.onStopScene (getActivity ());
+    }
+
+    @Override
+    public void onDestroy () {
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.onDestroyScene (getActivity ());
+
+        super.onDestroy ();
+    }
+
+    public void openUrl (final String url) {
+        // Chrome tabs stuff
+        mCustomTabsSceneHelper.openCustomTab (getActivity (), url);
+    }
+
+    public boolean onKeyUp (int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                final Activity scene = getActivity ();
+                if (scene instanceof BaseActivity) {
+                    final Toolbar toolbar = ((BaseActivity) scene).getPrimaryToolbar ();
+
+                    if (null != toolbar && toolbar.isOverflowMenuShowing ()) {
+                        // toolbar.hideOverflowMenu();
+                        toolbar.dismissPopupMenus ();
+                        return true;
+                    } else if (null != toolbar) {
+                        toolbar.showOverflowMenu ();
+                        return true;
+                    }
+                }
+
+                break;
+        }
+
+        return false;
     }
 
     @Override

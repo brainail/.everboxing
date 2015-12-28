@@ -1,8 +1,7 @@
 package itkach.aard2.slob;
 
-import android.util.Log;
-
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.io.File;
@@ -39,11 +38,8 @@ public class SlobDescriptor extends BaseDescriptor {
             slob = new Slob(f);
             this.update(slob);
         } catch (Exception e) {
-            Log.e(TAG, "Error while opening " + this.path, e);
+            Plogger.logE(e, "Error while opening " + this.path);
             error = e.getMessage();
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "Error while opening " + this.path, e);
-            }
             expandDetail = true;
             isActive = false;
         }
