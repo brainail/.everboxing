@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
@@ -34,7 +37,7 @@ import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements ActionMode.Callback {
 
     // Chrome tabs stuff
     private CustomTabsSceneHelper mCustomTabsSceneHelper;
@@ -97,6 +100,26 @@ public class BaseFragment extends Fragment {
                 break;
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean onCreateActionMode (ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public void onDestroyActionMode (ActionMode mode) {
+
+    }
+
+    @Override
+    public boolean onPrepareActionMode (ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked (ActionMode mode, MenuItem item) {
         return false;
     }
 

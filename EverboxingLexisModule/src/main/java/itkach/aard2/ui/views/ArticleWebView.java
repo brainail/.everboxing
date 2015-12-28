@@ -69,7 +69,7 @@ public class ArticleWebView extends WebView {
     private Timer timer;
     private TimerTask applyStylePref;
 
-    public boolean forceLoadRemoteContent;
+    private boolean forceLoadRemoteContent;
 
     public static interface OnScrollDirectionListener {
         public void onScrollUp ();
@@ -79,6 +79,10 @@ public class ArticleWebView extends WebView {
     public static final int SCROLL_RECOGNIZE_DIRECTION_DISTANCE = 30;
 
     public OnScrollDirectionListener mOnScrollDirectionListener;
+
+    public void enableForceLoadRemoteContent (final boolean enabled) {
+        forceLoadRemoteContent = enabled;
+    }
 
     @JavascriptInterface
     public void setStyleTitles (String[] titles) {

@@ -14,6 +14,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
+import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
@@ -421,6 +422,18 @@ public class ArticleCollectionActivity extends BaseActivity {
         }
 
         return super.onKeyUp (keyCode, event);
+    }
+
+    @Override
+    public void onActionModeStarted (ActionMode mode) {
+        if (null != mPagerAdapter) {
+            final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();
+            if (null != articlePage && articlePage.onActionModeStarted (mode)) {
+                // ...
+            }
+        }
+
+        super.onActionModeStarted (mode);
     }
 
 }

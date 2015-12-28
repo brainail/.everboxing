@@ -2,6 +2,8 @@ package itkach.aard2.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +32,9 @@ import itkach.aard2.Application;
 import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.ui.views.ArticleWebView;
 
-public class ArticleFragment extends BaseFragment implements HardyDialogFragment.OnDialogListActionCallback {
+public class ArticleFragment
+        extends BaseFragment
+        implements HardyDialogFragment.OnDialogListActionCallback {
 
     public static class Args {
         public static final String ARTICLE_URL = "articleUrl";
@@ -114,7 +118,7 @@ public class ArticleFragment extends BaseFragment implements HardyDialogFragment
             mArticleWebView.resetTextZoom ();
             return true;
         } else if (itemId == R.id.action_load_remote_content) {
-            mArticleWebView.forceLoadRemoteContent = true;
+            mArticleWebView.enableForceLoadRemoteContent (true);
             mArticleWebView.reload ();
             return true;
         } else if (itemId == R.id.action_bookmark_article) {
@@ -243,6 +247,18 @@ public class ArticleFragment extends BaseFragment implements HardyDialogFragment
                 });
             }
         }
+
+        // @Override
+        // https://bugzilla.wikimedia.org/show_bug.cgi?id=31484
+        // If you DO NOT want to start selection by long click,
+        // the remove this function
+        // (All this is undocumented stuff...)
+        public void onSelectionStart(WebView view) {
+            // By default we cancel the selection again, thus disabling
+            // text selection unless the chrome client supports it.
+            // view.notifySelectDialogDismissed();
+            ToolUI.showToast ((AppCompatActivity) getActivity (), "Ha-ha-ha!");
+        }
     };
 
     @Override
@@ -287,6 +303,23 @@ public class ArticleFragment extends BaseFragment implements HardyDialogFragment
         if (null != mFabMenuRight && mFabMenuRight.isOpened ()) {
             mFabMenuRight.close (true);
             return true;
+        }
+
+        return false;
+    }
+
+    public boolean onActionModeStarted (ActionMode mode) {
+        // Fix colors (custom temp hacky way)
+        final View actionCustomView = mode.getCustomView ();
+        if (actionCustomView instanceof ViewGroup) {
+            final ViewGroup actionCustomViewGroup = (ViewGroup) actionCustomView;
+            for (int viewIndex = 0; viewIndex < actionCustomViewGroup.getChildCount (); ++ viewIndex) {
+                final View subView = actionCustomViewGroup.getChildAt (viewIndex);
+                if (subView instanceof TextView) {
+                    ((TextView) subView).setTextColor (getResources ().getColor (R.color.md_grey_600));
+                    ((TextView) subView).setHintTextColor (getResources ().getColor (R.color.md_grey_600));
+                }
+            }
         }
 
         return false;
