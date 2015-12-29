@@ -1,8 +1,10 @@
 package itkach.aard2.ui.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.speech.tts.TextToSpeech;
+import android.support.annotation.Nullable;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +28,8 @@ import org.brainail.EverboxingLexis.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.tool.ToolPrint;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
+
+import java.util.Locale;
 
 import co.mobiwise.library.ProgressLayout;
 import itkach.aard2.Application;
@@ -52,6 +56,10 @@ public class ArticleFragment
     private FloatingActionButton mFabZoomOut;
 
     private MenuItem mMenuItemBookmark;
+    private MenuItem mMenuItemTts;
+
+    private TextToSpeech mTts;
+    private boolean mIsTtsAvailable = false;
 
     @Override
     public void onCreate (Bundle savedInstanceState) {
@@ -60,7 +68,72 @@ public class ArticleFragment
     }
 
     @Override
+    public void onActivityCreated (@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated (savedInstanceState);
+
+        if (null == mTts) {
+            mTts = new TextToSpeech (getActivity (), mOnInitTtsListener);
+        }
+    }
+
+    private TextToSpeech.OnInitListener mOnInitTtsListener = new TextToSpeech.OnInitListener () {
+        @Override
+        public void onInit (int status) {
+            if (null != mTts && TextToSpeech.SUCCESS == status && null != mArticleTitle) {
+                final int ttsLanguageResult = mTts.setLanguage(ttsLocale ());
+                // final int ttsSpeechRateResult = mTts.setSpeechRate (0.9f);
+                final int ttsSpeechRateResult = TextToSpeech.SUCCESS;
+
+                if (TextToSpeech.LANG_MISSING_DATA == ttsLanguageResult
+                        || TextToSpeech.LANG_NOT_SUPPORTED == ttsLanguageResult) {
+                    // We don't nullify TTS to know that lang isn't supported/installed
+                    mIsTtsAvailable = false;
+                } else if (TextToSpeech.SUCCESS == ttsSpeechRateResult) {
+                    // Let's speak later!
+                    mIsTtsAvailable = true;
+                } else {
+                    mTts = null;
+                    mIsTtsAvailable = false;
+                }
+            } else {
+                mTts = null;
+                mIsTtsAvailable = false;
+            }
+
+            enableTtsMenuItem (null != mTts);
+        }
+    };
+
+    private Locale ttsLocale () {
+        return Locale.getDefault ();
+    }
+
+    private void enableTtsMenuItem (boolean enabled) {
+        if (enabled) {
+            if (null != mMenuItemTts) {
+                mMenuItemTts.setVisible (true);
+                final String ttsLocaleExtra = " (" + ttsLocale ().getDisplayLanguage () + ")";
+                mMenuItemTts.setTitle (ToolResources.string (R.string.action_tts) + ttsLocaleExtra);
+            }
+        } else {
+            if (null != mMenuItemTts) {
+                mMenuItemTts.setVisible (false);
+            }
+        }
+    }
+
+    private void finishTts () {
+        if (null != mTts) {
+            mTts.stop();
+            mTts.shutdown();
+            mTts = null;
+        }
+    }
+
+    @Override
     public void onDestroy () {
+        finishTts ();
+
         if (mArticleWebView != null) {
             mArticleWebView.destroy ();
             mArticleWebView = null;
@@ -79,6 +152,8 @@ public class ArticleFragment
 
         // To change state later
         mMenuItemBookmark = menu.findItem (R.id.action_bookmark_article);
+        mMenuItemTts = menu.findItem (R.id.action_tts);
+        enableTtsMenuItem (null != mTts);
 
         if (null == mArticleWebView) {
             mMenuItemBookmark.setVisible (false);
@@ -141,6 +216,14 @@ public class ArticleFragment
             openUrl ("https://www.google.com/search?q=" + mArticleTitle + "+definition");
         } else if (itemId == R.id.action_print_article) {
             ToolPrint.print (getActivity (), mArticleWebView, mArticleTitle);
+        } else if (itemId == R.id.action_tts) {
+            if (null != mTts && null != mArticleTitle) {
+                if (mIsTtsAvailable) {
+                    mTts.speak (mArticleTitle, TextToSpeech.QUEUE_FLUSH, null);
+                } else {
+                    startActivity(new Intent (TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA));
+                }
+            }
         }
 
         return super.onOptionsItemSelected (item);
@@ -247,19 +330,19 @@ public class ArticleFragment
                 });
             }
         }
-
-        // @Override
-        // https://bugzilla.wikimedia.org/show_bug.cgi?id=31484
-        // If you DO NOT want to start selection by long click,
-        // the remove this function
-        // (All this is undocumented stuff...)
-        public void onSelectionStart(WebView view) {
-            // By default we cancel the selection again, thus disabling
-            // text selection unless the chrome client supports it.
-            // view.notifySelectDialogDismissed();
-            ToolUI.showToast ((AppCompatActivity) getActivity (), "Ha-ha-ha!");
-        }
     };
+
+    @Override
+    public void onStart () {
+        super.onStart ();
+
+        // Check tts
+        if (null != mTts && ! mIsTtsAvailable) {
+            final int ttsLanguageResult = mTts.setLanguage(ttsLocale ());
+            mIsTtsAvailable = ! (TextToSpeech.LANG_MISSING_DATA == ttsLanguageResult
+                    || TextToSpeech.LANG_NOT_SUPPORTED == ttsLanguageResult);
+        }
+    }
 
     @Override
     public void onResume () {
