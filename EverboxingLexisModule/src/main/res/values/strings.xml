@@ -161,4 +161,11 @@
 
     <string name="dictionaries_store_mirror_one">Store (CloudMail)</string>
     <string name="dictionaries_store_mirror_two">Store (GitHub)</string>
+
+    <string name="app_intro_slide_no_01_title">Simple</string>
+    <string name="app_intro_slide_no_01_description">Just find interesting info, open, read and bookmark to explore later. History will help you refresh memory.</string>
+    <string name="app_intro_slide_no_02_title">Offline</string>
+    <string name="app_intro_slide_no_02_description">No need to go home or any place with internet connection. Download once and use everywhere in offline.</string>
+    <string name="app_intro_slide_no_03_title">Cognitive</string>
+    <string name="app_intro_slide_no_03_description">Enjoy with all stuff that you will find using a lot of articles like wiki, dictionaries and so on and so forth.</string>
 </resources>

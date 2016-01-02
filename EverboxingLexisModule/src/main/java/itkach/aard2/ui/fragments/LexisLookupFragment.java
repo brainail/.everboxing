@@ -8,7 +8,6 @@ import android.speech.RecognizerIntent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -126,7 +125,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
                 @Override
                 public void run () {
                     final String query = mSearchView.getQuery ().toString ();
-                    if (Application.app ().getLookupQuery ().equals (query) || TextUtils.isEmpty (query)) {
+                    if (Application.app ().getLookupQuery ().equals (query)) {
                         return;
                     }
                     getActivity ().runOnUiThread (new Runnable () {

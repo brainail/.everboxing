@@ -12,6 +12,7 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 
 import itkach.aard2.Application;
@@ -132,6 +133,16 @@ public class HomeActivity extends SectionedDrawerActivity {
     }
 
     @Override
+    public void onDrawerOpened (View drawerView) {
+        super.onDrawerOpened (drawerView);
+
+        final Fragment target = ToolFragments.topFragment (self ());
+        if (target instanceof BaseListFragment) {
+            ((BaseListFragment) target).finishCurrentActionMode ();
+        }
+    }
+
+    @Override
     public void onDrawerClosed (View drawerView) {
         super.onDrawerClosed (drawerView);
         mShouldUpdateDrawerNotifications = true;
@@ -168,6 +179,10 @@ public class HomeActivity extends SectionedDrawerActivity {
                 finish();
                 return;
             }
+        }
+
+        if (SettingsManager.getInstance ().retrieveAppShouldIntroduce (false)) {
+            AppIntro.introduce (this);
         }
     }
 
@@ -207,6 +222,7 @@ public class HomeActivity extends SectionedDrawerActivity {
     @Override
     public boolean onKeyUp (int keyCode, KeyEvent event) {
         final Fragment target = ToolFragments.topFragment (self ());
+
         if (target instanceof BaseListFragment) {
             if (((BaseListFragment) target).onKeyUp (keyCode, event)) {
                 return true;

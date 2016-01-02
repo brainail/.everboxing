@@ -86,12 +86,15 @@ public abstract class BlobDescriptorListFragment
         if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_LIST_ITEMS_REMOVING_CONFIRMATION)) {
             if (HardyDialogFragment.ActionRequestCode.POSITIVE == actionRequestCode) {
                 deleteSelectedItems();
-
-                if (null != mLastActionMode) {
-                    mLastActionMode.finish ();
-                    mLastActionMode = null;
-                }
+                finishLastActionMode ();
             }
+        }
+    }
+
+    public final void finishLastActionMode () {
+        if (null != mLastActionMode) {
+            mLastActionMode.finish ();
+            mLastActionMode = null;
         }
     }
 

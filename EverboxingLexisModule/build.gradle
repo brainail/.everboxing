@@ -224,6 +224,7 @@ dependencies {
     compile 'com.ibm.icu:icu4j:52.1', 'org.tukaani:xz:1.5', 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
     // About
     compile('com.mikepenz:aboutlibraries:5.3.3@aar') { transitive = true }
+    compile 'com.github.paolorotolo:appintro:3.3.0'
     // Hardy dialogs
     debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
     releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')

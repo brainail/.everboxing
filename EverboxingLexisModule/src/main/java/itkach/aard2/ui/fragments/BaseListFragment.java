@@ -101,6 +101,13 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
         return super.onCreateView (inflater, container, savedInstanceState);
     }
 
+    public final void finishCurrentActionMode () {
+        if (null != mActionMode) {
+            mActionMode.finish ();
+            mActionMode = null;
+        }
+    }
+
     protected void setSelectionMode (boolean selectionMode) {}
 
     protected int getSelectionMenuId () {

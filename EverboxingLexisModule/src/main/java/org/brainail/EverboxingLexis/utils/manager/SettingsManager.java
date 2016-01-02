@@ -44,6 +44,7 @@ public final class SettingsManager {
     private String mAppThemeNamePfKey;
     private String mLoadRemoteContentModePfKey;
     private String mLoadRemoteContentModeNamePfKey;
+    private String mShouldIntroduce;
 
     private SettingsManager () {
         initializePreferences ();
@@ -51,10 +52,14 @@ public final class SettingsManager {
     }
 
     private void initializePreferencesKeys () {
+        mShouldIntroduce = "settings_app_should_introduce";
+
         mPlayAccountPfKey = ToolResources.string (R.string.settings_add_play_account_key);
         mSyncDataPfKey = ToolResources.string (R.string.settings_sync_account_key);
+
         mAppThemeNamePfKey = ToolResources.string (R.string.settings_change_theme_key);
         mAppThemePfKey = "settings_app_theme";
+
         mLoadRemoteContentModeNamePfKey = ToolResources.string (R.string.settings_load_remote_content_key);
         mLoadRemoteContentModePfKey = "settings_load_remote_content";
     }
@@ -147,6 +152,12 @@ public final class SettingsManager {
         } catch (final Exception exception) {
             return ToolResources.string (RemoteContentMode.WIFI.getNameResId ());
         }
+    }
+
+    public boolean retrieveAppShouldIntroduce (final boolean postMarker) {
+        final boolean shouldIntroduce = mDefaultPreferences.getBoolean (mShouldIntroduce, true);
+        mDefaultPreferences.edit ().putBoolean (mShouldIntroduce, postMarker).apply ();
+        return shouldIntroduce;
     }
 
 }

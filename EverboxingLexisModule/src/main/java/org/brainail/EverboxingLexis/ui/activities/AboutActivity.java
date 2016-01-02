@@ -57,7 +57,7 @@ public class AboutActivity extends LibsActivity {
                 .withFields (R.string.class.getFields ())
                 .withLibraries ("Everboxing", "Aard")
                 .withExcludedLibraries (
-                        "AboutLibraries", "jackson", "Crashlytics",
+                        "AboutLibraries", "jackson", "Crashlytics", "appintro",
                         "calligraphy", "Butterknife", "androidIconify", "materialicons"
                 )
                 .withLibraryComparator (new LibraryComparator ())

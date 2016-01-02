@@ -25,6 +25,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme.Default">
 
+        <!-- INTRO -->
+        <activity
+            android:name=".ui.activities.AppIntro"
+            android:label="@string/app_name"/>
+
         <!-- HOME -->
         <activity
             android:name="org.brainail.EverboxingLexis.ui.activities.HomeActivity"
