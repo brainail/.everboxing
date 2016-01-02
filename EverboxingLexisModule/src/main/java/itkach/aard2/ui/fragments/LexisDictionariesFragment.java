@@ -10,11 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.malinskiy.materialicons.Iconify;
-
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
@@ -51,13 +48,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
     }
 
     @Override
-    public void onPrepareOptionsMenu(final Menu menu) {
-        MenuItem miFindDictionaries = menu.findItem(R.id.action_find_dictionaries);
-        miFindDictionaries.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_refresh));
-
-        MenuItem miAddDictionaries = menu.findItem(R.id.action_add_dictionaries);
-        miAddDictionaries.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_file_plus));
-    }
+    public void onPrepareOptionsMenu(final Menu menu) {}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

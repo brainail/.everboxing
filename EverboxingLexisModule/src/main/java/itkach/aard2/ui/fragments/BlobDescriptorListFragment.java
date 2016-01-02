@@ -2,9 +2,7 @@ package itkach.aard2.ui.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -20,12 +18,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.malinskiy.materialicons.Iconify;
-
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 
@@ -36,12 +31,6 @@ import itkach.aard2.ui.adapters.BlobDescriptorListAdapter;
 public abstract class BlobDescriptorListFragment
         extends BaseListFragment
         implements HardyDialogFragment.OnDialogActionCallback {
-
-    private Drawable icFilter;
-    private Drawable icClock;
-    private Drawable icList;
-    private Drawable icArrowUp;
-    private Drawable icArrowDown;
 
     private BlobDescriptorListAdapter listAdapter;
 
@@ -114,8 +103,7 @@ public abstract class BlobDescriptorListFragment
 
         SharedPreferences p = this.prefs();
 
-        String sortOrderStr = p.getString(PREF_SORT_ORDER,
-                BlobDescriptorList.SortOrder.TIME.name());
+        String sortOrderStr = p.getString(PREF_SORT_ORDER, BlobDescriptorList.SortOrder.TIME.name());
         BlobDescriptorList.SortOrder sortOrder = BlobDescriptorList.SortOrder.valueOf(sortOrderStr);
 
         boolean sortDir = p.getBoolean(PREF_SORT_DIRECTION, false);
@@ -124,21 +112,10 @@ public abstract class BlobDescriptorListFragment
 
         listAdapter = new BlobDescriptorListAdapter(descriptorList);
 
-        final FragmentActivity activity = getActivity();
-
-        icFilter = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_filter_list);
-        icClock = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_time);
-        icList = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_format_list_bulleted);
-        icArrowUp = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_trending_up);
-        icArrowDown = BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_trending_down);
-
-        final ListView listView = getListView();
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Intent intent = new Intent(activity,
-                        ArticleCollectionActivity.class);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity (), ArticleCollectionActivity.class);
                 intent.setAction(getItemClickAction());
                 intent.putExtra("position", position);
                 startActivity(intent);
@@ -168,8 +145,7 @@ public abstract class BlobDescriptorListFragment
     public void onPrepareOptionsMenu(final Menu menu) {
         final BlobDescriptorList list = getDescriptorList();
 
-        MenuItem menuItemFilter = menu.findItem (R.id.action_filter);
-
+        final MenuItem menuItemFilter = menu.findItem (R.id.action_filter);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItemFilter);
         if (! TextUtils.isEmpty (list.getFilter())) {
             searchView.setIconified (false);
@@ -177,7 +153,7 @@ public abstract class BlobDescriptorListFragment
             MenuItemCompat.expandActionView (menuItemFilter);
             searchView.clearFocus ();
         } else {
-            menuItemFilter.setIcon (icFilter);
+            menuItemFilter.setIcon (R.drawable.ic_filter_list_white_24dp);
         }
 
         searchView.setImeOptions(searchView.getImeOptions()
@@ -210,40 +186,28 @@ public abstract class BlobDescriptorListFragment
         super.onPrepareOptionsMenu(menu);
     }
 
-    private void setSortOrder(MenuItem mi, BlobDescriptorList.SortOrder order) {
-        Drawable icon;
-        int textRes;
-        if (order == BlobDescriptorList.SortOrder.TIME) {
-            icon = icClock;
-            textRes = R.string.action_sort_by_time;
+    private void setSortOrder(MenuItem menuItem, BlobDescriptorList.SortOrder order) {
+        if (order != BlobDescriptorList.SortOrder.TIME) {
+            menuItem.setIcon(R.drawable.ic_access_time_white_24dp);
+            menuItem.setTitle(R.string.action_sort_by_time);
         } else {
-            icon = icList;
-            textRes = R.string.action_sort_by_title;
+            menuItem.setIcon(R.drawable.ic_sort_white_24dp);
+            menuItem.setTitle(R.string.action_sort_by_title);
         }
-        mi.setIcon(icon);
-        mi.setTitle(textRes);
-        SharedPreferences p = this.prefs();
-        SharedPreferences.Editor editor = p.edit();
-        editor.putString(PREF_SORT_ORDER, order.name());
-        editor.commit();
+
+        prefs().edit ().putString (PREF_SORT_ORDER, order.name()).apply ();
     }
 
-    private void setAscending(MenuItem mi, boolean ascending) {
-        Drawable icon;
-        int textRes;
-        if (ascending) {
-            icon = icArrowUp;
-            textRes = R.string.action_ascending;
+    private void setAscending(MenuItem menuItem, boolean isAscending) {
+        if (! isAscending) {
+            menuItem.setIcon(R.drawable.ic_trending_up_white_24dp);
+            menuItem.setTitle(R.string.action_ascending);
         } else {
-            icon = icArrowDown;
-            textRes = R.string.action_descending;
+            menuItem.setIcon(R.drawable.ic_trending_down_white_24dp);
+            menuItem.setTitle(R.string.action_descending);
         }
-        mi.setIcon(icon);
-        mi.setTitle(textRes);
-        SharedPreferences p = this.prefs();
-        SharedPreferences.Editor editor = p.edit();
-        editor.putBoolean(PREF_SORT_DIRECTION, ascending);
-        editor.commit();
+
+        prefs().edit ().putBoolean (PREF_SORT_DIRECTION, isAscending).apply ();
     }
 
     @Override

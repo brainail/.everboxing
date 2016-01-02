@@ -14,11 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.malinskiy.materialicons.Iconify;
-
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
-import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 
 import java.io.File;
 
@@ -87,14 +84,8 @@ public class FileSelectFragment extends ListFragment {
 
     @Override
     public void onPrepareOptionsMenu (Menu menu) {
-        MenuItem miParentDir = menu.findItem(R.id.action_goto_parent_dir);
-        miParentDir.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_chevron_left));
-        MenuItem miReloadDir = menu.findItem(R.id.action_reload_directory);
-        miReloadDir.setIcon(BaseIcon.barIcon (getActivity (), Iconify.IconValue.zmdi_refresh));
-        FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter();
-        File root = adapter.getRoot();
-        File parent = root.getParentFile();
-        miParentDir.setEnabled (parent != null);
+        final File parent = ((FileSelectListAdapter) getListAdapter()).getRoot().getParentFile();
+        menu.findItem(R.id.action_goto_parent_dir).setEnabled (parent != null);
     }
 
     @Override

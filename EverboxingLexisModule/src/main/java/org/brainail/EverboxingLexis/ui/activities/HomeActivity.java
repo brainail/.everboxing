@@ -1,5 +1,6 @@
 package org.brainail.EverboxingLexis.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -54,6 +55,17 @@ public class HomeActivity extends SectionedDrawerActivity {
         super.onCreate(savedInstanceState);
 
         // ...
+
+        handleIntent (getIntent (), false);
+    }
+
+    @Override
+    protected void onNewIntent (Intent intent) {
+        super.onNewIntent (intent);
+
+        // ...
+
+        handleIntent (intent, true);
     }
 
     @Override
@@ -134,10 +146,30 @@ public class HomeActivity extends SectionedDrawerActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult (requestCode, resultCode, data);
+    }
+
     // Lexis stuff
     private final Fragment LEXIS_BOOKMARKS_SECTION_TEMPLATE_FRAGMENT = new LexisBookmarksFragment ();
     private final Fragment LEXIS_HISTORY_SECTION_TEMPLATE_FRAGMENT = new LexisHistoryFragment ();
     private final Fragment LEXIS_DICTIONARIES_SECTION_TEMPLATE_FRAGMENT = new LexisDictionariesFragment ();
+
+    private void handleIntent (final Intent intent, final boolean isNew) {
+        setIntent (intent);
+
+        // Possible work around for market launches. See http://code.google.com/p/android/issues/detail?id=2373
+        // for more details. Essentially, the market launches the main activity on top of other activities.
+        // we never want this to happen. Instead, we check if we are the root and if not, we finish.
+        if (! isTaskRoot()) {
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(intent.getAction())) {
+                Plogger.logW(Plogger.LogScope.WTF, "Home scene is not the root. Finishing .. instead of launching.");
+                finish();
+                return;
+            }
+        }
+    }
 
     // Some ugly solution to update bookmarks size and other stuff ...
     // It should be reimplemented, anyway.

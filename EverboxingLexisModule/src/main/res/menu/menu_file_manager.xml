@@ -7,10 +7,12 @@
     <item
         android:id="@+id/action_goto_parent_dir"
         android:title="@string/action_goto_parent_dir"
+        android:icon="@drawable/ic_subdirectory_arrow_left_white_24dp"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_reload_directory"
         android:title="@string/action_reload_directory"
+        android:icon="@drawable/ic_refresh_white_24dp"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -1,10 +1,14 @@
 package itkach.aard2.ui.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,12 +17,13 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.tool.ToolKeyboard;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,9 +33,11 @@ import itkach.aard2.ui.activities.ArticleCollectionActivity;
 
 public class LexisLookupFragment extends BaseListFragment implements LookupListener {
 
-    private Timer timer;
-    private SearchView searchView;
-    private String initialQuery;
+    private Timer mTimer;
+    private TimerTask mScheduledLookup = null;
+
+    private SearchView mSearchView;
+    private String mInitialQuery;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,15 +53,13 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         setBusy(false);
-        ListView listView = getListView();
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Plogger.logI("Item clicked: " + position);
-                Intent intent = new Intent(getActivity(),
-                        ArticleCollectionActivity.class);
+                Intent intent = new Intent(getActivity(), ArticleCollectionActivity.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
             }
@@ -76,81 +81,99 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         inflater.inflate(R.menu.menu_lookup, menu);
         MenuItem miFilter = menu.findItem (R.id.action_lookup);
 
-        timer = new Timer();
+        mTimer = new Timer();
 
-        searchView = (SearchView) MenuItemCompat.getActionView(miFilter);
-        searchView.setIconified(false);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(miFilter);
+        mSearchView.setIconified(false);
 
-        searchView.setImeOptions(searchView.getImeOptions ()
+        mSearchView.setImeOptions(mSearchView.getImeOptions ()
                         | EditorInfo.IME_ACTION_SEARCH
                         | EditorInfo.IME_FLAG_NO_EXTRACT_UI
                         | EditorInfo.IME_FLAG_NO_FULLSCREEN
         );
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            TimerTask scheduledLookup = null;
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Plogger.logI("SUBMIT -> " + query);
-                onQueryTextChange(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Plogger.logI("CHANGE -> New text: " + newText);
-                TimerTask doLookup = new TimerTask() {
-                    @Override
-                    public void run() {
-                        final String query = searchView.getQuery().toString();
-                        if (Application.app ().getLookupQuery().equals(query)) {
-                            return;
-                        }
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Application.app ().lookup(query);
-                            }
-                        });
-                        scheduledLookup = null;
-                    }
-                };
-                final String query = searchView.getQuery().toString();
-                if (! Application.app ().getLookupQuery().equals(query)) {
-                    if (scheduledLookup != null) {
-                        scheduledLookup.cancel();
-                    }
-                    scheduledLookup = doLookup;
-                    timer.schedule(doLookup, 600);
-                }
-                return true;
-            }
-        });
+        mSearchView.setOnQueryTextListener(mOnQueryTextListener);
         
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 return true;
             }
         });
 
-        searchView.setSubmitButtonEnabled(false);
-        if (initialQuery != null) {
-            searchView.setQuery(initialQuery, true);
-            initialQuery = null;
+        mSearchView.setSubmitButtonEnabled(false);
+        if (mInitialQuery != null) {
+            mSearchView.setQuery(mInitialQuery, true);
+            mInitialQuery = null;
         }
 
-        searchView.clearFocus();
+        mSearchView.clearFocus();
+    }
+
+    private final SearchView.OnQueryTextListener mOnQueryTextListener = new SearchView.OnQueryTextListener () {
+        @Override
+        public boolean onQueryTextSubmit (String query) {
+            Plogger.logI ("SUBMIT -> " + query);
+            onQueryTextChange (query);
+            ToolKeyboard.hide ((AppCompatActivity) getActivity ());
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextChange (String newText) {
+            Plogger.logI ("CHANGE -> New text: " + newText);
+            TimerTask doLookup = new TimerTask () {
+                @Override
+                public void run () {
+                    final String query = mSearchView.getQuery ().toString ();
+                    if (Application.app ().getLookupQuery ().equals (query) || TextUtils.isEmpty (query)) {
+                        return;
+                    }
+                    getActivity ().runOnUiThread (new Runnable () {
+                        @Override
+                        public void run () {
+                            Application.app ().lookup (query);
+                        }
+                    });
+                    mScheduledLookup = null;
+                }
+            };
+
+            final String query = mSearchView.getQuery ().toString ();
+            if (!Application.app ().getLookupQuery ().equals (query)) {
+                if (mScheduledLookup != null) {
+                    mScheduledLookup.cancel ();
+                }
+                mScheduledLookup = doLookup;
+                mTimer.schedule (doLookup, 600);
+            }
+            return true;
+        }
+
+    };
+
+    private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
+
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
+        super.onActivityResult (requestCode, resultCode, data);
+
+        if (requestCode == VOICE_RECOGNITION_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                ArrayList<String> textMatchList = data.getStringArrayListExtra (RecognizerIntent.EXTRA_RESULTS);
+                if (!textMatchList.isEmpty ()) {
+                    final String searchQuery = textMatchList.get (0);
+                    mOnQueryTextListener.onQueryTextSubmit (searchQuery);
+                }
+            }
+        }
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        searchView.setQuery(Application.app ().getLookupQuery(), true);
+        mSearchView.setQuery(Application.app ().getLookupQuery(), true);
         if (Application.app ().lastResult.getCount() > 0) {
-            searchView.clearFocus();
+            mSearchView.clearFocus();
         }
         super.onPrepareOptionsMenu(menu);
     }
@@ -158,19 +181,19 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (searchView != null) {
-            String query = searchView.getQuery().toString();
+        if (mSearchView != null) {
+            String query = mSearchView.getQuery().toString();
             outState.putString("lookupQuery", query);
         }
     }
 
     private void setBusy(boolean busy) {
-        setListShown(!busy);
-        if (!busy) {
+        setListShown(! busy);
+        if (! busy) {
             TextView emptyText = ((TextView) mEmptyPlaceholderView.findViewById(R.id.empty_text));
             String msg = "";
             String query = Application.app ().getLookupQuery();
-            if (query != null && !query.toString().equals("")) {
+            if (query != null && ! query.equals("")) {
                 msg = getString(R.string.lookup_nothing_found);
             }
             emptyText.setText(msg);
@@ -179,10 +202,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
 
     @Override
     public void onDestroy() {
-        if (timer != null) {
-            timer.cancel();
-        }
-
+        if (mTimer != null) mTimer.cancel();
         Application.app ().removeLookupListener (this);
         super.onDestroy();
     }
@@ -203,10 +223,11 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     }
 
     void setQuery(String query) {
-        if (searchView != null) {
-            searchView.setQuery(query, true);
+        if (mSearchView != null) {
+            mSearchView.setQuery(query, true);
         } else {
-            this.initialQuery = query;
+            this.mInitialQuery = query;
         }
     }
+
 }

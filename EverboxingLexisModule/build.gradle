@@ -187,6 +187,10 @@ android {
                 }
         }
     }
+
+    dexOptions {
+        jumboMode = true
+    }
 }
 
 //
@@ -231,7 +235,7 @@ dependencies {
 // +------------------------------------------------------------+
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-apply plugin: 'org.robolectric'
+// apply plugin: 'org.robolectric'
 
 // To run through the Studio (previous approach)
 // apply from: 'robolectric-iml.gradle'
@@ -239,9 +243,14 @@ apply plugin: 'org.robolectric'
 dependencies {
     // Tests
     testCompile "junit:junit:4.12"
-    testCompile('org.robolectric:robolectric:2.4') {
+    testCompile('org.robolectric:robolectric:3.0') {
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
+
+        // WARNING: Conflict with dependency 'com.ibm.icu:icu4j'.
+        // Resolved versions for app (52.1) and test app (53.1) differ.
+        // See http://g.co/androidstudio/app-test-app-conflict for details.
+        exclude group: 'com.ibm.icu'
     }
 
     // Checks
@@ -256,11 +265,11 @@ dependencies {
     }
 }
 
-project.gradle.taskGraph.whenReady {
-    testDebug {
-        ignoreFailures = true
-    }
-}
+// project.gradle.taskGraph.whenReady {
+//     testDebug {
+//         ignoreFailures = true
+//     }
+// }
 
 //
 // +------------------------------------------------------------+

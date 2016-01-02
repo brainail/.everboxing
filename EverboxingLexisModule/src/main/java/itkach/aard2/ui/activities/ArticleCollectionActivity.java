@@ -14,6 +14,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -299,7 +300,7 @@ public class ArticleCollectionActivity extends BaseActivity {
         }
 
         BlobListAdapter data = new BlobListAdapter (this, 21, 1);
-        if (lookupKey == null || lookupKey.length () == 0) {
+        if (TextUtils.isEmpty (lookupKey) || TextUtils.isEmpty (lookupKey.trim ())) {
             ToolUI.showToast (self (), R.string.article_collection_nothing_to_lookup);
         } else {
             Iterator<Blob> result = stemLookup (app, lookupKey);

@@ -101,10 +101,6 @@ public class JApplication extends Application {
         super.onConfigurationChanged (newConfig);
     }
 
-    public static JApplication app () {
-        return mApp;
-    }
-
     public static Context appContext () {
         return mApp.getApplicationContext ();
     }
