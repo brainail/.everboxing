@@ -109,12 +109,14 @@ public final class ToolToolbar {
         // Set color for toolbar & status bar
         final Toolbar toolbar = ((BaseActivity) activity).getPrimaryToolbar();
         if (null != toolbar) {
-            final View window = ButterKnife.findById(activity, R.id.fit_window_background);
+            final View appContentWindow = ButterKnife.findById(activity, R.id.app_content);
 
             // Similar to getWindow() to set background color for status bar
-            if (null != window) {
-                final int windowColor = (toolbarColor == primaryColor) ? primaryDarkColor : ToolColor.darkenColor(toolbarColor);
-                window.setBackgroundColor(windowColor);
+            if (null != appContentWindow) {
+                final int windowColor = (toolbarColor == primaryColor)
+                        ? primaryDarkColor : ToolColor.darkenColor(toolbarColor);
+
+                appContentWindow.setBackgroundColor(windowColor);
             }
 
             toolbar.setBackgroundColor(toolbarColor);

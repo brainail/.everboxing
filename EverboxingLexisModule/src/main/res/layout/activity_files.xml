@@ -2,12 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="UselessParent"
-    style="@style/AppContent.FitWindows">
+    style="@style/AppContent">
 
     <!-- The main content view -->
     <LinearLayout
         android:orientation="vertical"
-        style="@style/AppContent.FitWindows">
+        style="@style/AppContentNested">
 
         <!-- Toolbar -->
         <org.brainail.EverboxingLexis.ui.views.MarqueeSubtitleToolbar

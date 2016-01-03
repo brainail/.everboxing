@@ -4,11 +4,12 @@
     tools:showIn="@layout/activity_settings">
 
     <FrameLayout
-        style="@style/AppContent">
+        style="@style/AppContentNested">
 
         <FrameLayout
             android:id="@id/base_fragment_container"
-            style="@style/AppContent"/>
+            android:background="@color/content_bg_default"
+            style="@style/AppContentNested"/>
 
         <!-- Toolbar dropshadow -->
         <include layout="@layout/view_toolbar_dropshadow"/>

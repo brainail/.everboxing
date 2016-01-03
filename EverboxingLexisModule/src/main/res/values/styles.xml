@@ -5,13 +5,15 @@
     <style name="AppContent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/content_bg_default</item>
+        <item name="android:background">@null</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:id">@id/app_content</item>
     </style>
 
-    <style name="AppContent.FitWindows">
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:id">@id/fit_window_background</item>
-        <item name="android:background">?attr/colorPrimaryDark</item>
+    <style name="AppContentNested">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
     </style>
 
     <!-- Default divider -->

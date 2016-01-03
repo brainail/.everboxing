@@ -13,6 +13,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
 
+        <item name="android:windowBackground">@color/content_bg_default</item>
         <!-- Custom section -->
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_default_pink_theme</item>

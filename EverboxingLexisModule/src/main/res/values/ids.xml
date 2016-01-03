@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Backgrounds -->
-    <item name="fit_window_background" type="id"/>
+    <item name="app_content" type="id"/>
 
     <!-- Drawer section -->
     <item name="drawer_section_root" type="id"/>
