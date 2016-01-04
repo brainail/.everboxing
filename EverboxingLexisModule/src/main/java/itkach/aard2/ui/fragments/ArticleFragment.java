@@ -3,6 +3,7 @@ package itkach.aard2.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.view.ActionMode;
@@ -61,6 +62,8 @@ public class ArticleFragment
     private TextToSpeech mTts;
     private boolean mIsTtsAvailable = false;
 
+    private Handler mHandler;
+
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -74,6 +77,12 @@ public class ArticleFragment
         if (null == mTts) {
             mTts = new TextToSpeech (getActivity (), mOnInitTtsListener);
         }
+    }
+
+    @Override
+    public void onAttach (Activity activity) {
+        super.onAttach (activity);
+        mHandler = new Handler ();
     }
 
     private TextToSpeech.OnInitListener mOnInitTtsListener = new TextToSpeech.OnInitListener () {
@@ -140,6 +149,12 @@ public class ArticleFragment
         }
 
         super.onDestroy ();
+    }
+
+    @Override
+    public void onDetach () {
+        super.onDetach ();
+        mHandler.removeCallbacks (mLiftUpFabAction);
     }
 
     @Override
@@ -296,6 +311,8 @@ public class ArticleFragment
             public void onScrollDown () {
                 if (null != mFabMenuRight && ! mFabMenuRight.isOpened ()) {
                     mFabMenuRight.hideMenu (true);
+                    mHandler.removeCallbacks (mLiftUpFabAction);
+                    mHandler.postDelayed (mLiftUpFabAction, 3_000);
                 }
             }
         });
@@ -315,6 +332,13 @@ public class ArticleFragment
 
         return layout;
     }
+
+    private Runnable mLiftUpFabAction = new Runnable () {
+        @Override
+        public void run () {
+            mFabMenuRight.showMenu (true);
+        }
+    };
 
     private final WebChromeClient mArticleWebChromeClient = new WebChromeClient () {
         @Override
