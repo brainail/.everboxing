@@ -44,7 +44,8 @@ public final class SettingsManager {
     private String mAppThemeNamePfKey;
     private String mLoadRemoteContentModePfKey;
     private String mLoadRemoteContentModeNamePfKey;
-    private String mShouldIntroduce;
+    private String mShouldIntroducePfKey;
+    private String mShouldUseFavouriteToRandomLookupPfKey;
 
     private SettingsManager () {
         initializePreferences ();
@@ -52,7 +53,7 @@ public final class SettingsManager {
     }
 
     private void initializePreferencesKeys () {
-        mShouldIntroduce = "settings_app_should_introduce";
+        mShouldIntroducePfKey = "settings_app_should_introduce";
 
         mPlayAccountPfKey = ToolResources.string (R.string.settings_add_play_account_key);
         mSyncDataPfKey = ToolResources.string (R.string.settings_sync_account_key);
@@ -62,6 +63,8 @@ public final class SettingsManager {
 
         mLoadRemoteContentModeNamePfKey = ToolResources.string (R.string.settings_load_remote_content_key);
         mLoadRemoteContentModePfKey = "settings_load_remote_content";
+
+        mShouldUseFavouriteToRandomLookupPfKey = ToolResources.string (R.string.settings_random_lookup_key);
     }
 
     private void initializePreferences () {
@@ -155,9 +158,13 @@ public final class SettingsManager {
     }
 
     public boolean retrieveAppShouldIntroduce (final boolean postMarker) {
-        final boolean shouldIntroduce = mDefaultPreferences.getBoolean (mShouldIntroduce, true);
-        mDefaultPreferences.edit ().putBoolean (mShouldIntroduce, postMarker).apply ();
+        final boolean shouldIntroduce = mDefaultPreferences.getBoolean (mShouldIntroducePfKey, true);
+        mDefaultPreferences.edit ().putBoolean (mShouldIntroducePfKey, postMarker).apply ();
         return shouldIntroduce;
+    }
+
+    public boolean retrieveAppShouldUseFavouriteToRandomLookup () {
+        return mDefaultPreferences.getBoolean (mShouldUseFavouriteToRandomLookupPfKey, false);
     }
 
 }

@@ -15,13 +15,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +49,7 @@ public class Application extends JApplication {
     public static final String LOCALHOST = "127.0.0.1";
     public static final String CONTENT_URL_TEMPLATE = "http://" + LOCALHOST + ":%s%s";
 
-    private Slobber slobber;
+    private Slobber mSlobber;
 
     public BlobDescriptorList bookmarks;
     public BlobDescriptorList history;
@@ -58,25 +58,22 @@ public class Application extends JApplication {
     private static int PREFERRED_PORT = 8013;
     private int port = -1;
 
-    public BlobListAdapter lastResult;
+    private String mLookupQuery = "";
+    public BlobListAdapter mLastResult;
 
     private DescriptorStore<BlobDescriptor> bookmarkStore;
     private DescriptorStore<BlobDescriptor> historyStore;
     private DescriptorStore<SlobDescriptor> dictStore;
+    private ObjectMapper mMapper;
 
-    private ObjectMapper mapper;
+    private List<AppCompatActivity> mArticleActivities;
 
-    private String lookupQuery = "";
+    public static String JS_STYLE_SWITCHER;
+    public static String JS_USER_STYLE;
+    public static String JS_CLEAR_USER_STYLE;
+    public static String JS_SET_CANNED_STYLE;
 
-    private List<AppCompatActivity> articleActivities;
-
-    public static String jsStyleSwitcher;
-    public static String jsUserStyle;
-    public static String jsClearUserStyle;
-    public static String jsSetCannedStyle;
-
-    private static final String PREF = "app";
-    public static final String PREF_RANDOM_FAV_LOOKUP = "onlyFavDictsForRandomLookup";
+    private static final String AARD2_APP_PREF_NAME = "app";
 
     public static Application app () {
         return (Application) mApp;
@@ -84,259 +81,240 @@ public class Application extends JApplication {
 
     @SuppressLint ("MissingSuperCall")
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public void onCreate () {
+        super.onCreate ();
 
         if (Build.VERSION.SDK_INT >= 19) {
             try {
-                Method setWebContentsDebuggingEnabledMethod = WebView.class.getMethod(
-                        "setWebContentsDebuggingEnabled", boolean.class);
-                setWebContentsDebuggingEnabledMethod.invoke(null, true);
-            } catch (NoSuchMethodException e1) {
-                Plogger.logE("setWebContentsDebuggingEnabledMethod method not found");
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                final Method setWebContentsDebuggingEnabledMethod
+                        = WebView.class.getMethod ("setWebContentsDebuggingEnabled", boolean.class);
+                setWebContentsDebuggingEnabledMethod.invoke (null, true);
+            } catch (Exception e1) {
+                Plogger.logE ("setWebContentsDebuggingEnabledMethod method not found");
             }
         }
-        articleActivities = Collections.synchronizedList(new ArrayList<AppCompatActivity>());
 
-        mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-                false);
-        dictStore = new DescriptorStore<SlobDescriptor>(mapper, getDir("dictionaries", MODE_PRIVATE));
-        bookmarkStore = new DescriptorStore<BlobDescriptor>(mapper, getDir(
-                "bookmarks", MODE_PRIVATE));
-        historyStore = new DescriptorStore<BlobDescriptor>(mapper, getDir(
-                "history", MODE_PRIVATE));
-        slobber = new Slobber();
+        mArticleActivities = Collections.synchronizedList (new ArrayList<AppCompatActivity> ());
 
-        long t0 = System.currentTimeMillis();
+        mMapper = new ObjectMapper ();
+        mMapper.configure (DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        dictStore = new DescriptorStore<SlobDescriptor> (mMapper, getDir ("dictionaries", MODE_PRIVATE));
+        bookmarkStore = new DescriptorStore<BlobDescriptor> (mMapper, getDir ("bookmarks", MODE_PRIVATE));
+        historyStore = new DescriptorStore<BlobDescriptor> (mMapper, getDir ("history", MODE_PRIVATE));
+        mSlobber = new Slobber ();
 
-        startWebServer();
+        startWebServer ();
 
-        Plogger.logD(String.format("Started web server on port %d in %d ms", port, (System.currentTimeMillis() - t0)));
         try {
             InputStream is;
-            is = getClass().getClassLoader().getResourceAsStream("styleswitcher.js");
-            jsStyleSwitcher = readTextFile(is, 0);
-            is = getAssets().open("userstyle.js");
-            jsUserStyle = readTextFile(is, 0);
-            is = getAssets().open("clearuserstyle.js");
-            jsClearUserStyle = readTextFile(is, 0);
-            is = getAssets().open("setcannedstyle.js");
-            jsSetCannedStyle = readTextFile(is, 0);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            is = getClass ().getClassLoader ().getResourceAsStream ("styleswitcher.js");
+            JS_STYLE_SWITCHER = readTextFile (is, 0);
+            is = getAssets ().open ("userstyle.js");
+            JS_USER_STYLE = readTextFile (is, 0);
+            is = getAssets ().open ("clearuserstyle.js");
+            JS_CLEAR_USER_STYLE = readTextFile (is, 0);
+            is = getAssets ().open ("setcannedstyle.js");
+            JS_SET_CANNED_STYLE = readTextFile (is, 0);
+        } catch (final Exception exception) {
+            // ...
         }
 
-        String initialQuery = prefs().getString("query", "");
+        String initialQuery = prefs ().getString ("query", "");
 
-        lastResult = new BlobListAdapter(this);
+        mLastResult = new BlobListAdapter (this);
 
-        dictionaries = new SlobDescriptorList(dictStore);
-        bookmarks = new BlobDescriptorList(bookmarkStore);
-        history = new BlobDescriptorList(historyStore);
+        dictionaries = new SlobDescriptorList (dictStore);
+        bookmarks = new BlobDescriptorList (bookmarkStore);
+        history = new BlobDescriptorList (historyStore);
 
-        dictionaries.registerDataSetObserver(new DataSetObserver() {
+        dictionaries.registerDataSetObserver (new DataSetObserver () {
             @Override
-            synchronized public void onChanged() {
-                lastResult.setData(new ArrayList<Slob.Blob>().iterator());
-                slobber.setSlobs(null);
-                List<Slob> slobs = new ArrayList<Slob>();
+            synchronized public void onChanged () {
+                mLastResult.setData (new ArrayList<Slob.Blob> ().iterator ());
+                mSlobber.setSlobs (null);
+                List<Slob> slobs = new ArrayList<Slob> ();
                 for (SlobDescriptor sd : dictionaries) {
-                    Slob s = sd.load();
+                    Slob s = sd.load ();
                     if (s != null) {
-                        slobs.add(s);
+                        slobs.add (s);
                     }
                 }
-                slobber.setSlobs(slobs);
-                lookup(lookupQuery);
-                bookmarks.notifyDataSetChanged();
-                history.notifyDataSetChanged();
+                mSlobber.setSlobs (slobs);
+                lookup (mLookupQuery);
+                bookmarks.notifyDataSetChanged ();
+                history.notifyDataSetChanged ();
             }
         });
 
-        dictionaries.load();
-        lookup(initialQuery, false);
-        bookmarks.load();
-        history.load();
+        dictionaries.load ();
+        lookup (initialQuery, false);
+        bookmarks.load ();
+        history.load ();
     }
 
-    public static String readTextFile(InputStream is, int maxSize) throws IOException, FileTooBigException {
-        InputStreamReader reader = new InputStreamReader(is, "UTF-8");
-        StringWriter sw = new StringWriter();
+    public static String readTextFile (InputStream is, int maxSize) throws IOException, FileTooBigException {
+        InputStreamReader reader = new InputStreamReader (is, "UTF-8");
+        StringWriter sw = new StringWriter ();
         char[] buf = new char[16384];
         int count = 0;
         while (true) {
-            int read = reader.read(buf);
+            int read = reader.read (buf);
             if (read == -1) {
                 break;
             }
             count += read;
             if (maxSize > 0 && count > maxSize) {
-                throw new FileTooBigException();
+                throw new FileTooBigException ();
             }
-            sw.write(buf, 0, read);
+            sw.write (buf, 0, read);
         }
-        reader.close();
-        return sw.toString();
+        reader.close ();
+        return sw.toString ();
     }
 
-    private void startWebServer() {
+    private void startWebServer () {
         int portCandidate = PREFERRED_PORT;
         try {
-            slobber.start("127.0.0.1", portCandidate);
+            mSlobber.start ("127.0.0.1", portCandidate);
             port = portCandidate;
         } catch (IOException e) {
-            Plogger.logW(String.format("Failed to start on preferred port %d", portCandidate));
-            Set<Integer> seen = new HashSet<Integer>();
-            seen.add(PREFERRED_PORT);
-            Random rand = new Random();
+            Plogger.logW (String.format ("Failed to start on preferred port %d", portCandidate));
+            Set<Integer> seen = new HashSet<Integer> ();
+            seen.add (PREFERRED_PORT);
+            Random rand = new Random ();
             int attemptCount = 0;
             while (true) {
-                int value = 1 + (int) Math.floor((65535 - 1025) * rand.nextDouble());
+                int value = 1 + (int) Math.floor ((65535 - 1025) * rand.nextDouble ());
                 portCandidate = 1024 + value;
-                if (seen.contains(portCandidate)) {
+                if (seen.contains (portCandidate)) {
                     continue;
                 }
                 attemptCount += 1;
-                seen.add(portCandidate);
+                seen.add (portCandidate);
                 Exception lastError;
                 try {
-                    slobber.start("127.0.0.1", portCandidate);
+                    mSlobber.start ("127.0.0.1", portCandidate);
                     port = portCandidate;
                     break;
                 } catch (IOException e1) {
                     lastError = e1;
-                    Plogger.logW(String.format("Failed to start on port %d", portCandidate));
+                    Plogger.logW (String.format ("Failed to start on port %d", portCandidate));
                 }
                 if (attemptCount >= 20) {
-                    throw new RuntimeException("Failed to start web server", lastError);
+                    throw new RuntimeException ("Failed to start web server", lastError);
                 }
             }
         }
     }
 
-    public SharedPreferences prefs() {
-        return this.getSharedPreferences(PREF, AppCompatActivity.MODE_PRIVATE);
+    public SharedPreferences prefs () {
+        return this.getSharedPreferences (AARD2_APP_PREF_NAME, AppCompatActivity.MODE_PRIVATE);
     }
 
-    public void push(AppCompatActivity activity) {
-        this.articleActivities.add(activity);
-        Plogger.logD("AppCompatActivity added, stack size " + this.articleActivities.size());
-        if (this.articleActivities.size() > 3) {
-            Plogger.logD("Max stack size exceeded, finishing oldest activity");
-            this.articleActivities.get(0).finish();
+    public void push (AppCompatActivity activity) {
+        this.mArticleActivities.add (activity);
+        Plogger.logD ("AppCompatActivity added, stack size " + this.mArticleActivities.size ());
+        if (this.mArticleActivities.size () > 3) {
+            Plogger.logD ("Max stack size exceeded, finishing oldest activity");
+            this.mArticleActivities.get (0).finish ();
         }
     }
 
-    public void pop(AppCompatActivity activity) {
-        this.articleActivities.remove(activity);
+    public void pop (AppCompatActivity activity) {
+        this.mArticleActivities.remove (activity);
     }
 
 
-    public Slob[] getActiveSlobs() {
-        List<Slob> result = new ArrayList(dictionaries.size());
+    public Slob[] getActiveSlobs () {
+        List<Slob> result = new ArrayList (dictionaries.size ());
         for (SlobDescriptor sd : dictionaries) {
             if (sd.isActive) {
-                Slob s = slobber.getSlob(sd.id);
+                Slob s = mSlobber.getSlob (sd.id);
                 if (s != null) {
-                    result.add(s);
+                    result.add (s);
                 }
             }
         }
-        return result.toArray(new Slob[result.size()]);
+        return result.toArray (new Slob[result.size ()]);
     }
 
-    public Slob[] getFavoriteSlobs() {
-        List<Slob> result = new ArrayList(dictionaries.size());
+    public Slob[] getFavoriteSlobs () {
+        List<Slob> result = new ArrayList (dictionaries.size ());
         for (SlobDescriptor sd : dictionaries) {
             if (sd.isActive && sd.priority > 0) {
-                Slob s = slobber.getSlob(sd.id);
+                Slob s = mSlobber.getSlob (sd.id);
                 if (s != null) {
-                    result.add(s);
+                    result.add (s);
                 }
             }
         }
-        return result.toArray(new Slob[result.size()]);
+        return result.toArray (new Slob[result.size ()]);
     }
 
-    public Iterator<Blob> find(String key) {
-        return Slob.find(key, getActiveSlobs());
+    public Iterator<Blob> find (String key) {
+        return Slob.find (key, getActiveSlobs ());
     }
 
-    public Iterator<Blob> find(String key, String preferredSlobId) {
+    public Iterator<Blob> find (String key, String preferredSlobId) {
         //When following links we want to consider all dictionaries
         //including the ones user turned off
-        return find(key, preferredSlobId, false);
+        return find (key, preferredSlobId, false);
     }
 
-    public Slob.PeekableIterator<Blob> find(String key, String preferredSlobId, boolean activeOnly) {
-        return this.find(key, preferredSlobId, activeOnly, null);
+    public Slob.PeekableIterator<Blob> find (String key, String preferredSlobId, boolean activeOnly) {
+        return this.find (key, preferredSlobId, activeOnly, null);
     }
 
-    public Slob.PeekableIterator<Blob> find(
+    public Slob.PeekableIterator<Blob> find (
             String key, String preferredSlobId,
             boolean activeOnly, Slob.Strength upToStrength) {
-        long t0 = System.currentTimeMillis();
-        Slob[] slobs = activeOnly ? getActiveSlobs() : slobber.getSlobs();
-        Slob.PeekableIterator<Blob> result = Slob.find(key, slobs, slobber.getSlob(preferredSlobId), upToStrength);
-        Plogger.logD(String.format("find ran in %dms", System.currentTimeMillis() - t0));
+        long t0 = System.currentTimeMillis ();
+        Slob[] slobs = activeOnly ? getActiveSlobs () : mSlobber.getSlobs ();
+        Slob.PeekableIterator<Blob> result = Slob.find (key, slobs, mSlobber.getSlob (preferredSlobId), upToStrength);
+        Plogger.logD (String.format ("find ran in %dms", System.currentTimeMillis () - t0));
         return result;
     }
 
-    public boolean isOnlyFavDictsForRandomLookup() {
-        final SharedPreferences prefs = prefs();
-        return prefs.getBoolean(Application.PREF_RANDOM_FAV_LOOKUP, false);
+    public Blob random () {
+        final Slob[] slobs = SettingsManager.getInstance ().retrieveAppShouldUseFavouriteToRandomLookup ()
+                ? getFavoriteSlobs ()
+                : getActiveSlobs ();
+
+        return mSlobber.findRandom (slobs);
     }
 
-    public void setOnlyFavDictsForRandomLookup(boolean value) {
-        final SharedPreferences prefs = prefs();
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(Application.PREF_RANDOM_FAV_LOOKUP, value);
-        editor.commit();
+    public String getUrl (Blob blob) {
+        return String.format (CONTENT_URL_TEMPLATE, port, Slobber.mkContentURL (blob));
     }
 
-    public Blob random() {
-        Slob[] slobs = isOnlyFavDictsForRandomLookup() ? getFavoriteSlobs() : getActiveSlobs();
-        return slobber.findRandom(slobs);
-    }
-
-    public String getUrl(Blob blob) {
-        return String.format(CONTENT_URL_TEMPLATE,
-                port, Slobber.mkContentURL(blob));
-    }
-
-    public Slob getSlob(String slobId) {
-        return slobber.getSlob(slobId);
+    public Slob getSlob (String slobId) {
+        return mSlobber.getSlob (slobId);
     }
 
     private Thread discoveryThread;
-    private DictionaryFinder dictFinder = new DictionaryFinder();
+    private DictionaryFinder dictFinder = new DictionaryFinder ();
 
-    public synchronized void cancelFindDictionaries() {
-        dictFinder.cancel();
+    public synchronized void cancelFindDictionaries () {
+        dictFinder.cancel ();
     }
 
-    public synchronized void findDictionaries(
+    public synchronized void findDictionaries (
             final DictionaryDiscoveryCallback callback) {
         if (discoveryThread != null) {
             return;
         }
-        dictionaries.clear();
-        discoveryThread = new Thread(new Runnable() {
+        dictionaries.clear ();
+        discoveryThread = new Thread (new Runnable () {
             @Override
-            public void run() {
-                final List<SlobDescriptor> result = dictFinder.findDictionaries();
+            public void run () {
+                final List<SlobDescriptor> result = dictFinder.findDictionaries ();
                 discoveryThread = null;
-                Handler h = new Handler(Looper.getMainLooper());
-                h.post(new Runnable() {
+                Handler h = new Handler (Looper.getMainLooper ());
+                h.post (new Runnable () {
                     @Override
-                    public void run() {
-                        dictionaries.addAll(result);
-                        callback.onDiscoveryFinished();
+                    public void run () {
+                        dictionaries.addAll (result);
+                        callback.onDiscoveryFinished ();
                     }
                 });
             }
@@ -344,11 +322,11 @@ public class Application extends JApplication {
         discoveryThread.start ();
     }
 
-    public synchronized boolean addDictionary(File file) {
-        SlobDescriptor newDesc = SlobDescriptor.fromFile(file);
+    public synchronized boolean addDictionary (File file) {
+        SlobDescriptor newDesc = SlobDescriptor.fromFile (file);
         if (newDesc.id != null) {
             for (SlobDescriptor d : dictionaries) {
-                if (d.id != null && d.id.equals(newDesc.id)) {
+                if (d.id != null && d.id.equals (newDesc.id)) {
                     return true;
                 }
             }
@@ -357,27 +335,27 @@ public class Application extends JApplication {
         return false;
     }
 
-    public Slob findSlob(String slobOrUri) {
-        return slobber.findSlob(slobOrUri);
+    public Slob findSlob (String slobOrUri) {
+        return mSlobber.findSlob (slobOrUri);
     }
 
-    public String getSlobURI(String slobId) {
-        return slobber.getSlobURI (slobId);
+    public String getSlobURI (String slobId) {
+        return mSlobber.getSlobURI (slobId);
     }
 
-    public int bookmarksSize() {
-        return null != bookmarks ? bookmarks.size() : 0;
+    public int bookmarksSize () {
+        return null != bookmarks ? bookmarks.size () : 0;
     }
 
-    public int historySize() {
-        return null != history ? history.size() : 0;
+    public int historySize () {
+        return null != history ? history.size () : 0;
     }
 
-    public int dictionariesSize() {
-        return null != dictionaries ? dictionaries.size() : 0;
+    public int dictionariesSize () {
+        return null != dictionaries ? dictionaries.size () : 0;
     }
 
-    public int activeDictionariesSize() {
+    public int activeDictionariesSize () {
         int activeDictionaries = 0;
         if (null != dictionaries) {
             for (SlobDescriptor dict : dictionaries) {
@@ -387,100 +365,100 @@ public class Application extends JApplication {
         return activeDictionaries;
     }
 
-    public void addBookmark(String contentURL) {
-        bookmarks.add(contentURL);
+    public void addBookmark (String contentURL) {
+        bookmarks.add (contentURL);
     }
 
-    public void removeBookmark(String contentURL) {
-        bookmarks.remove(contentURL);
+    public void removeBookmark (String contentURL) {
+        bookmarks.remove (contentURL);
     }
 
-    public boolean isBookmarked(String contentURL) {
-        return bookmarks.contains(contentURL);
+    public boolean isBookmarked (String contentURL) {
+        return bookmarks.contains (contentURL);
     }
 
-    private void setLookupResult(String query, Iterator<Slob.Blob> data) {
-        this.lastResult.setData(data);
-        lookupQuery = query;
-        SharedPreferences.Editor edit = prefs().edit();
-        edit.putString("query", query);
-        edit.apply();
+    private void setLookupResult (String query, Iterator<Slob.Blob> data) {
+        this.mLastResult.setData (data);
+        mLookupQuery = query;
+        SharedPreferences.Editor edit = prefs ().edit ();
+        edit.putString ("query", query);
+        edit.apply ();
     }
 
-    public String getLookupQuery() {
-        return lookupQuery;
+    public String getLookupQuery () {
+        return mLookupQuery;
     }
 
     private AsyncTask<Void, Void, Iterator<Blob>> currentLookupTask;
 
-    public void lookup(String query) {
-        this.lookup(query, true);
+    public void lookup (String query) {
+        this.lookup (query, true);
     }
 
-    private void lookup(final String query, boolean async) {
+    private void lookup (final String query, boolean async) {
         if (currentLookupTask != null) {
-            currentLookupTask.cancel(false);
-            notifyLookupCanceled(query);
+            currentLookupTask.cancel (false);
+            notifyLookupCanceled (query);
             currentLookupTask = null;
         }
-        notifyLookupStarted(query);
-        if (query == null || query.equals("")) {
-            setLookupResult("", new ArrayList<Slob.Blob>().iterator());
-            notifyLookupFinished(query);
+        notifyLookupStarted (query);
+        if (query == null || query.equals ("")) {
+            setLookupResult ("", new ArrayList<Slob.Blob> ().iterator ());
+            notifyLookupFinished (query);
             return;
         }
 
         if (async) {
-            currentLookupTask = new AsyncTask<Void, Void, Iterator<Blob>>() {
+            currentLookupTask = new AsyncTask<Void, Void, Iterator<Blob>> () {
 
                 @Override
-                protected Iterator<Blob> doInBackground(Void... params) {
-                    return find(query);
+                protected Iterator<Blob> doInBackground (Void... params) {
+                    return find (query);
                 }
 
                 @Override
-                protected void onPostExecute(Iterator<Blob> result) {
-                    if (!isCancelled()) {
-                        setLookupResult(query, result);
-                        notifyLookupFinished(query);
+                protected void onPostExecute (Iterator<Blob> result) {
+                    if (!isCancelled ()) {
+                        setLookupResult (query, result);
+                        notifyLookupFinished (query);
                         currentLookupTask = null;
                     }
                 }
 
             };
-            currentLookupTask.execute();
+            currentLookupTask.execute ();
         } else {
-            setLookupResult(query, find(query));
-            notifyLookupFinished(query);
+            setLookupResult (query, find (query));
+            notifyLookupFinished (query);
         }
     }
 
-    private void notifyLookupStarted(String query) {
+    private void notifyLookupStarted (String query) {
         for (LookupListener l : lookupListeners) {
-            l.onLookupStarted(query);
+            l.onLookupStarted (query);
         }
     }
 
-    private void notifyLookupFinished(String query) {
+    private void notifyLookupFinished (String query) {
         for (LookupListener l : lookupListeners) {
-            l.onLookupFinished(query);
+            l.onLookupFinished (query);
         }
     }
 
-    private void notifyLookupCanceled(String query) {
+    private void notifyLookupCanceled (String query) {
         for (LookupListener l : lookupListeners) {
-            l.onLookupCanceled(query);
+            l.onLookupCanceled (query);
         }
     }
 
-    private List<LookupListener> lookupListeners = new ArrayList<LookupListener>();
+    private List<LookupListener> lookupListeners = new ArrayList<LookupListener> ();
 
-    public void addLookupListener(LookupListener listener) {
-        lookupListeners.add(listener);
+    public void addLookupListener (LookupListener listener) {
+        lookupListeners.add (listener);
     }
 
-    public void removeLookupListener(LookupListener listener) {
-        lookupListeners.remove(listener);
+    public void removeLookupListener (LookupListener listener) {
+        lookupListeners.remove (listener);
     }
 
     public static class FileTooBigException extends IOException {}

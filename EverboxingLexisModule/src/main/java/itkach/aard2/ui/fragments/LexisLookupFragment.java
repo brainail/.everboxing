@@ -64,7 +64,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
             }
         });
 
-        getListView().setAdapter(Application.app ().lastResult);
+        getListView().setAdapter(Application.app ().mLastResult);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         mSearchView.setQuery(Application.app ().getLookupQuery(), true);
-        if (Application.app ().lastResult.getCount() > 0) {
+        if (Application.app ().mLastResult.getCount() > 0) {
             mSearchView.clearFocus();
         }
         super.onPrepareOptionsMenu(menu);

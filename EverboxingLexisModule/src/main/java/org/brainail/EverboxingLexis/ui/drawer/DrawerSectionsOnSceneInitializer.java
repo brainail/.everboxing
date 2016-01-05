@@ -40,6 +40,8 @@ import itkach.aard2.ui.fragments.LexisLookupFragment;
  */
 public final class DrawerSectionsOnSceneInitializer {
 
+    public static final int LUCKY_SECTION_POSITION = 4;
+
     public interface IDrawerSectionInitializer {
         void initialize (final SectionedDrawerActivity scene);
         boolean isTransparentable ();
@@ -54,9 +56,9 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle (ToolResources.string (R.string.section_lookup))
                             .withName (ToolResources.string (R.string.section_lookup))
-                            .withIcon (BaseIcon.defIcon(scene, Iconify.IconValue.zmdi_search))
+                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_search))
                             .withTarget (new LexisLookupFragment ())
-                            .withSectionColor(ToolResources.retrievePrimaryColor (scene))
+                            .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
             // Bookmarks
@@ -64,9 +66,9 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle (ToolResources.string (R.string.section_bookmarks))
                             .withName (ToolResources.string (R.string.section_bookmarks))
-                            .withIcon (BaseIcon.defIcon(scene, Iconify.IconValue.zmdi_bookmark_outline))
+                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_bookmark_outline))
                             .withTarget (new LexisBookmarksFragment ())
-                            .withSectionColor(ToolResources.retrievePrimaryColor (scene))
+                            .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
             // History
@@ -74,9 +76,9 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle (ToolResources.string (R.string.section_history))
                             .withName (ToolResources.string (R.string.section_history))
-                            .withIcon (BaseIcon.defIcon(scene, Iconify.IconValue.zmdi_time_restore))
+                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_time_restore))
                             .withTarget (new LexisHistoryFragment ())
-                            .withSectionColor(ToolResources.retrievePrimaryColor (scene))
+                            .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
             // Dictionaries
@@ -84,9 +86,17 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withTitle (ToolResources.string (R.string.section_dictionaries))
                             .withName (ToolResources.string (R.string.section_dictionaries))
-                            .withIcon (BaseIcon.defIcon(scene, Iconify.IconValue.zmdi_collection_text))
+                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_collection_text))
                             .withTarget (new LexisDictionariesFragment ())
-                            .withSectionColor(ToolResources.retrievePrimaryColor (scene))
+                            .withSectionColor (ToolResources.retrievePrimaryColor (scene))
+            );
+
+            // Random (position 4!)
+            scene.addDrawerSection (
+                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                            .withName (ToolResources.string (R.string.section_lucky))
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_shuffle))
+                            .withTarget ((DrawerSectionCallback) scene)
             );
 
             // Settings
@@ -94,7 +104,7 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withName (ToolResources.string (R.string.settings_activity_title))
                             .withLocationType (DrawerSection.LocationType.HELP)
-                            .withIcon (BaseIcon.icon(scene, Iconify.IconValue.zmdi_settings))
+                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_settings))
                             .withTarget (SettingsActivity.class)
             );
         }

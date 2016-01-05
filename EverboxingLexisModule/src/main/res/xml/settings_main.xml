@@ -34,6 +34,18 @@
     </org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory>
 
     <org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory
+        android:key="@string/settings_category_lookup"
+        android:title="@string/settings_lookup_header">
+
+        <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat
+            android:key="@string/settings_random_lookup_key"
+            android:title="@string/settings_random_lookup_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_random_lookup_summary"/>
+
+    </org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory>
+
+    <org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory
         android:title="@string/settings_misc_header">
 
         <org.brainail.EverboxingLexis.ui.views.preference.Preference

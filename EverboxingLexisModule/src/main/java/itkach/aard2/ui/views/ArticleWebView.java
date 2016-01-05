@@ -141,7 +141,7 @@ public class ArticleWebView extends WebView {
         connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        styleSwitcherJs = Application.jsStyleSwitcher;
+        styleSwitcherJs = Application.JS_STYLE_SWITCHER;
 
         WebSettings settings = this.getSettings ();
         settings.setJavaScriptEnabled (true);
@@ -332,10 +332,10 @@ public class ArticleWebView extends WebView {
             String css = prefs.getString (styleTitle, "");
             String elementId = getCurrentSlobId ();
             js = String.format (
-                    "javascript:" + Application.jsUserStyle, elementId, css);
+                    "javascript:" + Application.JS_USER_STYLE, elementId, css);
         } else {
             js = String.format (
-                    "javascript:" + Application.jsClearUserStyle + Application.jsSetCannedStyle,
+                    "javascript:" + Application.JS_CLEAR_USER_STYLE + Application.JS_SET_CANNED_STYLE,
                     getCurrentSlobId (), styleTitle);
         }
         Plogger.logD (js);

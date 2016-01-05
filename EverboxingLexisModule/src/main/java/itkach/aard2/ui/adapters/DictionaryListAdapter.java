@@ -151,6 +151,27 @@ public class DictionaryListAdapter extends BaseAdapter {
                     );
                 }
             });
+
+            final View.OnClickListener toggleFavListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Integer position = (Integer) view.getTag();
+                    SlobDescriptor desc = mData.get(position);
+                    long currentTime = System.currentTimeMillis();
+                    if (desc.priority == 0) {
+                        desc.priority = currentTime;
+                    } else {
+                        desc.priority = 0;
+                    }
+                    desc.lastAccess = currentTime;
+                    mData.beginUpdate();
+                    mData.set(position, desc);
+                    mData.sort();
+                    mData.endUpdate(true);
+                }
+            };
+            View btnToggleFav = view.findViewById(R.id.dictionary_favourite);
+            btnToggleFav.setOnClickListener(toggleFavListener);
         }
 
         Resources r = parent.getResources ();
@@ -184,6 +205,12 @@ public class DictionaryListAdapter extends BaseAdapter {
 
         ImageView btnForget = (ImageView) view.findViewById (R.id.dictionary_btn_forget);
         btnForget.setTag (position);
+
+        ImageView btnToggleFav = (ImageView) view.findViewById(R.id.dictionary_favourite);
+        btnToggleFav.setImageResource (desc.priority > 0
+                ? R.drawable.ic_favorite_black_24dp
+                : R.drawable.ic_favorite_border_black_24dp);
+        btnToggleFav.setTag(position);
 
         return view;
     }

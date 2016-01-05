@@ -33,6 +33,12 @@
     <string name="settings_load_remote_content_key" translatable="false">settings_change_load_remote_content</string>
     <string name="settings_load_remote_content_dialog_title">Choose a mode</string>
 
+    <string name="settings_category_lookup" translatable="false">settings_preference_category_lookup</string>
+    <string name="settings_lookup_header">Lookup</string>
+    <string name="settings_random_lookup_title">Random lookup</string>
+    <string name="settings_random_lookup_summary">Use only favourite dictionaries to perform random lookup</string>
+    <string name="settings_random_lookup_key" translatable="false">settings_random_lookup</string>
+
     <string name="settings_misc_header">Misc</string>
     <string name="settings_open_about_title">About</string>
     <string name="settings_open_about_key" translatable="false">settings_open_about</string>
@@ -48,6 +54,7 @@
     <string name="section_history">History</string>
     <string name="section_lookup">Lookup</string>
     <string name="section_bookmarks">Bookmarks</string>
+    <string name="section_lucky">Random lookup</string>
 
     <!-- Themes -->
     <string name="theme_name_default">Pink</string>

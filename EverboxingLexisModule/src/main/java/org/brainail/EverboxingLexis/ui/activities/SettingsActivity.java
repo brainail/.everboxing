@@ -230,6 +230,10 @@ public class SettingsActivity
             loadRemoteContentPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_remote_control));
             bindPreferenceSummary (loadRemoteContentPf, defLoadRemoteContentSummary, true);
 
+            // Random lookup
+            final Preference isRandomLookupViaFavPf = findPreference (getString (R.string.settings_random_lookup_key));
+            isRandomLookupViaFavPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_favorite));
+
             // About
             final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
             aboutPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_info_outline));
@@ -238,6 +242,7 @@ public class SettingsActivity
             setOnClickListener (getString (R.string.settings_sync_account_key));
             setOnClickListener (getString (R.string.settings_change_theme_key));
             setOnClickListener (getString (R.string.settings_load_remote_content_key));
+            setOnClickListener (getString (R.string.settings_random_lookup_key));
             setOnClickListener (getString (R.string.settings_open_about_key));
         }
 
@@ -272,6 +277,11 @@ public class SettingsActivity
                         })
                         .setCallbacks (new ArticleLoadRemoteContentMode ())
                         .show (getActivity ());
+            } else
+
+            // Random lookup
+            if (getString (R.string.settings_random_lookup_key).equals (preference.getKey ())) {
+                // ...
             } else
 
             // About

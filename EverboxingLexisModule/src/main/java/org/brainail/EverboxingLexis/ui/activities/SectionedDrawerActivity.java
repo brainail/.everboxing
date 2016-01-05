@@ -156,6 +156,10 @@ public abstract class SectionedDrawerActivity
         mDrawerSectionsController.onUnauthSucceeded ();
     }
 
+    public final void investigateFragmentsStack () {
+        mDrawerSectionsController.investigateFragmentsStack ();
+    }
+
     public abstract DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer ();
 
 }

@@ -67,9 +67,8 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         CALLBACK;
 
         public boolean isInplace () {
-            boolean inplace = this == FRAGMENT;
-            inplace |= this == CALLBACK;
-            return inplace;
+            boolean isInplace = this == FRAGMENT;
+            return isInplace;
         }
 
     }
@@ -146,7 +145,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
         mDrawerController.selectSection (this);
 
-        if (null != mCallback && !internalAction) {
+        if (null != mCallback && ! internalAction) {
             mCallback.onClick (this);
         }
 
@@ -166,6 +165,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
     public DrawerSection withOnClickCallback (final DrawerSectionCallback callback) {
         mCallback = callback;
+        mTargetType = TargetType.CALLBACK;
         return this;
     }
 
@@ -310,7 +310,10 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         mOpenTarget = false;
 
         // We don't want to be selected for targets which open a new window
-        if (null != mTargetType && !mTargetType.isInplace ()) unselect ();
+        if (null != mTargetType && ! mTargetType.isInplace ()) unselect ();
+
+        // Nothing to open (maybe it will be performed via onClick callback)
+        if (null == mTarget) return;
 
         if (TargetType.CALLBACK == mTargetType) {
             ((DrawerSectionCallback) mTarget).onTargetClick (this);
@@ -320,7 +323,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         } else if (TargetType.INTENT == mTargetType) {
             scene ().startActivity (wrapIntentOnStart ((Intent) mTarget));
         } else if (TargetType.FRAGMENT == mTargetType) {
-            if (!internalAction || !ToolFragments.isPresented (scene (), (Fragment) mTarget)) {
+            if (! internalAction || ! ToolFragments.isPresented (scene (), (Fragment) mTarget)) {
                 ToolFragments.openDrawerFragment (scene (), (Fragment) mTarget);
             }
         }

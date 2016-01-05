@@ -252,7 +252,7 @@ public class ArticleCollectionActivity extends BaseActivity {
 
     private ArticleCollectionPagerAdapter createFromLastResult (Application app) {
         return new ArticleCollectionPagerAdapter (
-                CreatorMode.LAST_RESULT, app.lastResult, mBlobConverter, getSupportFragmentManager ()
+                CreatorMode.LAST_RESULT, app.mLastResult, mBlobConverter, getSupportFragmentManager ()
         );
     }
 

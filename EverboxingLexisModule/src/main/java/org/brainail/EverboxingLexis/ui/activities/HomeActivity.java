@@ -1,6 +1,7 @@
 package org.brainail.EverboxingLexis.ui.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -10,17 +11,21 @@ import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionCallback;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
+import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import itkach.aard2.Application;
+import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.ui.fragments.BaseFragment;
 import itkach.aard2.ui.fragments.BaseListFragment;
 import itkach.aard2.ui.fragments.LexisBookmarksFragment;
 import itkach.aard2.ui.fragments.LexisDictionariesFragment;
 import itkach.aard2.ui.fragments.LexisHistoryFragment;
+import itkach.slob.Slob;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -47,7 +52,7 @@ import itkach.aard2.ui.fragments.LexisHistoryFragment;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HomeActivity extends SectionedDrawerActivity {
+public class HomeActivity extends SectionedDrawerActivity implements DrawerSectionCallback {
 
     private boolean mShouldUpdateDrawerNotifications = true;
 
@@ -236,6 +241,24 @@ public class HomeActivity extends SectionedDrawerActivity {
         }
 
         return super.onKeyUp (keyCode, event);
+    }
+
+    @Override
+    public void onClick (DrawerSection section) {}
+
+    @Override
+    public void onTargetClick (DrawerSection section) {
+        if (DrawerSectionsOnSceneInitializer.LUCKY_SECTION_POSITION == section.getPosition ()) {
+            final Slob.Blob randomBlob = Application.app ().random ();
+            if (null != randomBlob) {
+                final Intent intent = new Intent (this, ArticleCollectionActivity.class);
+                intent.setData (Uri.parse (Application.app ().getUrl (randomBlob)));
+                startActivity (intent);
+            } else {
+                ToolUI.showToast (this, R.string.article_collection_nothing_found);
+                investigateFragmentsStack ();
+            }
+        }
     }
 
 }
