@@ -83,6 +83,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         mTimer = new Timer();
 
         mSearchView = (SearchView) MenuItemCompat.getActionView(miFilter);
+        mSearchView.setQueryHint (getString (R.string.menu_search_action_hint));
         mSearchView.setIconified(false);
 
         mSearchView.setImeOptions(mSearchView.getImeOptions ()

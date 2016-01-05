@@ -78,11 +78,6 @@
     <string name="auth_flow_pick_account">You must pick an account.</string>
 
     <!-- Slob prj -->
-    <string name="subtitle_lookup">Lookup</string>
-    <string name="subtitle_bookmark">Bookmarks</string>
-    <string name="subtitle_history">History</string>
-    <string name="subtitle_dictionaries">Dictionaries</string>
-    <string name="action_find_dictionaries_online">Find online</string>
     <string name="action_find_dictionaries_on_device">Scan device</string>
     <string name="action_find_in_page">Find in page</string>
     <string name="action_bookmark_article">Bookmark</string>
@@ -120,8 +115,6 @@
     <string name="delete">Delete</string>
 
     <string name="blob_descriptor_confirm_delete">Delete %1$s?</string>
-
-    <string name="msg_no_activity_to_get_content">No activity is available to open file</string>
 
     <string name="action_add_dictionaries">Add</string>
     <string name="title_activity_file_select">Select dictionary</string>
@@ -175,4 +168,6 @@
     <string name="app_intro_slide_no_02_description">No need to go home or any place with internet connection. Download once and use everywhere in offline.</string>
     <string name="app_intro_slide_no_03_title">Cognitive</string>
     <string name="app_intro_slide_no_03_description">Enjoy with all stuff that you will find using a lot of articles like wiki, dictionaries and so on and so forth.</string>
+
+    <string name="menu_search_action_hint">Search …</string>
 </resources>

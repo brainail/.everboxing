@@ -150,6 +150,7 @@ public abstract class BlobDescriptorListFragment
 
         final MenuItem menuItemFilter = menu.findItem (R.id.action_filter);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItemFilter);
+        searchView.setQueryHint (getString (R.string.menu_search_action_hint));
         if (! TextUtils.isEmpty (list.getFilter())) {
             searchView.setIconified (false);
             searchView.setQuery (list.getFilter (), true);
