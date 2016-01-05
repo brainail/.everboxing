@@ -6,7 +6,10 @@ import android.preference.PreferenceManager;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
+import org.brainail.EverboxingLexis.utils.tool.ToolLocale;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+
+import java.util.Locale;
 
 import itkach.aard2.utils.RemoteContentMode;
 
@@ -38,14 +41,23 @@ import itkach.aard2.utils.RemoteContentMode;
 public final class SettingsManager {
 
     private SharedPreferences mDefaultPreferences;
+
     private String mPlayAccountPfKey;
     private String mSyncDataPfKey;
+
     private String mAppThemePfKey;
     private String mAppThemeNamePfKey;
+
     private String mLoadRemoteContentModePfKey;
     private String mLoadRemoteContentModeNamePfKey;
+
     private String mShouldIntroducePfKey;
+
     private String mShouldUseFavouriteToRandomLookupPfKey;
+
+    private String mSpeechLanguagePfKey;
+    private String mSpeechLanguageNamePfKey;
+    private static Locale sSpeechLanguageCache;
 
     private SettingsManager () {
         initializePreferences ();
@@ -65,6 +77,9 @@ public final class SettingsManager {
         mLoadRemoteContentModePfKey = "settings_load_remote_content";
 
         mShouldUseFavouriteToRandomLookupPfKey = ToolResources.string (R.string.settings_random_lookup_key);
+
+        mSpeechLanguageNamePfKey = ToolResources.string (R.string.settings_speech_language_key);
+        mSpeechLanguagePfKey = "settings_speech_language";
     }
 
     private void initializePreferences () {
@@ -165,6 +180,44 @@ public final class SettingsManager {
 
     public boolean retrieveAppShouldUseFavouriteToRandomLookup () {
         return mDefaultPreferences.getBoolean (mShouldUseFavouriteToRandomLookupPfKey, false);
+    }
+
+    public void saveSpeechLanguage (final String language) {
+        sSpeechLanguageCache = null;
+
+        final Locale locale = ToolLocale.fromString (language);
+        final String languageName = null != locale
+                ? locale.getDisplayName ()
+                : ToolResources.string (R.string.default_speech_language);
+
+        mDefaultPreferences.edit ()
+                .putString (mSpeechLanguageNamePfKey, languageName)
+                .putString (mSpeechLanguagePfKey, language)
+                .apply ();
+    }
+
+    public void saveSpeechLanguage (final String language, final String languageName) {
+        sSpeechLanguageCache = null;
+
+        mDefaultPreferences.edit ()
+                .putString (mSpeechLanguageNamePfKey, languageName)
+                .putString (mSpeechLanguagePfKey, language)
+                .apply ();
+    }
+
+    public Locale retrieveSpeechLanguage () {
+        if (null != sSpeechLanguageCache) {
+            return sSpeechLanguageCache;
+        } else {
+            final String sLanguage = mDefaultPreferences.getString (mSpeechLanguagePfKey, null);
+            final Locale locale = ToolLocale.fromString (sLanguage);
+            return (sSpeechLanguageCache = null != locale ? locale : Locale.getDefault ());
+        }
+    }
+
+    public String retrieveSpeechLanguageSummary () {
+        final String sLanguage = mDefaultPreferences.getString (mSpeechLanguageNamePfKey, null);
+        return null != sLanguage ? sLanguage : ToolResources.string (R.string.default_speech_language);
     }
 
 }

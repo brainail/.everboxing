@@ -31,6 +31,10 @@
             android:key="@string/settings_load_remote_content_key"
             android:title="@string/settings_load_remote_content_title"/>
 
+        <org.brainail.EverboxingLexis.ui.views.preference.Preference
+            android:key="@string/settings_speech_language_key"
+            android:title="@string/settings_speech_language_title"/>
+
     </org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory>
 
     <org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory

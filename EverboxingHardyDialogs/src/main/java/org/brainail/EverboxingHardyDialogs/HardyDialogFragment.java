@@ -186,22 +186,22 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     
     // Callback for actions
     public static interface OnDialogActionCallback {
-        public void onDialogAction (final HardyDialogFragment dialog, final int actionRequestCode);
+        public void onDialogAction (HardyDialogFragment dialog, int actionRequestCode);
     }
     
     // Callback for list actions
     public static interface OnDialogListActionCallback {
-        public void onDialogListAction (final HardyDialogFragment dialog, final int whichItem, final String itemTag);
+        public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag);
     }
     
     // Callback for preparation of dialog
     public static interface OnDialogPrepareCallback {
-        public void onPrepareDialogView (final HardyDialogFragment dialog, final View view, final int layoutId);
+        public void onPrepareDialogView (HardyDialogFragment dialog, View view, int layoutId);
     }
     
     // Callback is invoked when the dialog is shown
     public static interface OnDialogShowCallback {
-        public void onDialogShow (final HardyDialogFragment dialog);
+        public void onDialogShow (HardyDialogFragment dialog);
     }
     
     /**
@@ -215,7 +215,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         public void onDialogAction (HardyDialogFragment dialog, int actionRequestCode) {}
         
         @Override
-        public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String itemTag) {}
+        public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {}
         
         @Override
         public void onPrepareDialogView (HardyDialogFragment dialog, View view, int layoutId) {}
@@ -523,13 +523,14 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     
     private void handleDialogListAction (final int which) {
         if (mHasCallbacks) {
+            final String item = which < mListItems.length ? mListItems [which].toString () : null;
             final String itemTag = which < mListItemsTags.length ? mListItemsTags [which] : null;
             if (null != mIsolatedHandler) {
-                mIsolatedHandler.onDialogListAction (this, which, itemTag);
+                mIsolatedHandler.onDialogListAction (this, which, item, itemTag);
             } else if (mHasTargetFragment && getParentFragment () instanceof OnDialogListActionCallback) {
-                ((OnDialogListActionCallback) getParentFragment ()).onDialogListAction (this, which, itemTag);
+                ((OnDialogListActionCallback) getParentFragment ()).onDialogListAction (this, which, item, itemTag);
             } else if (getActivity () instanceof OnDialogListActionCallback) {
-                ((OnDialogListActionCallback) getActivity ()).onDialogListAction (this, which, itemTag);
+                ((OnDialogListActionCallback) getActivity ()).onDialogListAction (this, which, item, itemTag);
             }
         }
     }

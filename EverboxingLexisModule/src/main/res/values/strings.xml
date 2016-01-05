@@ -32,6 +32,9 @@
     <string name="settings_load_remote_content_title">Load remote content</string>
     <string name="settings_load_remote_content_key" translatable="false">settings_change_load_remote_content</string>
     <string name="settings_load_remote_content_dialog_title">Choose a mode</string>
+    <string name="settings_speech_language_title">Speech language</string>
+    <string name="settings_speech_language_key" translatable="false">settings_change_speech_language</string>
+    <string name="settings_speech_language_dialog_title">Choose a language</string>
 
     <string name="settings_category_lookup" translatable="false">settings_preference_category_lookup</string>
     <string name="settings_lookup_header">Lookup</string>
@@ -170,4 +173,6 @@
     <string name="app_intro_slide_no_03_description">Enjoy with all stuff that you will find using a lot of articles like wiki, dictionaries and so on and so forth.</string>
 
     <string name="menu_search_action_hint">Search …</string>
+
+    <string name="default_speech_language">Default</string>
 </resources>

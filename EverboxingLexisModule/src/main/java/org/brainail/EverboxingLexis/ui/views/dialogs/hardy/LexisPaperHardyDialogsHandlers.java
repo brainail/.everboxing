@@ -36,10 +36,20 @@ public class LexisPaperHardyDialogsHandlers extends BaseHardyDialogsHandlers {
 
     public static final class ArticleLoadRemoteContentMode extends HardyDialogFragment.IsolatedDialogHandler {
         @Override
-        public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String itemTag) {
-            super.onDialogListAction (dialog, whichItem, itemTag);
+        public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
+            super.onDialogListAction (dialog, whichItem, item, itemTag);
             if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_ARTICLE_LOAD_REMOTE_CONTENT_MODE)) {
                 SettingsManager.getInstance().saveLoadRemoteContentMode (RemoteContentMode.valueOf (itemTag));
+            }
+        }
+    }
+
+    public static final class SpeechLanguage extends HardyDialogFragment.IsolatedDialogHandler {
+        @Override
+        public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
+            super.onDialogListAction (dialog, whichItem, item, itemTag);
+            if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_SPEECH_LANGUAGE)) {
+                SettingsManager.getInstance().saveSpeechLanguage (itemTag, item);
             }
         }
     }

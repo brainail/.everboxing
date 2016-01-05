@@ -18,6 +18,8 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
+import android.speech.tts.TextToSpeech;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -29,12 +31,12 @@ import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
 import org.brainail.EverboxingLexis.ui.views.dialogs.ThemeChooser;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
-import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsHandlers.ArticleLoadRemoteContentMode;
 import org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
+import org.brainail.EverboxingLexis.utils.tool.ToolTts;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
-import itkach.aard2.utils.RemoteContentMode;
+import java.util.List;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -197,6 +199,10 @@ public class SettingsActivity
 
         public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#settings.fragment";
 
+        // To display tts languages
+        private TextToSpeech mTts;
+        private transient Pair<List<String>, List<String>> mSupportedTtsLanguages;
+
         @Override
         public void onCreate (Bundle savedInstanceState) {
             super.onCreate (savedInstanceState);
@@ -230,6 +236,12 @@ public class SettingsActivity
             loadRemoteContentPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_remote_control));
             bindPreferenceSummary (loadRemoteContentPf, defLoadRemoteContentSummary, true);
 
+            // Speech language
+            final String defSpeechLanguageSummary = SettingsManager.getInstance ().retrieveSpeechLanguageSummary ();
+            final Preference speechLanguagePf = findPreference (getString (R.string.settings_speech_language_key));
+            speechLanguagePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_hearing));
+            bindPreferenceSummary (speechLanguagePf, defSpeechLanguageSummary, true);
+
             // Random lookup
             final Preference isRandomLookupViaFavPf = findPreference (getString (R.string.settings_random_lookup_key));
             isRandomLookupViaFavPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_favorite));
@@ -242,6 +254,7 @@ public class SettingsActivity
             setOnClickListener (getString (R.string.settings_sync_account_key));
             setOnClickListener (getString (R.string.settings_change_theme_key));
             setOnClickListener (getString (R.string.settings_load_remote_content_key));
+            setOnClickListener (getString (R.string.settings_speech_language_key));
             setOnClickListener (getString (R.string.settings_random_lookup_key));
             setOnClickListener (getString (R.string.settings_open_about_key));
         }
@@ -264,19 +277,12 @@ public class SettingsActivity
 
             // Load remote content mode
             if (getString (R.string.settings_load_remote_content_key).equals (preference.getKey ())) {
-                LexisPaperHardyDialogs.articleLoadRemoteContentModeDialog ()
-                        .items (new int [] {
-                                R.string.setting_remote_content_never,
-                                R.string.setting_remote_content_wifi,
-                                R.string.setting_remote_content_always
-                        })
-                        .tags (new String [] {
-                                RemoteContentMode.NEVER.name (),
-                                RemoteContentMode.WIFI.name (),
-                                RemoteContentMode.ALWAYS.name ()
-                        })
-                        .setCallbacks (new ArticleLoadRemoteContentMode ())
-                        .show (getActivity ());
+                LexisPaperHardyDialogs.articleLoadRemoteContentModeDialog ().show (getActivity ());
+            } else
+
+            // Speech language
+            if (getString (R.string.settings_speech_language_key).equals (preference.getKey ())) {
+                LexisPaperHardyDialogs.speechLanguagesDialog (mSupportedTtsLanguages).show (getActivity ());
             } else
 
             // Random lookup
@@ -312,12 +318,54 @@ public class SettingsActivity
         }
 
         @Override
+        public void onAttach (Activity activity) {
+            super.onAttach (activity);
+
+            if (null == mTts) {
+                mTts = new TextToSpeech (getActivity (), mOnInitTtsListener);
+            }
+        }
+
+        private TextToSpeech.OnInitListener mOnInitTtsListener = new TextToSpeech.OnInitListener () {
+            @Override
+            public void onInit (int status) {
+                if (null != mTts && TextToSpeech.SUCCESS == status) {
+                    mSupportedTtsLanguages = ToolTts.supportedLanguages (mTts);
+                } else {
+                    mTts = null;
+                    mSupportedTtsLanguages = null;
+                }
+            }
+        };
+
+        @Override
+        public void onDetach () {
+            super.onDetach ();
+            finishTts ();
+        }
+
+        private void finishTts () {
+            if (null != mTts) {
+                mTts.stop();
+                mTts.shutdown();
+                mTts = null;
+            }
+        }
+
+        @Override
         public void onSharedPreferenceChanged (SharedPreferences sharedPreferences, String key) {
             // Load remote content mode
             if (getString (R.string.settings_load_remote_content_key).equals (key)) {
                 final String loadRemoteContentSummary
                         = SettingsManager.getInstance ().retrieveLoadRemoteContentModeSummary ();
                 SUMMARY_BINDER.onPreferenceChange (findPreference (key), loadRemoteContentSummary);
+            } else
+
+            // Speech language
+            if (getString (R.string.settings_speech_language_key).equals (key)) {
+                final String loadSpeechLanguageSummary
+                        = SettingsManager.getInstance ().retrieveSpeechLanguageSummary ();
+                SUMMARY_BINDER.onPreferenceChange (findPreference (key), loadSpeechLanguageSummary);
             }
         }
 

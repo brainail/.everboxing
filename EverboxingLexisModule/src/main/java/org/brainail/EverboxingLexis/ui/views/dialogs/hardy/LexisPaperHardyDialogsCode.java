@@ -41,6 +41,10 @@ public class LexisPaperHardyDialogsCode extends BaseHardyDialogsCode {
     public static final BaseHardyDialogsCode D_ARTICLE_LOAD_REMOTE_CONTENT_MODE
             = new BaseHardyDialogsCode ("article.load.remote.content.mode");
 
+    // Choose speech language
+    public static final BaseHardyDialogsCode D_SPEECH_LANGUAGE
+            = new BaseHardyDialogsCode ("speech.languagee");
+
     // Confirm that you want to remove a dictionary
     public static final BaseHardyDialogsCode D_DICTIONARY_REMOVING_CONFIRMATION
             = new BaseHardyDialogsCode ("dictionary.removing.confirmation");

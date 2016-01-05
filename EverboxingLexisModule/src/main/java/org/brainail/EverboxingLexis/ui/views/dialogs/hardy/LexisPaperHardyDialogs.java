@@ -1,10 +1,20 @@
 package org.brainail.EverboxingLexis.ui.views.dialogs.hardy;
 
+import android.support.v4.util.Pair;
+
 import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.LayoutParams;
 import org.brainail.EverboxingHardyDialogs.ListDialogSpecification;
 import org.brainail.EverboxingHardyDialogs.TwoButtonDialogSpecification;
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsHandlers.ArticleLoadRemoteContentMode;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsHandlers.SpeechLanguage;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import itkach.aard2.utils.RemoteContentMode;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -51,7 +61,39 @@ public final class LexisPaperHardyDialogs {
     public static ListDialogSpecification.Builder<?> articleLoadRemoteContentModeDialog () {
         return ListDialogSpecification.create ()
                 .code (LexisPaperHardyDialogsCode.D_ARTICLE_LOAD_REMOTE_CONTENT_MODE)
-                .title (R.string.settings_load_remote_content_dialog_title);
+                .title (R.string.settings_load_remote_content_dialog_title)
+                .items (new int [] {
+                        R.string.setting_remote_content_never,
+                        R.string.setting_remote_content_wifi,
+                        R.string.setting_remote_content_always
+                })
+                .tags (new String [] {
+                        RemoteContentMode.NEVER.name (),
+                        RemoteContentMode.WIFI.name (),
+                        RemoteContentMode.ALWAYS.name ()
+                })
+                .setCallbacks (new ArticleLoadRemoteContentMode ());
+    }
+
+    public static ListDialogSpecification.Builder<?> speechLanguagesDialog (
+            final Pair<List<String>, List<String>> supportedLanguages) {
+
+        final ArrayList<String> dialogLocaleNames = new ArrayList<String>() { {
+            add(ToolResources.string (R.string.default_speech_language));
+            addAll(null != supportedLanguages ? supportedLanguages.first : new ArrayList<String> ());
+        } };
+
+        final ArrayList<String> dialogLocaleTags = new ArrayList<String>() { {
+            add(null);
+            addAll(null != supportedLanguages ? supportedLanguages.second : new ArrayList<String> ());
+        } };
+
+        return ListDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_SPEECH_LANGUAGE)
+                .title (R.string.settings_speech_language_dialog_title)
+                .items (dialogLocaleNames)
+                .tags (dialogLocaleTags)
+                .setCallbacks (new SpeechLanguage ());
     }
 
     public static TwoButtonDialogSpecification.Builder<?> dictionaryRemovingConfirmationDialog (final String label) {

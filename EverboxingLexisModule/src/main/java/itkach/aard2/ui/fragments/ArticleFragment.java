@@ -26,6 +26,7 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 import org.brainail.EverboxingLexis.utils.Sdk;
+import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolPrint;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
@@ -74,22 +75,25 @@ public class ArticleFragment
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated (savedInstanceState);
 
-        if (null == mTts) {
-            mTts = new TextToSpeech (getActivity (), mOnInitTtsListener);
-        }
+        // ...
     }
 
     @Override
     public void onAttach (Activity activity) {
         super.onAttach (activity);
+
         mHandler = new Handler ();
+
+        if (null == mTts) {
+            mTts = new TextToSpeech (getActivity (), mOnInitTtsListener);
+        }
     }
 
     private TextToSpeech.OnInitListener mOnInitTtsListener = new TextToSpeech.OnInitListener () {
         @Override
         public void onInit (int status) {
             if (null != mTts && TextToSpeech.SUCCESS == status && null != mArticleTitle) {
-                final int ttsLanguageResult = mTts.setLanguage(ttsLocale ());
+                final int ttsLanguageResult = mTts.setLanguage (ttsLocale ());
                 // final int ttsSpeechRateResult = mTts.setSpeechRate (0.9f);
                 final int ttsSpeechRateResult = TextToSpeech.SUCCESS;
 
@@ -114,7 +118,8 @@ public class ArticleFragment
     };
 
     private Locale ttsLocale () {
-        return Locale.getDefault ();
+        // return Locale.getDefault ();
+        return SettingsManager.getInstance ().retrieveSpeechLanguage ();
     }
 
     private void enableTtsMenuItem (boolean enabled) {
@@ -141,8 +146,6 @@ public class ArticleFragment
 
     @Override
     public void onDestroy () {
-        finishTts ();
-
         if (mArticleWebView != null) {
             mArticleWebView.destroy ();
             mArticleWebView = null;
@@ -154,6 +157,7 @@ public class ArticleFragment
     @Override
     public void onDetach () {
         super.onDetach ();
+        finishTts ();
         mHandler.removeCallbacks (mLiftUpFabAction);
     }
 
@@ -245,7 +249,7 @@ public class ArticleFragment
     }
 
     @Override
-    public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String itemTag) {
+    public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
         if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_ARTICLE_DAILY_STYLE)) {
             mArticleWebView.saveStylePref (itemTag);
             mArticleWebView.applyStylePref ();
