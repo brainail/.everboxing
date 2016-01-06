@@ -8,7 +8,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsService;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +135,7 @@ public class CustomTabsHelper {
                 return true;
             }
         } catch (final Exception exception) {
-            Log.e ("[CustomTabsHelper]", "Runtime exception while getting specialized handlers");
+            // ... Ooooops ...
         }
         return false;
     }

@@ -56,7 +56,7 @@ public abstract class BaseDescriptorList <T extends BaseDescriptor> extends Abst
 
     @Override
     public T get (int i) {
-        return mList.get (i);
+        return i < mList.size () ? mList.get (i) : null;
     }
 
     @Override

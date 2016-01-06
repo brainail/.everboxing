@@ -85,8 +85,10 @@ public class DictionaryListAdapter extends BaseAdapter {
 
         if (null != position) {
             final SlobDescriptor slobDescription = mData.get (position);
-            slobDescription.isActive = switcher.isChecked ();
-            mData.set (position, slobDescription);
+            if (null != slobDescription) {
+                slobDescription.isActive = switcher.isChecked ();
+                mData.set (position, slobDescription);
+            }
         }
     }
 

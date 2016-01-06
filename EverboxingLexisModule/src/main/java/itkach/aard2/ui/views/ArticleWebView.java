@@ -1,5 +1,6 @@
 package itkach.aard2.ui.views;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -45,31 +46,35 @@ import itkach.aard2.ui.activities.ArticleCollectionActivity;
 import itkach.aard2.utils.RemoteContentMode;
 import itkach.aard2.utils.Util;
 
-public class ArticleWebView extends WebView {
+import static android.net.ConnectivityManager.TYPE_ETHERNET;
+import static android.net.ConnectivityManager.TYPE_WIFI;
 
-    private final String styleSwitcherJs;
-    private final String defaultStyleTitle;
-    private final String autoStyleTitle;
+public class ArticleWebView extends BaseArticleWebView {
+
+    private final String mStyleSwitcherJs;
+    private final String mDefaultStyleTitle;
+    private final String mAutoStyleTitle;
 
     public static final String PREF = "articlePreferences";
     private static final String PREF_TEXT_ZOOM = "textZoom";
     private static final String PREF_STYLE = "style.";
     private static final String PREF_STYLE_AVAILABLE = "style.available.";
 
-    public Set<String> externalSchemes = new HashSet<String> () {{
+    public Set<String> mExternalSchemes = new HashSet<String> () {{
         add ("https"); add ("ftp"); add ("sftp"); add ("mailto"); add ("geo");
     }};
 
-    private SortedSet<String> styleTitles = new TreeSet<String> ();
+    private SortedSet<String> mStyleTitles = new TreeSet<String> ();
 
-    private String currentSlobId;
-    private String currentSlobUri;
-    private ConnectivityManager connectivityManager;
+    private String mCurrentSlobId;
+    private String mCurrentSlobUri;
 
-    private Timer timer;
-    private TimerTask applyStylePref;
+    private ConnectivityManager mConnectivityManager;
 
-    private boolean forceLoadRemoteContent;
+    private Timer mTimer;
+    private TimerTask mApplyStylePrefTask;
+
+    private boolean mForceLoadRemoteContent;
 
     public static interface OnScrollDirectionListener {
         public void onScrollUp ();
@@ -81,19 +86,18 @@ public class ArticleWebView extends WebView {
     public OnScrollDirectionListener mOnScrollDirectionListener;
 
     public void enableForceLoadRemoteContent (final boolean enabled) {
-        forceLoadRemoteContent = enabled;
+        mForceLoadRemoteContent = enabled;
     }
 
     @JavascriptInterface
-    public void setStyleTitles (String[] titles) {
+    public void setStyleTitles (String [] titles) {
         Plogger.logD (String.format ("Got %d style titles", titles.length));
-        if (titles.length == 0) {
-            return;
-        }
-        SortedSet newStyleTitlesSet = new TreeSet<String> (Arrays.asList (titles));
-        if (!this.styleTitles.equals (newStyleTitlesSet)) {
-            this.styleTitles = newStyleTitlesSet;
-            saveAvailableStylesPref (this.styleTitles);
+        if (titles.length == 0) return;
+
+        final SortedSet newStyleTitlesSet = new TreeSet<String> (Arrays.asList (titles));
+        if (! mStyleTitles.equals (newStyleTitlesSet)) {
+            mStyleTitles = newStyleTitlesSet;
+            saveAvailableStylesPref (mStyleTitles);
         }
 
         if (Plogger.LOGGABLE) {
@@ -104,7 +108,7 @@ public class ArticleWebView extends WebView {
     }
 
     public boolean allowRemoteContent() {
-        if (forceLoadRemoteContent) {
+        if (mForceLoadRemoteContent) {
             return true;
         }
 
@@ -118,13 +122,10 @@ public class ArticleWebView extends WebView {
         }
 
         if (RemoteContentMode.WIFI == mode) {
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            final NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
             if (networkInfo != null) {
                 int networkType = networkInfo.getType();
-                if (networkType == ConnectivityManager.TYPE_WIFI
-                        || networkType == ConnectivityManager.TYPE_ETHERNET) {
-                    return true;
-                }
+                if (networkType == TYPE_WIFI || networkType == TYPE_ETHERNET) return true;
             }
         }
 
@@ -135,26 +136,22 @@ public class ArticleWebView extends WebView {
         this (context, null);
     }
 
+    @SuppressLint ({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     public ArticleWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        mStyleSwitcherJs = Application.JS_STYLE_SWITCHER;
 
-        styleSwitcherJs = Application.JS_STYLE_SWITCHER;
+        initWebSetting ();
 
-        WebSettings settings = this.getSettings ();
-        settings.setJavaScriptEnabled (true);
-        settings.setBuiltInZoomControls (true);
-        settings.setDisplayZoomControls (false);
+        final Resources resources = getResources ();
+        mDefaultStyleTitle = resources.getString (R.string.default_style_title);
+        mAutoStyleTitle = resources.getString (R.string.auto_style_title);
 
-        Resources r = getResources ();
-        defaultStyleTitle = r.getString (R.string.default_style_title);
-        autoStyleTitle = r.getString (R.string.auto_style_title);
+        addJavascriptInterface (this, "$SLOB");
 
-        this.addJavascriptInterface (this, "$SLOB");
-
-        timer = new Timer ();
+        mTimer = new Timer ();
 
         final Runnable applyStyleRunnable = new Runnable () {
             @Override
@@ -163,7 +160,7 @@ public class ArticleWebView extends WebView {
             }
         };
 
-        applyStylePref = new TimerTask () {
+        mApplyStylePrefTask = new TimerTask () {
             @Override
             public void run () {
                 android.os.Handler handler = getHandler ();
@@ -173,7 +170,7 @@ public class ArticleWebView extends WebView {
             }
         };
 
-        this.setWebViewClient (new WebViewClient () {
+        setWebViewClient (new WebViewClient () {
 
             byte[] noBytes = new byte[0];
 
@@ -193,9 +190,9 @@ public class ArticleWebView extends WebView {
                     List<Long> tsList = new ArrayList<Long> ();
                     tsList.add (System.currentTimeMillis ());
                     times.put (url, tsList);
-                    view.loadUrl ("javascript:" + styleSwitcherJs);
+                    view.loadUrl ("javascript:" + mStyleSwitcherJs);
                     try {
-                        timer.schedule (applyStylePref, 250, 200);
+                        mTimer.schedule (mApplyStylePrefTask, 250, 200);
                     } catch (IllegalStateException ex) {
                         Plogger.logW (ex, "Failed to schedule applyStylePref in view " + view.getId ());
                     }
@@ -215,12 +212,12 @@ public class ArticleWebView extends WebView {
                     if (tsList.isEmpty ()) {
                         Plogger.logD ("onPageFinished: really done with " + url);
                         times.remove (url);
-                        applyStylePref.cancel ();
+                        mApplyStylePrefTask.cancel ();
                     }
                 } else {
                     Plogger.logW ("onPageFinished: Unexpected page finished event for " + url);
                 }
-                view.loadUrl ("javascript:" + styleSwitcherJs + ";$SLOB.setStyleTitles($styleSwitcher.getTitles())");
+                view.loadUrl ("javascript:" + mStyleSwitcherJs + ";$SLOB.setStyleTitles($styleSwitcher.getTitles())");
                 applyStylePref ();
             }
 
@@ -243,8 +240,7 @@ public class ArticleWebView extends WebView {
                 if (allowRemoteContent()) {
                     return null;
                 }
-                return new WebResourceResponse("text/plain", "UTF-8",
-                        new ByteArrayInputStream(noBytes));
+                return new WebResourceResponse("text/plain", "UTF-8", new ByteArrayInputStream(noBytes));
             }
 
             @Override
@@ -255,7 +251,7 @@ public class ArticleWebView extends WebView {
                 String scheme = uri.getScheme ();
                 String host = uri.getHost ();
 
-                if (externalSchemes.contains (scheme) ||
+                if (mExternalSchemes.contains (scheme) ||
                         (scheme.equals ("http") && !host.equals (Application.LOCALHOST))) {
 
                     openUrl (url);
@@ -308,38 +304,38 @@ public class ArticleWebView extends WebView {
     }
 
     public String[] getAvailableStyles () {
-        final SharedPreferences prefs = getContext ().getSharedPreferences (
-                "userStyles", AppCompatActivity.MODE_PRIVATE);
+        final SharedPreferences prefs = getContext ().getSharedPreferences ("userStyles", Activity.MODE_PRIVATE);
         Map<String, ?> data = prefs.getAll ();
         List<String> names = new ArrayList<String> (data.keySet ());
         Util.sort (names);
-        names.addAll (styleTitles);
-        names.add (defaultStyleTitle);
-        names.add (autoStyleTitle);
+        names.addAll (mStyleTitles);
+        names.add (mDefaultStyleTitle);
+        names.add (mAutoStyleTitle);
         return names.toArray (new String[names.size ()]);
     }
 
     private String getAutoStyle () {
-        Plogger.logD ("Auto style will return " + defaultStyleTitle);
-        return defaultStyleTitle;
+        Plogger.logD ("Auto style will return " + mDefaultStyleTitle);
+        return mDefaultStyleTitle;
     }
 
     private void setStyle (String styleTitle) {
         String js;
-        final SharedPreferences prefs = getContext ().getSharedPreferences (
-                "userStyles", AppCompatActivity.MODE_PRIVATE);
+        final SharedPreferences prefs = getContext ().getSharedPreferences ("userStyles", Activity.MODE_PRIVATE);
         if (prefs.contains (styleTitle)) {
             String css = prefs.getString (styleTitle, "");
             String elementId = getCurrentSlobId ();
-            js = String.format (
-                    "javascript:" + Application.JS_USER_STYLE, elementId, css);
+            js = String.format ("javascript:" + Application.JS_USER_STYLE, elementId, css);
         } else {
-            js = String.format (
-                    "javascript:" + Application.JS_CLEAR_USER_STYLE + Application.JS_SET_CANNED_STYLE,
-                    getCurrentSlobId (), styleTitle);
+            js = String.format ("javascript:"
+                    + Application.JS_CLEAR_USER_STYLE
+                    + Application.JS_SET_CANNED_STYLE,
+                    getCurrentSlobId (), styleTitle
+            );
         }
+
         Plogger.logD (js);
-        this.loadUrl (js);
+        loadUrl (js);
     }
 
     private SharedPreferences prefs () {
@@ -365,13 +361,13 @@ public class ArticleWebView extends WebView {
     }
 
     private String getCurrentSlobId () {
-        return currentSlobId;
+        return mCurrentSlobId;
     }
 
     private void saveAvailableStylesPref (Set<String> styleTitles) {
         SharedPreferences prefs = prefs ();
         SharedPreferences.Editor editor = prefs.edit ();
-        editor.putStringSet (PREF_STYLE_AVAILABLE + currentSlobUri, styleTitles);
+        editor.putStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, styleTitles);
         boolean success = editor.commit ();
         if (!success) {
             Plogger.logW ("Failed to save article view available styles pref");
@@ -379,23 +375,23 @@ public class ArticleWebView extends WebView {
     }
 
     private void loadAvailableStylesPref () {
-        if (currentSlobUri == null) {
+        if (mCurrentSlobUri == null) {
             Plogger.logW ("Can't load article view available styles pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
-        Plogger.logD ("Available styles before pref load: " + styleTitles.size ());
-        styleTitles = new TreeSet (prefs.getStringSet (PREF_STYLE_AVAILABLE + currentSlobUri, Collections.EMPTY_SET));
-        Plogger.logD ("Loaded available styles: " + styleTitles.size ());
+        Plogger.logD ("Available styles before pref load: " + mStyleTitles.size ());
+        mStyleTitles = new TreeSet (prefs.getStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, Collections.EMPTY_SET));
+        Plogger.logD ("Loaded available styles: " + mStyleTitles.size ());
     }
 
     public void saveStylePref (String styleTitle) {
-        if (currentSlobUri == null) {
+        if (mCurrentSlobUri == null) {
             Plogger.logW ("Can't save article view style pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
-        String prefName = PREF_STYLE + currentSlobUri;
+        String prefName = PREF_STYLE + mCurrentSlobUri;
         SharedPreferences.Editor editor = prefs.edit ();
         editor.putString (prefName, styleTitle);
         boolean success = editor.commit ();
@@ -405,16 +401,16 @@ public class ArticleWebView extends WebView {
     }
 
     private String getStylePreferenceValue () {
-        return prefs ().getString (PREF_STYLE + currentSlobUri, autoStyleTitle);
+        return prefs ().getString (PREF_STYLE + mCurrentSlobUri, mAutoStyleTitle);
     }
 
     private boolean isAutoStyle (String title) {
-        return title.equals (autoStyleTitle);
+        return title.equals (mAutoStyleTitle);
     }
 
     @JavascriptInterface
     public String getPreferredStyle () {
-        if (currentSlobUri == null) {
+        if (mCurrentSlobUri == null) {
             return "";
         }
         String styleTitle = getStylePreferenceValue ();
@@ -431,12 +427,12 @@ public class ArticleWebView extends WebView {
     @JavascriptInterface
     public void onStyleSet (String title) {
         Plogger.logD ("Style set! " + title);
-        applyStylePref.cancel ();
+        mApplyStylePrefTask.cancel ();
     }
 
     public void applyStylePref () {
         String styleTitle = getPreferredStyle ();
-        this.setStyle (styleTitle);
+        setStyle (styleTitle);
     }
 
     public boolean textZoomIn () {
@@ -510,14 +506,14 @@ public class ArticleWebView extends WebView {
             Uri uri = Uri.parse (url);
             BlobDescriptor bd = BlobDescriptor.fromUri (uri);
             if (bd != null) {
-                currentSlobId = bd.slobId;
-                currentSlobUri = Application.app ().getSlobURI (currentSlobId);
+                mCurrentSlobId = bd.slobId;
+                mCurrentSlobUri = Application.app ().getSlobURI (mCurrentSlobId);
                 loadAvailableStylesPref ();
             } else {
-                currentSlobId = null;
-                currentSlobUri = null;
+                mCurrentSlobId = null;
+                mCurrentSlobUri = null;
             }
-            Plogger.logD (String.format ("currentSlobId set from url %s to %s, uri %s", url, currentSlobId, currentSlobUri));
+            Plogger.logD (String.format ("currentSlobId set from url %s to %s, uri %s", url, mCurrentSlobId, mCurrentSlobUri));
         }
     }
 
@@ -526,8 +522,8 @@ public class ArticleWebView extends WebView {
         if (event.getAction () == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    if (this.canGoBack ()) {
-                        this.goBack ();
+                    if (canGoBack ()) {
+                        goBack ();
                         return true;
                     } else {
                         return false;
@@ -540,7 +536,7 @@ public class ArticleWebView extends WebView {
     @Override
     public void destroy () {
         super.destroy ();
-        timer.cancel ();
+        mTimer.cancel ();
     }
 
     public void setOnScrollDirectionListener (final OnScrollDirectionListener listener) {

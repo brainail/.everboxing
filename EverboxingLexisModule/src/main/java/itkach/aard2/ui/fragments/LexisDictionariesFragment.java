@@ -60,7 +60,7 @@ public class LexisDictionariesFragment extends BaseListFragment implements Tagab
             startActivityForResult(intent, FILE_SELECT_REQUEST);
             return true;
         } else if (item.getItemId () == R.id.action_dic_store_mirror_one) {
-            openUrl ("https://cloud.mail.ru/public/GZha/fW3MRhSCf");
+            openUrl ("https://cloud.mail.ru/public/8GsF/8RzDA9wBR");
         } else if (item.getItemId () == R.id.action_dic_store_mirror_two) {
             openUrl ("https://github.com/itkach/slob/wiki/Dictionaries");
         }
