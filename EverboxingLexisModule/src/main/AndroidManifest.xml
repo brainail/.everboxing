@@ -17,6 +17,7 @@
 
     <!-- To find files, etc ... -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -40,6 +41,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -72,6 +74,11 @@
                 <data android:mimeType="text/plain"/>
             </intent-filter>
             <intent-filter>
+                <action android:name="colordict.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.WEB_SEARCH"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
@@ -90,6 +97,21 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
+
+        <activity-alias
+            android:name="WikiHandlerActivity"
+            android:enabled="true"
+            android:targetActivity="itkach.aard2.ui.activities.ArticleCollectionActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:pathPrefix="/wiki" android:scheme="http"/>
+                <data android:pathPrefix="/wiki" android:scheme="https"/>
+            </intent-filter>
+        </activity-alias>
 
         <!-- FILE MANAGER/SELECTOR -->
         <activity
@@ -136,6 +158,14 @@
             android:name="android.support.v7.widget.TestActivity"
             android:label="RecyclerViewTestActivity"
             tools:node="remove"/>
+
+        <!-- Multiwindow -->
+        <uses-library android:name="com.sec.android.app.multiwindow" android:required="false"/>
+        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W" android:resource="@dimen/app_defaultsize_w" />
+        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H" android:resource="@dimen/app_defaultsize_h" />
+        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W" android:resource="@dimen/app_minimumsize_w" />
+        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:resource="@dimen/app_minimumsize_h" />
     </application>
 
 </manifest>

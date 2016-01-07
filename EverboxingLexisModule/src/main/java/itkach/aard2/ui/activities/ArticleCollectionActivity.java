@@ -25,6 +25,7 @@ import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -129,6 +130,7 @@ public class ArticleCollectionActivity extends BaseActivity {
                     } else {
                         messageId = R.string.article_collection_nothing_found;
                     }
+
                     ToolUI.showToast (self (), messageId);
                     finish ();
                     return;
@@ -174,8 +176,7 @@ public class ArticleCollectionActivity extends BaseActivity {
                         runOnUiThread (new Runnable () {
                             @Override
                             public void run () {
-                                ArticleFragment fragment =
-                                        (ArticleFragment) mPagerAdapter.getItem (position);
+                                final ArticleFragment fragment = (ArticleFragment) mPagerAdapter.getItem (position);
                                 fragment.applyTextZoomPref ();
                             }
                         });
@@ -234,12 +235,19 @@ public class ArticleCollectionActivity extends BaseActivity {
     }
 
     private ArticleCollectionPagerAdapter createFromUri (Application app, Uri articleUrl) {
-        BlobDescriptor bd = BlobDescriptor.fromUri (articleUrl);
-        if (bd == null) {
+        final String host = articleUrl.getHost();
+
+        // For instance ACTION_VIEW ...
+        if (null != host && ! (host.equals ("localhost") || host.matches ("127.\\d{1,3}.\\d{1,3}.\\d{1,3}"))) {
+            return createFromIntent (app, getIntent ());
+        }
+
+        final BlobDescriptor blobDescriptor = BlobDescriptor.fromUri (articleUrl);
+        if (blobDescriptor == null) {
             return null;
         }
 
-        Iterator<Slob.Blob> result = app.find (bd.key, bd.slobId);
+        Iterator<Slob.Blob> result = app.find (blobDescriptor.key, blobDescriptor.slobId);
         BlobListAdapter data = new BlobListAdapter (this, 21, 1);
         data.setData (result);
 
@@ -294,16 +302,69 @@ public class ArticleCollectionActivity extends BaseActivity {
     }
 
     private ArticleCollectionPagerAdapter createFromIntent (Application app, Intent intent) {
+        // ACTION_SEND ...
         String lookupKey = intent.getStringExtra (Intent.EXTRA_TEXT);
+
+        // ACTION_SEARCH ...
         if (lookupKey == null) {
             lookupKey = intent.getStringExtra (SearchManager.QUERY);
         }
 
-        BlobListAdapter data = new BlobListAdapter (this, 21, 1);
+        // ACTION_COLORDICT ...
+        if (lookupKey == null) {
+            lookupKey = intent.getStringExtra("EXTRA_QUERY");
+        }
+
+        // ACTION_VIEW?
+        if (lookupKey == null) {
+            if (null != intent.getData()) {
+                final List<String> segments = intent.getData().getPathSegments ();
+                if (null != segments && ! segments.isEmpty ()) {
+                    // For instance http://.../wiki/wtf --> wtf
+                    // It's from aard. getLastPathSegment ()? Why so serious?
+                    lookupKey = segments.get (segments.size () - 1);
+                }
+            }
+        }
+
+        // Try to match wiki (everyone likes wiki) or something else (in the future ...)
+        // It's for cases like ->
+        //     ..TEXT = thirst - Wiktionary https://en.m.wiktionary.org/wiki/thirst (Share from CM Browser)
+        if (null != lookupKey) {
+            final String [] parts = lookupKey.split ("\\s+");
+
+            // Wiki stuff ...
+            String wikiLookup = null;
+
+            for (final String part : parts) {
+                try {
+                    // If no exception then it's OK
+                    final URL urlChecker = new URL (part);
+
+                    final Uri possibleUri = Uri.parse (part);
+                    final List<String> segments = possibleUri.getPathSegments ();
+
+                    // Wiki stuff ...
+                    if (segments.size () > 1 && segments.get (0).equalsIgnoreCase ("wiki")) {
+                        wikiLookup = segments.get (segments.size () - 1);
+                        break;
+                    }
+                } catch (final Exception exception) {
+                    // Ooops ...
+                }
+            }
+
+            // Wiki stuff ...
+            if (null != wikiLookup) {
+                lookupKey = wikiLookup;
+            }
+        }
+
+        final BlobListAdapter data = new BlobListAdapter (this, 21, 1);
         if (TextUtils.isEmpty (lookupKey) || TextUtils.isEmpty (lookupKey.trim ())) {
             ToolUI.showToast (self (), R.string.article_collection_nothing_to_lookup);
         } else {
-            Iterator<Blob> result = stemLookup (app, lookupKey);
+            final Iterator<Blob> result = stemLookup (app, lookupKey);
             data.setData (result);
         }
 
