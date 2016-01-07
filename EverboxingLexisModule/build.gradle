@@ -70,7 +70,7 @@ android {
         applicationId "org.brainail.EverboxingLexis"
 
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 22
 
         versionCode appVersionMajor * 10000 + appVersionMinor * 100 + appVersionPatch
         versionName "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"

@@ -112,12 +112,6 @@ public class FileSelectFragment extends ListFragment {
 
     }
 
-    //    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getActivity ().getMenuInflater().inflate(R.menu.menu_file_manager, menu);
-//        return true;
-//    }
-
     private SharedPreferences prefs() {
         return getActivity ().getSharedPreferences (FileSelectActivity.PREF, AppCompatActivity.MODE_PRIVATE);
     }
