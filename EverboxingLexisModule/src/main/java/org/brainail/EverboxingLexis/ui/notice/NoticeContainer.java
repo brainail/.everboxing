@@ -3,6 +3,7 @@ package org.brainail.EverboxingLexis.ui.notice;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.tool.ToolPhone;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -289,6 +291,17 @@ public class NoticeContainer extends FrameLayout {
         // Set gravity by style
         layoutParams.gravity = Gravity.START | getGravity(style);
 
+        // Margins
+        if (ToolPhone.isTablet()) {
+            final Resources resources = getContext().getResources();
+            final int horizontalMargin = resources.getDimensionPixelSize(R.dimen.notice_horizontal_side_spacing);
+            layoutParams.leftMargin = horizontalMargin;
+            layoutParams.rightMargin = horizontalMargin;
+            final int verticalMargin = resources.getDimensionPixelSize(R.dimen.notice_vertical_side_spacing);
+            layoutParams.bottomMargin = verticalMargin;
+            layoutParams.topMargin = verticalMargin;
+        }
+
         return layoutParams;
     }
 
@@ -373,6 +386,7 @@ public class NoticeContainer extends FrameLayout {
         final View noticeView;
         final TextView body;
         final TextView action;
+        final View noticeBar;
         final Notice noticeData;
 
         final NoticeBar.OnActionCallback actionCallback;
@@ -380,6 +394,7 @@ public class NoticeContainer extends FrameLayout {
 
         private NoticeHolder(final Notice noticeData, final View noticeView) {
             this.noticeView = noticeView;
+            this.noticeBar = ButterKnife.findById(noticeView, R.id.notice_bar);
             this.action = ButterKnife.findById(noticeView, R.id.notice_action);
             this.body = ButterKnife.findById(noticeView, R.id.notice_message);
 
