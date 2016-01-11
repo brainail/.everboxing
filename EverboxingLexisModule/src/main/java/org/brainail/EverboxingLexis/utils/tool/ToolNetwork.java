@@ -1,6 +1,8 @@
 package org.brainail.EverboxingLexis.utils.tool;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -41,6 +43,31 @@ public final class ToolNetwork {
         } catch (Exception exception) {
             return true;
         }
+    }
+
+    public static boolean isNetworkAvailable(final Context context) {
+        int accessEnabled = context.checkCallingPermission(Manifest.permission.ACCESS_NETWORK_STATE);
+        if (PackageManager.PERMISSION_DENIED == accessEnabled) return true;
+
+        final ConnectivityManager coManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        final NetworkInfo wifiNetwork = coManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (null != wifiNetwork && wifiNetwork.isConnected()) {
+            return true;
+        }
+
+        final NetworkInfo mobileNetwork = coManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (null != mobileNetwork && mobileNetwork.isConnected()) {
+            return true;
+        }
+
+        final NetworkInfo activeNetwork = coManager.getActiveNetworkInfo();
+        if (null != activeNetwork  && activeNetwork.isConnected()) {
+            return true;
+        }
+
+        return false;
     }
 
 }

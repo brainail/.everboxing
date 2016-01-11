@@ -29,6 +29,13 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/action_tts_all"
+        android:title="@string/action_tts_all"
+        android:icon="@drawable/ic_record_voice_over_white_24dp"
+        android:orderInCategory="26"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_find_in_page"
         android:title="@string/action_find_in_page"
         android:orderInCategory="32"

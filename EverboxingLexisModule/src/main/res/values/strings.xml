@@ -97,6 +97,7 @@
     <string name="action_select_style">Style …</string>
     <string name="action_print_article">Print</string>
     <string name="action_tts">Speech</string>
+    <string name="action_tts_all">Speech All</string>
     <string name="select_style">Select style</string>
 
     <string name="default_style_title">Default</string>

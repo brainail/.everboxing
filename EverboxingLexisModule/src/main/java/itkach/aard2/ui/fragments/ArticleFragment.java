@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -25,7 +27,9 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
+import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.Sdk;
+import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolPrint;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
@@ -40,7 +44,7 @@ import itkach.aard2.ui.views.ArticleWebView;
 
 public class ArticleFragment
         extends BaseFragment
-        implements HardyDialogFragment.OnDialogListActionCallback {
+        implements HardyDialogFragment.OnDialogListActionCallback, ProcessContentJsInterface.ISelectionHelper {
 
     public static class Args {
         public static final String ARTICLE_URL = "articleUrl";
@@ -59,9 +63,12 @@ public class ArticleFragment
 
     private MenuItem mMenuItemBookmark;
     private MenuItem mMenuItemTts;
+    private MenuItem mMenuItemTtsAll;
 
     private TextToSpeech mTts;
     private boolean mIsTtsAvailable = false;
+
+    private String mAllTextSelection;
 
     private Handler mHandler;
 
@@ -126,20 +133,23 @@ public class ArticleFragment
         if (enabled) {
             if (null != mMenuItemTts) {
                 mMenuItemTts.setVisible (true);
+                mMenuItemTtsAll.setVisible (true);
                 final String ttsLocaleExtra = " (" + ttsLocale ().getDisplayLanguage () + ")";
                 mMenuItemTts.setTitle (ToolResources.string (R.string.action_tts) + ttsLocaleExtra);
+                mMenuItemTtsAll.setTitle (ToolResources.string (R.string.action_tts_all) + ttsLocaleExtra);
             }
         } else {
             if (null != mMenuItemTts) {
                 mMenuItemTts.setVisible (false);
+                mMenuItemTtsAll.setVisible (false);
             }
         }
     }
 
     private void finishTts () {
         if (null != mTts) {
-            mTts.stop();
-            mTts.shutdown();
+            mTts.stop ();
+            mTts.shutdown ();
             mTts = null;
         }
     }
@@ -147,7 +157,7 @@ public class ArticleFragment
     @Override
     public void onDestroy () {
         if (mArticleWebView != null) {
-            mArticleWebView.destroy ();
+            mArticleWebView.performOnDestroy ();
             mArticleWebView = null;
         }
 
@@ -172,6 +182,8 @@ public class ArticleFragment
         // To change state later
         mMenuItemBookmark = menu.findItem (R.id.action_bookmark_article);
         mMenuItemTts = menu.findItem (R.id.action_tts);
+        mMenuItemTtsAll = menu.findItem (R.id.action_tts_all);
+        mMenuItemTtsAll.setEnabled (null != mAllTextSelection);
         enableTtsMenuItem (null != mTts);
 
         if (null == mArticleWebView) {
@@ -183,8 +195,8 @@ public class ArticleFragment
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
 
-        if (! Sdk.isSdkSupported (Sdk.KITKAT)) {
-            menu.findItem (R.id.action_print_article).setVisible (false);                                    
+        if (!Sdk.isSdkSupported (Sdk.KITKAT)) {
+            menu.findItem (R.id.action_print_article).setVisible (false);
         }
     }
 
@@ -228,9 +240,9 @@ public class ArticleFragment
             }
             return true;
         } else if (itemId == R.id.action_select_style) {
-            final String [] styles = mArticleWebView.getAvailableStyles ();
+            final String[] styles = mArticleWebView.getAvailableStyles ();
             LexisPaperHardyDialogs.articleDailyStyleDialog ()
-                    .items (styles).tags (styles).setCallbacks (this).show(this);
+                    .items (styles).tags (styles).setCallbacks (this).show (this);
         } else if (itemId == R.id.action_search_externally_article) {
             openUrl ("https://www.google.com/search?q=" + mArticleTitle + "+definition");
         } else if (itemId == R.id.action_print_article) {
@@ -240,7 +252,15 @@ public class ArticleFragment
                 if (mIsTtsAvailable) {
                     mTts.speak (mArticleTitle, TextToSpeech.QUEUE_FLUSH, null);
                 } else {
-                    startActivity(new Intent (TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA));
+                    startActivity (new Intent (TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA));
+                }
+            }
+        } else if (itemId == R.id.action_tts_all) {
+            if (null != mTts && !TextUtils.isEmpty (mAllTextSelection)) {
+                if (mIsTtsAvailable) {
+                    mTts.speak (mAllTextSelection, TextToSpeech.QUEUE_FLUSH, null);
+                } else {
+                    startActivity (new Intent (TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA));
                 }
             }
         }
@@ -297,6 +317,7 @@ public class ArticleFragment
         });
 
         mArticleWebView = (ArticleWebView) layout.findViewById (R.id.webView);
+        mArticleWebView.setSelectionHelper (this);
         mArticleLoadingProgress = (ProgressLayout) layout.findViewById (R.id.webViewProgress);
 
         mArticleWebView.restoreState (savedInstanceState);
@@ -306,14 +327,14 @@ public class ArticleFragment
         mArticleWebView.setOnScrollDirectionListener (new ArticleWebView.OnScrollDirectionListener () {
             @Override
             public void onScrollUp () {
-                if (null != mFabMenuRight && ! mFabMenuRight.isOpened ()) {
+                if (null != mFabMenuRight && !mFabMenuRight.isOpened ()) {
                     mFabMenuRight.showMenu (true);
                 }
             }
 
             @Override
             public void onScrollDown () {
-                if (null != mFabMenuRight && ! mFabMenuRight.isOpened ()) {
+                if (null != mFabMenuRight && !mFabMenuRight.isOpened ()) {
                     mFabMenuRight.hideMenu (true);
                     mHandler.removeCallbacks (mLiftUpFabAction);
                     mHandler.postDelayed (mLiftUpFabAction, 3_000);
@@ -358,6 +379,11 @@ public class ArticleFragment
                 });
             }
         }
+
+        public boolean onConsoleMessage (final ConsoleMessage cm) {
+            Plogger.logW ("Console message: %s.\n-- From line: %d", cm.message (), cm.lineNumber ());
+            return true;
+        }
     };
 
     @Override
@@ -365,9 +391,9 @@ public class ArticleFragment
         super.onStart ();
 
         // Check tts
-        if (null != mTts && ! mIsTtsAvailable) {
-            final int ttsLanguageResult = mTts.setLanguage(ttsLocale ());
-            mIsTtsAvailable = ! (TextToSpeech.LANG_MISSING_DATA == ttsLanguageResult
+        if (null != mTts && !mIsTtsAvailable) {
+            final int ttsLanguageResult = mTts.setLanguage (ttsLocale ());
+            mIsTtsAvailable = !(TextToSpeech.LANG_MISSING_DATA == ttsLanguageResult
                     || TextToSpeech.LANG_NOT_SUPPORTED == ttsLanguageResult);
         }
     }
@@ -424,7 +450,7 @@ public class ArticleFragment
         final View actionCustomView = mode.getCustomView ();
         if (actionCustomView instanceof ViewGroup) {
             final ViewGroup actionCustomViewGroup = (ViewGroup) actionCustomView;
-            for (int viewIndex = 0; viewIndex < actionCustomViewGroup.getChildCount (); ++ viewIndex) {
+            for (int viewIndex = 0; viewIndex < actionCustomViewGroup.getChildCount (); ++viewIndex) {
                 final View subView = actionCustomViewGroup.getChildAt (viewIndex);
                 if (subView instanceof TextView) {
                     ((TextView) subView).setTextColor (getResources ().getColor (R.color.md_grey_600));
@@ -434,6 +460,19 @@ public class ArticleFragment
         }
 
         return false;
+    }
+
+    @Override
+    public void onAllTextSelection (String selection) {
+        mAllTextSelection = selection;
+        if (!TextUtils.isEmpty (mAllTextSelection) && null != mMenuItemTtsAll && null != mArticleWebView) {
+            mMenuItemTtsAll.setEnabled (true);
+        }
+    }
+
+    @Override
+    public void onPartialTextSelection (String selection) {
+
     }
 
 }

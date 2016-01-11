@@ -1,10 +1,9 @@
 package itkach.aard2.ui.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+
+import org.brainail.EverboxingLexis.ui.views.BaseWebView;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -31,7 +30,7 @@ import android.webkit.WebView;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class BaseArticleWebView extends WebView {
+public class BaseArticleWebView extends BaseWebView {
 
     // static final class WebArticlesCacheOptions {
         // static final String CACHE_PATH = "org.brainail.EverboxingLexisPaper.articles.cache";
@@ -45,28 +44,6 @@ public class BaseArticleWebView extends WebView {
 
     public BaseArticleWebView (Context context, AttributeSet attrs) {
         super (context, attrs);
-    }
-
-    @SuppressLint ("SetJavaScriptEnabled")
-    protected void initWebSetting () {
-        final WebSettings settings = getSettings ();
-
-        // JS
-        settings.setJavaScriptEnabled (true);
-
-        // Zoom
-        settings.setBuiltInZoomControls (true);
-        settings.setDisplayZoomControls (false);
-
-        // Cache
-        // settings.setAppCachePath (new File (getContext ().getCacheDir (), WebArticlesCacheOptions.CACHE_PATH).getAbsolutePath ());
-        // settings.setDatabasePath (getContext ().getDatabasePath (WebArticlesCacheOptions.DATABASE_PATH).getAbsolutePath ());
-        // settings.setAppCacheMaxSize (WebArticlesCacheOptions.CACHE_SIZE_BYTES);
-        // settings.setAppCacheEnabled (true);
-        // settings.setDomStorageEnabled (true);
-        // settings.setAllowFileAccess (true);
-        // settings.setDatabaseEnabled (true);
-        // settings.setCacheMode (WebSettings.LOAD_DEFAULT);
     }
 
 }
