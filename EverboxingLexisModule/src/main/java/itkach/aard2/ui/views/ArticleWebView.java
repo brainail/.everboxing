@@ -347,7 +347,7 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
 
     public boolean textZoomIn () {
         WebSettings settings = getSettings ();
-        int newZoom = settings.getTextZoom () + 20;
+        int newZoom = settings.getTextZoom () + 10;
         if (newZoom <= 200) {
             settings.setTextZoom (newZoom);
             saveTextZoomPref ();
@@ -359,8 +359,8 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
 
     public boolean textZoomOut () {
         WebSettings settings = getSettings ();
-        int newZoom = settings.getTextZoom () - 20;
-        if (newZoom >= 40) {
+        int newZoom = settings.getTextZoom () - 10;
+        if (newZoom >= 5) {
             settings.setTextZoom (newZoom);
             saveTextZoomPref ();
             return true;

@@ -61,6 +61,7 @@ public class ArticleFragment
     private FloatingActionButton mFabZoomIn;
     private FloatingActionButton mFabZoomOut;
 
+    private Menu mMenu;
     private MenuItem mMenuItemBookmark;
     private MenuItem mMenuItemTts;
     private MenuItem mMenuItemTtsAll;
@@ -178,12 +179,13 @@ public class ArticleFragment
         // to avoid duplicates
         menu.clear ();
         inflater.inflate (R.menu.menu_articles, menu);
+        mMenu = menu;
 
         // To change state later
         mMenuItemBookmark = menu.findItem (R.id.action_bookmark_article);
         mMenuItemTts = menu.findItem (R.id.action_tts);
         mMenuItemTtsAll = menu.findItem (R.id.action_tts_all);
-        mMenuItemTtsAll.setEnabled (null != mAllTextSelection);
+        mMenuItemTtsAll.setEnabled (! TextUtils.isEmpty (mAllTextSelection));
         enableTtsMenuItem (null != mTts);
 
         if (null == mArticleWebView) {
@@ -195,7 +197,7 @@ public class ArticleFragment
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
 
-        if (!Sdk.isSdkSupported (Sdk.KITKAT)) {
+        if (! Sdk.isSdkSupported (Sdk.KITKAT)) {
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
     }
@@ -256,7 +258,7 @@ public class ArticleFragment
                 }
             }
         } else if (itemId == R.id.action_tts_all) {
-            if (null != mTts && !TextUtils.isEmpty (mAllTextSelection)) {
+            if (null != mTts && ! TextUtils.isEmpty (mAllTextSelection)) {
                 if (mIsTtsAvailable) {
                     mTts.speak (mAllTextSelection, TextToSpeech.QUEUE_FLUSH, null);
                 } else {
@@ -463,9 +465,14 @@ public class ArticleFragment
     }
 
     @Override
+    public void onStop () {
+        super.onStop ();
+    }
+
+    @Override
     public void onAllTextSelection (String selection) {
         mAllTextSelection = selection;
-        if (!TextUtils.isEmpty (mAllTextSelection) && null != mMenuItemTtsAll && null != mArticleWebView) {
+        if (! TextUtils.isEmpty (mAllTextSelection) && null != mMenuItemTtsAll && null != mArticleWebView) {
             mMenuItemTtsAll.setEnabled (true);
         }
     }
