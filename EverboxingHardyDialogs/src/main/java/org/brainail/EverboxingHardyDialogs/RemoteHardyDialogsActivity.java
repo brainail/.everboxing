@@ -124,7 +124,7 @@ public class RemoteHardyDialogsActivity extends AppCompatActivity {
 
         // To avoid flickering
         if (isFinishing ()) {
-            overridePendingTransition (0, R.anim.non_flickering_slide_out_right);
+            overridePendingTransition (0, R.anim.non_flickering_sleep);
         }
     }
 

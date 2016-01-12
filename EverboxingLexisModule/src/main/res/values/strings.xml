@@ -88,22 +88,22 @@
     <string name="action_filter">Filter</string>
     <string name="action_ascending">Ascending</string>
     <string name="action_descending">Descending</string>
-    <string name="action_sort_by_title">By Title</string>
-    <string name="action_sort_by_time">By Time</string>
+    <string name="action_sort_by_title">By title</string>
+    <string name="action_sort_by_time">By time</string>
     <string name="action_lookup">Lookup</string>
-    <string name="action_zoom_out">Zoom Out</string>
-    <string name="action_zoom_in">Zoom In</string>
-    <string name="action_zoom_reset">Zoom Reset</string>
+    <string name="action_zoom_out">Zoom out</string>
+    <string name="action_zoom_in">Zoom in</string>
+    <string name="action_zoom_reset">Zoom reset</string>
     <string name="action_select_style">Style …</string>
     <string name="action_print_article">Print</string>
-    <string name="action_tts">Speech</string>
-    <string name="action_tts_all">Speech All</string>
+    <string name="action_tts">Pronounce</string>
+    <string name="action_tts_all">Start reading</string>
     <string name="select_style">Select style</string>
 
     <string name="default_style_title">Default</string>
 
     <string name="setting_remote_content_always">Always</string>
-    <string name="setting_remote_content_wifi">When on Wi-Fi</string>
+    <string name="setting_remote_content_wifi">When on wi-fi</string>
     <string name="setting_remote_content_never">Never</string>
 
     <string name="article_collection_nothing_found">Nothing found</string>
