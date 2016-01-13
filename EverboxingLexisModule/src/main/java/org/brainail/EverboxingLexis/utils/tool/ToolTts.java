@@ -40,7 +40,16 @@ public final class ToolTts {
 
         if (null != textToSpeech) {
             for (final Locale locale : Locale.getAvailableLocales ()) {
-                if (TextToSpeech.LANG_COUNTRY_AVAILABLE == textToSpeech.isLanguageAvailable (locale)) {
+                int availableResult = TextToSpeech.LANG_NOT_SUPPORTED;
+
+                try {
+                    availableResult = textToSpeech.isLanguageAvailable (locale);
+                } catch (final Exception exception) {
+                    // To fix something like: java.lang.IllegalArgumentException: Invalid int: "OS"
+                    availableResult = TextToSpeech.LANG_NOT_SUPPORTED;
+                }
+
+                if (TextToSpeech.LANG_COUNTRY_AVAILABLE == availableResult) {
                     supportedLocalesNames.add (locale.getDisplayName ());
                     supportedLocalesTags.add (locale.toString ());
                 }

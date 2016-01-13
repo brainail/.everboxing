@@ -69,7 +69,7 @@ public class ArticleFragment
     private TextToSpeech mTts;
     private boolean mIsTtsAvailable = false;
 
-    private String mAllTextSelection;
+    private volatile String mAllTextSelection;
 
     private Handler mHandler;
 
@@ -422,6 +422,8 @@ public class ArticleFragment
             }
         }
 
+        mMenuItemTtsAll.setEnabled (! TextUtils.isEmpty (mAllTextSelection));
+
         applyTextZoomPref ();
         applyStylePref ();
     }
@@ -465,15 +467,16 @@ public class ArticleFragment
     }
 
     @Override
-    public void onStop () {
-        super.onStop ();
-    }
-
-    @Override
     public void onAllTextSelection (String selection) {
         mAllTextSelection = selection;
         if (! TextUtils.isEmpty (mAllTextSelection) && null != mMenuItemTtsAll && null != mArticleWebView) {
-            mMenuItemTtsAll.setEnabled (true);
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mMenuItemTtsAll.setEnabled (true);
+                    getActivity ().supportInvalidateOptionsMenu ();
+                }
+            });
         }
     }
 

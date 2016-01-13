@@ -201,7 +201,7 @@ public class SettingsActivity
 
         // To display tts languages
         private TextToSpeech mTts;
-        private transient Pair<List<String>, List<String>> mSupportedTtsLanguages;
+        private volatile Pair<List<String>, List<String>> mSupportedTtsLanguages;
 
         @Override
         public void onCreate (Bundle savedInstanceState) {
