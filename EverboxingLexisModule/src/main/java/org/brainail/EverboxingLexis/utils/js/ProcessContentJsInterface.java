@@ -33,6 +33,23 @@ public class ProcessContentJsInterface {
 
     public static final String JS_INTERFACE_NAME = "ProcessContentJsInterface";
 
+    public static final String JS_ALL_TEXT_SELECTION = "javascript:window." +
+            ProcessContentJsInterface.JS_INTERFACE_NAME +
+            ".processContent(document.getElementsByTagName('body')[0].innerText);";
+
+    public static final String JS_PARTIAL_TEXT_SELECTION = "javascript:" +
+            "(function getSelectedText() {" +
+            "var txt;" +
+            "if (window.getSelection) {" +
+            "txt = window.getSelection().toString();" +
+            "} else if (window.document.getSelection) {" +
+            "txt = window.document.getSelection().toString();" +
+            "} else if (window.document.selection) {" +
+            "txt = window.document.selection.createRange().text;" +
+            "}" + ProcessContentJsInterface.JS_INTERFACE_NAME +
+            ".processSelection(txt);" +
+            "})()";
+
     public static interface ISelectionHelper {
         public void onAllTextSelection (final String selection);
         public void onPartialTextSelection (final String selection);
@@ -45,11 +62,21 @@ public class ProcessContentJsInterface {
     }
 
     @JavascriptInterface
-    public void processContent(final String content) {
+    public void processContent (final String content) {
         if (null != mSelectionHelper) {
             final ISelectionHelper selectionHelper = mSelectionHelper.get ();
             if (null != selectionHelper) {
                 selectionHelper.onAllTextSelection (content);
+            }
+        }
+    }
+
+    @JavascriptInterface
+    public void processSelection (final String content) {
+        if (null != mSelectionHelper) {
+            final ISelectionHelper selectionHelper = mSelectionHelper.get ();
+            if (null != selectionHelper) {
+                selectionHelper.onPartialTextSelection (content);
             }
         }
     }

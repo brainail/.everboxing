@@ -487,6 +487,18 @@ public class ArticleCollectionActivity extends BaseActivity {
     }
 
     @Override
+    public void onActionModeFinished (ActionMode mode) {
+        if (null != mPagerAdapter) {
+            final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();
+            if (null != articlePage && articlePage.onActionModeFinished (mode)) {
+                // ...
+            }
+        }
+
+        super.onActionModeFinished (mode);
+    }
+
+    @Override
     public void onActionModeStarted (ActionMode mode) {
         if (null != mPagerAdapter) {
             final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();

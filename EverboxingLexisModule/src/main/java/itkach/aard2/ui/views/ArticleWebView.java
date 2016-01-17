@@ -24,6 +24,7 @@ import android.webkit.WebViewClient;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface.ISelectionHelper;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
@@ -94,7 +95,7 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
 
     public ISelectionHelper mSelectionHelper;
 
-    public void setSelectionHelper(final ISelectionHelper selectionHelper) {
+    public void setSelectionHelper (final ISelectionHelper selectionHelper) {
         mSelectionHelper = selectionHelper;
     }
 
@@ -264,7 +265,7 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
         SharedPreferences.Editor e = prefs.edit ();
         e.putInt (PREF_TEXT_ZOOM, textZoom);
         boolean success = e.commit ();
-        if (! success) {
+        if (!success) {
             Plogger.logW ("Failed to save article view text zoom pref");
         }
     }
@@ -278,7 +279,7 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
         SharedPreferences.Editor editor = prefs.edit ();
         editor.putStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, styleTitles);
         boolean success = editor.commit ();
-        if (! success) {
+        if (!success) {
             Plogger.logW ("Failed to save article view available styles pref");
         }
     }
@@ -505,9 +506,14 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
             } else {
                 Plogger.logW ("onPageFinished: Unexpected page finished event for " + url);
             }
-            view.loadUrl ("javascript:" + Application.JS_STYLE_SWITCHER + ";$SLOB.setStyleTitles($styleSwitcher.getTitles())");
+            view.loadUrl ("javascript:"
+                    + Application.JS_STYLE_SWITCHER
+                    + ";$SLOB.setStyleTitles($styleSwitcher.getTitles())"
+            );
+
             applyStylePref ();
-            view.loadUrl ("javascript:window." + ProcessContentJsInterface.JS_INTERFACE_NAME + ".processContent(document.getElementsByTagName('body')[0].innerText);");
+
+            processAllTextSelection ();
         }
 
         @Override
@@ -564,6 +570,22 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
         }
     };
 
+    public void processAllTextSelection () {
+        if (Sdk.isSdkSupported (Sdk.KITKAT)) {
+            evaluateJavascript (ProcessContentJsInterface.JS_ALL_TEXT_SELECTION, null);
+        } else {
+            loadUrl (ProcessContentJsInterface.JS_ALL_TEXT_SELECTION);
+        }
+    }
+
+    public void processSelection () {
+        if (Sdk.isSdkSupported (Sdk.KITKAT)) {
+            evaluateJavascript (ProcessContentJsInterface.JS_PARTIAL_TEXT_SELECTION, null);
+        } else {
+            loadUrl (ProcessContentJsInterface.JS_PARTIAL_TEXT_SELECTION);
+        }
+    }
+
     @Override
     public void onAllTextSelection (String selection) {
         if (null != mSelectionHelper) {
@@ -573,7 +595,9 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
 
     @Override
     public void onPartialTextSelection (String selection) {
-
+        if (null != mSelectionHelper) {
+            mSelectionHelper.onPartialTextSelection (selection);
+        }
     }
 
 }

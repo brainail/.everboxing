@@ -20,4 +20,7 @@
     <!-- Fragments -->
     <item name="base_fragment_container" type="id"/>
 
+    <!-- Menu -->
+    <item name="action_tts_selection" type="id"/>
+
 </resources>
