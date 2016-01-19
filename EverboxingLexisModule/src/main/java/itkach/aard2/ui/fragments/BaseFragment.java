@@ -9,6 +9,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.squareup.leakcanary.RefWatcher;
+
+import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 
@@ -65,6 +68,9 @@ public class BaseFragment extends Fragment implements ActionMode.Callback {
 
         // Chrome tabs stuff
         mCustomTabsSceneHelper.onStopScene (getActivity ());
+
+        final RefWatcher refWatcher = JApplication.refWatcher (getActivity());
+        if (null != refWatcher) refWatcher.watch (this);
     }
 
     @Override

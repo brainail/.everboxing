@@ -120,6 +120,8 @@ android {
             // ext.enableCrashlytics = false
             buildConfigField "boolean", "USE_CRASHLYTICS", "true"
             ext.enableCrashlytics = true
+
+            buildConfigField "boolean", "USE_LEAKCANARY", "true"
         }
 
         release {
@@ -132,6 +134,8 @@ android {
 
             buildConfigField "boolean", "USE_CRASHLYTICS", "true"
             ext.enableCrashlytics = true
+
+            buildConfigField "boolean", "USE_LEAKCANARY", "false"
 
             signingConfig signingConfigs.release
         }
@@ -199,16 +203,22 @@ android {
 // +------------------------------------------------------------+
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+ext {
+    supportLibVersion = '23.1.1'
+    gservicesLibVersion = '8.4.0'
+    leakcanaryLibVersion = '1.3.1'
+}
+
 dependencies {
     // Libs folder
     compile fileTree(dir: 'libs', include: ['*.jar'])
     // Support libraries
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:customtabs:23.1.1'
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:customtabs:${supportLibVersion}"
     // Google play services
-    compile 'com.google.android.gms:play-services-base:8.4.0'
-    compile 'com.google.android.gms:play-services-drive:8.4.0'
-    compile 'com.google.android.gms:play-services-plus:8.4.0'
+    compile "com.google.android.gms:play-services-base:${gservicesLibVersion}"
+    compile "com.google.android.gms:play-services-drive:${gservicesLibVersion}"
+    compile "com.google.android.gms:play-services-plus:${gservicesLibVersion}"
     // Material stuff
     compile 'com.malinskiy:materialicons:1.0.2'
     compile 'com.github.clans:fab:1.6.2'
@@ -228,6 +238,10 @@ dependencies {
     // Hardy dialogs
     debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
     releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
+    // Leaks
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakcanaryLibVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryLibVersion}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryLibVersion}"
 }
 
 //

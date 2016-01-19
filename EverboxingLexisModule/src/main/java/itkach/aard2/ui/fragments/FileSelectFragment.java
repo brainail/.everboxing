@@ -14,6 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.squareup.leakcanary.RefWatcher;
+
+import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 
@@ -168,6 +171,14 @@ public class FileSelectFragment extends ListFragment {
             getActivity ().setResult (Activity.RESULT_OK, data);
             getActivity ().finish ();
         }
+    }
+
+    @Override
+    public void onDestroy () {
+        super.onDestroy ();
+
+        final RefWatcher refWatcher = JApplication.refWatcher (getActivity());
+        if (null != refWatcher) refWatcher.watch (this);
     }
 
 }

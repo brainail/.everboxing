@@ -49,8 +49,8 @@ public class ArticleFragment
         implements HardyDialogFragment.OnDialogListActionCallback, ProcessContentJsInterface.ISelectionHelper {
 
     public static class Args {
-        public static final String ARTICLE_URL = "articleUrl";
-        public static final String ARTICLE_TITLE = "article_title";
+        public static final String ARTICLE_URL = "article.url";
+        public static final String ARTICLE_TITLE = "article.title";
     }
 
     private ArticleWebView mArticleWebView;
@@ -190,7 +190,7 @@ public class ArticleFragment
         mMenuItemBookmark = menu.findItem (R.id.action_bookmark_article);
         mMenuItemTts = menu.findItem (R.id.action_tts);
         mMenuItemTtsAll = menu.findItem (R.id.action_tts_all);
-        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && ! mAllTextSelection.isEmpty ());
+        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && !mAllTextSelection.isEmpty ());
         enableTtsMenuItem (null != mTts);
 
         if (null == mArticleWebView) {
@@ -202,7 +202,7 @@ public class ArticleFragment
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
 
-        if (! Sdk.isSdkSupported (Sdk.KITKAT)) {
+        if (!Sdk.isSdkSupported (Sdk.KITKAT)) {
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
     }
@@ -270,10 +270,10 @@ public class ArticleFragment
     }
 
     public void speakSelectionText (final List<String> text) {
-        if (null != mTts && null != text && ! text.isEmpty ()) {
+        if (null != mTts && null != text && !text.isEmpty ()) {
             if (mIsTtsAvailable) {
                 mTts.stop ();
-                for (int textIndex = 0; textIndex < text.size (); ++ textIndex) {
+                for (int textIndex = 0; textIndex < text.size (); ++textIndex) {
                     mTts.speak (text.get (textIndex), TextToSpeech.QUEUE_ADD, null);
                 }
             } else {
@@ -434,7 +434,7 @@ public class ArticleFragment
             }
         }
 
-        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && ! mAllTextSelection.isEmpty ());
+        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && !mAllTextSelection.isEmpty ());
 
         applyTextZoomPref ();
         applyStylePref ();
@@ -493,58 +493,64 @@ public class ArticleFragment
     @Override
     public void onAllTextSelection (String selection) {
         mAllTextSelection = ToolStrings.graTtsWords (selection);
-        if (! mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mMenuItemTtsAll.setEnabled (true);
-                    final AppCompatActivity scene = (AppCompatActivity) getActivity ();
-                    if (null != scene && ! scene.isFinishing ()) {
-                        scene.supportInvalidateOptionsMenu ();
-                    }
-                }
-            });
+
+        if (! (! mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView)) {
+            return;
         }
+
+        mHandler.post (new Runnable () {
+            @Override
+            public void run () {
+                mMenuItemTtsAll.setEnabled (true);
+                final AppCompatActivity scene = (AppCompatActivity) getActivity ();
+                if (null != scene && ! scene.isFinishing ()) {
+                    scene.supportInvalidateOptionsMenu ();
+                }
+            }
+        });
     }
 
     @Override
     public void onPartialTextSelection (String selection) {
         mPartialTextSelection = ToolStrings.graTtsWords (selection);
-        if (! mPartialTextSelection.isEmpty () && null != mActionMode && null != mArticleWebView) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (null == mActionMode.getMenu ().findItem (R.id.action_tts_selection)) {
-                        final String ttsLocaleExtra
-                                = " (" + ttsLocale ().getDisplayLanguage () + ")";
-                        final String menuItemTitle
-                                = ToolResources.string (R.string.action_tts_selection) + ttsLocaleExtra;
-                        final MenuItem menuItem = mActionMode.getMenu ()
-                                .add (Menu.NONE, R.id.action_tts_selection, Menu.NONE, menuItemTitle);
 
-                        menuItem.setShowAsAction (MenuItem.SHOW_AS_ACTION_NEVER);
-                        menuItem.setOnMenuItemClickListener (new MenuItem.OnMenuItemClickListener () {
-                            @Override
-                            public boolean onMenuItemClick (MenuItem item) {
-                                mPartialTextSelection = null;
-                                if (null != mArticleWebView) {
-                                    mArticleWebView.processSelection ();
-                                }
-
-                                return true;
-                            }
-                        });
-
-                        final AppCompatActivity scene = (AppCompatActivity) getActivity ();
-                        if (null != scene && ! scene.isFinishing ()) {
-                            scene.supportInvalidateOptionsMenu ();
-                        }
-                    } else {
-                        speakSelectionText (mPartialTextSelection);
-                    }
-                }
-            });
+        if (! (! mPartialTextSelection.isEmpty () && null != mActionMode && null != mArticleWebView)) {
+            return;
         }
+
+        mHandler.post (new Runnable () {
+            @Override
+            public void run () {
+                if (null == mActionMode.getMenu ().findItem (R.id.action_tts_selection)) {
+                    final String ttsLocaleExtra
+                            = " (" + ttsLocale ().getDisplayLanguage () + ")";
+                    final String menuItemTitle
+                            = ToolResources.string (R.string.action_tts_selection) + ttsLocaleExtra;
+                    final MenuItem menuItem = mActionMode.getMenu ()
+                            .add (Menu.NONE, R.id.action_tts_selection, Menu.NONE, menuItemTitle);
+
+                    menuItem.setShowAsAction (MenuItem.SHOW_AS_ACTION_NEVER);
+                    menuItem.setOnMenuItemClickListener (new MenuItem.OnMenuItemClickListener () {
+                        @Override
+                        public boolean onMenuItemClick (MenuItem item) {
+                            mPartialTextSelection = null;
+                            if (null != mArticleWebView) {
+                                mArticleWebView.processSelection ();
+                            }
+
+                            return true;
+                        }
+                    });
+
+                    final AppCompatActivity scene = (AppCompatActivity) getActivity ();
+                    if (null != scene && ! scene.isFinishing ()) {
+                        scene.supportInvalidateOptionsMenu ();
+                    }
+                } else {
+                    speakSelectionText (mPartialTextSelection);
+                }
+            }
+        });
     }
 
 }

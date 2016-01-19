@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.squareup.leakcanary.RefWatcher;
+
+import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
@@ -65,6 +68,9 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
         mCustomTabsSceneHelper.onDestroyScene (getActivity ());
 
         super.onDestroy ();
+
+        final RefWatcher refWatcher = JApplication.refWatcher (getActivity());
+        if (null != refWatcher) refWatcher.watch (this);
     }
 
     public void openUrl (final String url) {

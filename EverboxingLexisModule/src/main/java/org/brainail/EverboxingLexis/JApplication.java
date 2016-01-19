@@ -7,6 +7,8 @@ import android.content.res.Configuration;
 import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsContext;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
@@ -45,9 +47,16 @@ public class JApplication extends Application {
 
     protected static JApplication mApp;
 
+    private RefWatcher mRefWatcher;
+
     @Override
     public void onCreate () {
         super.onCreate ();
+
+        // Leaks!
+        if (BuildConfig.USE_LEAKCANARY) {
+            mRefWatcher = LeakCanary.install (this);
+        }
 
         // Store for long use
         mApp = this;
@@ -63,6 +72,11 @@ public class JApplication extends Application {
 
         // Init Hardy dialogs
         HardyDialogsContext.init (mApp.getApplicationContext ());
+    }
+
+    public static RefWatcher refWatcher (final Context context) {
+        final JApplication application = (JApplication) context.getApplicationContext();
+        return application.mRefWatcher;
     }
 
     private void initFabric() {
