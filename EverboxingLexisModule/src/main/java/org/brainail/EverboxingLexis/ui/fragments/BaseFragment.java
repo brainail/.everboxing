@@ -1,4 +1,4 @@
-package itkach.aard2.ui.fragments;
+package org.brainail.EverboxingLexis.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -21,6 +21,7 @@ import android.widget.ListView;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.fragments.BaseListFragment;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 

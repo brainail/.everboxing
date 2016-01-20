@@ -108,8 +108,8 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:pathPrefix="/wiki" android:scheme="http"/>
-                <data android:pathPrefix="/wiki" android:scheme="https"/>
+                <data android:scheme="http" android:host="*" android:pathPrefix="/wiki"/>
+                <data android:scheme="https" android:host="*" android:pathPrefix="/wiki"/>
             </intent-filter>
         </activity-alias>
 

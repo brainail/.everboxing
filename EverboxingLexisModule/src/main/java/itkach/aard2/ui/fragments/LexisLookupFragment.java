@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.fragments.BaseListFragment;
 import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.tool.ToolKeyboard;
 

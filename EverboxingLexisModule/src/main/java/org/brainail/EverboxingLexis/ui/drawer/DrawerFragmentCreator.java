@@ -42,7 +42,7 @@ public class DrawerFragmentCreator implements Tagable, Creatable {
     }
 
     @Override
-    public Object create() {
+    public Object create () {
         try {
             return mClazz.newInstance ();
         } catch (final Exception exception) {

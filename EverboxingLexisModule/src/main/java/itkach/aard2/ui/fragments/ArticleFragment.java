@@ -25,6 +25,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.fragments.BaseFragment;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 import org.brainail.EverboxingLexis.utils.Plogger;
