@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerFragmentCreator;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.EverboxingLexis.ui.drawer.IDrawerSectionsController;
@@ -143,6 +144,10 @@ public abstract class SectionedDrawerActivity
     }
 
     protected final DrawerSection section (final Fragment fragment) {
+        return mDrawerSectionsController.section (fragment);
+    }
+
+    protected final DrawerSection section (final DrawerFragmentCreator fragment) {
         return mDrawerSectionsController.section (fragment);
     }
 

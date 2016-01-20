@@ -1,13 +1,10 @@
 package org.brainail.EverboxingLexis.ui.drawer;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 
-import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.utils.tool.ToolColor;
+import org.brainail.EverboxingLexis.utils.callable.Creatable;
+import org.brainail.EverboxingLexis.utils.callable.Tagable;
+import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -34,20 +31,28 @@ import org.brainail.EverboxingLexis.utils.tool.ToolColor;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController
-        extends DrawerLayout.DrawerListener, UserInfoApi.AuthCallback {
+public class DrawerFragmentCreator implements Tagable, Creatable {
 
-    public static final int DRAWER_COLOR = ToolColor.by (R.color.menu_drawer_background_default);
+    private Class<?> mClazz;
 
-    public void addDivider ();
-    public void addSubheader (final String titleText);
-    public void addSection (final DrawerSection section);
-    public void saveState (final Bundle state);
-    public void restoreState (final Bundle state);
-    public void investigateFragmentsStack ();
-    public DrawerSection section (final Fragment fragment);
-    public DrawerSection section (final DrawerFragmentCreator fragment);
-    public AppCompatActivity scene ();
-    public void updateUserInfo (final UserInfoApi userInfo);
+    public static DrawerFragmentCreator from (Class<?> clazz) {
+        final DrawerFragmentCreator creator = new DrawerFragmentCreator ();
+        creator.mClazz = clazz;
+        return creator;
+    }
+
+    @Override
+    public Object create() {
+        try {
+            return mClazz.newInstance ();
+        } catch (final Exception exception) {
+            return new Fragment ();
+        }
+    }
+
+    @Override
+    public String tag () {
+        return ToolFragments.getTag (mClazz);
+    }
 
 }

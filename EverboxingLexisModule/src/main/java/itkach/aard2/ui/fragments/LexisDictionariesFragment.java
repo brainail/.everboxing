@@ -13,7 +13,6 @@ import android.view.View;
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
-import org.brainail.EverboxingLexis.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.io.File;
@@ -25,7 +24,7 @@ import itkach.aard2.ui.adapters.DictionaryListAdapter;
 
 import static org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode.D_DICTIONARY_SCANNING_PROGRESS;
 
-public class LexisDictionariesFragment extends BaseListFragment implements Tagable {
+public class LexisDictionariesFragment extends BaseListFragment {
 
     final static int FILE_SELECT_REQUEST = 17;
 

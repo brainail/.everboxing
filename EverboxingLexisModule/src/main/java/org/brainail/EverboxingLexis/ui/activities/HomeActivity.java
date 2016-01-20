@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerFragmentCreator;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionCallback;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
@@ -168,9 +169,12 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     }
 
     // Lexis stuff
-    private final Fragment LEXIS_BOOKMARKS_SECTION_TEMPLATE_FRAGMENT = new LexisBookmarksFragment ();
-    private final Fragment LEXIS_HISTORY_SECTION_TEMPLATE_FRAGMENT = new LexisHistoryFragment ();
-    private final Fragment LEXIS_DICTIONARIES_SECTION_TEMPLATE_FRAGMENT = new LexisDictionariesFragment ();
+    private final DrawerFragmentCreator LEXIS_BOOKMARKS_SECTION_TEMPLATE
+            = DrawerFragmentCreator.from (LexisBookmarksFragment.class);
+    private final DrawerFragmentCreator LEXIS_HISTORY_SECTION_TEMPLATE
+            = DrawerFragmentCreator.from (LexisHistoryFragment.class);
+    private final DrawerFragmentCreator LEXIS_DICTIONARIES_SECTION_TEMPLATE
+            = DrawerFragmentCreator.from (LexisDictionariesFragment.class);
 
     private void handleIntent (final Intent intent, final boolean isNew) {
         setIntent (intent);
@@ -197,7 +201,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
         Plogger.logV (Plogger.LogScope.DRAWER, "Update drawer notifications numbers ...");
 
         // Filtered bookmarks
-        final DrawerSection bookmarksSection = section (LEXIS_BOOKMARKS_SECTION_TEMPLATE_FRAGMENT);
+        final DrawerSection bookmarksSection = section (LEXIS_BOOKMARKS_SECTION_TEMPLATE);
         if (null != bookmarksSection) {
             final int bookmarksSize = ((Application) getApplication ()).bookmarksSize ();
             if (bookmarksSize != bookmarksSection.getNumberNotifications()) {
@@ -206,7 +210,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
         }
 
         // Filtered history
-        final DrawerSection historySection = section (LEXIS_HISTORY_SECTION_TEMPLATE_FRAGMENT);
+        final DrawerSection historySection = section (LEXIS_HISTORY_SECTION_TEMPLATE);
         if (null != historySection) {
             final int historySize = ((Application) getApplication ()).historySize ();
             if (historySize != historySection.getNumberNotifications()) {
@@ -215,7 +219,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
         }
 
         // Active dictionaries
-        final DrawerSection dictionarySection = section (LEXIS_DICTIONARIES_SECTION_TEMPLATE_FRAGMENT);
+        final DrawerSection dictionarySection = section (LEXIS_DICTIONARIES_SECTION_TEMPLATE);
         if (null != dictionarySection) {
             final int dictionariesSize = ((Application) getApplication ()).activeDictionariesSize ();
             if (dictionariesSize != dictionarySection.getNumberNotifications()) {

@@ -21,6 +21,7 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
+import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 
 public abstract class BaseListFragment extends ListFragment implements Tagable {
 
@@ -32,7 +33,7 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
 
     @Override
     public String tag () {
-        return "Everboxing#" + getClass ().getSimpleName ();
+        return ToolFragments.getTag (getClass());
     }
 
     @Override

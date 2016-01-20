@@ -57,7 +57,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_lookup))
                             .withName (ToolResources.string (R.string.section_lookup))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_search))
-                            .withTarget (new LexisLookupFragment ())
+                            .withTarget (DrawerFragmentCreator.from (LexisLookupFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
@@ -67,7 +67,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_bookmarks))
                             .withName (ToolResources.string (R.string.section_bookmarks))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_bookmark_outline))
-                            .withTarget (new LexisBookmarksFragment ())
+                            .withTarget (DrawerFragmentCreator.from (LexisBookmarksFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
@@ -77,7 +77,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_history))
                             .withName (ToolResources.string (R.string.section_history))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_time_restore))
-                            .withTarget (new LexisHistoryFragment ())
+                            .withTarget (DrawerFragmentCreator.from (LexisHistoryFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
@@ -87,7 +87,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_dictionaries))
                             .withName (ToolResources.string (R.string.section_dictionaries))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_collection_text))
-                            .withTarget (new LexisDictionariesFragment ())
+                            .withTarget (DrawerFragmentCreator.from (LexisDictionariesFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 

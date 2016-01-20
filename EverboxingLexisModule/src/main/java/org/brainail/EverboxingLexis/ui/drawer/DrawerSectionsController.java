@@ -166,6 +166,30 @@ final class DrawerSectionsController implements IDrawerSectionsController {
         return null;
     }
 
+    @Override
+    // Section by fragment
+    public DrawerSection section (final DrawerFragmentCreator target) {
+        final String tagIdentifier = target.tag ();
+
+        for (final DrawerSection primarySection : mPrimaryDrawerSections) {
+            final Object sectionTarget = primarySection.getTarget ();
+            if (sectionTarget instanceof Tagable) {
+                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag ();
+                if (sectionTagIdentifier.equals (tagIdentifier)) return primarySection;
+            }
+        }
+
+        for (final DrawerSection helpSection : mHelpDrawerSections) {
+            final Object sectionTarget = helpSection.getTarget ();
+            if (sectionTarget instanceof Tagable) {
+                final String sectionTagIdentifier = ((Tagable) sectionTarget).tag ();
+                if (sectionTagIdentifier.equals (tagIdentifier)) return helpSection;
+            }
+        }
+
+        return null;
+    }
+
     // Unselects sections by position of selected section
     private void selectSection (final int position) {
         mCurrentSection = section (position);

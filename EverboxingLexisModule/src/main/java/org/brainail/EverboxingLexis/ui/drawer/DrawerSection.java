@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -13,6 +12,7 @@ import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
+import org.brainail.EverboxingLexis.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.tool.ToolColor;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolStrings;
@@ -217,7 +217,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return this;
     }
 
-    public DrawerSection withTarget (final Fragment target) {
+    public DrawerSection withTarget (final DrawerFragmentCreator target) {
         mTargetType = TargetType.FRAGMENT;
         mTarget = target;
         return this;
@@ -323,8 +323,8 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         } else if (TargetType.INTENT == mTargetType) {
             scene ().startActivity (wrapIntentOnStart ((Intent) mTarget));
         } else if (TargetType.FRAGMENT == mTargetType) {
-            if (! internalAction || ! ToolFragments.isPresented (scene (), (Fragment) mTarget)) {
-                ToolFragments.openDrawerFragment (scene (), (Fragment) mTarget);
+            if (! internalAction || ! ToolFragments.isPresented (scene (), (Tagable) mTarget)) {
+                ToolFragments.openDrawerFragment (scene (), (DrawerFragmentCreator) mTarget);
             }
         }
     }

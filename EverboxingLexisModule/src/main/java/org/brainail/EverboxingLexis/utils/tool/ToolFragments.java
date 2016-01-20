@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerFragmentCreator;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
 
 /**
@@ -34,6 +35,29 @@ import org.brainail.EverboxingLexis.utils.callable.Tagable;
  * THE SOFTWARE.
  */
 public final class ToolFragments {
+
+    public static boolean openFragment(final AppCompatActivity activity, final DrawerFragmentCreator target, boolean clearTop) {
+        // No place
+        if (null == activity) return false;
+
+        final FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        final String tagIdentifier = ((Tagable) target).tag();
+        final boolean fragmentPopped = fragmentManager.popBackStackImmediate(tagIdentifier, 0);
+        final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (!fragmentPopped && (null == fragmentManager.findFragmentByTag(tagIdentifier))) {
+            final Object targetFragment = target.create ();
+            if (! (targetFragment instanceof Fragment)) return false;
+
+            if (clearTop) fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentTransaction.replace(R.id.base_fragment_container, (Fragment) targetFragment, tagIdentifier);
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.addToBackStack(tagIdentifier);
+            fragmentTransaction.commit();
+        }
+
+        return true;
+    }
 
     public static boolean openFragment(final AppCompatActivity activity, final Fragment target, boolean clearTop) {
         // No place
@@ -66,6 +90,10 @@ public final class ToolFragments {
         return openFragment(activity, target, true);
     }
 
+    public static boolean openDrawerFragment(final AppCompatActivity activity, final DrawerFragmentCreator target) {
+        return openFragment(activity, target, true);
+    }
+
     public static boolean navigateBack(final AppCompatActivity activity) {
         // No place
         if (null == activity) return false;
@@ -77,9 +105,21 @@ public final class ToolFragments {
 
     public static boolean isPresented(final AppCompatActivity activity, final Fragment target) {
         // It isn't our client
-        if (!(target instanceof Tagable)) return false;
+        if (! (target instanceof Tagable)) return false;
 
         return isPresented(activity, (Tagable) target);
+    }
+
+    public static boolean isPresented (final AppCompatActivity activity, final String tag) {
+        // It isn't our client
+        if (null == tag) return false;
+
+        return isPresented(activity, new Tagable() {
+            @Override
+            public String tag() {
+                return tag;
+            }
+        });
     }
 
     public static boolean isPresented(final AppCompatActivity activity, final Tagable target) {
@@ -96,6 +136,10 @@ public final class ToolFragments {
 
         final FragmentManager fragmentManager = activity.getSupportFragmentManager();
         return fragmentManager.findFragmentById(R.id.base_fragment_container);
+    }
+
+    public static String getTag (final Class clazz) {
+        return null != clazz ? "Everboxing#" + clazz.getSimpleName () : null;
     }
 
 }
