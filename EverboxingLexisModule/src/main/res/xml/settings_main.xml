@@ -35,6 +35,24 @@
             android:key="@string/settings_speech_language_key"
             android:title="@string/settings_speech_language_title"/>
 
+        <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat
+            android:key="@string/settings_fab_zoom_key"
+            android:title="@string/settings_fab_zoom_title"
+            android:defaultValue="true"
+            android:summary="@string/settings_fab_zoom_summary"/>
+
+        <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat
+            android:key="@string/settings_double_tap_scroll_to_top_key"
+            android:title="@string/settings_double_tap_scroll_to_top_title"
+            android:defaultValue="true"
+            android:summary="@string/settings_double_tap_scroll_to_top_summary"/>
+
+        <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat
+            android:key="@string/settings_long_tap_scroll_to_bottom_key"
+            android:title="@string/settings_long_tap_scroll_to_bottom_title"
+            android:defaultValue="true"
+            android:summary="@string/settings_long_tap_scroll_to_bottom_summary"/>
+
     </org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory>
 
     <org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory

@@ -35,6 +35,15 @@
     <string name="settings_speech_language_title">Speech language</string>
     <string name="settings_speech_language_key" translatable="false">settings_change_speech_language</string>
     <string name="settings_speech_language_dialog_title">Choose a language</string>
+    <string name="settings_fab_zoom_title">Zoom button</string>
+    <string name="settings_fab_zoom_summary">Display button over articles to zoom</string>
+    <string name="settings_fab_zoom_key" translatable="false">settings_fab_zoom</string>
+    <string name="settings_double_tap_scroll_to_top_title">Double tap on tab</string>
+    <string name="settings_double_tap_scroll_to_top_summary">Scroll content to top when double tap on tab</string>
+    <string name="settings_double_tap_scroll_to_top_key" translatable="false">settings_double_tap_on_tab_scroll_to_top</string>
+    <string name="settings_long_tap_scroll_to_bottom_title">Long tap on tab</string>
+    <string name="settings_long_tap_scroll_to_bottom_summary">Scroll content to bottom when long tap on tab</string>
+    <string name="settings_long_tap_scroll_to_bottom_key" translatable="false">settings_long_tap_on_tab_scroll_to_bottom</string>
 
     <string name="settings_category_lookup" translatable="false">settings_preference_category_lookup</string>
     <string name="settings_lookup_header">Lookup</string>
@@ -132,7 +141,7 @@
 
     <string name="article_collection_invalid_link">Invalid link</string>
 
-    <string name="action_load_remote_content">Load Remote Content</string>
+    <string name="action_load_remote_content">Load remote content</string>
     <string name="auto_style_title">Auto</string>
 
     <plurals name="confirm_delete_bookmark_count">
@@ -164,8 +173,9 @@
 
     <string name="wtf_emo" translatable="false">ヽ(｀⌒´メ)ノ</string>
 
-    <string name="dictionaries_store_mirror_one">Store (CloudMail)</string>
-    <string name="dictionaries_store_mirror_two">Store (GitHub)</string>
+    <string name="dictionaries_store_mirror_one">&#10047;&#160; Store (CloudMail)</string>
+    <string name="dictionaries_store_mirror_two">&#10047;&#160; Store (GitHub)</string>
+    <string name="dictionaries_store_mirror_three">&#10047;&#160; Store (Yandex)</string>
 
     <string name="app_intro_slide_no_01_title">Simple</string>
     <string name="app_intro_slide_no_01_description">Just find interesting info, open, read and bookmark to explore later. History will help you refresh memory.</string>

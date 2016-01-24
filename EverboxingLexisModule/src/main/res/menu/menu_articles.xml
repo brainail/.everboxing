@@ -42,6 +42,20 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_zoom_in"
+        android:title="@string/action_zoom_in"
+        android:visible="false"
+        android:orderInCategory="62"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_zoom_out"
+        android:title="@string/action_zoom_out"
+        android:visible="false"
+        android:orderInCategory="63"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_zoom_reset"
         android:title="@string/action_zoom_reset"
         android:orderInCategory="64"

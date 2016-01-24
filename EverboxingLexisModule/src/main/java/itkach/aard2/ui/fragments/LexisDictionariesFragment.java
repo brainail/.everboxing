@@ -63,6 +63,8 @@ public class LexisDictionariesFragment extends BaseListFragment {
             openUrl ("https://cloud.mail.ru/public/8GsF/8RzDA9wBR");
         } else if (item.getItemId () == R.id.action_dic_store_mirror_two) {
             openUrl ("https://github.com/itkach/slob/wiki/Dictionaries");
+        } else if (item.getItemId () == R.id.action_dic_store_mirror_three) {
+            openUrl ("https://yadi.sk/d/M8uRyFsCne3cf");
         }
 
         return super.onOptionsItemSelected(item);

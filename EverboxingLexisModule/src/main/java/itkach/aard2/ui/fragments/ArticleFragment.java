@@ -132,8 +132,23 @@ public class ArticleFragment
     };
 
     private Locale ttsLocale () {
-        // return Locale.getDefault ();
         return SettingsManager.getInstance ().retrieveSpeechLanguage ();
+    }
+
+    @Nullable public WebView webView () {
+        return mArticleWebView;
+    }
+
+    public void scrollToTop () {
+        if (null != mArticleWebView) {
+            mArticleWebView.scrollTo (0, 0);
+        }
+    }
+
+    public void scrollToBottom () {
+        if (null != mArticleWebView) {
+            mArticleWebView.scrollTo (0, (int) (mArticleWebView.getContentHeight () * mArticleWebView.getScale ()));
+        }
     }
 
     private void enableTtsMenuItem (boolean enabled) {
@@ -206,6 +221,11 @@ public class ArticleFragment
         if (!Sdk.isSdkSupported (Sdk.KITKAT)) {
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
+
+        if (!SettingsManager.getInstance ().retrieveShouldDisplayFabZoom ()) {
+            menu.findItem (R.id.action_zoom_in).setVisible (true);
+            menu.findItem (R.id.action_zoom_out).setVisible (true);
+        }
     }
 
     private void displayBookmarked (final boolean isBookmarked) {
@@ -230,6 +250,12 @@ public class ArticleFragment
             return true;
         } else if (itemId == R.id.action_zoom_reset) {
             mArticleWebView.resetTextZoom ();
+            return true;
+        } else if (itemId == R.id.action_zoom_in) {
+            mArticleWebView.textZoomIn ();
+            return true;
+        } else if (itemId == R.id.action_zoom_out) {
+            mArticleWebView.textZoomOut ();
             return true;
         } else if (itemId == R.id.action_load_remote_content) {
             mArticleWebView.enableForceLoadRemoteContent (true);
@@ -312,24 +338,33 @@ public class ArticleFragment
         final View layout = inflater.inflate (R.layout.view_page_article, container, false);
 
         mFabMenuRight = (FloatingActionMenu) layout.findViewById (R.id.fab_menu);
-        ToolUI.updateVisibility (mFabMenuRight, View.VISIBLE);
-        mFabMenuRight.setClosedOnTouchOutside (true);
 
-        mFabZoomIn = (FloatingActionButton) layout.findViewById (R.id.fab_menu_item_zoom_in);
-        mFabZoomIn.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick (View v) {
-                mArticleWebView.textZoomIn ();
-            }
-        });
+        if (!SettingsManager.getInstance ().retrieveShouldDisplayFabZoom ()) {
+            ((ViewGroup) layout).removeView (mFabMenuRight);
+            mFabMenuRight = null;
+        } else {
+            ToolUI.updateVisibility (mFabMenuRight, View.VISIBLE);
+        }
 
-        mFabZoomOut = (FloatingActionButton) layout.findViewById (R.id.fab_menu_item_zoom_out);
-        mFabZoomOut.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick (View v) {
-                mArticleWebView.textZoomOut ();
-            }
-        });
+        if (null != mFabMenuRight) {
+            mFabMenuRight.setClosedOnTouchOutside (true);
+
+            mFabZoomIn = (FloatingActionButton) layout.findViewById (R.id.fab_menu_item_zoom_in);
+            mFabZoomIn.setOnClickListener (new View.OnClickListener () {
+                @Override
+                public void onClick (View v) {
+                    mArticleWebView.textZoomIn ();
+                }
+            });
+
+            mFabZoomOut = (FloatingActionButton) layout.findViewById (R.id.fab_menu_item_zoom_out);
+            mFabZoomOut.setOnClickListener (new View.OnClickListener () {
+                @Override
+                public void onClick (View v) {
+                    mArticleWebView.textZoomOut ();
+                }
+            });
+        }
 
         mArticleWebView = (ArticleWebView) layout.findViewById (R.id.webView);
         mArticleWebView.setSelectionHelper (this);
@@ -376,7 +411,9 @@ public class ArticleFragment
     private Runnable mLiftUpFabAction = new Runnable () {
         @Override
         public void run () {
-            mFabMenuRight.showMenu (true);
+            if (null != mFabMenuRight) {
+                mFabMenuRight.showMenu (true);
+            }
         }
     };
 
@@ -495,7 +532,7 @@ public class ArticleFragment
     public void onAllTextSelection (String selection) {
         mAllTextSelection = ToolStrings.graTtsWords (selection);
 
-        if (! (! mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView)) {
+        if (!(!mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView)) {
             return;
         }
 
@@ -504,7 +541,7 @@ public class ArticleFragment
             public void run () {
                 mMenuItemTtsAll.setEnabled (true);
                 final AppCompatActivity scene = (AppCompatActivity) getActivity ();
-                if (null != scene && ! scene.isFinishing ()) {
+                if (null != scene && !scene.isFinishing ()) {
                     scene.supportInvalidateOptionsMenu ();
                 }
             }
@@ -515,7 +552,7 @@ public class ArticleFragment
     public void onPartialTextSelection (String selection) {
         mPartialTextSelection = ToolStrings.graTtsWords (selection);
 
-        if (! (! mPartialTextSelection.isEmpty () && null != mActionMode && null != mArticleWebView)) {
+        if (!(!mPartialTextSelection.isEmpty () && null != mActionMode && null != mArticleWebView)) {
             return;
         }
 
@@ -544,7 +581,7 @@ public class ArticleFragment
                     });
 
                     final AppCompatActivity scene = (AppCompatActivity) getActivity ();
-                    if (null != scene && ! scene.isFinishing ()) {
+                    if (null != scene && !scene.isFinishing ()) {
                         scene.supportInvalidateOptionsMenu ();
                     }
                 } else {

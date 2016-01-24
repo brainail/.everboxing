@@ -51,6 +51,10 @@ public final class SettingsManager {
     private String mLoadRemoteContentModePfKey;
     private String mLoadRemoteContentModeNamePfKey;
 
+    private String mDisplayFabZoomPfKey;
+    private String mScrollToTopWhenDoubleTapOnTabPfKey;
+    private String mScrollToBottomWhenLongTapOnTabPfKey;
+
     private String mShouldIntroducePfKey;
 
     private String mShouldUseFavouriteToRandomLookupPfKey;
@@ -75,6 +79,10 @@ public final class SettingsManager {
 
         mLoadRemoteContentModeNamePfKey = ToolResources.string (R.string.settings_load_remote_content_key);
         mLoadRemoteContentModePfKey = "settings_load_remote_content";
+
+        mDisplayFabZoomPfKey = ToolResources.string (R.string.settings_fab_zoom_key);
+        mScrollToTopWhenDoubleTapOnTabPfKey = ToolResources.string (R.string.settings_double_tap_scroll_to_top_key);
+        mScrollToBottomWhenLongTapOnTabPfKey = ToolResources.string (R.string.settings_long_tap_scroll_to_bottom_key);
 
         mShouldUseFavouriteToRandomLookupPfKey = ToolResources.string (R.string.settings_random_lookup_key);
 
@@ -180,6 +188,18 @@ public final class SettingsManager {
 
     public boolean retrieveAppShouldUseFavouriteToRandomLookup () {
         return mDefaultPreferences.getBoolean (mShouldUseFavouriteToRandomLookupPfKey, false);
+    }
+
+    public boolean retrieveShouldDisplayFabZoom () {
+        return mDefaultPreferences.getBoolean (mDisplayFabZoomPfKey, true);
+    }
+
+    public boolean retrieveShouldScrollToTopWhenDoubleTapOnTab () {
+        return mDefaultPreferences.getBoolean (mScrollToTopWhenDoubleTapOnTabPfKey, true);
+    }
+
+    public boolean retrieveShouldScrollToBottomWhenLongTapOnTab () {
+        return mDefaultPreferences.getBoolean (mScrollToBottomWhenLongTapOnTabPfKey, true);
     }
 
     public void saveSpeechLanguage (final String language) {

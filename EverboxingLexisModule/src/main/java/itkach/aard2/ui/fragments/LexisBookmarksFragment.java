@@ -4,6 +4,7 @@ import org.brainail.EverboxingLexis.R;
 
 import itkach.aard2.Application;
 import itkach.aard2.slob.BlobDescriptorList;
+import itkach.aard2.ui.activities.ArticleCollectionActivity;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -34,7 +35,7 @@ public final class LexisBookmarksFragment extends BlobDescriptorListFragment {
 
     @Override
     public String getItemClickAction() {
-        return "showBookmarks";
+        return ArticleCollectionActivity.ShowMode.BOOKMARKS;
     }
 
     @Override

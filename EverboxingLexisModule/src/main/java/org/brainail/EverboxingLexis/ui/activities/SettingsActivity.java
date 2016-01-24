@@ -23,8 +23,6 @@ import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.malinskiy.materialicons.Iconify;
-
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.ClientApi;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
@@ -37,6 +35,16 @@ import org.brainail.EverboxingLexis.utils.tool.ToolTts;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.util.List;
+
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_favorite;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_bottom;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_top;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_hearing;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_info_outline;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_palette;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_refresh_sync;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_remote_control;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_zoom_in;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -87,8 +95,7 @@ public class SettingsActivity
 
     private void initSettingsBox () {
         if (null == getFragmentManager ().findFragmentByTag (SettingsFragment.MANAGER_TAG)) {
-            final FragmentTransaction fragmentTransaction
-                    = getFragmentManager ().beginTransaction ();
+            final FragmentTransaction fragmentTransaction = getFragmentManager ().beginTransaction ();
 
             fragmentTransaction.replace (
                     R.id.base_fragment_container,
@@ -150,7 +157,11 @@ public class SettingsActivity
     // preference title) is updated to reflect the value. The summary is also
     // immediately updated upon calling this method. The exact display format is
     // dependent on the type of preference.
-    private static void bindPreferenceSummary (final Preference preference, final String defSummary, final boolean useDef) {
+    private static void bindPreferenceSummary (
+            final Preference preference,
+            final String defSummary,
+            final boolean useDef) {
+
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener (SUMMARY_BINDER);
 
@@ -195,7 +206,9 @@ public class SettingsActivity
     // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
     @TargetApi (Build.VERSION_CODES.HONEYCOMB)
-    public static class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+    public static class SettingsFragment
+            extends PreferenceFragment
+            implements Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
         public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#settings.fragment";
 
@@ -215,7 +228,7 @@ public class SettingsActivity
 
             // Sync data
             final Preference syncDataPf = findPreference (getString (R.string.settings_sync_account_key));
-            syncDataPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_refresh_sync));
+            syncDataPf.setIcon (BaseIcon.icon (getActivity (), zmdi_refresh_sync));
             if (! syncDataPf.isEnabled ()) {
                 final PreferenceScreen rootScreen
                         = (PreferenceScreen) findPreference(getString(R.string.settings_preference_screen_root));
@@ -227,33 +240,52 @@ public class SettingsActivity
             // Change theme
             final String defChangeThemeSummary = SettingsManager.getInstance ().retrieveAppThemeSummary ();
             final Preference changeThemePf = findPreference (getString (R.string.settings_change_theme_key));
-            changeThemePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_palette));
+            changeThemePf.setIcon (BaseIcon.icon (getActivity (), zmdi_palette));
             bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
             // Load remote content
-            final String defLoadRemoteContentSummary = SettingsManager.getInstance ().retrieveLoadRemoteContentModeSummary ();
-            final Preference loadRemoteContentPf = findPreference (getString (R.string.settings_load_remote_content_key));
-            loadRemoteContentPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_remote_control));
+            final String defLoadRemoteContentSummary
+                    = SettingsManager.getInstance ().retrieveLoadRemoteContentModeSummary ();
+            final Preference loadRemoteContentPf
+                    = findPreference (getString (R.string.settings_load_remote_content_key));
+            loadRemoteContentPf.setIcon (BaseIcon.icon (getActivity (), zmdi_remote_control));
             bindPreferenceSummary (loadRemoteContentPf, defLoadRemoteContentSummary, true);
+
+            // Fab zoom
+            final Preference fabZoomPf = findPreference (getString (R.string.settings_fab_zoom_key));
+            fabZoomPf.setIcon (BaseIcon.icon (getActivity (), zmdi_zoom_in));
+
+            // Scroll to top when double tap on tab
+            final Preference scrollToTopWhenDoubleTapOnTabPf
+                    = findPreference (getString (R.string.settings_double_tap_scroll_to_top_key));
+            scrollToTopWhenDoubleTapOnTabPf.setIcon (BaseIcon.icon (getActivity (), zmdi_format_valign_top));
+
+            // Scroll to bottom when long tap on tab
+            final Preference scrollToBottomWhenLongTapOnTabPf
+                    = findPreference (getString (R.string.settings_long_tap_scroll_to_bottom_key));
+            scrollToBottomWhenLongTapOnTabPf.setIcon (BaseIcon.icon (getActivity (), zmdi_format_valign_bottom));
 
             // Speech language
             final String defSpeechLanguageSummary = SettingsManager.getInstance ().retrieveSpeechLanguageSummary ();
             final Preference speechLanguagePf = findPreference (getString (R.string.settings_speech_language_key));
-            speechLanguagePf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_hearing));
+            speechLanguagePf.setIcon (BaseIcon.icon (getActivity (), zmdi_hearing));
             bindPreferenceSummary (speechLanguagePf, defSpeechLanguageSummary, true);
 
             // Random lookup
             final Preference isRandomLookupViaFavPf = findPreference (getString (R.string.settings_random_lookup_key));
-            isRandomLookupViaFavPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_favorite));
+            isRandomLookupViaFavPf.setIcon (BaseIcon.icon (getActivity (), zmdi_favorite));
 
             // About
             final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
-            aboutPf.setIcon (BaseIcon.icon (getActivity (), Iconify.IconValue.zmdi_info_outline));
+            aboutPf.setIcon (BaseIcon.icon (getActivity (), zmdi_info_outline));
 
             // Set click listeners
             setOnClickListener (getString (R.string.settings_sync_account_key));
             setOnClickListener (getString (R.string.settings_change_theme_key));
             setOnClickListener (getString (R.string.settings_load_remote_content_key));
+            setOnClickListener (getString (R.string.settings_fab_zoom_key));
+            setOnClickListener (getString (R.string.settings_double_tap_scroll_to_top_key));
+            setOnClickListener (getString (R.string.settings_long_tap_scroll_to_bottom_key));
             setOnClickListener (getString (R.string.settings_speech_language_key));
             setOnClickListener (getString (R.string.settings_random_lookup_key));
             setOnClickListener (getString (R.string.settings_open_about_key));
@@ -278,6 +310,21 @@ public class SettingsActivity
             // Load remote content mode
             if (getString (R.string.settings_load_remote_content_key).equals (preference.getKey ())) {
                 LexisPaperHardyDialogs.articleLoadRemoteContentModeDialog ().show (getActivity ());
+            } else
+
+            // Fab zoom
+            if (getString (R.string.settings_fab_zoom_key).equals (preference.getKey ())) {
+                // ...
+            } else
+
+            // Scroll to top when double tap on tab
+            if (getString (R.string.settings_double_tap_scroll_to_top_key).equals (preference.getKey ())) {
+                // ...
+            } else
+
+            // Scroll to bottom when long tap on tab
+            if (getString (R.string.settings_long_tap_scroll_to_bottom_key).equals (preference.getKey ())) {
+                // ...
             } else
 
             // Speech language

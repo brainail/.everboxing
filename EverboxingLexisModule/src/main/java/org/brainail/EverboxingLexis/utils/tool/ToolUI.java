@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -267,6 +268,18 @@ public final class ToolUI {
         if (null != view && visibility != view.getVisibility ()) {
             view.setVisibility (visibility);
         }
+    }
+
+    public static View tabView (final TabLayout tabLayout, final int position) {
+        if (null == tabLayout) {
+            return null;
+        }
+
+        // SlidingTabStrip
+        final ViewGroup tabs = (ViewGroup) tabLayout.getChildAt(0);
+
+        // Get tab by position from LL
+        return tabs.getChildAt (position);
     }
     
 }
