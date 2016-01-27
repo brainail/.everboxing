@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -207,7 +208,7 @@ public class ArticleFragment
         mMenuItemBookmark = menu.findItem (R.id.action_bookmark_article);
         mMenuItemTts = menu.findItem (R.id.action_tts);
         mMenuItemTtsAll = menu.findItem (R.id.action_tts_all);
-        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && !mAllTextSelection.isEmpty ());
+        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && ! mAllTextSelection.isEmpty ());
         enableTtsMenuItem (null != mTts);
 
         if (null == mArticleWebView) {
@@ -548,7 +549,7 @@ public class ArticleFragment
     public void onAllTextSelection (String selection) {
         mAllTextSelection = ToolStrings.graTtsWords (selection);
 
-        if (!(!mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView)) {
+        if (! (! mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView)) {
             return;
         }
 
@@ -568,7 +569,7 @@ public class ArticleFragment
     public void onPartialTextSelection (String selection) {
         mPartialTextSelection = ToolStrings.graTtsWords (selection);
 
-        if (!(!mPartialTextSelection.isEmpty () && null != mActionMode && null != mArticleWebView)) {
+        if (! (! TextUtils.isEmpty(selection) && null != mActionMode && null != mArticleWebView)) {
             return;
         }
 
