@@ -68,6 +68,7 @@ public class ArticleFragment
     private MenuItem mMenuItemBookmark;
     private MenuItem mMenuItemTts;
     private MenuItem mMenuItemTtsAll;
+    private MenuItem mMenuItemFullscreenMode;
 
     private TextToSpeech mTts;
     private boolean mIsTtsAvailable = false;
@@ -218,14 +219,21 @@ public class ArticleFragment
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
 
-        if (!Sdk.isSdkSupported (Sdk.KITKAT)) {
+        if (! Sdk.isSdkSupported (Sdk.KITKAT)) {
             menu.findItem (R.id.action_print_article).setVisible (false);
         }
 
-        if (!SettingsManager.getInstance ().retrieveShouldDisplayFabZoom ()) {
+        if (! SettingsManager.getInstance ().retrieveShouldDisplayFabZoom ()) {
             menu.findItem (R.id.action_zoom_in).setVisible (true);
             menu.findItem (R.id.action_zoom_out).setVisible (true);
         }
+
+        mMenuItemFullscreenMode = menu.findItem (R.id.action_fullscreen_mode);
+        mMenuItemFullscreenMode.setIcon (
+                ((ArticleCollectionActivity) getActivity ()).isInFullscreen ()
+                        ? R.drawable.ic_fullscreen_exit_white_24dp
+                        : R.drawable.ic_fullscreen_white_24dp
+        );
     }
 
     private void displayBookmarked (final boolean isBookmarked) {
@@ -291,6 +299,14 @@ public class ArticleFragment
             }
         } else if (itemId == R.id.action_tts_all) {
             speakSelectionText (mAllTextSelection);
+        } else if (itemId == R.id.action_fullscreen_mode) {
+            final boolean nextFullscreenMode = ! ((ArticleCollectionActivity) getActivity ()).isInFullscreen ();
+            ((ArticleCollectionActivity) getActivity ()).updateFullscreenMode (nextFullscreenMode);
+            mMenuItemFullscreenMode.setIcon (
+                    ((ArticleCollectionActivity) getActivity ()).isInFullscreen ()
+                            ? R.drawable.ic_fullscreen_exit_white_24dp
+                            : R.drawable.ic_fullscreen_white_24dp
+            );
         }
 
         return super.onOptionsItemSelected (item);

@@ -53,6 +53,12 @@
             android:defaultValue="true"
             android:summary="@string/settings_long_tap_scroll_to_bottom_summary"/>
 
+        <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat
+            android:key="@string/settings_article_in_fullscreen_key"
+            android:title="@string/settings_article_in_fullscreen_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_article_in_fullscreen_summary"/>
+
     </org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory>
 
     <org.brainail.EverboxingLexis.ui.views.preference.PreferenceCategory

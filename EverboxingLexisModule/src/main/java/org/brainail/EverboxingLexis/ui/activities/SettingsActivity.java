@@ -39,6 +39,7 @@ import java.util.List;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_favorite;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_bottom;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_top;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_fullscreen;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_hearing;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_info_outline;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_palette;
@@ -265,6 +266,11 @@ public class SettingsActivity
                     = findPreference (getString (R.string.settings_long_tap_scroll_to_bottom_key));
             scrollToBottomWhenLongTapOnTabPf.setIcon (BaseIcon.icon (getActivity (), zmdi_format_valign_bottom));
 
+            // Scroll to bottom when long tap on tab
+            final Preference articleInFullscreenPf
+                    = findPreference (getString (R.string.settings_article_in_fullscreen_key));
+            articleInFullscreenPf.setIcon (BaseIcon.icon (getActivity (), zmdi_fullscreen));
+
             // Speech language
             final String defSpeechLanguageSummary = SettingsManager.getInstance ().retrieveSpeechLanguageSummary ();
             final Preference speechLanguagePf = findPreference (getString (R.string.settings_speech_language_key));
@@ -286,6 +292,7 @@ public class SettingsActivity
             setOnClickListener (getString (R.string.settings_fab_zoom_key));
             setOnClickListener (getString (R.string.settings_double_tap_scroll_to_top_key));
             setOnClickListener (getString (R.string.settings_long_tap_scroll_to_bottom_key));
+            setOnClickListener (getString (R.string.settings_article_in_fullscreen_key));
             setOnClickListener (getString (R.string.settings_speech_language_key));
             setOnClickListener (getString (R.string.settings_random_lookup_key));
             setOnClickListener (getString (R.string.settings_open_about_key));
@@ -324,6 +331,11 @@ public class SettingsActivity
 
             // Scroll to bottom when long tap on tab
             if (getString (R.string.settings_long_tap_scroll_to_bottom_key).equals (preference.getKey ())) {
+                // ...
+            } else
+
+            // Fullscreen for articles
+            if (getString (R.string.settings_article_in_fullscreen_key).equals (preference.getKey ())) {
                 // ...
             } else
 

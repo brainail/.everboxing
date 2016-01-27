@@ -15,12 +15,15 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
+import org.brainail.EverboxingLexis.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.gestures.OnGestureListener;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
+import org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
@@ -28,6 +31,10 @@ import itkach.aard2.Application;
 import itkach.aard2.ui.adapters.ArticleCollectionPagerAdapter;
 import itkach.aard2.ui.fragments.ArticleFragment;
 import itkach.slob.Slob;
+
+import static org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper.FLAG_IMMERSIVE_STICKY;
+import static org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper.LEVEL_HIDE_STATUS_BAR;
+import static org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper.LEVEL_IMMERSIVE;
 
 public class ArticleCollectionActivity extends BaseActivity {
 
@@ -41,6 +48,10 @@ public class ArticleCollectionActivity extends BaseActivity {
         public static final String HISTORY = "showHistory";
     }
 
+    public static abstract class SavedStateArgs {
+        public static final String IS_FULL_SCREEN = "saved.state.fullscreen";
+    }
+
     public static interface BlobConverter {
         public Slob.Blob convert (Object item);
     }
@@ -49,6 +60,49 @@ public class ArticleCollectionActivity extends BaseActivity {
     public ArticleCollectionPagerAdapter mPagerAdapter;
     public ViewPager mViewPager;
     public TabLayout mTabLayout;
+
+    protected boolean mIsFullscreenMode;
+    protected SystemUiHelper mUiHelper;
+
+    protected SystemUiHelper uiHelper() {
+        if (null != mUiHelper) {
+            return mUiHelper;
+        }
+
+        mUiHelper = new SystemUiHelper (
+                this,
+                Sdk.isSdkSupported (Sdk.KITKAT) ? LEVEL_IMMERSIVE : LEVEL_HIDE_STATUS_BAR,
+                Sdk.isSdkSupported (Sdk.KITKAT) ? FLAG_IMMERSIVE_STICKY : 0,
+                new SystemUiHelper.OnVisibilityChangeListener () {
+                    @Override
+                    public void onVisibilityChange (boolean visible) {
+                        if (visible) {
+                            fixFullscreenMode (1500);
+                        }
+                    }
+                }
+        );
+
+        return mUiHelper;
+    }
+
+    protected void fixFullscreenMode(final int delayMillis) {
+        if (mIsFullscreenMode) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            if (delayMillis > 0) {
+                uiHelper ().delayHide (delayMillis);
+            } else {
+                uiHelper ().hide ();
+            }
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
+            uiHelper ().show ();
+        }
+    }
 
     @Override
     protected Integer getLayoutResourceId () {
@@ -73,8 +127,36 @@ public class ArticleCollectionActivity extends BaseActivity {
     @SuppressLint ("MissingSuperCall")
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
+
+        // Tune fullscreen mode
+        if (null != savedInstanceState && savedInstanceState.containsKey (SavedStateArgs.IS_FULL_SCREEN)) {
+            updateFullscreenMode (savedInstanceState.getBoolean (SavedStateArgs.IS_FULL_SCREEN));
+        } else {
+            updateFullscreenMode (SettingsManager.getInstance ().retrieveShouldShowArticleInFullscreen ());
+        }
+
+        // Add to stack
         Application.app ().push (this);
+
+        // Create and start initialization for adapter
         new ArticlesAdapterCreateTask (getIntent (), this).execute ();
+    }
+
+    public void updateFullscreenMode (final boolean isFullscreenMode) {
+        mIsFullscreenMode = isFullscreenMode;
+        fixFullscreenMode (0);
+    }
+
+    public boolean isInFullscreen () {
+        return mIsFullscreenMode;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            fixFullscreenMode (1500);
+        }
     }
 
     public void unbookmarkCurrentTab () {
@@ -345,6 +427,12 @@ public class ArticleCollectionActivity extends BaseActivity {
         }
 
         super.onActionModeStarted (mode);
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        outState.putBoolean (SavedStateArgs.IS_FULL_SCREEN, mIsFullscreenMode);
+        super.onSaveInstanceState (outState);
     }
 
 }

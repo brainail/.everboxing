@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -69,6 +70,52 @@ public abstract class BaseActivity
 
     // Chrome tabs stuff
     private CustomTabsSceneHelper mCustomTabsSceneHelper;
+
+    @SuppressWarnings("unchecked")
+    public <T extends View> T bindView(final int id) {
+        return (T) bindView(id, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends View> T bindView(
+            final int id,
+            final View.OnClickListener clickAction) {
+
+        return (T) bindView(id, clickAction, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends View> T bindView(
+            final int id,
+            final View.OnClickListener clickAction,
+            final View.OnLongClickListener longClickAction) {
+
+        return (T) bindView(id, clickAction, longClickAction, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends View> T bindView(
+            final int id,
+            final View.OnClickListener clickAction,
+            final View.OnLongClickListener longClickAction,
+            final View.OnTouchListener touchAction) {
+
+        final T view = (T) super.findViewById(id);
+
+        if (null != view && null != clickAction) {
+            view.setOnClickListener(clickAction);
+        }
+
+        if (null != view && null != longClickAction) {
+            view.setOnLongClickListener(longClickAction);
+        }
+
+        if (null != view && null != touchAction) {
+            view.setOnTouchListener(touchAction);
+        }
+
+        return view;
+    }
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
