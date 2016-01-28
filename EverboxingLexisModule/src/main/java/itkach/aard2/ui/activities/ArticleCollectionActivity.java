@@ -61,7 +61,7 @@ public class ArticleCollectionActivity extends BaseActivity {
     public ViewPager mViewPager;
     public TabLayout mTabLayout;
 
-    protected boolean mIsFullscreenMode;
+    protected static volatile Boolean sIsFullscreenMode;
     protected SystemUiHelper mUiHelper;
 
     protected SystemUiHelper uiHelper() {
@@ -87,7 +87,7 @@ public class ArticleCollectionActivity extends BaseActivity {
     }
 
     protected void fixFullscreenMode(final int delayMillis) {
-        if (mIsFullscreenMode) {
+        if (sIsFullscreenMode) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -130,9 +130,11 @@ public class ArticleCollectionActivity extends BaseActivity {
 
         // Tune fullscreen mode
         if (null != savedInstanceState && savedInstanceState.containsKey (SavedStateArgs.IS_FULL_SCREEN)) {
-            updateFullscreenMode (savedInstanceState.getBoolean (SavedStateArgs.IS_FULL_SCREEN));
+            updateFullscreenModeWithUi (savedInstanceState.getBoolean (SavedStateArgs.IS_FULL_SCREEN));
         } else {
-            updateFullscreenMode (SettingsManager.getInstance ().retrieveShouldShowArticleInFullscreen ());
+            if (null == sIsFullscreenMode) {
+                updateFullscreenModeWithUi (SettingsManager.getInstance ().retrieveShouldShowArticleInFullscreen ());
+            }
         }
 
         // Add to stack
@@ -142,13 +144,23 @@ public class ArticleCollectionActivity extends BaseActivity {
         new ArticlesAdapterCreateTask (getIntent (), this).execute ();
     }
 
-    public void updateFullscreenMode (final boolean isFullscreenMode) {
-        mIsFullscreenMode = isFullscreenMode;
+    @Override
+    protected void onResume () {
+        super.onResume ();
+        updateFullscreenModeWithUi (sIsFullscreenMode);
+    }
+
+    public static void updateFullscreenMode (final boolean isFullscreenMode) {
+        sIsFullscreenMode = isFullscreenMode;
+    }
+
+    public void updateFullscreenModeWithUi (final boolean isFullscreenMode) {
+        sIsFullscreenMode = isFullscreenMode;
         fixFullscreenMode (0);
     }
 
     public boolean isInFullscreen () {
-        return mIsFullscreenMode;
+        return sIsFullscreenMode;
     }
 
     @Override
@@ -431,7 +443,7 @@ public class ArticleCollectionActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState (Bundle outState) {
-        outState.putBoolean (SavedStateArgs.IS_FULL_SCREEN, mIsFullscreenMode);
+        outState.putBoolean (SavedStateArgs.IS_FULL_SCREEN, sIsFullscreenMode);
         super.onSaveInstanceState (outState);
     }
 

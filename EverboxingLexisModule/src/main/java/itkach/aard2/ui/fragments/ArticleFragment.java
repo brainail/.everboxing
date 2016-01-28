@@ -302,7 +302,7 @@ public class ArticleFragment
             speakSelectionText (mAllTextSelection);
         } else if (itemId == R.id.action_fullscreen_mode) {
             final boolean nextFullscreenMode = ! ((ArticleCollectionActivity) getActivity ()).isInFullscreen ();
-            ((ArticleCollectionActivity) getActivity ()).updateFullscreenMode (nextFullscreenMode);
+            ((ArticleCollectionActivity) getActivity ()).updateFullscreenModeWithUi (nextFullscreenMode);
             mMenuItemFullscreenMode.setIcon (
                     ((ArticleCollectionActivity) getActivity ()).isInFullscreen ()
                             ? R.drawable.ic_fullscreen_exit_white_24dp

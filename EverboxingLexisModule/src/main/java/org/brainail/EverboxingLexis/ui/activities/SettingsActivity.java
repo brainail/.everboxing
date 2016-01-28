@@ -36,6 +36,8 @@ import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.util.List;
 
+import itkach.aard2.ui.activities.ArticleCollectionActivity;
+
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_favorite;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_bottom;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_top;
@@ -425,6 +427,13 @@ public class SettingsActivity
                 final String loadSpeechLanguageSummary
                         = SettingsManager.getInstance ().retrieveSpeechLanguageSummary ();
                 SUMMARY_BINDER.onPreferenceChange (findPreference (key), loadSpeechLanguageSummary);
+            } else
+
+            // Fullscreen mode
+            if (getString (R.string.settings_article_in_fullscreen_key).equals (key)) {
+                ArticleCollectionActivity.updateFullscreenMode (
+                        SettingsManager.getInstance ().retrieveShouldShowArticleInFullscreen ()
+                );
             }
         }
 
