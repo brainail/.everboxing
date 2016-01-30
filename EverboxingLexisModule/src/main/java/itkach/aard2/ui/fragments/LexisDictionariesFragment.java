@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,32 +33,32 @@ public class LexisDictionariesFragment extends BaseListFragment {
     private boolean mShouldScanDictionariesOnAttach = false;
 
     @Override
-    protected boolean supportsSelection() {
+    protected boolean supportsSelection () {
         return false;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setListAdapter(new DictionaryListAdapter (Application.app ().dictionaries, getActivity ()));
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated (view, savedInstanceState);
+        setListAdapter (new DictionaryListAdapter (Application.app ().dictionaries, getActivity ()));
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_dictionaries, menu);
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+        inflater.inflate (R.menu.menu_dictionaries, menu);
     }
 
     @Override
-    public void onPrepareOptionsMenu(final Menu menu) {}
+    public void onPrepareOptionsMenu (final Menu menu) {}
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_find_dictionaries) {
-            findDictionaries();
+    public boolean onOptionsItemSelected (MenuItem item) {
+        if (item.getItemId () == R.id.action_find_dictionaries) {
+            findDictionaries ();
             return true;
-        } else if (item.getItemId() == R.id.action_add_dictionaries) {
-            Intent intent = new Intent(getActivity(), FileSelectActivity.class);
-            startActivityForResult(intent, FILE_SELECT_REQUEST);
+        } else if (item.getItemId () == R.id.action_add_dictionaries) {
+            Intent intent = new Intent (getActivity (), FileSelectActivity.class);
+            startActivityForResult (intent, FILE_SELECT_REQUEST);
             return true;
         } else if (item.getItemId () == R.id.action_dic_store_mirror_one) {
             openUrl ("https://cloud.mail.ru/public/8GsF/8RzDA9wBR");
@@ -67,20 +68,20 @@ public class LexisDictionariesFragment extends BaseListFragment {
             openUrl ("https://yadi.sk/d/M8uRyFsCne3cf");
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected (item);
     }
 
-    public void findDictionaries() {
-        final Activity activity = getActivity();
+    public void findDictionaries () {
+        final Activity activity = getActivity ();
         if (activity == null) {
             mShouldScanDictionariesOnAttach = true;
             return;
         }
 
         mShouldScanDictionariesOnAttach = false;
-        Application.app ().findDictionaries(new DictionaryDiscoveryCallback() {
+        Application.app ().findDictionaries (new DictionaryDiscoveryCallback () {
             @Override
-            public void onDiscoveryFinished() {
+            public void onDiscoveryFinished () {
                 HardyDialogsHelper.dismissDialog (LexisDictionariesFragment.this, D_DICTIONARY_SCANNING_PROGRESS);
             }
         });
@@ -90,35 +91,36 @@ public class LexisDictionariesFragment extends BaseListFragment {
 
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach (Activity activity) {
+        super.onAttach (activity);
 
         if (mShouldScanDictionariesOnAttach) {
-            findDictionaries();
+            findDictionaries ();
         }
     }
 
     @Override
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated (savedInstanceState);
-        getListView().setDivider(null);
+        getListView ().setDivider (null);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode != FILE_SELECT_REQUEST) {
             return;
         }
 
-        String selectedPath = data == null ? null : data.getStringExtra(FileSelectActivity.KEY_SELECTED_FILE_PATH);
-        if (resultCode == AppCompatActivity.RESULT_OK && selectedPath != null && selectedPath.length() > 0) {
-            boolean alreadyExists = Application.app ().addDictionary(new File(selectedPath));
+        String selectedPath = data == null ? null : data.getStringExtra (FileSelectActivity.KEY_SELECTED_FILE_PATH);
+        if (resultCode == AppCompatActivity.RESULT_OK && !TextUtils.isEmpty (selectedPath)) {
+            final File dicFile = new File (selectedPath);
+            final boolean alreadyExists = Application.app ().addDictionary (dicFile);
 
             String toastMessage;
             if (alreadyExists) {
-                toastMessage = getString(R.string.msg_dictionary_already_open);
+                toastMessage = getString (R.string.msg_dictionary_already_open);
             } else {
-                toastMessage = getString(R.string.msg_dictionary_added, selectedPath);
+                toastMessage = getString (R.string.msg_dictionary_added, dicFile.getName ());
             }
 
             ToolUI.showToast (LexisDictionariesFragment.this, toastMessage);

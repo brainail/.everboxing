@@ -141,7 +141,7 @@
     <string name="action_reload_directory">Reload</string>
 
     <string name="msg_dictionary_already_open">Already opened</string>
-    <string name="msg_dictionary_added">Added dictionary from %1$s</string>
+    <string name="msg_dictionary_added">Added %1$s</string>
 
     <string name="article_collection_invalid_link">Invalid link</string>
 
