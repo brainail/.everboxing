@@ -576,12 +576,18 @@ public class ArticleFragment
         mHandler.post (new Runnable () {
             @Override
             public void run () {
-                if (null == mActionMode.getMenu ().findItem (R.id.action_tts_selection)) {
+                final ActionMode actionMode = mActionMode;
+                if (null == actionMode) {
+                    // Just to be sure
+                    return;
+                }
+
+                if (null == actionMode.getMenu ().findItem (R.id.action_tts_selection)) {
                     final String ttsLocaleExtra
                             = " (" + ttsLocale ().getDisplayLanguage () + ")";
                     final String menuItemTitle
                             = ToolResources.string (R.string.action_tts_selection) + ttsLocaleExtra;
-                    final MenuItem menuItem = mActionMode.getMenu ()
+                    final MenuItem menuItem = actionMode.getMenu ()
                             .add (Menu.NONE, R.id.action_tts_selection, Menu.NONE, menuItemTitle);
 
                     menuItem.setShowAsAction (MenuItem.SHOW_AS_ACTION_NEVER);

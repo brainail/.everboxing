@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
+import org.brainail.EverboxingLexis.ui.views.RespectFullscreenInsetsFrameLayout;
 import org.brainail.EverboxingLexis.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.gestures.OnGestureListener;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
@@ -61,6 +62,8 @@ public class ArticleCollectionActivity extends BaseActivity {
     public ViewPager mViewPager;
     public TabLayout mTabLayout;
 
+    public RespectFullscreenInsetsFrameLayout mContent;
+
     protected static volatile Boolean sIsFullscreenMode;
     protected SystemUiHelper mUiHelper;
 
@@ -88,6 +91,8 @@ public class ArticleCollectionActivity extends BaseActivity {
 
     protected void fixFullscreenMode(final int delayMillis) {
         if (sIsFullscreenMode) {
+            mContent.respectFullscreenInsets (true);
+
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -97,6 +102,8 @@ public class ArticleCollectionActivity extends BaseActivity {
                 uiHelper ().hide ();
             }
         } else {
+            mContent.respectFullscreenInsets (false);
+
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
@@ -127,6 +134,8 @@ public class ArticleCollectionActivity extends BaseActivity {
     @SuppressLint ("MissingSuperCall")
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
+
+        mContent = bindView (R.id.app_content);
 
         // Tune fullscreen mode
         if (null != savedInstanceState && savedInstanceState.containsKey (SavedStateArgs.IS_FULL_SCREEN)) {

@@ -582,7 +582,9 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
         if (Sdk.isSdkSupported (Sdk.KITKAT)) {
             evaluateJavascript (ProcessContentJsInterface.JS_PARTIAL_TEXT_SELECTION, null);
         } else {
-            loadUrl (ProcessContentJsInterface.JS_PARTIAL_TEXT_SELECTION);
+            // loadUrl (ProcessContentJsInterface.JS_PARTIAL_TEXT_SELECTION);
+            // Unfortunately we don't want to do this here via loadUrl due to
+            // the fact that WebViewClassic will close action mode in this case ... ;(
         }
     }
 

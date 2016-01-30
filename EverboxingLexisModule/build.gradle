@@ -121,7 +121,7 @@ android {
             buildConfigField "boolean", "USE_CRASHLYTICS", "true"
             ext.enableCrashlytics = true
 
-            buildConfigField "boolean", "USE_LEAKCANARY", "true"
+            buildConfigField "boolean", "USE_LEAKCANARY", "false"
         }
 
         release {
