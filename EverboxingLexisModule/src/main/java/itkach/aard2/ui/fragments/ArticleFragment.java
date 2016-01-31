@@ -74,6 +74,7 @@ public class ArticleFragment
     private TextToSpeech mTts;
     private boolean mIsTtsAvailable = false;
 
+    private volatile String mAllTextSelectionRaw;
     private volatile List<String> mAllTextSelection;
     private volatile List<String> mPartialTextSelection;
 
@@ -287,7 +288,8 @@ public class ArticleFragment
             LexisPaperHardyDialogs.articleDailyStyleDialog ()
                     .items (styles).tags (styles).setCallbacks (this).show (this);
         } else if (itemId == R.id.action_search_externally_article) {
-            openUrl ("https://www.google.com/search?q=" + mArticleTitle + "+definition");
+            final String url = "https://www.google.com/search?q=" + mArticleTitle + "+definition";
+            openUrl (url, mArticleTitle, mAllTextSelectionRaw);
         } else if (itemId == R.id.action_print_article) {
             ToolPrint.print (getActivity (), mArticleWebView, mArticleTitle);
         } else if (itemId == R.id.action_tts) {
@@ -547,6 +549,7 @@ public class ArticleFragment
 
     @Override
     public void onAllTextSelection (String selection) {
+        mAllTextSelectionRaw = selection;
         mAllTextSelection = ToolStrings.graTtsWords (selection);
 
         if (! (! mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView)) {

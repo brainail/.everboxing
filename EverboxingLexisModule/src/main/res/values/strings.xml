@@ -177,6 +177,10 @@
 
     <string name="wtf_emo" translatable="false">ヽ(｀⌒´メ)ノ</string>
 
+    <string name="dictionaries_store_mirror_fab_label_one">Store (CloudMail)</string>
+    <string name="dictionaries_store_mirror_fab_label_two">Store (GitHub)</string>
+    <string name="dictionaries_store_mirror_fab_label_three">Store (Yandex)</string>
+
     <string name="dictionaries_store_mirror_one">&#10047;&#160; Store (CloudMail)</string>
     <string name="dictionaries_store_mirror_two">&#10047;&#160; Store (GitHub)</string>
     <string name="dictionaries_store_mirror_three">&#10047;&#160; Store (Yandex)</string>

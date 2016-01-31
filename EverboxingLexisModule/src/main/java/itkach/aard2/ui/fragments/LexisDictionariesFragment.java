@@ -2,14 +2,21 @@ package itkach.aard2.ui.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingLexis.R;
@@ -37,10 +44,82 @@ public class LexisDictionariesFragment extends BaseListFragment {
         return false;
     }
 
+    private final DataSetObserver mDataObserver = new DataSetObserver () {
+        @Override
+        public void onChanged () {
+            check ();
+        }
+
+        public void check () {
+            final ListAdapter adapter = getListAdapter ();
+            if (null != adapter && adapter.getCount () > 0) {
+                detachFabStores ();
+            } else {
+                attachFabStores ();
+            }
+        }
+    };
+
+    private void attachFabStores () {
+        final ViewGroup root = (ViewGroup) mEmptyPlaceholderView.getParent ();
+        if (null == root.findViewById (R.id.stores_fab_menu)) {
+            FloatingActionButton fabStore;
+            LayoutInflater.from (getActivity ()).inflate (R.layout.view_empty_dict_page_fab, root);
+
+            final FloatingActionMenu fabMenu = (FloatingActionMenu) root.findViewById (R.id.stores_fab_menu);
+            fabMenu.setClosedOnTouchOutside (true);
+
+            fabStore = (FloatingActionButton) fabMenu.findViewById (R.id.fab_menu_item_store_one);
+            fabStore.setOnClickListener (mFabStoreOnClickListener);
+            fabStore.setTag (1);
+
+            fabStore = (FloatingActionButton) fabMenu.findViewById (R.id.fab_menu_item_store_two);
+            fabStore.setOnClickListener (mFabStoreOnClickListener);
+            fabStore.setTag (2);
+
+            fabStore = (FloatingActionButton) fabMenu.findViewById (R.id.fab_menu_item_store_three);
+            fabStore.setOnClickListener (mFabStoreOnClickListener);
+            fabStore.setTag (3);
+        }
+    }
+
+    private final View.OnClickListener mFabStoreOnClickListener = new View.OnClickListener () {
+        @Override
+        public void onClick (View v) {
+            openStore ((int) v.getTag ());
+
+            final ViewGroup root = (ViewGroup) mEmptyPlaceholderView.getParent ();
+            final FloatingActionMenu fabMenu = (FloatingActionMenu) root.findViewById (R.id.stores_fab_menu);
+            if (null != fabMenu) {
+                fabMenu.close (true);
+            }
+        }
+    };
+
+    private void detachFabStores () {
+        final ViewGroup root = (ViewGroup) mEmptyPlaceholderView.getParent ();
+        final View fabMenu = root.findViewById (R.id.stores_fab_menu);
+        if (null != fabMenu) {
+            root.removeView (fabMenu);
+        }
+    }
+
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated (view, savedInstanceState);
+
+        // Dicts
         setListAdapter (new DictionaryListAdapter (Application.app ().dictionaries, getActivity ()));
+        getListAdapter ().registerDataSetObserver (mDataObserver);
+
+        // Stores
+        mDataObserver.onChanged ();
+    }
+
+    @Override
+    public void onDestroyView () {
+        super.onDestroyView ();
+        getListAdapter ().unregisterDataSetObserver (mDataObserver);
     }
 
     @Override
@@ -61,14 +140,30 @@ public class LexisDictionariesFragment extends BaseListFragment {
             startActivityForResult (intent, FILE_SELECT_REQUEST);
             return true;
         } else if (item.getItemId () == R.id.action_dic_store_mirror_one) {
-            openUrl ("https://cloud.mail.ru/public/8GsF/8RzDA9wBR");
+            openStore (1);
         } else if (item.getItemId () == R.id.action_dic_store_mirror_two) {
-            openUrl ("https://github.com/itkach/slob/wiki/Dictionaries");
+            openStore (2);
         } else if (item.getItemId () == R.id.action_dic_store_mirror_three) {
-            openUrl ("https://yadi.sk/d/M8uRyFsCne3cf");
+            openStore (3);
         }
 
         return super.onOptionsItemSelected (item);
+    }
+
+    public void openStore (final int storeIndex) {
+        switch (storeIndex) {
+            case 1:
+                openUrl ("https://cloud.mail.ru/public/8GsF/8RzDA9wBR");
+                break;
+            case 2:
+                openUrl ("https://github.com/itkach/slob/wiki/Dictionaries");
+                break;
+            case 3:
+                openUrl ("https://yadi.sk/d/M8uRyFsCne3cf");
+                break;
+            default:
+                break;
+        }
     }
 
     public void findDictionaries () {

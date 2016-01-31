@@ -13,6 +13,7 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
+import android.text.TextUtils;
 
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
@@ -27,7 +28,39 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
     private CustomTabsSession mCustomTabsSession;
     private CustomTabsServiceConnection mConnection;
     private CustomTabsConnectionCallbacks mConnectionCallback;
-    private String mCurrentAction;
+    private ActionInfo mCurrentAction;
+
+    public static class ActionInfo {
+        public final String action;
+        public final String title;
+        public final String description;
+
+        public ActionInfo (final String action) {
+            this (action, null);
+        }
+
+        public ActionInfo (final String action, final String title) {
+            this (action, title, null);
+        }
+
+        public ActionInfo (final String action, final String title, final String description) {
+            this.action = action;
+            this.title = title;
+            this.description = TextUtils.isEmpty (description) ? action : description;
+        }
+
+        public String emailTitleExtra () {
+            return TextUtils.isEmpty (title) ? "" : " (" + title + ")";
+        }
+
+        public String emailBody () {
+            return description;
+        }
+
+        public String shareText () {
+            return TextUtils.isEmpty (title) ? action : title;
+        }
+    }
 
     /**
      * Opens the URL on a Custom Tab if possible; otherwise falls back to opening it via
@@ -139,19 +172,19 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
         return session.mayLaunchUrl (uri, extras, otherLikelyBundles);
     }
 
-    public void openCustomTab (final Activity scene, final String url) {
-        mCurrentAction = url;
+    public void openCustomTab (final Activity scene, final String url, final String title, final String description) {
+        mCurrentAction = new ActionInfo (url, title, description);
 
         CustomTabsSceneHelper.openCustomTab (
                 scene,
                 createCustomTabIntent (scene, mCurrentAction, occupySession ()).build (),
-                Uri.parse (mCurrentAction)
+                Uri.parse (mCurrentAction.action)
         );
     }
 
     private static CustomTabsIntent.Builder createCustomTabIntent (
             @NonNull Context context,
-            @NonNull String url,
+            @NonNull ActionInfo action,
             @Nullable CustomTabsSession session) {
 
         // Construct our intent via builder
@@ -161,9 +194,9 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
         // Show title
         intentBuilder.setShowTitle (true);
         // Custom menu item > Share
-        intentBuilder.addMenuItem ("Share", createPendingShareIntent (context, url));
+        intentBuilder.addMenuItem ("Share", createPendingShareIntent (context, action));
         // Custom menu item > Email
-        intentBuilder.addMenuItem ("Email", createPendingEmailIntent (context, url));
+        intentBuilder.addMenuItem ("Email", createPendingEmailIntent (context, action));
         // Specify close button icon
         // final int mainCloseResId = android.support.design.R.drawable.abc_ic_ab_back_mtrl_am_alpha;
         // final Bitmap mainCloseBitmap = BitmapFactory.decodeResource (context.getResources (), mainCloseResId);
@@ -187,21 +220,21 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
 
     private static PendingIntent createPendingEmailIntent (
             @NonNull final Context context,
-            @NonNull final String action) {
+            @NonNull final ActionInfo action) {
 
         Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:"));
-        actionIntent.putExtra (Intent.EXTRA_SUBJECT, "Check this out");
-        actionIntent.putExtra (Intent.EXTRA_TEXT, action);
+        actionIntent.putExtra (Intent.EXTRA_SUBJECT, "Check this out" + action.emailTitleExtra ());
+        actionIntent.putExtra (Intent.EXTRA_TEXT, action.emailBody ());
         return PendingIntent.getActivity (context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private static PendingIntent createPendingShareIntent (
             @NonNull final Context context,
-            @NonNull final String action) {
+            @NonNull final ActionInfo action) {
 
         Intent actionIntent = new Intent (Intent.ACTION_SEND);
         actionIntent.setType ("text/plain");
-        actionIntent.putExtra (Intent.EXTRA_TEXT, "Check this out: " + action);
+        actionIntent.putExtra (Intent.EXTRA_TEXT, action.shareText ());
         return PendingIntent.getActivity (context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
@@ -210,7 +243,7 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
         // ToolUI.showSnack (getView (), "Custom Tabs > Connected");
 
         if (null != mCurrentAction) {
-            mayLaunchUrl (Uri.parse (mCurrentAction), null, null);
+            mayLaunchUrl (Uri.parse (mCurrentAction.action), null, null);
         }
     }
 

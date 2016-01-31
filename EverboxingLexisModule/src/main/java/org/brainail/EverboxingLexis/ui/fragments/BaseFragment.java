@@ -82,8 +82,16 @@ public class BaseFragment extends Fragment implements ActionMode.Callback {
     }
 
     public void openUrl (final String url) {
+        openUrl (url, null);
+    }
+
+    public void openUrl (final String url, final String title) {
+        openUrl (url, title, null);
+    }
+
+    public void openUrl (final String url, final String title, final String description) {
         // Chrome tabs stuff
-        mCustomTabsSceneHelper.openCustomTab (getActivity (), url);
+        mCustomTabsSceneHelper.openCustomTab (getActivity (), url, title, description);
     }
 
     public boolean onKeyUp (int keyCode, KeyEvent event) {

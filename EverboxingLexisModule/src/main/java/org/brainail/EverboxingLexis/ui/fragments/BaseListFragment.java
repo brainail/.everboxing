@@ -25,7 +25,7 @@ import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 
 public abstract class BaseListFragment extends ListFragment implements Tagable {
 
-    protected View mEmptyPlaceholderView;
+    protected ViewGroup mEmptyPlaceholderView;
     protected ActionMode mActionMode;
 
     // Chrome tabs stuff
@@ -76,7 +76,7 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
 
     public void openUrl (final String url) {
         // Chrome tabs stuff
-        mCustomTabsSceneHelper.openCustomTab (getActivity (), url);
+        mCustomTabsSceneHelper.openCustomTab (getActivity (), url, null, null);
     }
 
     public boolean onKeyUp (int keyCode, KeyEvent event) {
@@ -104,7 +104,7 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mEmptyPlaceholderView = inflater.inflate (R.layout.view_empty_page, container, false);
+        mEmptyPlaceholderView = (ViewGroup) inflater.inflate (R.layout.view_empty_page, container, false);
         return super.onCreateView (inflater, container, savedInstanceState);
     }
 

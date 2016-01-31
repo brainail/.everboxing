@@ -357,7 +357,7 @@ public abstract class BaseActivity
 
     public void openUrl (final String url) {
         // Chrome tabs stuff
-        mCustomTabsSceneHelper.openCustomTab (self (), url);
+        mCustomTabsSceneHelper.openCustomTab (self (), url, null, null);
     }
 
 }
