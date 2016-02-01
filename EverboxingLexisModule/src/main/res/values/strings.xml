@@ -91,8 +91,24 @@
     <string name="auth_flow_unknown_error">Unknown error, please repeat again.</string>
     <string name="auth_flow_rejected">The authorization was rejected.</string>
     <string name="auth_flow_pick_account">You must pick an account.</string>
+    <string name="open_url_fallback_no_apps_to_open">You don\'t have apps to open links</string>
 
-    <!-- Slob prj -->
+    <!-- Custom tab -->
+    <string name="custom_tab_action_share">Share</string>
+    <string name="custom_tab_action_email">Email</string>
+    <string name="custom_tab_action_email_mail_title">Check this out</string>
+
+    <!-- ||||||||||||||||||||||| Slob prj ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
     <string name="action_find_dictionaries_on_device">Scan device</string>
     <string name="action_find_in_page">Find in page</string>
     <string name="action_bookmark_article">Bookmark</string>
