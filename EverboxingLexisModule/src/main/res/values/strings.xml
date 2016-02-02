@@ -57,6 +57,9 @@
     <string name="settings_misc_header">Misc</string>
     <string name="settings_open_about_title">About</string>
     <string name="settings_open_about_key" translatable="false">settings_open_about</string>
+    <string name="settings_feedback_title">Send feedback/suggestion</string>
+    <string name="settings_feedback_summary">Provide a feedback about this app or make a suggestion about improvements</string>
+    <string name="settings_feedback_key" translatable="false">settings_feedback</string>
 
     <string name="settings_ringtone_silent_summary">Silent</string>
 

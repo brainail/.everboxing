@@ -1,5 +1,7 @@
 package org.brainail.EverboxingLexis.utils.tool;
 
+import org.brainail.EverboxingLexis.BuildConfig;
+
 import java.io.Closeable;
 
 /**
@@ -72,6 +74,12 @@ public final class Tool {
         } catch (Exception e) {
             // Do nothing
         }
+    }
+
+    public static String feedbackAppInfo () {
+        return "v_" + BuildConfig.VERSION_NAME
+                + " / c_" + BuildConfig.VERSION_CODE
+                + " / g_" + BuildConfig.GIT_SHA;
     }
 
 }

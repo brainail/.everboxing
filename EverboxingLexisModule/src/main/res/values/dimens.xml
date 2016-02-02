@@ -43,8 +43,8 @@
     <dimen name="notice_bar_background_corner_radius">0dp</dimen>
 
     <!-- Preference -->
-    <dimen name="preference_category_pre_L_horizontal_side_spacing">20dp</dimen>
-    <dimen name="preference_category_pre_L_vertical_side_spacing">18dp</dimen>
+    <dimen name="preference_category_pre_L_h_side_spacing">20dp</dimen>
+    <dimen name="preference_category_pre_L_v_side_spacing">18dp</dimen>
 
     <!-- Other -->
     <dimen name="md_listitem_textsize">16sp</dimen>

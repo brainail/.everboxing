@@ -31,6 +31,7 @@ import org.brainail.EverboxingLexis.ui.views.dialogs.ThemeChooser;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
+import org.brainail.EverboxingLexis.utils.tool.ToolEmail;
 import org.brainail.EverboxingLexis.utils.tool.ToolTts;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
@@ -38,6 +39,7 @@ import java.util.List;
 
 import itkach.aard2.ui.activities.ArticleCollectionActivity;
 
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_email;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_favorite;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_bottom;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_format_valign_top;
@@ -284,6 +286,10 @@ public class SettingsActivity
             isRandomLookupViaFavPf.setIcon (BaseIcon.icon (getActivity (), zmdi_favorite));
 
             // About
+            final Preference feedbackPf = findPreference (getString (R.string.settings_feedback_key));
+            feedbackPf.setIcon (BaseIcon.icon (getActivity (), zmdi_email));
+
+            // About
             final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
             aboutPf.setIcon (BaseIcon.icon (getActivity (), zmdi_info_outline));
 
@@ -297,6 +303,7 @@ public class SettingsActivity
             setOnClickListener (getString (R.string.settings_article_in_fullscreen_key));
             setOnClickListener (getString (R.string.settings_speech_language_key));
             setOnClickListener (getString (R.string.settings_random_lookup_key));
+            setOnClickListener (getString (R.string.settings_feedback_key));
             setOnClickListener (getString (R.string.settings_open_about_key));
         }
 
@@ -350,6 +357,11 @@ public class SettingsActivity
             if (getString (R.string.settings_random_lookup_key).equals (preference.getKey ())) {
                 // ...
             } else
+
+            // Feedback
+            if (getString (R.string.settings_feedback_key).equals (preference.getKey ())) {
+                ToolEmail.sendFeedbackOrSuggestion (getActivity ());
+            }
 
             // About
             if (getString (R.string.settings_open_about_key).equals (preference.getKey ())) {

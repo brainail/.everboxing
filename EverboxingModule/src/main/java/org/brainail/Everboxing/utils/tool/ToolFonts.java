@@ -28,7 +28,10 @@ package org.brainail.Everboxing.utils.tool;
 public final class ToolFonts {
 
     public static class RobotoFonts {
+        public static String ASSETS_THIN = "fonts/Roboto-Thin.ttf";
+        public static String ASSETS_LIGHT = "fonts/Roboto-Light.ttf";
         public static String ASSETS_REGULAR = "fonts/Roboto-Regular.ttf";
+        public static String ASSETS_MEDIUM = "fonts/Roboto-Medium.ttf";
     }
 
 }

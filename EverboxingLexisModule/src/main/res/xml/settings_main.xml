@@ -77,6 +77,11 @@
         android:title="@string/settings_misc_header">
 
         <org.brainail.EverboxingLexis.ui.views.preference.Preference
+            android:key="@string/settings_feedback_key"
+            android:summary="@string/settings_feedback_summary"
+            android:title="@string/settings_feedback_title"/>
+
+        <org.brainail.EverboxingLexis.ui.views.preference.Preference
             android:key="@string/settings_open_about_key"
             android:title="@string/settings_open_about_title"/>
 
