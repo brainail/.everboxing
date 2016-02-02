@@ -15,7 +15,9 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.text.TextUtils;
 
+import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.util.List;
 
@@ -83,7 +85,13 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
             customTabsIntent.intent.setPackage (packageName);
             customTabsIntent.launchUrl (activity, uri);
         } else {
-            activity.startActivity (new Intent (Intent.ACTION_VIEW, uri));
+            final Intent fallbackIntent = new Intent (Intent.ACTION_VIEW, uri);
+            fallbackIntent.addCategory (Intent.CATEGORY_BROWSABLE);
+            try {
+                activity.startActivity(fallbackIntent);
+            } catch (final Exception exception) {
+                ToolUI.showToast(activity, R.string.open_url_fallback_no_apps_to_open);
+            }
         }
     }
 
@@ -194,9 +202,11 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
         // Show title
         intentBuilder.setShowTitle (true);
         // Custom menu item > Share
-        intentBuilder.addMenuItem ("Share", createPendingShareIntent (context, action));
+        final String shareActionText = ToolResources.string (R.string.custom_tab_action_share);
+        intentBuilder.addMenuItem (shareActionText, createPendingShareIntent (context, action));
         // Custom menu item > Email
-        intentBuilder.addMenuItem ("Email", createPendingEmailIntent (context, action));
+        final String emailActionText = ToolResources.string (R.string.custom_tab_action_email);
+        intentBuilder.addMenuItem (emailActionText, createPendingEmailIntent (context, action));
         // Specify close button icon
         // final int mainCloseResId = android.support.design.R.drawable.abc_ic_ab_back_mtrl_am_alpha;
         // final Bitmap mainCloseBitmap = BitmapFactory.decodeResource (context.getResources (), mainCloseResId);
@@ -223,7 +233,8 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
             @NonNull final ActionInfo action) {
 
         Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:"));
-        actionIntent.putExtra (Intent.EXTRA_SUBJECT, "Check this out" + action.emailTitleExtra ());
+        final String emailTitle = ToolResources.string (R.string.custom_tab_action_email_mail_title);
+        actionIntent.putExtra (Intent.EXTRA_SUBJECT, emailTitle + action.emailTitleExtra ());
         actionIntent.putExtra (Intent.EXTRA_TEXT, action.emailBody ());
         return PendingIntent.getActivity (context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

@@ -14,17 +14,17 @@
         tools:ignore="AlwaysShowAction"/>
 
     <item
-        android:id="@+id/action_search_externally_article"
-        android:title="@string/action_search_externally_article"
-        android:icon="@drawable/ic_youtube_searched_for_white_24dp"
+        android:id="@+id/action_fullscreen_mode"
+        android:title="@string/action_article_in_fullscreen"
+        android:icon="@drawable/ic_fullscreen_white_24dp"
         app:showAsAction="always"
         android:orderInCategory="16"
         tools:ignore="AlwaysShowAction"/>
 
     <item
-        android:id="@+id/action_fullscreen_mode"
-        android:title="@string/action_article_in_fullscreen"
-        android:icon="@drawable/ic_fullscreen_white_24dp"
+        android:id="@+id/action_search_externally_article"
+        android:title="@string/action_search_externally_article"
+        android:icon="@drawable/ic_youtube_searched_for_white_24dp"
         app:showAsAction="always"
         android:orderInCategory="20"
         tools:ignore="AlwaysShowAction"/>

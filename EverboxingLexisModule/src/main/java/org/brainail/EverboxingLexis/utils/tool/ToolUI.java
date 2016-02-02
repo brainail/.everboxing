@@ -81,7 +81,7 @@ public final class ToolUI {
                 scene.runOnUiThread (new Runnable () {
                     @Override
                     public void run () {
-                        if (!USE_SNACKBARS) {
+                        if (! USE_SNACKBARS) {
                             Toast.makeText (scene, message, Toast.LENGTH_SHORT).show ();
                         } else {
                             NoticeController.from (fragment).notifyScene (message);
@@ -96,12 +96,12 @@ public final class ToolUI {
         showToast (fragment, JApplication.appContext ().getString (resId));
     }
 
-    public static void showToast (final AppCompatActivity activity, final String message) {
+    public static <T extends Activity> void showToast (final T activity, final String message) {
         if (null != activity) {
             activity.runOnUiThread (new Runnable () {
                 @Override
                 public void run () {
-                    if (!USE_SNACKBARS) {
+                    if (! USE_SNACKBARS) {
                         Toast.makeText (activity, message, Toast.LENGTH_SHORT).show ();
                     } else {
                         NoticeController.from (activity).notifyScene (message);
@@ -111,7 +111,7 @@ public final class ToolUI {
         }
     }
 
-    public static void showToast (final AppCompatActivity activity, final int resId) {
+    public static <T extends Activity> void showToast (final T activity, final int resId) {
         showToast (activity, JApplication.appContext ().getString (resId));
     }
 
