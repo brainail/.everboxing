@@ -7,6 +7,9 @@
 # Uncomment if using annotations to keep them.
 -keepattributes *Annotation*
 
+# Js
+-keepattributes JavascriptInterface
+
 # Specifies the number of optimization passes to be performed.
 -optimizationpasses 5
 
@@ -327,6 +330,39 @@
 # LeakCanary
 # -keep class org.eclipse.mat.** { *; }
 # -keep class com.squareup.leakcanary.** { *; }
+
+# JsBridge
+# Keeping Javascript interfaces
+-keep public interface android.webkit.JavascriptInterface { *; }
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+# ProcessContentJsInterface
+-keep class org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+    <methods>;
+}
+-keep class * extends org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+    <methods>;
+}
+-keep class * implements org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+    <methods>;
+}
+-keepclassmembers class org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+    <methods>;
+}
+# ContentStyleJsInterface
+-keep class org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface {
+    <methods>;
+}
+-keep class * extends org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface {
+    <methods>;
+}
+-keep class * implements org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface {
+    <methods>;
+}
+-keepclassmembers class org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface {
+    <methods>;
+}
 
 
 

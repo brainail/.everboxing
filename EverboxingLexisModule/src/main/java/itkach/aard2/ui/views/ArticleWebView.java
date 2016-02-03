@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -25,6 +24,8 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.Sdk;
+import org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface;
+import org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface.IStyleHelper;
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface.ISelectionHelper;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
@@ -52,7 +53,9 @@ import itkach.aard2.utils.Util;
 import static android.net.ConnectivityManager.TYPE_ETHERNET;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
-public class ArticleWebView extends BaseArticleWebView implements ISelectionHelper {
+public class ArticleWebView
+        extends BaseArticleWebView
+        implements ISelectionHelper, IStyleHelper {
 
     // Styles
     private final String mDefaultStyleTitle;
@@ -103,18 +106,6 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
         mForceLoadRemoteContent = enabled;
     }
 
-    @JavascriptInterface
-    public void setStyleTitles (String[] titles) {
-        Plogger.logD (String.format ("Got %d style titles", titles.length));
-        if (titles.length == 0) return;
-
-        final SortedSet<String> newStyleTitlesSet = new TreeSet<> (Arrays.asList (titles));
-        if (!mStyleTitles.equals (newStyleTitlesSet)) {
-            mStyleTitles = newStyleTitlesSet;
-            saveAvailableStylesPref (mStyleTitles);
-        }
-    }
-
     public boolean allowRemoteContent () {
         if (mForceLoadRemoteContent) {
             return true;
@@ -149,7 +140,7 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
     protected void addJavascriptInterfaces (Context context) {
         super.addJavascriptInterfaces (context);
 
-        addJavascriptInterface (this, "$SLOB");
+        addJavascriptInterface (new ContentStyleJsInterface (this), ContentStyleJsInterface.JS_INTERFACE_NAME);
         addJavascriptInterface (new ProcessContentJsInterface (this), ProcessContentJsInterface.JS_INTERFACE_NAME);
     }
 
@@ -319,7 +310,7 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
         return title.equals (mAutoStyleTitle);
     }
 
-    @JavascriptInterface
+    @Override
     public String getPreferredStyle () {
         if (mCurrentSlobUri == null) {
             return "";
@@ -330,15 +321,27 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
         return result;
     }
 
-    @JavascriptInterface
+    @Override
     public String exportStyleSwitcherAs () {
         return "$styleSwitcher";
     }
 
-    @JavascriptInterface
+    @Override
     public void onStyleSet (String title) {
         Plogger.logD ("Style set! " + title);
         mApplyStylePrefTask.cancel ();
+    }
+
+    @Override
+    public void setStyleTitles (String[] titles) {
+        Plogger.logD (String.format ("Got %d style titles", titles.length));
+        if (titles.length == 0) return;
+
+        final SortedSet<String> newStyleTitlesSet = new TreeSet<> (Arrays.asList (titles));
+        if (!mStyleTitles.equals (newStyleTitlesSet)) {
+            mStyleTitles = newStyleTitlesSet;
+            saveAvailableStylesPref (mStyleTitles);
+        }
     }
 
     public void applyStylePref () {
@@ -494,6 +497,7 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
             if (url.startsWith ("about:")) {
                 return;
             }
+
             if (mTimes.containsKey (url)) {
                 List<Long> tsList = mTimes.get (url);
                 long ts = tsList.remove (tsList.size () - 1);
@@ -506,13 +510,14 @@ public class ArticleWebView extends BaseArticleWebView implements ISelectionHelp
             } else {
                 Plogger.logW ("onPageFinished: Unexpected page finished event for " + url);
             }
+
             view.loadUrl ("javascript:"
-                    + Application.JS_STYLE_SWITCHER
-                    + ";$SLOB.setStyleTitles($styleSwitcher.getTitles())"
+                    + Application.JS_STYLE_SWITCHER + ";"
+                    + ContentStyleJsInterface.JS_INTERFACE_NAME
+                    + ".setStyleTitles($styleSwitcher.getTitles())"
             );
 
             applyStylePref ();
-
             processAllTextSelection ();
         }
 
