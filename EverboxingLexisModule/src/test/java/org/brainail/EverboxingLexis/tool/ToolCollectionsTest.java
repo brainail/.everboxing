@@ -1,4 +1,4 @@
-package org.brainail.EverboxingLexis.tool.tool;
+package org.brainail.EverboxingLexis.tool;
 
 import org.brainail.EverboxingLexis.utils.tool.ToolCollections;
 import org.fest.assertions.api.Assertions;

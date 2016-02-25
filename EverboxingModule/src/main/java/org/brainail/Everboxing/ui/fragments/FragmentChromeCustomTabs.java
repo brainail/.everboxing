@@ -143,7 +143,7 @@ public class FragmentChromeCustomTabs extends BaseFragment implements CustomTabs
         // Custom menu item > Email
         intentBuilder.addMenuItem("Send it via email!", createPendingEmailIntent (context, action));
         // Specify close button icon
-        final int mainCloseResId = android.support.design.R.drawable.abc_ic_ab_back_mtrl_am_alpha;
+        final int mainCloseResId = android.support.design.R.drawable.abc_ic_ab_back_material;
         final Bitmap mainCloseBitmap = BitmapFactory.decodeResource (context.getResources (), mainCloseResId);
         intentBuilder.setCloseButtonIcon (mainCloseBitmap);
         // Specify main action icon and doings

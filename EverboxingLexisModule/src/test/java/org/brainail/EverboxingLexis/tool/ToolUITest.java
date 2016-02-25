@@ -1,4 +1,4 @@
-package org.brainail.EverboxingLexis.tool.tool;
+package org.brainail.EverboxingLexis.tool;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -9,6 +9,7 @@ import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Matchers.anyBoolean;
