@@ -68,6 +68,11 @@
     <color name="list_item_default_selected_state">#ffe9e9e9</color>
     <color name="list_item_default_transparent_state">@android:color/transparent</color>
 
+    <!-- List selector Dark -->
+    <color name="list_item_default_dark_pressed_state">#616161</color>
+    <color name="list_item_default_dark_selected_state">#757575</color>
+    <color name="list_item_default_dark_transparent_state">@android:color/transparent</color>
+
     <!-- Other -->
     <color name="content_bg_default">#ffeeeeee</color>
     <color name="separator_dropshadow_default">#77333333</color>

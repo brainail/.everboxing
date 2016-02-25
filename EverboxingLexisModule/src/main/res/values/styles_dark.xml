@@ -1,0 +1,17 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Default divider -->
+    <style name="ItemDividerDark">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height" tools:ignore="PxUsage">@dimen/divider_height</item>
+        <item name="android:background">@color/divider_color</item>
+        <item name="android:alpha">@dimen/divider_alpha</item>
+    </style>
+
+    <!-- Dialogs -->
+    <style name="AppCompatAlertDialogDarkStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- ... -->
+    </style>
+
+</resources>

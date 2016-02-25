@@ -1,13 +1,14 @@
 package org.brainail.Everboxing.tool;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 
+import org.brainail.Everboxing.BuildConfig;
 import org.brainail.Everboxing.utils.tool.ToolUI;
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Matchers.anyBoolean;
@@ -42,8 +43,8 @@ import static org.mockito.Mockito.when;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-@Config(emulateSdk = 18, manifest = Config.NONE)
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @SuppressLint("RtlHardcoded")
 public class ToolUITest {
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base -->
+    <style name="AppThemeDark" parent="Theme.AppCompat">
+        <!-- Android section -->
+        <!-- ... -->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/md_grey_800</item>
+        <item name="colorPrimaryDark">@color/md_grey_900</item>
+        <item name="colorAccent">@color/md_blue_grey_600</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="alertDialogTheme">@style/AppCompatAlertDialogDarkStyle</item>
+
+        <item name="android:windowBackground">@color/md_grey_850</item>
+        <!-- Custom section -->
+        <!-- ... -->
+        <item name="drawerCover">@drawable/drawer_user_cover_brown_theme</item>
+        <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
+
+        <!-- FAB -->
+        <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>
+        <item name="fabDefaultColorPressed">@color/md_blue_grey_600</item>
+        <item name="fabDefaultColorRipple">@color/md_blue_grey_300</item>
+    </style>
+
+    <!-- Default Dark. Colorized. Dark -->
+    <style name="AppThemeDark.Default">
+        <!-- FAB -->
+        <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>
+        <item name="fabDefaultColorPressed">@color/md_blue_grey_600</item>
+        <item name="fabDefaultColorRipple">@color/md_blue_grey_300</item>
+    </style>
+
+    <!-- Default Dark. Translucent -->
+    <style name="AppThemeDark.Default.Translucent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppThemeDark.Default.Translucent.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+</resources>
