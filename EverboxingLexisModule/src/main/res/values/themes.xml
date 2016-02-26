@@ -20,6 +20,7 @@
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_default_pink_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_selector</item>
+        <item name="menuDrawerSectionTextColor">@color/menu_drawer_section_text_color</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_indigo_700</item>

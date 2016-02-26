@@ -57,6 +57,7 @@
     <color name="menu_drawer_user_cover_data_gradient">#70333333</color>
     <color name="menu_drawer_help_sections_dropshadow">#14000000</color>
     <color name="menu_drawer_section_text_color">#de212121</color>
+    <color name="menu_drawer_dark_section_text_color">#deffffff</color>
     <color name="menu_drawer_section_subheader_text_color">#8a212121</color>
 
     <!-- Notices -->

@@ -33,7 +33,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:textSize">@dimen/menu_drawer_section_text_size</item>
-        <item name="android:textColor">@color/menu_drawer_section_text_color</item>
+        <item name="android:textColor">?attr/menuDrawerSectionTextColor</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">@dimen/menu_drawer_section_horizontal_margin</item>
         <item name="android:layout_marginEnd" tools:ignore="NewApi">@dimen/menu_drawer_section_horizontal_margin</item>

@@ -108,6 +108,18 @@ public final class ToolResources {
         return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorAccent}, R.color.accent_default);
     }
 
+    public static int retrieveMenuDrawerSectionTextColor(final Context context) {
+        return retrieveMenuDrawerSectionTextColor(context, ThemeManager.appTheme().getThemeResId());
+    }
+
+    public static int retrieveMenuDrawerSectionTextColor(final Context context, final int themeResId) {
+        return retrieveThemeColor(
+                context, themeResId,
+                new int [] {R.attr.menuDrawerSectionTextColor},
+                R.color.menu_drawer_section_text_color
+        );
+    }
+
     /**
      * Computes height of status bar, only if it is presented at top of the screen and it is visible.
      *

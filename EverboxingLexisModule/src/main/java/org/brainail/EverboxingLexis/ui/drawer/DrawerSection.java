@@ -13,8 +13,8 @@ import android.view.View;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
 import org.brainail.EverboxingLexis.utils.callable.Tagable;
-import org.brainail.EverboxingLexis.utils.tool.ToolColor;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingLexis.utils.tool.ToolStrings;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
@@ -363,7 +363,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     }
 
     private void resetColors () {
-        mViewHolder.selfText.setTextColor (ToolColor.by (R.color.menu_drawer_section_text_color));
+        mViewHolder.selfText.setTextColor (ToolResources.retrieveMenuDrawerSectionTextColor(mViewHolder.selfText.getContext ()));
 
         if (mHasColor) {
             if (null != mViewHolder.selfIcon) {

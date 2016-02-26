@@ -38,8 +38,9 @@
     <!-- Default: list selector -->
     <attr name="listDefaultSelector" format="reference"/>
 
-    <!-- Drawer: user cover -->
+    <!-- Drawer -->
     <attr name="drawerCover" format="reference"/>
+    <attr name="menuDrawerSectionTextColor" format="color"/>
 
     <!-- FAB -->
     <attr name="fabDefaultColorNormal" format="reference"/>

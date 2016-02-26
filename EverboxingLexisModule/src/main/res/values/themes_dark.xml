@@ -20,6 +20,7 @@
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_brown_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
+        <item name="menuDrawerSectionTextColor">@color/menu_drawer_dark_section_text_color</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>
