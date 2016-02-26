@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.0.0-beta5'
+        classpath 'com.android.tools.build:gradle:2.0.0-beta6'
 
         // Required for tests
         // classpath 'org.robolectric:robolectric-gradle-plugin:1.0.1'

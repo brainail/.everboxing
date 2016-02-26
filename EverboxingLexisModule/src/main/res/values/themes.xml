@@ -23,6 +23,8 @@
         <item name="listDefaultSelector">@drawable/list_item_default_selector</item>
         <item name="menuDrawerSectionTextColor">@color/menu_drawer_section_text_color</item>
         <item name="toolbarDefaultStyle">@style/AppToolbar.Primary</item>
+        <item name="contentDefaultBackground">@color/content_bg_default</item>
+        <item name="menuDrawerBackgroundColor">@color/menu_drawer_background_default</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_indigo_700</item>

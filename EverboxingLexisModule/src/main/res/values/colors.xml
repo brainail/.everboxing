@@ -53,6 +53,7 @@
 
     <!-- Drawer -->
     <color name="menu_drawer_background_default">#fffafafa</color>
+    <color name="menu_drawer_background_dark_default">#ff252525</color>
     <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
     <color name="menu_drawer_user_cover_data_gradient">#70333333</color>
     <color name="menu_drawer_help_sections_dropshadow">#14000000</color>
@@ -76,6 +77,8 @@
 
     <!-- Other -->
     <color name="content_bg_default">#ffeeeeee</color>
+    <color name="content_bg_dark_default">@color/md_grey_850</color>
+
     <color name="separator_dropshadow_default">#77333333</color>
     <color name="divider_color">#ff6b6b6b</color>
 
