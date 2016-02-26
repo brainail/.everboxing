@@ -14,13 +14,15 @@
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
         <item name="android:windowBackground">@color/content_bg_default</item>
         <item name="actionBarStyle">@style/AppActionBar.Primary</item>
-        <item name="toolbarStyle">@style/AppToolbar.Primary</item>
+        <!-- We use toolbarDefaultStyle instead of ... -->
+        <!-- <item name="toolbarStyle">@style/AppToolbar.Primary</item> -->
 
         <!-- Custom section -->
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_default_pink_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_selector</item>
         <item name="menuDrawerSectionTextColor">@color/menu_drawer_section_text_color</item>
+        <item name="toolbarDefaultStyle">@style/AppToolbar.Primary</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_indigo_700</item>

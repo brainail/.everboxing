@@ -42,6 +42,9 @@
     <attr name="drawerCover" format="reference"/>
     <attr name="menuDrawerSectionTextColor" format="color"/>
 
+    <!-- Toolbar -->
+    <attr name="toolbarDefaultStyle" format="reference"/>
+
     <!-- FAB -->
     <attr name="fabDefaultColorNormal" format="reference"/>
     <attr name="fabDefaultColorPressed" format="reference"/>

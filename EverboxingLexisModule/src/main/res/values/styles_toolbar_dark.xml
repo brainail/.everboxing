@@ -2,21 +2,18 @@
 
     <!-- Toolbar -->
     <style name="AppToolbarDark" parent="Widget.AppCompat.Toolbar"/>
-
     <style name="AppToolbarDark.Primary">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="theme">@style/AppToolbarDarkTheme</item>
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <style name="AppToolbarDarkTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="AppToolbarDarkTheme" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorControlNormal">@color/md_white_1000</item>
     </style>
 
     <!-- ActionBar -->
     <style name="AppActionBarDark" parent="Widget.AppCompat.ActionBar"/>
-
-    <style name="AppActionBarDark.Primary">
-    </style>
+    <style name="AppActionBarDark.Primary"/>
 
 </resources>

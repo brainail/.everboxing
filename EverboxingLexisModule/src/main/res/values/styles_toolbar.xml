@@ -2,7 +2,6 @@
 
     <!-- Toolbar -->
     <style name="AppToolbar" parent="Widget.AppCompat.Toolbar"/>
-
     <style name="AppToolbar.Primary">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/AppToolbarTheme</item>
@@ -15,8 +14,6 @@
 
     <!-- ActionBar -->
     <style name="AppActionBar" parent="Widget.AppCompat.ActionBar"/>
-
-    <style name="AppActionBar.Primary">
-    </style>
+    <style name="AppActionBar.Primary"/>
 
 </resources>
