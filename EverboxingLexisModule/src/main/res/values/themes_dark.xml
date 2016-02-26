@@ -12,8 +12,10 @@
         <item name="colorAccent">@color/md_blue_grey_600</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogDarkStyle</item>
-
         <item name="android:windowBackground">@color/md_grey_850</item>
+        <item name="actionBarStyle">@style/AppActionBarDark.Primary</item>
+        <item name="toolbarStyle">@style/AppToolbarDark.Primary</item>
+
         <!-- Custom section -->
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_brown_theme</item>

@@ -39,4 +39,21 @@
         <!-- ... -->
     </style>
 
+    <!-- Text -->
+    <style name="AppTextAppearance" parent="TextAppearance.AppCompat">
+        <!-- <item name="android:textColor">@color/text_color_primary</item> -->
+    </style>
+    <style name="AppTextAppearance.Small">
+        <item name="android:textSize">@dimen/text_font_small</item>
+    </style>
+    <style name="AppTextAppearance.Regular">
+        <item name="android:textSize">@dimen/text_font_regular</item>
+    </style>
+    <style name="AppTextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_font_medium</item>
+    </style>
+    <style name="AppTextAppearance.Large">
+        <item name="android:textSize">@dimen/text_font_large</item>
+    </style>
+
 </resources>

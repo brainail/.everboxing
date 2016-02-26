@@ -59,4 +59,14 @@
     <dimen name="app_minimumsize_w">632.0dip</dimen>
     <dimen name="app_minimumsize_h">598.0dip</dimen>
 
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="screen_edge_margin_horizontal">16dp</dimen>
+    <dimen name="screen_edge_margin_vertical">16dp</dimen>
+
+    <!-- Text common metrics -->
+    <dimen name="text_font_small">12sp</dimen>
+    <dimen name="text_font_regular">14sp</dimen>
+    <dimen name="text_font_medium">16sp</dimen>
+    <dimen name="text_font_large">18sp</dimen>
+
 </resources>

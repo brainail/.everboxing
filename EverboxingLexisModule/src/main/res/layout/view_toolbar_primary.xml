@@ -6,6 +6,6 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_primary"
         android:layout_width="match_parent"
-        style="@style/AppToolbar.Primary"/>
+        android:layout_height="?attr/actionBarSize"/>
 
 </merge>
