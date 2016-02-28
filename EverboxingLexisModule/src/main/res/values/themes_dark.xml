@@ -7,9 +7,9 @@
         <!-- ... -->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="colorPrimary">@color/md_blue_grey_900</item>
-        <item name="colorPrimaryDark">#21272b</item>
-        <item name="colorAccent">@color/md_teal_300</item>
+        <item name="colorPrimary">#556369</item>
+        <item name="colorPrimaryDark">#3b464b</item>
+        <item name="colorAccent">#43b0e0</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogDarkStyle</item>
         <item name="android:windowBackground">@color/content_bg_dark_default</item>
@@ -21,7 +21,6 @@
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_brown_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
-        <item name="menuDrawerSectionTextColor">@color/menu_drawer_dark_section_text_color</item>
         <item name="toolbarDefaultStyle">@style/AppToolbarDark.Primary</item>
         <item name="contentDefaultBackground">@color/content_bg_dark_default</item>
         <item name="menuDrawerBackgroundColor">@color/menu_drawer_background_dark_default</item>

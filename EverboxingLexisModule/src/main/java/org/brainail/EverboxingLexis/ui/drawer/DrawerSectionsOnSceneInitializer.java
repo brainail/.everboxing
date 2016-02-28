@@ -95,7 +95,7 @@ public final class DrawerSectionsOnSceneInitializer {
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withName (ToolResources.string (R.string.section_lucky))
-                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_shuffle))
+                            .withIcon (BaseIcon.controlIcon (scene, Iconify.IconValue.zmdi_shuffle))
                             .withTarget ((DrawerSectionCallback) scene)
             );
 
@@ -104,7 +104,7 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withName (ToolResources.string (R.string.settings_activity_title))
                             .withLocationType (DrawerSection.LocationType.HELP)
-                            .withIcon (BaseIcon.icon (scene, Iconify.IconValue.zmdi_settings))
+                            .withIcon (BaseIcon.controlIcon (scene, Iconify.IconValue.zmdi_settings))
                             .withTarget (SettingsActivity.class)
             );
         }

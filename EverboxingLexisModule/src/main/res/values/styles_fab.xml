@@ -24,13 +24,6 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <!--<style name="FabMenuButtonStyle">-->
-        <!--<item name="fab_size">mini</item>-->
-        <!--<item name="fab_showAnimation">@anim/fab_jump_from_down_animation</item>-->
-        <!--<item name="fab_hideAnimation">@anim/fab_jump_to_down_animation</item>-->
-        <!--<item name="fab_shadowColor">#ff444444</item>-->
-    <!--</style>-->
-
     <style name="FabMenuButtonSmallStyle">
         <item name="fab_size">mini</item>
         <item name="fab_colorNormal">?attr/fabDefaultColorNormal</item>
@@ -39,4 +32,11 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <!--<style name="FabMenuButtonStyle">-->
+    <!--<item name="fab_size">mini</item>-->
+    <!--<item name="fab_showAnimation">@anim/fab_jump_from_down_animation</item>-->
+    <!--<item name="fab_hideAnimation">@anim/fab_jump_to_down_animation</item>-->
+    <!--<item name="fab_shadowColor">#ff444444</item>-->
+    <!--</style>-->
 </resources>

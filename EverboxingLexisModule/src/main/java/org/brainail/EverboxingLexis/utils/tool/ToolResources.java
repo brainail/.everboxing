@@ -89,7 +89,7 @@ public final class ToolResources {
     }
 
     public static int retrievePrimaryColor(final Context context, final int themeResId) {
-        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimary}, R.color.primary_default);
+        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimary}, R.color.md_pink_500);
     }
 
     public static int retrievePrimaryDarkColor(final Context context) {
@@ -97,7 +97,7 @@ public final class ToolResources {
     }
 
     public static int retrievePrimaryDarkColor(final Context context, final int themeResId) {
-        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimaryDark}, R.color.primary_default_dark);
+        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorPrimaryDark}, R.color.md_pink_700);
     }
 
     public static int retrieveAccentColor(final Context context) {
@@ -105,7 +105,7 @@ public final class ToolResources {
     }
 
     public static int retrieveAccentColor(final Context context, final int themeResId) {
-        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorAccent}, R.color.accent_default);
+        return retrieveThemeColor(context, themeResId, new int [] {R.attr.colorAccent}, R.color.md_indigo_400);
     }
 
     public static int retrieveMenuDrawerSectionTextColor(final Context context) {
@@ -115,8 +115,8 @@ public final class ToolResources {
     public static int retrieveMenuDrawerSectionTextColor(final Context context, final int themeResId) {
         return retrieveThemeColor(
                 context, themeResId,
-                new int [] {R.attr.menuDrawerSectionTextColor},
-                R.color.menu_drawer_section_text_color
+                new int [] {android.R.attr.textColorPrimary},
+                android.R.color.black
         );
     }
 

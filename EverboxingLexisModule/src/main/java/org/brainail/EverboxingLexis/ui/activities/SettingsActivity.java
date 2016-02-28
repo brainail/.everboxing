@@ -233,7 +233,7 @@ public class SettingsActivity
 
             // Sync data
             final Preference syncDataPf = findPreference (getString (R.string.settings_sync_account_key));
-            syncDataPf.setIcon (BaseIcon.icon (getActivity (), zmdi_refresh_sync));
+            syncDataPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_refresh_sync));
             if (! syncDataPf.isEnabled ()) {
                 final PreferenceScreen rootScreen
                         = (PreferenceScreen) findPreference(getString(R.string.settings_preference_screen_root));
@@ -245,7 +245,7 @@ public class SettingsActivity
             // Change theme
             final String defChangeThemeSummary = SettingsManager.getInstance ().retrieveAppThemeSummary ();
             final Preference changeThemePf = findPreference (getString (R.string.settings_change_theme_key));
-            changeThemePf.setIcon (BaseIcon.icon (getActivity (), zmdi_palette));
+            changeThemePf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_palette));
             bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
             // Load remote content
@@ -253,45 +253,45 @@ public class SettingsActivity
                     = SettingsManager.getInstance ().retrieveLoadRemoteContentModeSummary ();
             final Preference loadRemoteContentPf
                     = findPreference (getString (R.string.settings_load_remote_content_key));
-            loadRemoteContentPf.setIcon (BaseIcon.icon (getActivity (), zmdi_remote_control));
+            loadRemoteContentPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_remote_control));
             bindPreferenceSummary (loadRemoteContentPf, defLoadRemoteContentSummary, true);
 
             // Fab zoom
             final Preference fabZoomPf = findPreference (getString (R.string.settings_fab_zoom_key));
-            fabZoomPf.setIcon (BaseIcon.icon (getActivity (), zmdi_zoom_in));
+            fabZoomPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_zoom_in));
 
             // Scroll to top when double tap on tab
             final Preference scrollToTopWhenDoubleTapOnTabPf
                     = findPreference (getString (R.string.settings_double_tap_scroll_to_top_key));
-            scrollToTopWhenDoubleTapOnTabPf.setIcon (BaseIcon.icon (getActivity (), zmdi_format_valign_top));
+            scrollToTopWhenDoubleTapOnTabPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_format_valign_top));
 
             // Scroll to bottom when long tap on tab
             final Preference scrollToBottomWhenLongTapOnTabPf
                     = findPreference (getString (R.string.settings_long_tap_scroll_to_bottom_key));
-            scrollToBottomWhenLongTapOnTabPf.setIcon (BaseIcon.icon (getActivity (), zmdi_format_valign_bottom));
+            scrollToBottomWhenLongTapOnTabPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_format_valign_bottom));
 
             // Scroll to bottom when long tap on tab
             final Preference articleInFullscreenPf
                     = findPreference (getString (R.string.settings_article_in_fullscreen_key));
-            articleInFullscreenPf.setIcon (BaseIcon.icon (getActivity (), zmdi_fullscreen));
+            articleInFullscreenPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_fullscreen));
 
             // Speech language
             final String defSpeechLanguageSummary = SettingsManager.getInstance ().retrieveSpeechLanguageSummary ();
             final Preference speechLanguagePf = findPreference (getString (R.string.settings_speech_language_key));
-            speechLanguagePf.setIcon (BaseIcon.icon (getActivity (), zmdi_hearing));
+            speechLanguagePf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_hearing));
             bindPreferenceSummary (speechLanguagePf, defSpeechLanguageSummary, true);
 
             // Random lookup
             final Preference isRandomLookupViaFavPf = findPreference (getString (R.string.settings_random_lookup_key));
-            isRandomLookupViaFavPf.setIcon (BaseIcon.icon (getActivity (), zmdi_favorite));
+            isRandomLookupViaFavPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_favorite));
 
             // About
             final Preference feedbackPf = findPreference (getString (R.string.settings_feedback_key));
-            feedbackPf.setIcon (BaseIcon.icon (getActivity (), zmdi_email));
+            feedbackPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_email));
 
             // About
             final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
-            aboutPf.setIcon (BaseIcon.icon (getActivity (), zmdi_info_outline));
+            aboutPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_info_outline));
 
             // Set click listeners
             setOnClickListener (getString (R.string.settings_sync_account_key));

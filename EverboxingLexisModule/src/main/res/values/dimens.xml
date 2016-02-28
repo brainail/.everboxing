@@ -5,18 +5,18 @@
     <dimen name="menu_drawer_width">304dp</dimen>
     <dimen name="menu_drawer_section_height">48dp</dimen>
     <dimen name="menu_drawer_section_icon_size">24dp</dimen>
-    <dimen name="menu_drawer_section_horizontal_margin">16dp</dimen>
     <dimen name="menu_drawer_section_title_after_icon_margin">72dp</dimen>
     <dimen name="menu_drawer_section_vertical_margin">8dp</dimen>
     <dimen name="menu_drawer_section_help_section_dropdown_shadow_height">4dp</dimen>
-    <dimen name="menu_drawer_section_text_size">14sp</dimen>
     <dimen name="menu_drawer_section_notifications_width">40dp</dimen>
     <item name="menu_drawer_section_icon_alpha" type="dimen" format="float">1</item>
-    <item name="menu_drawer_section_icon_alpha_guidelines" type="dimen" format="float">0.54</item>
-    <item name="menu_drawer_section_title_alpha" type="dimen" format="float">0.87</item>
-    <item name="menu_drawer_section_subheader" type="dimen" format="float">0.54</item>
     <dimen name="menu_drawer_user_cover_height">164dp</dimen>
     <dimen name="menu_drawer_user_data_height">70dp</dimen>
+
+    <item name="section_title_alpha" type="dimen" format="float">0.87</item>
+    <item name="section_subheader_alpha" type="dimen" format="float">0.54</item>
+    <dimen name="section_text_size">14sp</dimen>
+    <dimen name="section_horizontal_margin">16dp</dimen>
 
     <!-- Icons -->
     <dimen name="base_icon_size">24dp</dimen>

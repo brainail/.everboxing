@@ -115,7 +115,7 @@ public class FileSelectListAdapter extends BaseAdapter {
             view = inflater.inflate(viewId, parent, false);
             if (isDir) {
                 ImageView dirIconView = (ImageView) view.findViewById(R.id.file_select_directory_icon);
-                dirIconView.setImageDrawable(BaseIcon.icon (parent.getContext (), Iconify.IconValue.zmdi_folder));
+                dirIconView.setImageDrawable(BaseIcon.controlIcon (parent.getContext (), Iconify.IconValue.zmdi_folder));
             }
         }
 

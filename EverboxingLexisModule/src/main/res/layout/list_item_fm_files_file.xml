@@ -7,7 +7,7 @@
     android:paddingBottom="8dip"
     android:minHeight="48dp"
     tools:background="@color/md_pink_700"
-    android:paddingLeft="@dimen/menu_drawer_section_horizontal_margin"
+    android:paddingLeft="@dimen/section_horizontal_margin"
     android:paddingRight="16dip"
     style="@style/FileManagerItem"
     android:paddingTop="6dip"

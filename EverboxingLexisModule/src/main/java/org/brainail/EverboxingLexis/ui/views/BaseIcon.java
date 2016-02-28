@@ -6,7 +6,6 @@ import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.utils.tool.ToolColor;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 /**
@@ -40,7 +39,7 @@ public class BaseIcon extends IconDrawable {
         super(context, icon);
     }
 
-    public static BaseIcon icon (final Context context, final Iconify.IconValue icon) {
+    public static BaseIcon controlIcon (final Context context, final Iconify.IconValue icon) {
         final BaseIcon drawable = new BaseIcon(context, icon);
         drawable.color (ToolResources.retrievePrimaryColor (context));
         drawable.sizeRes (R.dimen.base_icon_size);
@@ -49,14 +48,6 @@ public class BaseIcon extends IconDrawable {
 
     public static BaseIcon defIcon (final Context context, final Iconify.IconValue icon) {
         final BaseIcon drawable = new BaseIcon(context, icon);
-        // drawable.color (ToolResources.retrievePrimaryColor (context));
-        drawable.sizeRes (R.dimen.base_icon_size);
-        return drawable;
-    }
-
-    public static BaseIcon barIcon (final Context context, final Iconify.IconValue icon) {
-        final BaseIcon drawable = new BaseIcon(context, icon);
-        drawable.color (ToolColor.by (R.color.md_white_1000));
         drawable.sizeRes (R.dimen.base_icon_size);
         return drawable;
     }

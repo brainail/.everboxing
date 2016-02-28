@@ -8,7 +8,7 @@
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
-    <style name="AppToolbarDarkTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="AppToolbarDarkTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlNormal">@color/md_white_1000</item>
     </style>
 

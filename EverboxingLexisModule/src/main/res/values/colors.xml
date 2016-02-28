@@ -1,65 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Theme colors. #Default Pink -->
-    <color name="primary_default">@color/md_pink_500</color>
-    <color name="primary_default_dark">@color/md_pink_700</color>
-    <color name="accent_default">@color/md_indigo_400</color>
-
-    <!-- Theme colors. #Indigo -->
-    <color name="primary_indigo">@color/md_indigo_500</color>
-    <color name="primary_indigo_dark">@color/md_indigo_700</color>
-    <color name="accent_indigo">@color/md_pink_400</color>
-
-    <!-- Theme colors. #Blue -->
-    <color name="primary_blue">@color/md_blue_500</color>
-    <color name="primary_blue_dark">@color/md_blue_700</color>
-    <color name="accent_blue">@color/md_orange_400</color>
-
-    <!-- Theme colors. #Cyan -->
-    <color name="primary_cyan">@color/md_cyan_500</color>
-    <color name="primary_cyan_dark">@color/md_cyan_700</color>
-    <color name="accent_cyan">@color/md_amber_400</color>
-
-    <!-- Theme colors. #Teal -->
-    <color name="primary_teal">@color/md_teal_500</color>
-    <color name="primary_teal_dark">@color/md_teal_700</color>
-    <color name="accent_teal">@color/md_red_400</color>
-
-    <!-- Theme colors. #Green -->
-    <color name="primary_green">@color/md_green_500</color>
-    <color name="primary_green_dark">@color/md_green_700</color>
-    <color name="accent_green">@color/md_deep_orange_400</color>
-
-    <!-- Theme colors. #Light Green -->
-    <color name="primary_lgreen">@color/md_light_green_500</color>
-    <color name="primary_lgreen_dark">@color/md_light_green_700</color>
-    <color name="accent_lgreen">@color/md_light_blue_400</color>
-
-    <!-- Theme colors. #Purple -->
-    <color name="primary_purple">@color/md_purple_500</color>
-    <color name="primary_purple_dark">@color/md_purple_700</color>
-    <color name="accent_purple">@color/md_teal_400</color>
-
-    <!-- Theme colors. #Brown -->
-    <color name="primary_brown">@color/md_brown_500</color>
-    <color name="primary_brown_dark">@color/md_brown_700</color>
-    <color name="accent_brown">@color/md_blue_grey_400</color>
-
-    <!-- Theme colors. #Orange -->
-    <color name="primary_orange">@color/md_orange_500</color>
-    <color name="primary_orange_dark">@color/md_orange_700</color>
-    <color name="accent_orange">@color/md_brown_400</color>
-
     <!-- Drawer -->
     <color name="menu_drawer_background_default">#fffafafa</color>
-    <color name="menu_drawer_background_dark_default">#ff252525</color>
-    <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
-    <color name="menu_drawer_user_cover_data_gradient">#70333333</color>
     <color name="menu_drawer_help_sections_dropshadow">#14000000</color>
-    <color name="menu_drawer_section_text_color">#de212121</color>
-    <color name="menu_drawer_dark_section_text_color">#deffffff</color>
-    <color name="menu_drawer_section_subheader_text_color">#8a212121</color>
+    <!-- Drawer Dark -->
+    <color name="menu_drawer_background_dark_default">#ff252525</color>
+    <!-- Drawer Misc -->
+    <color name="menu_drawer_user_cover_data_gradient">#70333333</color>
+    <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
 
     <!-- Notices -->
     <color name="notice_default_text_color">#ffffff</color>
@@ -68,17 +17,18 @@
     <!-- List selector -->
     <color name="list_item_default_pressed_state">#ffd5d5d5</color>
     <color name="list_item_default_selected_state">#ffe9e9e9</color>
-    <color name="list_item_default_transparent_state">@android:color/transparent</color>
-
+    <color name="list_item_default_transparent_state">#00000000</color>
     <!-- List selector Dark -->
-    <color name="list_item_default_dark_pressed_state">#616161</color>
-    <color name="list_item_default_dark_selected_state">#757575</color>
-    <color name="list_item_default_dark_transparent_state">@android:color/transparent</color>
+    <color name="list_item_default_dark_pressed_state">#7f353535</color>
+    <color name="list_item_default_dark_selected_state">#7f404040</color>
+    <color name="list_item_default_dark_transparent_state">#00000000</color>
 
-    <!-- Other -->
+    <!-- Content background -->
     <color name="content_bg_default">#ffeeeeee</color>
-    <color name="content_bg_dark_default">@color/md_grey_850</color>
+    <!-- Content background Dark -->
+    <color name="content_bg_dark_default">#ff212121</color>
 
+    <!-- Misc -->
     <color name="separator_dropshadow_default">#77333333</color>
     <color name="divider_color">#ff6b6b6b</color>
 
