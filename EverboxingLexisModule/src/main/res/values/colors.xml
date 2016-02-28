@@ -11,8 +11,9 @@
     <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
 
     <!-- Notices -->
-    <color name="notice_default_text_color">#ffffff</color>
     <color name="notice_background">#ff323232</color>
+    <!-- Notices Dark -->
+    <color name="notice_dark_background">#4e4e4e</color>
 
     <!-- List selector -->
     <color name="list_item_default_pressed_state">#ffd5d5d5</color>
@@ -26,7 +27,12 @@
     <!-- Content background -->
     <color name="content_bg_default">#ffeeeeee</color>
     <!-- Content background Dark -->
-    <color name="content_bg_dark_default">#ff212121</color>
+    <color name="content_bg_dark_default">#ff303030</color>
+
+    <!-- Card background -->
+    <color name="card_bg_default">#fffafafa</color>
+    <!-- Card background Dark -->
+    <color name="card_bg_dark_default">#ff666666</color>
 
     <!-- Misc -->
     <color name="separator_dropshadow_default">#77333333</color>

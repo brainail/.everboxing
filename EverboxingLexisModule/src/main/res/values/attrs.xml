@@ -47,6 +47,8 @@
 
     <!-- Background -->
     <attr name="contentDefaultBackground" format="color"/>
+    <attr name="cardDefaultBackground" format="color"/>
+    <attr name="snackDefaultBackground" format="color"/>
 
     <!-- FAB -->
     <attr name="fabDefaultColorNormal" format="reference"/>

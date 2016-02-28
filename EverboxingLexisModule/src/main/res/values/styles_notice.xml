@@ -36,7 +36,7 @@
         <item name="android:layout_marginRight">@dimen/notice_horizontal_side_spacing</item>
         <item name="android:textSize">@dimen/notice_message_text_size</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:textColor">@color/notice_default_text_color</item>
+        <item name="android:textColor">#ffffff</item>
         <item name="android:gravity">center_vertical|left</item>
         <item name="fontPath">fonts/Roboto-Regular.ttf</item>
     </style>

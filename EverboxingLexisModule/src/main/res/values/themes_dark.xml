@@ -23,6 +23,8 @@
         <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
         <item name="toolbarDefaultStyle">@style/AppToolbarDark.Primary</item>
         <item name="contentDefaultBackground">@color/content_bg_dark_default</item>
+        <item name="cardDefaultBackground">@color/card_bg_dark_default</item>
+        <item name="snackDefaultBackground">@color/notice_dark_background</item>
         <item name="menuDrawerBackgroundColor">@color/menu_drawer_background_dark_default</item>
 
         <!-- FAB -->

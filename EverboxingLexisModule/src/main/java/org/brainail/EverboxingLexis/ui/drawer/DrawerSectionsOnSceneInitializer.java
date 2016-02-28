@@ -54,7 +54,7 @@ public final class DrawerSectionsOnSceneInitializer {
             // Lookup
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle (ToolResources.string (R.string.section_lookup))
+                            .withTitle ("\u00A0")
                             .withName (ToolResources.string (R.string.section_lookup))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_search))
                             .withTarget (DrawerFragmentCreator.from (LexisLookupFragment.class))
