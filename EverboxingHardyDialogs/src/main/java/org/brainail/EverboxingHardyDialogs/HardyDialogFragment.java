@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.io.Serializable;
@@ -143,7 +144,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                     && ViewGroup.LayoutParams.MATCH_PARENT != size
                     && ViewGroup.LayoutParams.WRAP_CONTENT != size) {
                 final DisplayMetrics displayMetrics = HardyDialogsContext.get ().getResources ().getDisplayMetrics ();
-                return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) size, displayMetrics);
+                return (int) TypedValue.applyDimension (TypedValue.COMPLEX_UNIT_DIP, (float) size, displayMetrics);
             }
 
             return size;
@@ -181,8 +182,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     private boolean mIsIndeterminateProgress;
     
     private boolean mHasList;
-    private CharSequence [] mListItems;
-    private String [] mListItemsTags;
+    private CharSequence[] mListItems;
+    private String[] mListItemsTags;
     
     // Callback for actions
     public static interface OnDialogActionCallback {
@@ -273,15 +274,15 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         // List's stuff
         mHasList = args.getBoolean (Args.HAS_LIST);
         final ArrayList<String> items = getArguments ().getStringArrayList (Args.LIST_ITEMS);
-        mListItems = (null != items && ! items.isEmpty ())
-                ? items.toArray (new CharSequence [items.size ()])
-                : new CharSequence [] {};
+        mListItems = (null != items && !items.isEmpty ())
+                ? items.toArray (new CharSequence[items.size ()])
+                : new CharSequence[] {};
         final ArrayList<String> itemsTags = getArguments ().getStringArrayList (Args.LIST_ITEMS_TAGS);
-        mListItemsTags = (null != itemsTags && ! itemsTags.isEmpty ())
-                ? itemsTags.toArray (new String [itemsTags.size ()])
-                : new String [] {};
+        mListItemsTags = (null != itemsTags && !itemsTags.isEmpty ())
+                ? itemsTags.toArray (new String[itemsTags.size ()])
+                : new String[] {};
         
-        if (! mIsRestorable) {
+        if (!mIsRestorable) {
             // Remove to avoid leaks and crashes
             args.remove (Args.ISOLATED_HANDLER);
             args.remove (Args.ATTACHED_PARCELABLE_DATA);
@@ -300,14 +301,14 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     @NonNull
     public Dialog onCreateDialog (Bundle savedInstanceState) {
         // Don't let to restore this dialog
-        if (null != savedInstanceState && ! mIsRestorable) {
+        if (null != savedInstanceState && !mIsRestorable) {
             dismiss ();
         }
         
-        final AlertDialog.Builder builder = ! mHasProgress ? new AlertDialog.Builder (getActivity ()) : null;
+        final AlertDialog.Builder builder = !mHasProgress ? new AlertDialog.Builder (getActivity ()) : null;
         final ProgressDialog progress = mHasProgress ? new ProgressDialog (getActivity ()) : null;
         
-        if (! TextUtils.isEmpty (mTitle)) {
+        if (!TextUtils.isEmpty (mTitle)) {
             if (null != progress) {
                 progress.setTitle (mTitle);
             } else {
@@ -315,7 +316,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         }
         
-        if (! TextUtils.isEmpty (mBody)) {
+        if (!TextUtils.isEmpty (mBody)) {
             if (null != progress) {
                 progress.setMessage (mBody);
             } else if (NO_RESOURCE_ID == mBodyId) {
@@ -345,7 +346,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                     ((TextView) positiveButton).setText (mPositiveButton);
                     positiveButton.setOnClickListener (mOnPositiveButtonListenerClickWrapper);
                 }
-            } else if (! TextUtils.isEmpty (mPositiveButton)) {
+            } else if (!TextUtils.isEmpty (mPositiveButton)) {
                 builder.setPositiveButton (mPositiveButton, mOnPositiveButtonListener);
             }
         }
@@ -357,7 +358,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                     ((TextView) neutralButton).setText (mNeutralButton);
                     neutralButton.setOnClickListener (mOnNeutralButtonListenerClickWrapper);
                 }
-            } else if (! TextUtils.isEmpty (mNeutralButton)) {
+            } else if (!TextUtils.isEmpty (mNeutralButton)) {
                 builder.setNeutralButton (mNeutralButton, mOnNeutralButtonListener);
             }
         }
@@ -369,7 +370,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                     ((TextView) negativeButton).setText (mNegativeButton);
                     negativeButton.setOnClickListener (mOnNegativeButtonListenerClickWrapper);
                 }
-            } else if (! TextUtils.isEmpty (mNegativeButton)) {
+            } else if (!TextUtils.isEmpty (mNegativeButton)) {
                 builder.setNegativeButton (mNegativeButton, mOnNegativeButtonListener);
             }
         }
@@ -398,7 +399,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         }
         
-        if (! mIsCancelable) {
+        if (!mIsCancelable) {
             dialog.setCancelable (false);
             dialog.setCanceledOnTouchOutside (false);
         }
@@ -408,16 +409,22 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             // dialog.getWindow ().clearFlags (WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
 
-        if (null != builder && NO_RESOURCE_ID != mContentLayoutId && null != mContentLayoutParams) {
-            window.setLayout (mContentLayoutParams.widthInPixels (), mContentLayoutParams.heightInPixels ());
-        }
-
         setOnKeyListener (dialog);
         
         dialog.setOnShowListener (new DialogInterface.OnShowListener () {
             @Override
             public void onShow (DialogInterface dialog) {
                 handleDialogShow ();
+
+                // The system is finicky about when they are set ;(
+                if (NO_RESOURCE_ID != mContentLayoutId && null != mContentLayoutParams) {
+                    final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams ();
+                    final Window window = getDialog ().getWindow ();
+                    layoutParams.copyFrom (window.getAttributes ());
+                    layoutParams.width = mContentLayoutParams.widthInPixels ();
+                    layoutParams.height = mContentLayoutParams.heightInPixels ();
+                    window.setAttributes (layoutParams);
+                }
             }
         });
         
@@ -523,8 +530,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     
     private void handleDialogListAction (final int which) {
         if (mHasCallbacks) {
-            final String item = which < mListItems.length ? mListItems [which].toString () : null;
-            final String itemTag = which < mListItemsTags.length ? mListItemsTags [which] : null;
+            final String item = which < mListItems.length ? mListItems[which].toString () : null;
+            final String itemTag = which < mListItemsTags.length ? mListItemsTags[which] : null;
             if (null != mIsolatedHandler) {
                 mIsolatedHandler.onDialogListAction (this, which, item, itemTag);
             } else if (mHasTargetFragment && getParentFragment () instanceof OnDialogListActionCallback) {

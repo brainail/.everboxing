@@ -20,7 +20,7 @@
     <style name="ItemDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height" tools:ignore="PxUsage">@dimen/divider_height</item>
-        <item name="android:background">@color/divider_color</item>
+        <item name="android:background">?attr/dividerDefaultColor</item>
         <item name="android:alpha">@dimen/divider_alpha</item>
     </style>
 

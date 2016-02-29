@@ -26,6 +26,9 @@
         <item name="cardDefaultBackground">@color/card_bg_default</item>
         <item name="snackDefaultBackground">@color/notice_background</item>
         <item name="menuDrawerBackgroundColor">@color/menu_drawer_background_default</item>
+        <item name="dividerDefaultColor">@color/divider_color</item>
+        <item name="dropshadowDefaultColor">@color/separator_dropshadow_default</item>
+        <item name="menuDrawerHelSectionsDropshadowColor">@color/menu_drawer_help_sections_dropshadow</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_indigo_700</item>
@@ -44,22 +47,6 @@
         <item name="fabDefaultColorNormal">@color/md_indigo_700</item>
         <item name="fabDefaultColorPressed">@color/md_indigo_600</item>
         <item name="fabDefaultColorRipple">@color/md_indigo_300</item>
-    </style>
-
-    <!-- Default. Translucent -->
-    <style name="AppTheme.Default.Translucent">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
-
-    <style name="AppTheme.Default.Translucent.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
     <!-- Default. Colorized. Indigo -->

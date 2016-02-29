@@ -1,6 +1,8 @@
 package org.brainail.EverboxingLexis.ui.views.dialogs.hardy;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -42,7 +44,8 @@ public class RemoteHardyDialogsActivity extends org.brainail.EverboxingHardyDial
     protected void onCreate (@Nullable Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
 
-        getWindow ().setBackgroundDrawable (null);
+        // getWindow ().setBackgroundDrawable (null);
+        getWindow().setBackgroundDrawable(new ColorDrawable (Color.TRANSPARENT));
 
         // Init & check theme
         mTheme = ThemeManager.checkOnCreate (this, mTheme);

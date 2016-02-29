@@ -41,6 +41,7 @@
     <!-- Drawer -->
     <attr name="drawerCover" format="reference"/>
     <attr name="menuDrawerBackgroundColor" format="color"/>
+    <attr name="menuDrawerHelSectionsDropshadowColor" format="color"/>
 
     <!-- Toolbar -->
     <attr name="toolbarDefaultStyle" format="reference"/>
@@ -54,5 +55,9 @@
     <attr name="fabDefaultColorNormal" format="reference"/>
     <attr name="fabDefaultColorPressed" format="reference"/>
     <attr name="fabDefaultColorRipple" format="reference"/>
+
+    <!-- Misc -->
+    <attr name="dividerDefaultColor" format="color"/>
+    <attr name="dropshadowDefaultColor" format="color"/>
 
 </resources>

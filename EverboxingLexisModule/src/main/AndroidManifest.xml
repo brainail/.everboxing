@@ -134,8 +134,7 @@
             android:excludeFromRecents="true"
             android:exported="false"
             android:launchMode="singleTask"
-            android:noHistory="false"
-            android:theme="@style/AppTheme.Default.Translucent.NoActionBar">
+            android:noHistory="false">
             <intent-filter>
                 <action android:name="org.brainail.EverboxingHardyDialogs.action.view.remote.dialog"/>
                 <category android:name="android.intent.category.DEFAULT"/>

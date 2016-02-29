@@ -6,6 +6,7 @@
     <color name="menu_drawer_help_sections_dropshadow">#14000000</color>
     <!-- Drawer Dark -->
     <color name="menu_drawer_background_dark_default">#ff252525</color>
+    <color name="menu_drawer_help_sections_dark_dropshadow">#77000000</color>
     <!-- Drawer Misc -->
     <color name="menu_drawer_user_cover_data_gradient">#70333333</color>
     <color name="menu_drawer_user_cover_data_text">#ffffffff</color>
@@ -20,8 +21,8 @@
     <color name="list_item_default_selected_state">#ffe9e9e9</color>
     <color name="list_item_default_transparent_state">#00000000</color>
     <!-- List selector Dark -->
-    <color name="list_item_default_dark_pressed_state">#7f353535</color>
-    <color name="list_item_default_dark_selected_state">#7f404040</color>
+    <color name="list_item_default_dark_pressed_state">#7f404040</color>
+    <color name="list_item_default_dark_selected_state">#7f353535</color>
     <color name="list_item_default_dark_transparent_state">#00000000</color>
 
     <!-- Content background -->
@@ -37,5 +38,8 @@
     <!-- Misc -->
     <color name="separator_dropshadow_default">#77333333</color>
     <color name="divider_color">#ff6b6b6b</color>
+    <!-- Misc Dark -->
+    <color name="separator_dropshadow_dark_default">#77131313</color>
+    <color name="divider_dark_color">#ffaaaaaa</color>
 
 </resources>
