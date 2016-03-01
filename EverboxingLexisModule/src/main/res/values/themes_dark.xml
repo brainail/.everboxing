@@ -19,7 +19,7 @@
 
         <!-- Custom section -->
         <!-- ... -->
-        <item name="drawerCover">@drawable/drawer_user_cover_brown_theme</item>
+        <item name="drawerCover">@drawable/drawer_user_cover_dark_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
         <item name="toolbarDefaultStyle">@style/AppToolbarDark.Primary</item>
         <item name="contentDefaultBackground">@color/content_bg_dark_default</item>
