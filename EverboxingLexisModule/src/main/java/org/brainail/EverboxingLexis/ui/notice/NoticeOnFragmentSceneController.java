@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.lang.ref.WeakReference;
@@ -63,7 +62,7 @@ class NoticeOnFragmentSceneController extends NoticeOnSceneController {
             if (null != root) {
                 // Keep once
                 if (null == mNoticeBuilder) {
-                    mNoticeBuilder = new NoticeBar.Builder(this, JApplication.appContext(), root);
+                    mNoticeBuilder = new NoticeBar.Builder(this, scene.getActivity (), root);
                 }
 
                 return mNoticeBuilder;

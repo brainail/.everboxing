@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notice_bar"
-    tools:background="#80000000"
+    tools:background="#80900000"
     style="@style/Notice.Bar">
 
     <TextView
