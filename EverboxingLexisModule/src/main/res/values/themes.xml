@@ -20,7 +20,7 @@
         <!-- Custom section -->
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_default_pink_theme</item>
-        <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
+        <item name="listDefaultSelector">@drawable/list_item_default_selector</item>
         <item name="toolbarDefaultStyle">@style/AppToolbar.Primary</item>
         <item name="contentDefaultBackgroundColor">@color/content_bg_default</item>
         <item name="cardDefaultBackgroundColor">@color/card_bg_default</item>
