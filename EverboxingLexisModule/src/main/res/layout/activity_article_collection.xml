@@ -26,7 +26,7 @@
         <!-- Content for articles -->
         <android.support.v4.view.ViewPager
             android:id="@+id/articles_pager"
-            android:background="?attr/contentDefaultBackground"
+            android:background="?attr/contentDefaultBackgroundColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>

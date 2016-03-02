@@ -25,7 +25,7 @@
             android:orientation="vertical"
             android:paddingRight="8dip"
             android:paddingTop="4dip"
-            android:background="?attr/cardDefaultBackground"
+            android:background="?attr/cardDefaultBackgroundColor"
             tools:background="#8056aa22">
 
             <LinearLayout

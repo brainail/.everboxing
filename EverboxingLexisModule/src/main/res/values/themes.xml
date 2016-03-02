@@ -22,13 +22,16 @@
         <item name="drawerCover">@drawable/drawer_user_cover_default_pink_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
         <item name="toolbarDefaultStyle">@style/AppToolbar.Primary</item>
-        <item name="contentDefaultBackground">@color/content_bg_default</item>
-        <item name="cardDefaultBackground">@color/card_bg_default</item>
-        <item name="snackDefaultBackground">@color/notice_background</item>
+        <item name="contentDefaultBackgroundColor">@color/content_bg_default</item>
+        <item name="cardDefaultBackgroundColor">@color/card_bg_default</item>
+        <item name="snackDefaultBackgroundColor">@color/notice_background</item>
+        <item name="snackDefaultBackgroundDrawable">@drawable/notice_bar_background</item>
         <item name="menuDrawerBackgroundColor">@color/menu_drawer_background_default</item>
         <item name="dividerDefaultColor">@color/divider_color</item>
         <item name="dropshadowDefaultColor">@color/separator_dropshadow_default</item>
+        <item name="dropshadowDefaultDrawable">@drawable/toolbar_dropshadow</item>
         <item name="menuDrawerHelSectionsDropshadowColor">@color/menu_drawer_help_sections_dropshadow</item>
+        <item name="menuDrawerHelSectionsDropshadowDrawable">@drawable/drawer_menu_help_sections_dropshadow</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_indigo_700</item>

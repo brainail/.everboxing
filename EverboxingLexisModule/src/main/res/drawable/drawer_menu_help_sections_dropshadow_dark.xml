@@ -4,7 +4,7 @@
 
     <gradient
         android:startColor="@android:color/transparent"
-        android:endColor="@color/separator_dropshadow_default"
-        android:angle="90"/>
+        android:endColor="@color/menu_drawer_help_sections_dark_dropshadow"
+        android:angle="270"/>
 
 </shape>

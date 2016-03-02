@@ -8,7 +8,7 @@
 
         <FrameLayout
             android:id="@id/base_fragment_container"
-            android:background="?attr/contentDefaultBackground"
+            android:background="?attr/contentDefaultBackgroundColor"
             style="@style/AppContentNested"/>
 
         <!-- Toolbar dropshadow -->

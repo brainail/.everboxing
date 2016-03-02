@@ -22,13 +22,16 @@
         <item name="drawerCover">@drawable/drawer_user_cover_dark_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_dark_selector</item>
         <item name="toolbarDefaultStyle">@style/AppToolbarDark.Primary</item>
-        <item name="contentDefaultBackground">@color/content_bg_dark_default</item>
-        <item name="cardDefaultBackground">@color/card_bg_dark_default</item>
-        <item name="snackDefaultBackground">@color/notice_dark_background</item>
+        <item name="contentDefaultBackgroundColor">@color/content_bg_dark_default</item>
+        <item name="cardDefaultBackgroundColor">@color/card_bg_dark_default</item>
+        <item name="snackDefaultBackgroundColor">@color/notice_dark_background</item>
+        <item name="snackDefaultBackgroundDrawable">@drawable/notice_bar_background_dark</item>
         <item name="menuDrawerBackgroundColor">@color/menu_drawer_background_dark_default</item>
         <item name="dividerDefaultColor">@color/divider_dark_color</item>
         <item name="dropshadowDefaultColor">@color/separator_dropshadow_dark_default</item>
+        <item name="dropshadowDefaultDrawable">@drawable/toolbar_dropshadow_dark</item>
         <item name="menuDrawerHelSectionsDropshadowColor">@color/menu_drawer_help_sections_dark_dropshadow</item>
+        <item name="menuDrawerHelSectionsDropshadowDrawable">@drawable/drawer_menu_help_sections_dropshadow_dark</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>
