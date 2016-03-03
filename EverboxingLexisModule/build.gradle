@@ -1,7 +1,7 @@
 // Version stuff for auto generated versionName and versionCode
 def appVersionMajor = 1
 def appVersionMinor = 0
-def appVersionPatch = 0
+def appVersionPatch = 1
 
 // Git hash and build time for app's BuildConfig
 def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
@@ -233,7 +233,7 @@ dependencies {
     // Slob stuff
     compile 'com.ibm.icu:icu4j:52.1', 'org.tukaani:xz:1.5', 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
     // About
-    compile('com.mikepenz:aboutlibraries:5.3.3@aar') { transitive = true }
+    compile('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
     compile 'com.github.paolorotolo:appintro:3.3.0'
     // Hardy dialogs
     debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
