@@ -23,7 +23,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.brainail.EverboxingLexis.JApplication;
-import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.notice.NoticeController;
 import org.brainail.EverboxingLexis.utils.Sdk;
 
@@ -130,7 +129,7 @@ public final class ToolUI {
         try {
             final ListView allPreferences = ButterKnife.findById (activity, android.R.id.list);
             if (!Sdk.isSdkSupported (Sdk.LOLLIPOP)) {
-                allPreferences.setSelector (R.drawable.list_item_default_selector);
+                allPreferences.setSelector (ToolResources.retrieveListDefaultSelector(activity));
             }
         } catch (Exception exception) {
             // Do nothing

@@ -67,6 +67,14 @@ public final class ToolResources {
         }
     }
 
+    public static Drawable retrieveListDefaultSelector(final Context context) {
+        return retrieveListDefaultSelector(context, ThemeManager.appTheme().getThemeResId());
+    }
+
+    public static Drawable retrieveListDefaultSelector(final Context context, final int themeResId) {
+        return retrieveThemeDrawable(context, themeResId, new int[] {R.attr.listDefaultSelector});
+    }
+
     public static Drawable retrieveDrawerCover(final Context context) {
         return retrieveDrawerCover(context, ThemeManager.appTheme().getThemeResId());
     }
