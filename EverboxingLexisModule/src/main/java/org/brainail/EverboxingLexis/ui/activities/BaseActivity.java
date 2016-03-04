@@ -273,6 +273,9 @@ public abstract class BaseActivity
         // Restore some data for toolbar
         updateToolbarColor ();
         updateToolbarTitle ();
+        // We should update here options menu
+        // to refresh self after recreate (change theme)
+        getSupportActionBar().invalidateOptionsMenu ();
     }
 
     @Override
@@ -282,6 +285,9 @@ public abstract class BaseActivity
         // Restore some data for toolbar
         updateToolbarColor ();
         updateToolbarTitle ();
+        // We should update here options menu
+        // to refresh self after recreate (change theme)
+        getSupportActionBar().invalidateOptionsMenu ();
     }
 
     protected void updateToolbarColor () {
