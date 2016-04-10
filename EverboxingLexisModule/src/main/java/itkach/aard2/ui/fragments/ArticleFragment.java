@@ -332,6 +332,14 @@ public class ArticleFragment
     public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
         if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_ARTICLE_DAILY_STYLE)) {
             mArticleWebView.saveStylePref (itemTag);
+
+            // It's global style, we should remember about it
+            if (null != itemTag && itemTag.toLowerCase (Locale.US).startsWith ("global")) {
+                mArticleWebView.prefs ().edit ().putString ("globalArticleTheme", itemTag).apply ();
+            } else {
+                mArticleWebView.prefs ().edit ().remove ("globalArticleTheme").apply ();
+            }
+
             mArticleWebView.applyStylePref ();
         }
     }

@@ -1,0 +1,55 @@
+body {
+    background-color: black;
+    color: #a0a0a0;
+}
+
+h1, h2, h3, h4, h5, h6, a.new {
+    color: #a0a0a0 !important;
+}
+
+.mjx-svg-mrow {
+    fill: #a0a0a0;
+    stroke: #a0a0a0;
+}
+
+img {
+    background-color: lightgray;
+}
+
+table {
+    background-color: black !important;
+    color: #a0a0a0 !important;
+}
+
+table.translations td {
+    background-color: #191919;
+}
+
+table.translations {
+    border-collapse: collapse;
+}
+
+.wikitable th {
+    background-color: #292929 !important;
+}
+
+th, td, tr {
+    background: #292929 !important;
+    background-color: #292929 !important;
+}
+
+div.thumbinner {
+    background-color: #191919 !important;
+}
+
+div.thumb {
+    border-color: black !important;
+}
+
+a {
+    color: #A3964E;
+}
+
+a:visited {
+    color: #735A0A;
+}

@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -224,6 +225,13 @@ public class ArticleWebView
     private void setStyle (String styleTitle) {
         String js;
         final SharedPreferences prefs = getContext ().getSharedPreferences ("userStyles", Activity.MODE_PRIVATE);
+
+        // Global light, we just use default in this case
+        if (styleTitle.toLowerCase (Locale.US).contains ("global")
+                && styleTitle.toLowerCase (Locale.US).contains ("light")) {
+            styleTitle = mDefaultStyleTitle;
+        }
+
         if (prefs.contains (styleTitle)) {
             String css = prefs.getString (styleTitle, "");
             String elementId = getCurrentSlobId ();
@@ -239,7 +247,7 @@ public class ArticleWebView
         loadUrl (js);
     }
 
-    private SharedPreferences prefs () {
+    public SharedPreferences prefs () {
         return getContext ().getSharedPreferences (PREF, AppCompatActivity.MODE_PRIVATE);
     }
 
@@ -282,9 +290,9 @@ public class ArticleWebView
             return;
         }
         SharedPreferences prefs = prefs ();
-        Plogger.logD ("Available styles before pref load: " + mStyleTitles.size ());
+        Plogger.logD ("Available styles before pref load: " + mStyleTitles);
         mStyleTitles = new TreeSet<> (prefs.getStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, Collections.EMPTY_SET));
-        Plogger.logD ("Loaded available styles: " + mStyleTitles.size ());
+        Plogger.logD ("Loaded available styles: " + mStyleTitles);
     }
 
     public void saveStylePref (String styleTitle) {
@@ -315,9 +323,15 @@ public class ArticleWebView
         if (mCurrentSlobUri == null) {
             return "";
         }
+
         String styleTitle = getStylePreferenceValue ();
+        if (prefs ().contains ("globalArticleTheme")) {
+            styleTitle = prefs ().getString ("globalArticleTheme", styleTitle);
+        }
+
         String result = isAutoStyle (styleTitle) ? getAutoStyle () : styleTitle;
         Plogger.logD ("getPreferredStyle() will return " + result);
+
         return result;
     }
 

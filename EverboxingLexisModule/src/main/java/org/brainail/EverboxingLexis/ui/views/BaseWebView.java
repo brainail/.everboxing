@@ -131,6 +131,9 @@ public abstract class BaseWebView extends WebView {
         // settings.setDatabaseEnabled (true);
         // settings.setCacheMode (WebSettings.LOAD_DEFAULT);
 
+        // settings.setUseWideViewPort (true);
+        // settings.setLoadWithOverviewMode (true);
+
         addJavascriptInterfaces(context);
     }
 

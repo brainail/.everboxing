@@ -1,8 +1,10 @@
 package org.brainail.EverboxingLexis.utils.tool;
 
+import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,7 +37,7 @@ import java.util.zip.GZIPInputStream;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class ToolIO {
+public final class ToolIo {
 
     public static final int IO_BUFFER_SIZE = 4 * 1024;
     public static final String IO_CHARSET_UTF8 = "UTF-8";
@@ -59,7 +61,7 @@ public final class ToolIO {
         return new String(Base64.decode(readStream(inStream), Base64.DEFAULT), IO_CHARSET_UTF8);
     }
 
-    public static InputStream totHttpInputStream(final HttpURLConnection httpConnection) throws IOException {
+    public static InputStream toHttpInputStream(final HttpURLConnection httpConnection) throws IOException {
         InputStream httpInputStream = httpConnection.getInputStream();
         final String contentEncoding = httpConnection.getContentEncoding();
 
@@ -68,6 +70,18 @@ public final class ToolIO {
         }
 
         return httpInputStream;
+    }
+
+    public static void close(final @NonNull Closeable ... streams) {
+        for (final Closeable stream : streams) {
+            try {
+                if (null != stream) {
+                    stream.close();
+                }
+            } catch (final Exception exception) {
+                // Wow ...
+            }
+        }
     }
 
 }

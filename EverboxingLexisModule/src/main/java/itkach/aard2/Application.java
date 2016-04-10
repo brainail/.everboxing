@@ -1,6 +1,7 @@
 package itkach.aard2;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
+import org.brainail.EverboxingLexis.utils.tool.ToolIo;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,6 +75,8 @@ public class Application extends JApplication {
     public static String JS_CLEAR_USER_STYLE;
     public static String JS_SET_CANNED_STYLE;
 
+    public static String CUSTOM_CSS_STYLE;
+
     private static final String AARD2_APP_PREF_NAME = "app";
 
     public static Application app () {
@@ -105,19 +109,45 @@ public class Application extends JApplication {
 
         startWebServer ();
 
+        InputStream jsInputStream = null;
         try {
-            InputStream is;
-            is = getClass ().getClassLoader ().getResourceAsStream ("styleswitcher.js");
-            JS_STYLE_SWITCHER = readTextFile (is, 0);
-            is = getAssets ().open ("userstyle.js");
-            JS_USER_STYLE = readTextFile (is, 0);
-            is = getAssets ().open ("clearuserstyle.js");
-            JS_CLEAR_USER_STYLE = readTextFile (is, 0);
-            is = getAssets ().open ("setcannedstyle.js");
-            JS_SET_CANNED_STYLE = readTextFile (is, 0);
+            jsInputStream = getClass ().getClassLoader ().getResourceAsStream ("styleswitcher.js");
+            JS_STYLE_SWITCHER = readTextFile (jsInputStream, 0);
         } catch (final Exception exception) {
-            // ...
+            // Oops
+        } finally {
+            ToolIo.close (jsInputStream);
         }
+
+        try {
+            jsInputStream = getAssets ().open ("userstyle.js");
+            JS_USER_STYLE = readTextFile (jsInputStream, 0);
+        } catch (final Exception exception) {
+            // Oops
+        } finally {
+            ToolIo.close (jsInputStream);
+        }
+
+        try {
+            jsInputStream = getAssets ().open ("clearuserstyle.js");
+            JS_CLEAR_USER_STYLE = readTextFile (jsInputStream, 0);
+        } catch (final Exception exception) {
+            // Oops
+        } finally {
+            ToolIo.close (jsInputStream);
+        }
+
+        try {
+            jsInputStream = getAssets ().open ("setcannedstyle.js");
+            JS_SET_CANNED_STYLE = readTextFile (jsInputStream, 0);
+        } catch (final Exception exception) {
+            // Oops
+        } finally {
+            ToolIo.close (jsInputStream);
+        }
+
+        // Custom styles
+        initCustomCssStyle ();
 
         String initialQuery = prefs ().getString ("query", "");
 
@@ -150,6 +180,24 @@ public class Application extends JApplication {
         lookup (initialQuery, false);
         bookmarks.load ();
         history.load ();
+    }
+
+    private void initCustomCssStyle () {
+        final SharedPreferences userStylesPref = getSharedPreferences("userStyles", Activity.MODE_PRIVATE);
+
+        InputStream cssFileStream = null;
+        try {
+            cssFileStream = getAssets ().open ("nightfall.css");
+            CUSTOM_CSS_STYLE = readTextFile (cssFileStream, 256 * 1024).replace("\r", "").replace("\n", "\\n");
+
+            userStylesPref.edit ().putString("Global Nighty", CUSTOM_CSS_STYLE).apply ();
+        } catch (final Exception exception) {
+            // Oops
+        } finally {
+            ToolIo.close (cssFileStream);
+        }
+
+        userStylesPref.edit ().putString("Global Lightwood", CUSTOM_CSS_STYLE).apply ();
     }
 
     public static String readTextFile (InputStream is, int maxSize) throws IOException, FileTooBigException {
