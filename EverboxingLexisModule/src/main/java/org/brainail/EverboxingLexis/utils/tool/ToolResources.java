@@ -132,7 +132,7 @@ public final class ToolResources {
      * Computes height of status bar, only if it is presented at top of the screen and it is visible.
      *
      * @param context Any application {@link android.content.Context}.
-     * @param window {@link android.view.Window} that corresponds to the {@link android.app.AppCompatActivity}
+     * @param window {@link android.view.Window} that corresponds to the {@link android.app.Activity}
      *
      * @return {@code 0} - if the status bar isn't presented
      * at top of the screen or isn't visible, otherwise height in pixels.
@@ -166,6 +166,10 @@ public final class ToolResources {
 
     public static String string(final int resId) {
         return 0 != resId ? JApplication.appContext().getString(resId) : null;
+    }
+
+    public static String string(final int resId, final Object ... args) {
+        return 0 != resId ? JApplication.appContext().getString(resId, args) : null;
     }
 
 }

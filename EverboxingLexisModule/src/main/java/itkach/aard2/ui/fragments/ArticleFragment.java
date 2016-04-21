@@ -284,9 +284,10 @@ public class ArticleFragment
             }
             return true;
         } else if (itemId == R.id.action_select_style) {
-            final String[] styles = mArticleWebView.getAvailableStyles ();
+            final String [] stylesTitles = mArticleWebView.getAvailableStylesTitles ();
+            final String [] styles = mArticleWebView.getAvailableStyles ();
             LexisPaperHardyDialogs.articleDailyStyleDialog ()
-                    .items (styles).tags (styles).setCallbacks (this).show (this);
+                    .items (stylesTitles).tags (styles).setCallbacks (this).show (this);
         } else if (itemId == R.id.action_search_externally_article) {
             final String url = "https://www.google.com/search?q=" + mArticleTitle + "+definition";
             openUrl (url, mArticleTitle, mAllTextSelectionRaw);

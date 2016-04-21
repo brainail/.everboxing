@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name_about">О LexisPaper</string>
+    <string name="action_settings">Настройки</string>
+
+    <!-- Settings window -->
+    <string name="settings_activity_title">Настройки</string>
+
+    <!-- Themes -->
+    <string name="settings_theme_header">Оформление</string>
+    <string name="settings_change_theme_title">Цвет темы</string>
+    <string name="settings_change_theme_dialog_title">Выберите тему</string>
+
+    <string name="settings_content_header">Контент</string>
+    <string name="settings_load_remote_content_title">Подгружать отдаленный контент</string>
+    <string name="settings_load_remote_content_dialog_title">Выберите режим</string>
+    <string name="settings_speech_language_title">Язык речи</string>
+    <string name="settings_speech_language_dialog_title">Выберите язык</string>
+    <string name="settings_fab_zoom_title">Кнопка увеличения</string>
+    <string name="settings_fab_zoom_summary">Отображать кнопку увеличения текста поверх статьи</string>
+    <string name="settings_double_tap_scroll_to_top_title">Двойное нажатие</string>
+    <string name="settings_double_tap_scroll_to_top_summary">Прокрутить контент вверх при двойном нажатии на вкладку</string>
+    <string name="settings_long_tap_scroll_to_bottom_title">Длинное нажатие</string>
+    <string name="settings_long_tap_scroll_to_bottom_summary">Прокрутить контент вниз при длинном нажатии на вкладку</string>
+    <string name="settings_article_in_fullscreen_title">Полноэкранный режим</string>
+    <string name="settings_article_in_fullscreen_summary">Открывать статью в полноэкранном режиме</string>
+
+    <string name="settings_lookup_header">Поиск</string>
+    <string name="settings_random_lookup_title">Случайный поиск</string>
+    <string name="settings_random_lookup_summary">Использовать только избранные словари для случайного поиска</string>
+
+    <string name="settings_misc_header">Разное</string>
+    <string name="settings_open_about_title">О приложении</string>
+    <string name="settings_feedback_title">Оставить отзыв/предложение</string>
+    <string name="settings_feedback_summary">Оставьте отзыв об этом приложении или предложение об улучшениях</string>
+
+    <!-- Nav drawer -->
+    <string name="drawer_open">Открыть</string>
+    <string name="drawer_close">Закрыть</string>
+    <string name="drawer_user_data_name_greetings">&#9728; Приветствую тебя! &#9728;</string>
+
+    <string name="section_dictionaries">Словари</string>
+    <string name="section_history">История</string>
+    <string name="section_lookup">Поиск</string>
+    <string name="section_bookmarks">Закладки</string>
+    <string name="section_lucky">Случайный поиск</string>
+
+    <!-- Themes -->
+    <string name="theme_name_default">Розовая</string>
+    <string name="theme_name_indigo">Индиго</string>
+    <string name="theme_name_blue">Голубая</string>
+    <string name="theme_name_cyan">Светло-бирюзовая</string>
+    <string name="theme_name_teal">Темно-бирюзовая</string>
+    <string name="theme_name_green">Зеленая</string>
+    <string name="theme_name_lgreen">Светло-зеленая</string>
+    <string name="theme_name_purple">Фиолетовая</string>
+    <string name="theme_name_brown">Коричневая</string>
+    <string name="theme_name_orange">Оранжевая</string>
+    <string name="theme_name_dark">Темная</string>
+
+    <string name="open_url_fallback_no_apps_to_open">Приложение для открытия не найдено</string>
+
+    <!-- Custom tab -->
+    <string name="custom_tab_action_share">Поделиться</string>
+    <string name="custom_tab_action_email">Отправить по почте</string>
+    <string name="custom_tab_action_email_mail_title">Оцени!</string>
+
+    <!-- ||||||||||||||||||||||| Slob prj ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
+    <string name="action_find_dictionaries_on_device">Сканировать девайс</string>
+    <string name="action_find_in_page">Найти на странице</string>
+    <string name="action_bookmark_article">Сохранить в закладки</string>
+    <string name="action_search_externally_article">Искать вне</string>
+    <string name="action_article_in_fullscreen">Переключить полноэкранный режим</string>
+    <string name="action_filter">Фильтр</string>
+    <string name="action_ascending">По возрастанию</string>
+    <string name="action_descending">По убыванию</string>
+    <string name="action_sort_by_title">По названию</string>
+    <string name="action_sort_by_time">По времени</string>
+    <string name="action_lookup">Поиск</string>
+    <string name="action_zoom_out">Уменьшить текст</string>
+    <string name="action_zoom_in">Увеличить текст</string>
+    <string name="action_zoom_reset">Сбросить размер текста</string>
+    <string name="action_select_style">Стиль …</string>
+    <string name="action_print_article">Печать</string>
+    <string name="action_tts">Произнести</string>
+    <string name="action_tts_all">Начать чтение вслух</string>
+    <string name="action_tts_selection">Прочитать выделение вслух</string>
+    <string name="select_style">Выберите стиль</string>
+
+    <string name="setting_remote_content_always">Всегда</string>
+    <string name="setting_remote_content_wifi">Только по Wi-Fi</string>
+    <string name="setting_remote_content_never">Никогда</string>
+
+    <string name="article_collection_nothing_found">Ничего не найдено</string>
+    <string name="article_collection_selected_not_available">Выбранная статья не доступна</string>
+    <string name="article_collection_nothing_to_lookup">Недостаточно данных для поиска</string>
+
+    <string name="nothing_found">Ничего не найдено</string>
+
+    <string name="dictionaries_scanning_device">Сканирование …</string>
+    <string name="dictionaries_confirm_forget">Забыть о "%1$s"?</string>
+    <string name="lookup_nothing_found">Ничего не найдено</string>
+
+    <string name="delete">Удалить</string>
+    <string name="blob_descriptor_confirm_delete">Удалить %1$s?</string>
+
+    <string name="action_add_dictionaries">Добавить</string>
+    <string name="title_activity_file_select">Выберите словарь</string>
+
+    <string name="action_goto_parent_dir">Вверх</string>
+    <string name="action_reload_directory">Перезагрузить</string>
+
+    <string name="msg_dictionary_already_open">Словарь уже открыт</string>
+    <string name="msg_dictionary_added">Добавлен словарь из %1$s</string>
+
+    <string name="article_collection_invalid_link">Некорректная ссылка</string>
+
+    <string name="action_load_remote_content">Подгрузить отдаленный контент</string>
+
+    <plurals name="confirm_delete_bookmark_count">
+        <item quantity="zero">%,d закладок</item>
+        <item quantity="one">%,d закладку</item>
+        <item quantity="two">%,d закладки</item>
+        <item quantity="few">%,d закладки</item>
+        <item quantity="many">%,d закладок</item>
+        <item quantity="other">%,d закладок</item>
+    </plurals>
+
+    <plurals name="confirm_delete_history_count">
+        <item quantity="zero">%,d записей</item>
+        <item quantity="one">%,d запись</item>
+        <item quantity="two">%,d записи</item>
+        <item quantity="few">%,d записи</item>
+        <item quantity="many">%,d записей</item>
+        <item quantity="other">%,d записей</item>
+    </plurals>
+
+    <plurals name="dict_item_count">
+        <item quantity="zero">%,d статей</item>
+        <item quantity="one">%,d статья</item>
+        <item quantity="two">%,d статьи</item>
+        <item quantity="few">%,d статьи</item>
+        <item quantity="many">%,d статей</item>
+        <item quantity="other">%,d статей</item>
+    </plurals>
+
+    <string name="dictionaries_store_mirror_fab_label_one">Источник (CloudMail)</string>
+    <string name="dictionaries_store_mirror_fab_label_two">Источник (GitHub)</string>
+    <string name="dictionaries_store_mirror_fab_label_three">Источник (Yandex)</string>
+
+    <string name="dictionaries_store_mirror_one">&#10047;&#160; Источник (CloudMail)</string>
+    <string name="dictionaries_store_mirror_two">&#10047;&#160; Источник (GitHub)</string>
+    <string name="dictionaries_store_mirror_three">&#10047;&#160; Источник (Yandex)</string>
+
+    <string name="app_intro_slide_no_01_title">Простота</string>
+    <string name="app_intro_slide_no_01_description">Просто найдите интересующую Вас информацию, наслаждайтесь ее чтением или запоминайте в закладках для будущего изучения. История поможет Вам не забывать ни о чем.</string>
+    <string name="app_intro_slide_no_02_title">Оффлайн режим</string>
+    <string name="app_intro_slide_no_02_description">Нет необходимости в интернете или любом другом подключении. Загружайте словри и пользуйтесь всегда и везде в режиме оффлайн.</string>
+    <string name="app_intro_slide_no_03_title">Познавательно</string>
+    <string name="app_intro_slide_no_03_description">Наслаждайтесь всем материалом, который Вы найдете среди множества статей и словарей.</string>
+
+    <string name="menu_search_action_hint">Поиск …</string>
+
+    <string name="default_speech_language">Стандартный</string>
+    <string name="feedback_suggestion_mail_start_body">Привет!\n\n</string>
+    <string name="settings_ringtone_silent_summary">Тишина</string>
+    <string name="feedback_suggestion_email_title">Отзыв/предложение (%1$s)</string>
+    <string name="item_without_dictionary">Словарь не найден</string>
+
+    <string name="article_style_auto_style_title">Автоматическая</string>
+    <string name="article_style_default_style_title">Стандартная</string>
+    <string name="article_style_night_style_title">Темная</string>
+    <string name="article_style_global_lightwood_style_title">Освещенный лес (глобальная)</string>
+    <string name="article_style_global_nighty_style_title">Ночнушка (глобальная)</string>
+</resources>

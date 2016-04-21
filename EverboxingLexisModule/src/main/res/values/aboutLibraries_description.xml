@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="aboutLibraries_description_name">LexisPaper</string>
-    <string name="aboutLibraries_description_showIcon">true</string>
-    <string name="aboutLibraries_description_showVersion">true</string>
+    <string name="aboutLibraries_description_name" translatable="false">LexisPaper</string>
+    <string name="aboutLibraries_description_showIcon" translatable="false">true</string>
+    <string name="aboutLibraries_description_showVersion" translatable="false">true</string>
     <string name="aboutLibraries_description_text">
         <![CDATA[<b>Read and search through the all your offline wiki books and use it as your dictionary app!</b>]]>
     </string>

@@ -10,6 +10,7 @@
     <string name="settings_activity_title">Settings</string>
     <string name="settings_preference_screen_root" translatable="false">settings_preference_screen_root</string>
 
+    <!-- Google account, sync, unprepared ... -->
     <string name="settings_category_data_transfer" translatable="false">settings_preference_category_data_transfer</string>
     <string name="settings_account_header">Account</string>
     <string name="settings_add_play_account_title">Google account</string>
@@ -23,6 +24,7 @@
     <string name="settings_sync_account_summary">Sync data via Google Drive</string>
     <string name="settings_sync_account_key" translatable="false">settings_sync_account</string>
 
+    <!-- Themes -->
     <string name="settings_theme_header">Decor</string>
     <string name="settings_change_theme_title">Theme color</string>
     <string name="settings_change_theme_key" translatable="false">settings_change_theme</string>
@@ -134,10 +136,8 @@
     <string name="action_tts_selection">Read selection</string>
     <string name="select_style">Select style</string>
 
-    <string name="default_style_title">Default</string>
-
     <string name="setting_remote_content_always">Always</string>
-    <string name="setting_remote_content_wifi">When on wi-fi</string>
+    <string name="setting_remote_content_wifi">When on Wi-Fi</string>
     <string name="setting_remote_content_never">Never</string>
 
     <string name="article_collection_nothing_found">Nothing found</string>
@@ -166,7 +166,12 @@
     <string name="article_collection_invalid_link">Invalid link</string>
 
     <string name="action_load_remote_content">Load remote content</string>
-    <string name="auto_style_title">Auto</string>
+
+    <string name="article_style_auto_style_title">Auto</string>
+    <string name="article_style_default_style_title">Default</string>
+    <string name="article_style_night_style_title">Night</string>
+    <string name="article_style_global_nighty_style_title">Global Nighty</string>
+    <string name="article_style_global_lightwood_style_title">Global Lightwood</string>
 
     <plurals name="confirm_delete_bookmark_count">
         <item quantity="zero">%,d bookmarks</item>
@@ -215,4 +220,7 @@
     <string name="menu_search_action_hint">Search …</string>
 
     <string name="default_speech_language">Default</string>
+    <string name="feedback_suggestion_mail_start_body">Yo!\n\n</string>
+    <string name="feedback_suggestion_email_title">Feedback/suggestion (%1$s)</string>
+    <string name="item_without_dictionary">No dictionary</string>
 </resources>

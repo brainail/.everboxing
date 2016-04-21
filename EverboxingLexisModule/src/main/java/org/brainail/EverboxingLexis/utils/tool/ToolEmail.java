@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import org.brainail.EverboxingLexis.R;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>
@@ -36,9 +38,9 @@ public final class ToolEmail {
 
     public static void sendFeedbackOrSuggestion (@NonNull final Activity activity) {
         final Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:" + APP_EMAIL));
-        final String subject = "Android Feedback/Suggestion (" + Tool.feedbackAppInfo () + ")";
+        final String subject = ToolResources.string (R.string.feedback_suggestion_email_title, Tool.feedbackAppInfo ());
         actionIntent.putExtra (Intent.EXTRA_SUBJECT, subject);
-        actionIntent.putExtra (Intent.EXTRA_TEXT, "Yo!\n");
+        actionIntent.putExtra (Intent.EXTRA_TEXT, ToolResources.string (R.string.feedback_suggestion_mail_start_body));
         activity.startActivity (actionIntent);
     }
 

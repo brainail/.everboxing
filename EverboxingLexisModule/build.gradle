@@ -1,7 +1,7 @@
 // Version stuff for auto generated versionName and versionCode
 def appVersionMajor = 1
 def appVersionMinor = 0
-def appVersionPatch = 3
+def appVersionPatch = 4
 
 // Git hash and build time for app's BuildConfig
 def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
@@ -64,7 +64,7 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "org.brainail.EverboxingLexis"

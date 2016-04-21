@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.webkit.WebResourceResponse;
@@ -29,6 +30,7 @@ import org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface.IStyleHelpe
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface.ISelectionHelper;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -57,6 +59,16 @@ import static android.net.ConnectivityManager.TYPE_WIFI;
 public class ArticleWebView
         extends BaseArticleWebView
         implements ISelectionHelper, IStyleHelper {
+
+    public static final class ArticleStyles {
+        public static final String DEFAULT = "Default";
+        public static final String AUTO = "Auto";
+        public static final String NIGHT = "Night";
+        public static final String GLOBAL_NIGHTY = "Global Nighty";
+        public static final String GLOBAL_LIGHTWOOD = "Global Lightwood";
+    }
+
+    private Map<String, String> mStyleNameTranslatationMapping;
 
     // Styles
     private final String mDefaultStyleTitle;
@@ -154,8 +166,16 @@ public class ArticleWebView
         initWebSetting (context);
 
         final Resources resources = getResources ();
-        mDefaultStyleTitle = resources.getString (R.string.default_style_title);
-        mAutoStyleTitle = resources.getString (R.string.auto_style_title);
+
+        mDefaultStyleTitle = ArticleStyles.DEFAULT;
+        mAutoStyleTitle = ArticleStyles.AUTO;
+
+        mStyleNameTranslatationMapping = new HashMap<> (5, 1.0f);
+        mStyleNameTranslatationMapping.put (ArticleStyles.DEFAULT, ToolResources.string (R.string.article_style_default_style_title));
+        mStyleNameTranslatationMapping.put (ArticleStyles.AUTO, ToolResources.string (R.string.article_style_auto_style_title));
+        mStyleNameTranslatationMapping.put (ArticleStyles.NIGHT, ToolResources.string (R.string.article_style_night_style_title));
+        mStyleNameTranslatationMapping.put (ArticleStyles.GLOBAL_NIGHTY, ToolResources.string (R.string.article_style_global_nighty_style_title));
+        mStyleNameTranslatationMapping.put (ArticleStyles.GLOBAL_LIGHTWOOD, ToolResources.string (R.string.article_style_global_lightwood_style_title));
 
         mTimer = new Timer ();
         final Runnable applyStyleRunnable = new Runnable () {
@@ -215,6 +235,18 @@ public class ArticleWebView
         names.add (mDefaultStyleTitle);
         names.add (mAutoStyleTitle);
         return names.toArray (new String[names.size ()]);
+    }
+
+    public String[] getAvailableStylesTitles () {
+        final String [] styles = getAvailableStyles ();
+        final String [] stylesTitles = new String [styles.length];
+        for (int index = 0; index < styles.length; ++ index) {
+            stylesTitles [index] = mStyleNameTranslatationMapping.get (styles [index]);
+            if (TextUtils.isEmpty (stylesTitles [index])) {
+                stylesTitles [index] = styles [index];
+            }
+        }
+        return stylesTitles;
     }
 
     private String getAutoStyle () {

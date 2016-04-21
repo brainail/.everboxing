@@ -1,0 +1,19 @@
+<resources>
+    <string name="dialog_button_cancel">Отмена</string>
+    <string name="dialog_button_continue">Продолжить</string>
+    <string name="dialog_button_ok">Да</string>
+    <string name="dialog_button_close">Закрыть</string>
+    <string name="dialog_button_clear">Очистить</string>
+    <string name="dialog_button_delete">Удалить</string>
+    <string name="dialog_button_yes">Да</string>
+    <string name="dialog_button_no_thanks">Нет, спасибо</string>
+    <string name="dialog_button_no">Нет</string>
+    <string name="dialog_button_later">Позже</string>
+    <string name="dialog_button_open">Открыть</string>
+    <string name="dialog_button_download">Скачать</string>
+    <string name="dialog_button_save">Сохранить</string>
+    <string name="dialog_button_info">Информация</string>
+    <string name="dialog_button_retry">Повторить</string>
+
+    <string name="progress_dialog_loading">Загрузка …</string>
+</resources>

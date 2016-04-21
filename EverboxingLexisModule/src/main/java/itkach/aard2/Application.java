@@ -41,6 +41,7 @@ import itkach.aard2.slob.DescriptorStore;
 import itkach.aard2.slob.SlobDescriptor;
 import itkach.aard2.slob.SlobDescriptorList;
 import itkach.aard2.ui.adapters.BlobListAdapter;
+import itkach.aard2.ui.views.ArticleWebView;
 import itkach.aard2.utils.DictionaryFinder;
 import itkach.slob.Slob;
 import itkach.slob.Slob.Blob;
@@ -190,14 +191,14 @@ public class Application extends JApplication {
             cssFileStream = getAssets ().open ("nightfall.css");
             CUSTOM_CSS_STYLE = readTextFile (cssFileStream, 256 * 1024).replace("\r", "").replace("\n", "\\n");
 
-            userStylesPref.edit ().putString("Global Nighty", CUSTOM_CSS_STYLE).apply ();
+            userStylesPref.edit ().putString(ArticleWebView.ArticleStyles.GLOBAL_NIGHTY, CUSTOM_CSS_STYLE).apply ();
         } catch (final Exception exception) {
             // Oops
         } finally {
             ToolIo.close (cssFileStream);
         }
 
-        userStylesPref.edit ().putString("Global Lightwood", CUSTOM_CSS_STYLE).apply ();
+        userStylesPref.edit ().putString(ArticleWebView.ArticleStyles.GLOBAL_LIGHTWOOD, CUSTOM_CSS_STYLE).apply ();
     }
 
     public static String readTextFile (InputStream is, int maxSize) throws IOException, FileTooBigException {
