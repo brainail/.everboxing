@@ -29,28 +29,33 @@ import android.support.v4.app.FragmentManager;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
+ * <br/><br/>
+ *
+ * Contains some helper methods for Viber's dialogs.
+ *
+ * @author emalyshev
  */
 public final class HardyDialogsHelper {
 
-    public static void dismissIsolated (final Context context, final BaseHardyDialogsCode code) {
+    public static void dismissIsolated (final Context context, final HardyDialogCodeProvider code) {
         final Intent intent = new Intent (RemoteHardyDialogsActivity.FilterAction.HIDE_REMOTE_DIALOG);
-        intent.putExtra (RemoteHardyDialogsActivity.FilterExtra.DIALOG_CODE, code);
+        intent.putExtra (RemoteHardyDialogsActivity.FilterAction.HIDE_REMOTE_DIALOG, code);
         context.sendBroadcast (intent);
     }
 
-    public static void dismissDialog (final Fragment fragment, final BaseHardyDialogsCode code) {
+    public static void dismissDialog (final Fragment fragment, final HardyDialogCodeProvider code) {
         if (! dismissDialog (fragment.getChildFragmentManager (), code)) {
             dismissDialog (fragment.getFragmentManager (), code);
         }
     }
 
-    public static void dismissDialogAllowingStateLoss (final Fragment fragment, final BaseHardyDialogsCode code) {
+    public static void dismissDialogAllowingStateLoss (final Fragment fragment, final HardyDialogCodeProvider code) {
         if (! dismissDialogAllowingStateLoss (fragment.getChildFragmentManager (), code)) {
             dismissDialogAllowingStateLoss (fragment.getFragmentManager (), code);
         }
     }
 
-    public static boolean dismissDialog (final FragmentManager fragmentManager, final BaseHardyDialogsCode code) {
+    public static boolean dismissDialog (final FragmentManager fragmentManager, final HardyDialogCodeProvider code) {
         final HardyDialogFragment dialog = findDialog (fragmentManager, code);
 
         if (null != dialog) {
@@ -61,7 +66,10 @@ public final class HardyDialogsHelper {
         return false;
     }
 
-    public static boolean dismissDialogAllowingStateLoss (final FragmentManager fragmentManager, final BaseHardyDialogsCode code) {
+    public static boolean dismissDialogAllowingStateLoss (
+            final FragmentManager fragmentManager,
+            final HardyDialogCodeProvider code) {
+
         final HardyDialogFragment dialog = findDialog (fragmentManager, code);
 
         if (null != dialog) {
@@ -72,7 +80,10 @@ public final class HardyDialogsHelper {
         return false;
     }
 
-    public static HardyDialogFragment findDialog (final FragmentManager fragmentManager, final BaseHardyDialogsCode code) {
+    public static HardyDialogFragment findDialog (
+            final FragmentManager fragmentManager,
+            final HardyDialogCodeProvider code) {
+
         final Fragment currentDialog = fragmentManager.findFragmentByTag (code.managerTag ());
 
         if (currentDialog instanceof HardyDialogFragment) {
@@ -80,6 +91,13 @@ public final class HardyDialogsHelper {
         } else {
             return null;
         }
+    }
+
+    public static boolean isDialogWithCode (
+            final HardyDialogCodeProvider first,
+            final HardyDialogCodeProvider second) {
+
+        return null != first && null != second && first.code ().equals (second.code ());
     }
 
 }

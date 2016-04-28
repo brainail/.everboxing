@@ -9,11 +9,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -51,14 +56,21 @@ import static org.brainail.EverboxingHardyDialogs.BaseDialogSpecification.EXTRA_
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
+ * <br/><br/>
+ * <p/>
+ * The main {@link DialogFragment} to show all dialogs.
+ *
+ * @author emalyshev
  */
 public class HardyDialogFragment extends AppCompatDialogFragment {
-    
+
+    private static final String LOG_TAG = HardyDialogFragment.class.getSimpleName ();
+
     // Value to show that this dialog doesn't use a layout for content
     public static final int NO_RESOURCE_ID = -1;
     // Prefix of tag for FragmentManager
-    public static final String MANAGER_TAG_PREFIX = "org.brainail.EverboxingHardyDialogs.tag#";
-    
+    public static final String MANAGER_TAG_PREFIX = "org.brainail.EverboxingHardyDialogs#manager_tag.";
+
     // Predefined action request codes
     public static abstract class ActionRequestCode {
         // Click on a positive button
@@ -68,21 +80,23 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         // Click on a neutral button
         public static final int NEUTRAL = DialogInterface.BUTTON_NEUTRAL;
 
+
         private static final int CUSTOM_CODE_BASE = -999;
         // Cancel a dialog
         public static final int CANCEL = CUSTOM_CODE_BASE - 1;
         // Dismiss a dialog
         public static final int DISMISS = CUSTOM_CODE_BASE - 2;
-        
+
         // Show that we don't want to handle some particular action
         // For instance this is the default value for "dismiss" action because of the frequency
         public static final int UNHANDLED = Integer.MIN_VALUE;
     }
-    
+
     // Arguments that come from dialog specifications
-    static abstract class Args {
+    protected static abstract class Args {
         public static final String TITLE = "title";
         public static final String BODY = "body";
+        public static final String INTENT_BODY = "intent_body";
         public static final String BODY_ID = "body_id";
         public static final String CONTENT_LAYOUT_ID = "body_layout_id";
         public static final String CONTENT_LAYOUT_PARAMS = "body_layout_params";
@@ -113,6 +127,12 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         public static final String HAS_LIST = "has_list";
         public static final String LIST_ITEMS = "list_items";
         public static final String LIST_ITEMS_TAGS = "list_items_tags";
+        public static final String CUSTOM_STYLE = "custom_style";
+        public static final String DISABLE_DISMISS_ON_POSITIVE_BUTTON = "disable_dismiss_on_positive_button";
+        public static final String DISABLE_DISMISS_ON_NEGATIVE_BUTTON = "disable_dismiss_on_negative_button";
+        public static final String DISABLE_DISMISS_ON_NEUTRAL_BUTTON = "disable_dismiss_on_neutral_button";
+        public static final String LOCKED_ORIENTATION_AFTER_DISMISS = "locked_orientation_current";
+        public static final String LINKS_CLICKABLE = "links_clickable";
     }
 
     /**
@@ -151,12 +171,12 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         }
 
     }
-    
+
     private String mTitle;
-    private String mBody;
+    private CharSequence mBody;
     private int mBodyId;
-    private LayoutParams mContentLayoutParams;
     private int mContentLayoutId;
+    private LayoutParams mContentLayoutParams;
     private String mPositiveButton;
     private int mPositiveButtonId;
     private int mPositiveActionRequestCode;
@@ -168,7 +188,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     private int mNeutralActionRequestCode;
     private int mCancelActionRequestCode;
     private int mDismissActionRequestCode;
-    private BaseHardyDialogsCode mDialogCode;
+    private HardyDialogCodeProvider mDialogCode;
     private IsolatedDialogHandler mIsolatedHandler;
     private boolean mHasCallbacks;
     private boolean mIsCancelable;
@@ -177,73 +197,94 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     private boolean mHasTargetFragment;
     private boolean mIsRestorable;
     private boolean mHasDestroyableUnderlay;
-    
+    private boolean mLinksClickable;
+
+    private int mCustomStyle;
+
+    private boolean mDisableDismissOnPositiveButton;
+    private boolean mDisableDismissOnNegativeButton;
+    private boolean mDisableDismissOnNeutralButton;
+
+    private Integer mLockedOrientationAfterDismiss;
+
     private boolean mHasProgress;
     private boolean mIsIndeterminateProgress;
-    
+
     private boolean mHasList;
-    private CharSequence[] mListItems;
-    private String[] mListItemsTags;
-    
+    private CharSequence [] mListItems;
+    private String [] mListItemsTags;
+
     // Callback for actions
     public static interface OnDialogActionCallback {
-        public void onDialogAction (HardyDialogFragment dialog, int actionRequestCode);
+        public void onDialogAction (final HardyDialogFragment dialog, final int actionRequestCode);
     }
-    
+
     // Callback for list actions
     public static interface OnDialogListActionCallback {
         public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag);
     }
-    
+
     // Callback for preparation of dialog
     public static interface OnDialogPrepareCallback {
-        public void onPrepareDialogView (HardyDialogFragment dialog, View view, int layoutId);
+        public void onPrepareDialogView (final HardyDialogFragment dialog, final View view, final int layoutId);
     }
-    
+
     // Callback is invoked when the dialog is shown
     public static interface OnDialogShowCallback {
-        public void onDialogShow (HardyDialogFragment dialog);
+        public void onDialogShow (final HardyDialogFragment dialog);
     }
-    
+
+    // Callback is invoked when the dialog want to save/restore own state
+    public static interface OnDialogSaveRestoreState {
+        public void onDialogSaveState (final HardyDialogFragment dialog, final Bundle state);
+        public void onDialogRestoreState (final HardyDialogFragment dialog, final Bundle state);
+    }
+
     /**
      * @see BaseDialogSpecification.Builder#setCallbacks(IsolatedDialogHandler)
      */
     public static class IsolatedDialogHandler implements
             OnDialogActionCallback, OnDialogPrepareCallback,
-            OnDialogShowCallback, OnDialogListActionCallback,
+            OnDialogShowCallback, OnDialogListActionCallback, OnDialogSaveRestoreState,
             Serializable {
         @Override
         public void onDialogAction (HardyDialogFragment dialog, int actionRequestCode) {}
-        
+
         @Override
         public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {}
-        
+
         @Override
         public void onPrepareDialogView (HardyDialogFragment dialog, View view, int layoutId) {}
-        
+
         @Override
         public void onDialogShow (HardyDialogFragment dialog) {}
+
+        @Override
+        public void onDialogSaveState (HardyDialogFragment dialog, Bundle state) {}
+
+        @Override
+        public void onDialogRestoreState (HardyDialogFragment dialog, Bundle state) {}
     }
-    
+
     // Creates our dialog with arguments
     public static HardyDialogFragment newInstance (final Bundle args) {
         final HardyDialogFragment dialog = new HardyDialogFragment ();
         dialog.setArguments (args);
         return dialog;
     }
-    
+
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        
+
         final Bundle args = getArguments ();
         if (null == args || args.isEmpty ()) {
             throw new IllegalStateException ("Some arguments must be supplied to build an alert dialog");
         }
-        
+
         // Common
         mTitle = args.getString (Args.TITLE);
-        mBody = args.getString (Args.BODY);
+        mBody = args.getCharSequence (Args.BODY);
         mBodyId = args.getInt (Args.BODY_ID);
         mContentLayoutId = args.getInt (Args.CONTENT_LAYOUT_ID);
         mContentLayoutParams = (LayoutParams) args.getSerializable (Args.CONTENT_LAYOUT_PARAMS);
@@ -258,7 +299,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         mNeutralActionRequestCode = args.getInt (Args.NEUTRAL_ACTION_REQUEST_CODE);
         mCancelActionRequestCode = args.getInt (Args.CANCEL_ACTION_REQUEST_CODE);
         mDismissActionRequestCode = args.getInt (Args.DISMISS_ACTION_REQUEST_CODE);
-        mDialogCode = (BaseHardyDialogsCode) args.getSerializable (Args.DIALOG_CODE);
+        mDialogCode = (HardyDialogCodeProvider) args.getSerializable (Args.DIALOG_CODE);
         mIsolatedHandler = (IsolatedDialogHandler) args.getSerializable (Args.ISOLATED_HANDLER);
         mHasCallbacks = args.getBoolean (Args.HAS_CALLBACKS);
         mIsCancelable = args.getBoolean (Args.IS_CANCELABLE);
@@ -266,29 +307,39 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         mHasTargetFragment = args.getBoolean (Args.HAS_TARGET_FRAGMENT);
         mIsRestorable = args.getBoolean (Args.IS_RESTORABLE);
         mHasDestroyableUnderlay = args.getBoolean (Args.HAS_DESTROYABLE_UNDERLAY);
-        
+        mLinksClickable = args.getBoolean (Args.LINKS_CLICKABLE);
+
+        mCustomStyle = args.getInt (Args.CUSTOM_STYLE);
+
+        mDisableDismissOnPositiveButton = args.getBoolean (Args.DISABLE_DISMISS_ON_POSITIVE_BUTTON);
+        mDisableDismissOnNegativeButton = args.getBoolean (Args.DISABLE_DISMISS_ON_NEGATIVE_BUTTON);
+        mDisableDismissOnNeutralButton = args.getBoolean (Args.DISABLE_DISMISS_ON_NEUTRAL_BUTTON);
+
+        mLockedOrientationAfterDismiss = args.containsKey (Args.LOCKED_ORIENTATION_AFTER_DISMISS)
+                ? args.getInt (Args.LOCKED_ORIENTATION_AFTER_DISMISS) : null;
+
         // Progress' stuff
         mHasProgress = args.getBoolean (Args.HAS_PROGRESS);
         mIsIndeterminateProgress = args.getBoolean (Args.IS_INDETERMINATE_PROGRESS);
-        
+
         // List's stuff
         mHasList = args.getBoolean (Args.HAS_LIST);
         final ArrayList<String> items = getArguments ().getStringArrayList (Args.LIST_ITEMS);
         mListItems = (null != items && !items.isEmpty ())
-                ? items.toArray (new CharSequence[items.size ()])
-                : new CharSequence[] {};
+                ? items.toArray (new CharSequence [items.size ()])
+                : new CharSequence [] {};
         final ArrayList<String> itemsTags = getArguments ().getStringArrayList (Args.LIST_ITEMS_TAGS);
         mListItemsTags = (null != itemsTags && !itemsTags.isEmpty ())
-                ? itemsTags.toArray (new String[itemsTags.size ()])
-                : new String[] {};
-        
+                ? itemsTags.toArray (new String [itemsTags.size ()])
+                : new String [] {};
+
         if (!mIsRestorable) {
             // Remove to avoid leaks and crashes
             args.remove (Args.ISOLATED_HANDLER);
             args.remove (Args.ATTACHED_PARCELABLE_DATA);
             args.remove (Args.ATTACHED_SERIALIZABLE_DATA);
         }
-        
+
         // Get attached data by type
         if (args.containsKey (Args.ATTACHED_PARCELABLE_DATA)) {
             mAttachedData = args.getParcelable (Args.ATTACHED_PARCELABLE_DATA);
@@ -296,7 +347,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             mAttachedData = args.getSerializable (Args.ATTACHED_SERIALIZABLE_DATA);
         }
     }
-    
+
     @Override
     @NonNull
     public Dialog onCreateDialog (Bundle savedInstanceState) {
@@ -304,10 +355,18 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         if (null != savedInstanceState && !mIsRestorable) {
             dismiss ();
         }
-        
-        final AlertDialog.Builder builder = !mHasProgress ? new AlertDialog.Builder (getActivity ()) : null;
+
+        final AlertDialog.Builder builder;
+        if (!mHasProgress) {
+            builder = mCustomStyle != 0
+                    ? new AlertDialog.Builder (getActivity (), mCustomStyle)
+                    : new AlertDialog.Builder (getActivity ());
+        } else {
+            builder = null;
+        }
+
         final ProgressDialog progress = mHasProgress ? new ProgressDialog (getActivity ()) : null;
-        
+
         if (!TextUtils.isEmpty (mTitle)) {
             if (null != progress) {
                 progress.setTitle (mTitle);
@@ -315,7 +374,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 builder.setTitle (mTitle);
             }
         }
-        
+
         if (!TextUtils.isEmpty (mBody)) {
             if (null != progress) {
                 progress.setMessage (mBody);
@@ -331,14 +390,14 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             builder.setView (contentView);
             handleDialogViewPreparation (contentView, mContentLayoutId);
         }
-        
+
         if (null != builder && NO_RESOURCE_ID != mBodyId && null != contentView) {
             final View body = contentView.findViewById (mBodyId);
             if (body instanceof TextView) {
                 ((TextView) body).setText (mBody);
             }
         }
-        
+
         if (null != builder) {
             if (NO_RESOURCE_ID != mPositiveButtonId && null != contentView) {
                 final View positiveButton = contentView.findViewById (mPositiveButtonId);
@@ -350,7 +409,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 builder.setPositiveButton (mPositiveButton, mOnPositiveButtonListener);
             }
         }
-        
+
         if (null != builder) {
             if (NO_RESOURCE_ID != mNeutralButtonId && null != contentView) {
                 final View neutralButton = contentView.findViewById (mNeutralButtonId);
@@ -362,7 +421,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 builder.setNeutralButton (mNeutralButton, mOnNeutralButtonListener);
             }
         }
-        
+
         if (null != builder) {
             if (NO_RESOURCE_ID != mNegativeButtonId && null != contentView) {
                 final View negativeButton = contentView.findViewById (mNegativeButtonId);
@@ -374,7 +433,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 builder.setNegativeButton (mNegativeButton, mOnNegativeButtonListener);
             }
         }
-        
+
         if (null != builder && mHasList) {
             builder.setItems (mListItems, new DialogInterface.OnClickListener () {
                 @Override
@@ -383,22 +442,22 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 }
             });
         }
-        
+
         if (null != progress) {
             progress.setIndeterminate (mIsIndeterminateProgress);
         }
 
         final Dialog dialog = null != builder ? builder.create () : progress;
         final Window window = dialog.getWindow ();
-        
+
         if (TextUtils.isEmpty (mTitle)) {
-            if (null != builder) {
+            if (builder != null) {
                 ((AlertDialog) dialog).supportRequestWindowFeature (Window.FEATURE_NO_TITLE);
             } else {
                 dialog.requestWindowFeature (Window.FEATURE_NO_TITLE);
             }
         }
-        
+
         if (!mIsCancelable) {
             dialog.setCancelable (false);
             dialog.setCanceledOnTouchOutside (false);
@@ -410,10 +469,11 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         }
 
         setOnKeyListener (dialog);
-        
+
         dialog.setOnShowListener (new DialogInterface.OnShowListener () {
             @Override
             public void onShow (DialogInterface dialog) {
+                makeBodyLinksClickable ();
                 handleDialogShow ();
 
                 // The system is finicky about when they are set ;(
@@ -427,10 +487,10 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 }
             }
         });
-        
+
         return dialog;
     }
-    
+
     private void setOnKeyListener (final Dialog dialog) {
         dialog.setOnKeyListener (new DialogInterface.OnKeyListener () {
             @Override
@@ -447,65 +507,81 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         });
     }
-    
+
     private View.OnClickListener mOnPositiveButtonListenerClickWrapper = new View.OnClickListener () {
         @Override
         public void onClick (View v) {
             mOnPositiveButtonListener.onClick (getDialog (), DialogInterface.BUTTON_POSITIVE);
-            dismiss ();
+            if (!mDisableDismissOnPositiveButton) {
+                dismiss ();
+            }
         }
     };
-    
+
     private DialogInterface.OnClickListener mOnPositiveButtonListener = new DialogInterface.OnClickListener () {
         @Override
         public void onClick (DialogInterface dialog, int which) {
-            handleDialogAction (mPositiveActionRequestCode, null);
+            handleDialogAction (mPositiveActionRequestCode);
+            if (!mDisableDismissOnPositiveButton) {
+                restoreLockedOrientation ();
+            }
         }
     };
-    
+
     private View.OnClickListener mOnNeutralButtonListenerClickWrapper = new View.OnClickListener () {
         @Override
         public void onClick (View v) {
             mOnNeutralButtonListener.onClick (getDialog (), DialogInterface.BUTTON_NEUTRAL);
-            dismiss ();
+            if (!mDisableDismissOnNeutralButton) {
+                dismiss ();
+            }
         }
     };
-    
+
     private DialogInterface.OnClickListener mOnNeutralButtonListener = new DialogInterface.OnClickListener () {
         @Override
         public void onClick (DialogInterface dialog, int which) {
-            handleDialogAction (mNeutralActionRequestCode, null);
+            handleDialogAction (mNeutralActionRequestCode);
+            if (!mDisableDismissOnNeutralButton) {
+                restoreLockedOrientation ();
+            }
         }
     };
-    
+
     private View.OnClickListener mOnNegativeButtonListenerClickWrapper = new View.OnClickListener () {
         @Override
         public void onClick (View v) {
             mOnNegativeButtonListener.onClick (getDialog (), DialogInterface.BUTTON_NEGATIVE);
-            dismiss ();
+            if (!mDisableDismissOnNegativeButton) {
+                dismiss ();
+            }
         }
     };
-    
+
     private DialogInterface.OnClickListener mOnNegativeButtonListener = new DialogInterface.OnClickListener () {
         @Override
         public void onClick (DialogInterface dialog, int which) {
-            handleDialogAction (mNegativeActionRequestCode, null);
+            handleDialogAction (mNegativeActionRequestCode);
+            if (!mDisableDismissOnNegativeButton) {
+                restoreLockedOrientation ();
+            }
         }
     };
-    
+
     @Override
     public void onCancel (DialogInterface dialog) {
-        handleDialogAction (mCancelActionRequestCode, null);
+        handleDialogAction (mCancelActionRequestCode);
         super.onCancel (dialog);
+        restoreLockedOrientation ();
     }
-    
+
     @Override
     public void onDismiss (DialogInterface dialog) {
-        handleDialogAction (mDismissActionRequestCode, null);
+        handleDialogAction (mDismissActionRequestCode);
         super.onDismiss (dialog);
         finishIfDialogActivity ();
     }
-    
+
     private void finishIfDialogActivity () {
         // Finish the transparent system dialog activity
         final Activity activity = getActivity ();
@@ -515,8 +591,36 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             activity.finish ();
         }
     }
-    
-    private void handleDialogShow () {
+
+    protected final void restoreLockedOrientation () {
+        if (null != mLockedOrientationAfterDismiss) {
+            final Activity activity = getActivity ();
+            if (null != activity) {
+                activity.setRequestedOrientation (mLockedOrientationAfterDismiss);
+            }
+        }
+    }
+
+    private void makeBodyLinksClickable () {
+        final Dialog dialog = getDialog ();
+        if (dialog != null && mLinksClickable && !TextUtils.isEmpty (mBody)) {
+            final int bodyViewId;
+            if (NO_RESOURCE_ID != mContentLayoutId) {
+                bodyViewId = mBodyId;
+            } else {
+                bodyViewId = android.R.id.message;
+            }
+
+            if (NO_RESOURCE_ID != bodyViewId) {
+                final View bodyView = dialog.findViewById (bodyViewId);
+                if (bodyView instanceof TextView) {
+                    ((TextView) bodyView).setMovementMethod (LinkMovementMethod.getInstance ());
+                }
+            }
+        }
+    }
+
+    protected final void handleDialogShow () {
         if (mHasCallbacks) {
             if (null != mIsolatedHandler) {
                 mIsolatedHandler.onDialogShow (this);
@@ -527,11 +631,11 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         }
     }
-    
-    private void handleDialogListAction (final int which) {
+
+    protected final void handleDialogListAction (final int which) {
         if (mHasCallbacks) {
-            final String item = which < mListItems.length ? mListItems[which].toString () : null;
-            final String itemTag = which < mListItemsTags.length ? mListItemsTags[which] : null;
+            final String item = which < mListItems.length ? mListItems [which].toString () : null;
+            final String itemTag = which < mListItemsTags.length ? mListItemsTags [which] : null;
             if (null != mIsolatedHandler) {
                 mIsolatedHandler.onDialogListAction (this, which, item, itemTag);
             } else if (mHasTargetFragment && getParentFragment () instanceof OnDialogListActionCallback) {
@@ -541,8 +645,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         }
     }
-    
-    private void handleDialogViewPreparation (final View view, final int layoutId) {
+
+    protected final void handleDialogViewPreparation (final View view, final int layoutId) {
         if (mHasCallbacks) {
             if (null != mIsolatedHandler) {
                 mIsolatedHandler.onPrepareDialogView (this, view, layoutId);
@@ -553,8 +657,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         }
     }
-    
-    private void handleDialogAction (final int actionRequestCode, final String analyticsAction) {
+
+    protected final void handleDialogAction (final int actionRequestCode) {
         if (mHasCallbacks && ActionRequestCode.UNHANDLED != actionRequestCode) {
             if (null != mIsolatedHandler) {
                 mIsolatedHandler.onDialogAction (this, actionRequestCode);
@@ -565,52 +669,89 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         }
     }
-    
+
+    protected final void handleDialogSaveState (final Bundle state) {
+        if (mHasCallbacks) {
+            if (null != mIsolatedHandler) {
+                mIsolatedHandler.onDialogSaveState (this, state);
+            } else if (mHasTargetFragment && getParentFragment () instanceof OnDialogSaveRestoreState) {
+                ((OnDialogSaveRestoreState) getParentFragment ()).onDialogSaveState (this, state);
+            } else if (getActivity () instanceof OnDialogSaveRestoreState) {
+                ((OnDialogSaveRestoreState) getActivity ()).onDialogSaveState (this, state);
+            }
+        }
+    }
+
+    protected final void handleDialogRestoreState (final Bundle state) {
+        if (mHasCallbacks) {
+            if (null != mIsolatedHandler) {
+                mIsolatedHandler.onDialogRestoreState (this, state);
+            } else if (mHasTargetFragment && getParentFragment () instanceof OnDialogSaveRestoreState) {
+                ((OnDialogSaveRestoreState) getParentFragment ()).onDialogRestoreState (this, state);
+            } else if (getActivity () instanceof OnDialogSaveRestoreState) {
+                ((OnDialogSaveRestoreState) getActivity ()).onDialogRestoreState (this, state);
+            }
+        }
+    }
+
     @Override
     public void dismiss () {
         // NullPointerException at #dismissInternal(...)
         if (null != getFragmentManager ()) {
+            // ANDROID-9514
             try {
                 super.dismiss ();
-            } catch (final Exception exception) {
-                // ...
+            } catch (final IllegalStateException exception) {
+                Log.e (LOG_TAG, "dismiss()", exception);
             }
         }
     }
-    
+
     @Override
     public void dismissAllowingStateLoss () {
         // NullPointerException at #dismissInternal(...)
         if (null != getFragmentManager ()) {
+            // ANDROID-9514
             try {
                 super.dismissAllowingStateLoss ();
-            } catch (final Exception exception) {
-                // ...
+            } catch (final IllegalStateException exception) {
+                Log.e (LOG_TAG, "dismiss()", exception);
             }
         }
     }
-    
-    public BaseHardyDialogsCode getDialogCode () {
+
+    @Override
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState (outState);
+        handleDialogSaveState (outState);
+    }
+
+    @Override
+    public void onViewStateRestored (@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored (savedInstanceState);
+        handleDialogRestoreState (savedInstanceState);
+    }
+
+    public HardyDialogCodeProvider getDialogCode () {
         return mDialogCode;
     }
-    
+
     public Object getAttachedData () {
         return mAttachedData;
     }
-    
-    // Helper method to determine if this dialog is based on some dialog specification with the same code
-    public boolean isDialogWithCode (@NonNull final BaseHardyDialogsCode dialogCode) {
-        return dialogCode.code ().equals (mDialogCode.code ());
+
+    public void putAttachData (final Object data) {
+        // Attach data by type
+        if (mAttachedData instanceof Parcelable) {
+            getArguments ().putParcelable (Args.ATTACHED_PARCELABLE_DATA, (Parcelable) mAttachedData);
+        } else if (mAttachedData instanceof Serializable) {
+            getArguments ().putSerializable (Args.ATTACHED_SERIALIZABLE_DATA, (Serializable) mAttachedData);
+        }
     }
 
-    // Helper method to determine if this isolated dialog is based on some dialog specification with the same code
-    static boolean isIsolatedDialogWithCode (final BaseHardyDialogsCode dialogCode, final Intent intent) {
-        BaseDialogSpecification dialog = (BaseDialogSpecification) intent.getSerializableExtra (EXTRA_DIALOG_INSTANCE);
-        if (null != dialog) {
-            return dialogCode.code ().equals (dialog.code ().code ());
-        } else {
-            return false;
-        }
+    // Helper method to determine if this dialog is based on some dialog specification with the same code
+    public boolean isDialogWithCode (final HardyDialogCodeProvider dialogCode) {
+        return HardyDialogsHelper.isDialogWithCode (mDialogCode, dialogCode);
     }
 
     public static BaseDialogSpecification handleIsolated (final Context context, final Intent intent) {
@@ -625,5 +766,5 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         }
         return null;
     }
-    
+
 }

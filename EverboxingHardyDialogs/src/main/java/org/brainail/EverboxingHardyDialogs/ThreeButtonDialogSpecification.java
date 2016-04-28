@@ -2,7 +2,6 @@ package org.brainail.EverboxingHardyDialogs;
 
 import android.os.Bundle;
 
-import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.ActionRequestCode;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
 
 /**
@@ -29,18 +28,29 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
+ * <br/><br/>
+ *
+ * Dialog specification with three buttons: positive button, neutral button, negative button <br/>
+ * We extends from the {@link TwoButtonDialogSpecification} because this one
+ * contains all info from the {@link TwoButtonDialogSpecification} <br/>
+ * - neutral button text <br/>
+ * - action request code for neutral button  <br/>
+ *
+ * @author emalyshev
  */
 public class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification {
 
     private final String mNeutralButton;
     private final int mNeutralButtonId;
     private final int mNeutralActionRequestCode;
+    private final boolean mDisableDismissOnNeutralButton;
 
     protected ThreeButtonDialogSpecification (final Builder<?> builder) {
         super (builder);
         mNeutralButton = builder.neutralButton;
         mNeutralButtonId = builder.neutralButtonId;
         mNeutralActionRequestCode = builder.neutralActionRequestCode;
+        mDisableDismissOnNeutralButton = builder.disableDismissOnNeutralButton;
     }
 
     public static class Builder <T extends Builder<T>> extends TwoButtonDialogSpecification.Builder<T> {
@@ -48,6 +58,7 @@ public class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification
         private String neutralButton;
         private int neutralButtonId = HardyDialogFragment.NO_RESOURCE_ID;
         private int neutralActionRequestCode;
+        private boolean disableDismissOnNeutralButton = false;
 
         protected Builder () {
             super ();
@@ -58,13 +69,14 @@ public class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification
             neutralButton = specification.mNeutralButton;
             neutralButtonId = specification.mNeutralButtonId;
             neutralActionRequestCode = specification.mNeutralActionRequestCode;
+            disableDismissOnNeutralButton = specification.mDisableDismissOnNeutralButton;
         }
 
         @Override
         protected void fillDefaultValues () {
             super.fillDefaultValues ();
             // Use the predefined request code for neutral button
-            neutralActionRequestCode (ActionRequestCode.NEUTRAL);
+            neutralActionRequestCode (HardyDialogFragment.ActionRequestCode.NEUTRAL);
         }
 
         @Override
@@ -75,6 +87,14 @@ public class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification
 
         public T neutralButton (final String neutralButton) {
             this.neutralButton = neutralButton;
+            return self ();
+        }
+
+        /**
+         * Right now it works only for custom buttons.
+         */
+        public T disableDismissOnNeutralButton () {
+            this.disableDismissOnNeutralButton = true;
             return self ();
         }
 
@@ -119,8 +139,39 @@ public class ThreeButtonDialogSpecification extends TwoButtonDialogSpecification
         args.putString (Args.NEUTRAL_BUTTON, mNeutralButton);
         args.putInt (Args.NEUTRAL_BUTTON_ID, mNeutralButtonId);
         args.putInt (Args.NEUTRAL_ACTION_REQUEST_CODE, mNeutralActionRequestCode);
+        args.putBoolean (Args.DISABLE_DISMISS_ON_NEUTRAL_BUTTON, mDisableDismissOnNeutralButton);
         super.fillBundle (args);
     }
 
-}
+    @Override
+    public boolean equals (Object o) {
+        if (this == o) {
+            return true;
+        }
 
+        if (! (o instanceof ThreeButtonDialogSpecification)) {
+            return false;
+        }
+
+        if (! super.equals (o)) {
+            return false;
+        }
+
+        ThreeButtonDialogSpecification that = (ThreeButtonDialogSpecification) o;
+
+        if (mNeutralButtonId != that.mNeutralButtonId) {
+            return false;
+        }
+
+        return mNeutralButton != null ? mNeutralButton.equals (that.mNeutralButton) : that.mNeutralButton == null;
+    }
+
+    @Override
+    public int hashCode () {
+        int result = super.hashCode ();
+        result = 31 * result + (mNeutralButton != null ? mNeutralButton.hashCode () : 0);
+        result = 31 * result + mNeutralButtonId;
+        return result;
+    }
+
+}

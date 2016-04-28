@@ -33,7 +33,7 @@ public final class BaseHardyDialogs {
      */
     public static ProgressDialogSpecification.Builder<?> loadingProgressDialog () {
         return ProgressDialogSpecification.create ()
-                .code (BaseHardyDialogsCode.D_PROGRESS)
+                .code (HardyDialogCodeProvider.D_PROGRESS)
                 .body (R.string.progress_dialog_loading);
     }
 

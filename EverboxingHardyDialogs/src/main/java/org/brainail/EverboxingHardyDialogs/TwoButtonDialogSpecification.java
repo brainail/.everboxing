@@ -2,7 +2,6 @@ package org.brainail.EverboxingHardyDialogs;
 
 import android.os.Bundle;
 
-import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.ActionRequestCode;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
 
 /**
@@ -29,18 +28,29 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
+ * <br/><br/>
+ * <p/>
+ * Dialog specification with two buttons: positive button, negative button <br/>
+ * We extends from the {@link OneButtonDialogSpecification} because this one
+ * contains all info from the {@link OneButtonDialogSpecification} <br/>
+ * - negative button text <br/>
+ * - action request code for negative button  <br/>
+ *
+ * @author emalyshev
  */
 public class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
 
     private final String mNegativeButton;
     private final int mNegativeButtonId;
     private final int mNegativeActionRequestCode;
+    private final boolean mDisableDismissOnNegativeButton;
 
     protected TwoButtonDialogSpecification (final Builder<?> builder) {
         super (builder);
         mNegativeButton = builder.negativeButton;
         mNegativeButtonId = builder.negativeButtonId;
         mNegativeActionRequestCode = builder.negativeActionRequestCode;
+        mDisableDismissOnNegativeButton = builder.disableDismissOnNegativeButton;
     }
 
     public static class Builder <T extends Builder<T>> extends OneButtonDialogSpecification.Builder<T> {
@@ -48,6 +58,7 @@ public class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
         private String negativeButton;
         private int negativeButtonId = HardyDialogFragment.NO_RESOURCE_ID;
         private int negativeActionRequestCode;
+        private boolean disableDismissOnNegativeButton = false;
 
         protected Builder () {
             super ();
@@ -58,6 +69,7 @@ public class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
             negativeButton = specification.mNegativeButton;
             negativeButtonId = specification.mNegativeButtonId;
             negativeActionRequestCode = specification.mNegativeActionRequestCode;
+            disableDismissOnNegativeButton = specification.mDisableDismissOnNegativeButton;
         }
 
         @Override
@@ -66,7 +78,7 @@ public class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
             // Negative button is "Cancel" by default
             negativeButton (R.string.dialog_button_cancel);
             // Use the predefined request code for negative button
-            negativeActionRequestCode (ActionRequestCode.NEGATIVE);
+            negativeActionRequestCode (HardyDialogFragment.ActionRequestCode.NEGATIVE);
         }
 
         @Override
@@ -77,6 +89,14 @@ public class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
 
         public T negativeButton (final String negativeButton) {
             this.negativeButton = negativeButton;
+            return self ();
+        }
+
+        /**
+         * Right now it works only for custom buttons.
+         */
+        public T disableDismissOnNegativeButton () {
+            this.disableDismissOnNegativeButton = true;
             return self ();
         }
 
@@ -121,8 +141,39 @@ public class TwoButtonDialogSpecification extends OneButtonDialogSpecification {
         args.putString (Args.NEGATIVE_BUTTON, mNegativeButton);
         args.putInt (Args.NEGATIVE_BUTTON_ID, mNegativeButtonId);
         args.putInt (Args.NEGATIVE_ACTION_REQUEST_CODE, mNegativeActionRequestCode);
+        args.putBoolean (Args.DISABLE_DISMISS_ON_NEGATIVE_BUTTON, mDisableDismissOnNegativeButton);
         super.fillBundle (args);
     }
 
-}
+    @Override
+    public boolean equals (Object o) {
+        if (this == o) {
+            return true;
+        }
 
+        if (! (o instanceof TwoButtonDialogSpecification)) {
+            return false;
+        }
+
+        if (! super.equals (o)) {
+            return false;
+        }
+
+        TwoButtonDialogSpecification that = (TwoButtonDialogSpecification) o;
+
+        if (mNegativeButtonId != that.mNegativeButtonId) {
+            return false;
+        }
+
+        return mNegativeButton != null ? mNegativeButton.equals (that.mNegativeButton) : that.mNegativeButton == null;
+    }
+
+    @Override
+    public int hashCode () {
+        int result = super.hashCode ();
+        result = 31 * result + (mNegativeButton != null ? mNegativeButton.hashCode () : 0);
+        result = 31 * result + mNegativeButtonId;
+        return result;
+    }
+
+}

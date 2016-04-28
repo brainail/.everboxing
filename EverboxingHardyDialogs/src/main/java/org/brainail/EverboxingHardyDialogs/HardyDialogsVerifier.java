@@ -4,12 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import org.brainail.EverboxingHardyDialogs.utils.IoUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Modifier;
+import java.util.Locale;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -38,7 +37,7 @@ import java.lang.reflect.Modifier;
  */
 final class HardyDialogsVerifier {
 
-    public static final String LOG_TAG = "[" + HardyDialogsVerifier.class.getSimpleName () + "]";
+    private static final String LOG_TAG = HardyDialogsVerifier.class.getSimpleName ();
 
     public static boolean verify (final BaseDialogSpecification dialogSpecification, final boolean isIsolated) {
         if (isIsolated) {
@@ -71,7 +70,10 @@ final class HardyDialogsVerifier {
 
             if (! Modifier.isStatic (dialogSpecification.isolatedHandler ().getClass ().getModifiers ())) {
                 if (BuildConfig.DEBUG) {
-                    throw new IllegalArgumentException ("Your IsolatedDialogHandler isn't an instance of static class");
+                    throw new IllegalArgumentException (
+                            "Your IsolatedDialogHandler isn't " +
+                            "an instance of static class"
+                    );
                 }
 
                 return false;
@@ -84,7 +86,10 @@ final class HardyDialogsVerifier {
     private static boolean verifyUselessCallbacks (final BaseDialogSpecification dialogSpecification) {
         if (dialogSpecification.hasCallbacks () && null == dialogSpecification.isolatedHandler ()) {
             if (BuildConfig.DEBUG) {
-                throw new IllegalArgumentException ("Use only IsolatedDialogHandler as a callback for isolated dialogs");
+                throw new IllegalArgumentException (
+                        "Use only IsolatedDialogHandler as " +
+                        "a callback for isolated dialogs"
+                );
             }
 
             return false;
@@ -95,12 +100,14 @@ final class HardyDialogsVerifier {
 
     private static void verifyRestorableOption (final BaseDialogSpecification dialogSpecification) {
         if (! dialogSpecification.isRestorable () && BuildConfig.DEBUG) {
-            Log.w (LOG_TAG, "You are going to show a non-restorable dialog (code: "
-                    +  dialogSpecification.code() + "). Please recheck it.");
+            Log.w (LOG_TAG, String.format (Locale.US,
+                    "You are going to show a non-restorable dialog (code: %s). " +
+                    "Please recheck it.", dialogSpecification.code ())
+            );
         }
     }
 
-    private static boolean verifyAttachedData (final Object attachedData, BaseHardyDialogsCode code) {
+    private static boolean verifyAttachedData (final Object attachedData, HardyDialogCodeProvider code) {
         try {
             if (attachedData instanceof Serializable) {
                 ObjectOutputStream objectStream = null;
@@ -108,13 +115,25 @@ final class HardyDialogsVerifier {
                     objectStream = new ObjectOutputStream (new ByteArrayOutputStream ());
                     objectStream.writeObject (attachedData);
                 } finally {
-                    IoUtils.close (objectStream);
+                    // Io -> close
+                    try {
+                        if (null != objectStream) {
+                            objectStream.close ();
+                        }
+                    } catch (final Exception exception) {
+                        // Oops ...
+                    }
                 }
             } else if (attachedData instanceof Parcelable) {
                 ((Parcelable) attachedData).writeToParcel (Parcel.obtain (), 0);
             }
         } catch (final Exception exception) {
-            Log.e (LOG_TAG, "verifyAttachedData failed, dialog code: " + code.code ());
+            if (BuildConfig.DEBUG) {
+                Log.e (LOG_TAG, String.format (Locale.US,
+                        "verifyAttachedData failed, dialog code: %s", code), exception
+                );
+            }
+
             return false;
         }
 

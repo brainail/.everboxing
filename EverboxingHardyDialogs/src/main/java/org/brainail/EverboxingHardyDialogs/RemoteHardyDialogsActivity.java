@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.LinkedList;
+
+import static org.brainail.EverboxingHardyDialogs.BaseDialogSpecification.EXTRA_DIALOG_INSTANCE;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -35,6 +38,8 @@ import java.util.LinkedList;
  */
 public class RemoteHardyDialogsActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = RemoteHardyDialogsActivity.class.getSimpleName ();
+
     public static abstract class FilterAction {
         public static final String HIDE_REMOTE_DIALOG = "org.brainail.EverboxingHardyDialogs.filter#hide.remote.dialog";
     }
@@ -58,12 +63,14 @@ public class RemoteHardyDialogsActivity extends AppCompatActivity {
         public static final String DIALOG_CODE = "org.brainail.EverboxingHardyDialogs.extra#dialog.code";
     }
 
-    public static abstract class FilterValue {}
-
     static final String INTENT_ACTION = "org.brainail.EverboxingHardyDialogs.action.view.remote.dialog";
 
-    public static Intent getIntent (String type) {
-        return new Intent (INTENT_ACTION).putExtra (Extra.DIALOG_TYPE, type);
+    public static Intent getIntent (final String action, final String type) {
+        return new Intent (action).putExtra (Extra.DIALOG_TYPE, type);
+    }
+
+    public static Intent getIntent (final String type) {
+        return getIntent (INTENT_ACTION, type);
     }
 
     private LinkedList<Intent> mPendingDialogs = new LinkedList<> ();
@@ -77,12 +84,37 @@ public class RemoteHardyDialogsActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop () {
+        unregisterReceiver ();
+        super.onStop ();
+    }
+
+    @Override
     protected void onNewIntent (Intent intent) {
         resolveIntent (intent, true);
         super.onNewIntent (intent);
     }
 
-    private void resolveIntent (final Intent intent, final boolean isNew) {
+    private void registerReceiver () {
+        if (! mIsRegistered) {
+            registerReceiver (mReceiver, FILTER);
+            mIsRegistered = true;
+        }
+    }
+
+    private void unregisterReceiver () {
+        if (mIsRegistered) {
+            try {
+                unregisterReceiver (mReceiver);
+            } catch (final Exception exception) {
+                // Workaround for java.lang.IllegalArgumentException: Receiver not registered
+            }
+
+            mIsRegistered = false;
+        }
+    }
+
+    protected boolean resolveIntent (final Intent intent, final boolean isNew) {
         setIntent (intent);
         registerReceiver ();
 
@@ -90,7 +122,31 @@ public class RemoteHardyDialogsActivity extends AppCompatActivity {
 
         // Try to show an isolated dialog
         if (Value.REMOTE_DIALOG.equals (type)) {
+            if (BuildConfig.DEBUG) {
+                Log.v (LOG_TAG, "New incoming dialog, new: " + isNew);
+            }
+
             if (isNew || mPendingDialogs.isEmpty ()) {
+                final BaseDialogSpecification dialog
+                        = (BaseDialogSpecification) intent.getSerializableExtra (EXTRA_DIALOG_INSTANCE);
+
+                for (final Intent pendingIntent : mPendingDialogs) {
+                    final BaseDialogSpecification pendingDialog
+                            = (BaseDialogSpecification) pendingIntent.getSerializableExtra (EXTRA_DIALOG_INSTANCE);
+
+                    if (dialog == null || dialog.equals (pendingDialog)) {
+                        if (BuildConfig.DEBUG) {
+                            Log.v (LOG_TAG, "Skip dialog: " + dialog);
+                        }
+
+                        return true;
+                    }
+                }
+
+                if (BuildConfig.DEBUG) {
+                    Log.v (LOG_TAG, "Add pending dialog: " + dialog);
+                }
+
                 mPendingDialogs.addLast (intent);
             }
 
@@ -99,8 +155,10 @@ public class RemoteHardyDialogsActivity extends AppCompatActivity {
                 HardyDialogFragment.handleIsolated (this, mPendingDialogs.getFirst ());
             }
 
-            return;
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -128,41 +186,20 @@ public class RemoteHardyDialogsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy () {
-        unregisterReceiver ();
-        super.onDestroy ();
-    }
-
-    private void registerReceiver () {
-        if (! mIsRegistered) {
-            registerReceiver (mReceiver, FILTER);
-            mIsRegistered = true;
-        }
-    }
-
-    private void unregisterReceiver () {
-        if (mIsRegistered) {
-            try {
-                unregisterReceiver (mReceiver);
-            } catch (final Exception exception) {
-                // Workaround for java.lang.IllegalArgumentException: Receiver not registered
-            }
-
-            mIsRegistered = false;
-        }
-    }
-
     private final BroadcastReceiver mReceiver = new BroadcastReceiver () {
         @Override
         public void onReceive (Context context, Intent intent) {
             if (FilterAction.HIDE_REMOTE_DIALOG.equals (intent.getAction ())) {
-                hideHardyDialog ((BaseHardyDialogsCode) intent.getSerializableExtra (FilterExtra.DIALOG_CODE));
+                hideDialog ((HardyDialogCodeProvider) intent.getSerializableExtra (FilterExtra.DIALOG_CODE));
             }
         }
     };
 
-    private void hideHardyDialog (final BaseHardyDialogsCode code) {
+    private void hideDialog (final HardyDialogCodeProvider code) {
+        if (BuildConfig.DEBUG) {
+            Log.v (LOG_TAG, "Hide dialog, code: " + code.code ());
+        }
+
         HardyDialogsHelper.dismissDialog (getSupportFragmentManager (), code);
     }
 

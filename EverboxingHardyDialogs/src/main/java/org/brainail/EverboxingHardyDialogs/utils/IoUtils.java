@@ -28,7 +28,7 @@ import java.io.Closeable;
  * THE SOFTWARE.
  */
 public final class IoUtils {
-    public static void close(Closeable... streams) {
+    public static void close(final Closeable ... streams) {
         for (final Closeable stream : streams) {
             try {
                 if (null != stream) {

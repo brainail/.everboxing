@@ -27,27 +27,31 @@ import java.io.Serializable;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class BaseHardyDialogsCode implements Serializable {
+public interface HardyDialogCodeProvider extends Serializable {
+    public static final HardyDialogCodeProvider D_UNKNOWN = new HardyDialogCodeProvider () {
+        @Override
+        public String code () {
+            return "unknown";
+        }
 
-    public static final BaseHardyDialogsCode UNKNOWN = new BaseHardyDialogsCode ("unknown");
+        @Override
+        public String managerTag () {
+            return HardyDialogFragment.MANAGER_TAG_PREFIX + code ();
+        }
+    };
 
-    // progress
-    public static final BaseHardyDialogsCode D_PROGRESS = new BaseHardyDialogsCode ("progress");
+    public static final HardyDialogCodeProvider D_PROGRESS = new HardyDialogCodeProvider () {
+        @Override
+        public String code () {
+            return "progress";
+        }
 
-    private String mCode;
+        @Override
+        public String managerTag () {
+            return HardyDialogFragment.MANAGER_TAG_PREFIX + code ();
+        }
+    };
 
-    private BaseHardyDialogsCode () {}
-
-    public BaseHardyDialogsCode (final String code) {
-        mCode = code;
-    }
-
-    final String code () {
-        return mCode;
-    }
-
-    final String managerTag () {
-        return HardyDialogFragment.MANAGER_TAG_PREFIX + mCode;
-    }
-
+    public String code ();
+    public String managerTag ();
 }

@@ -28,6 +28,11 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
+ * <br/><br/>
+ * <p/>
+ * Dialog specification for progress dialog <br/>
+ *
+ * @author emalyshev
  */
 public class ProgressDialogSpecification extends BaseDialogSpecification {
 
@@ -88,4 +93,3 @@ public class ProgressDialogSpecification extends BaseDialogSpecification {
     }
 
 }
-

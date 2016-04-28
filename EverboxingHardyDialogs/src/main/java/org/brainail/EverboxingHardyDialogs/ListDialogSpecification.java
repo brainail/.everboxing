@@ -2,8 +2,6 @@ package org.brainail.EverboxingHardyDialogs;
 
 import android.os.Bundle;
 
-import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,6 +29,11 @@ import java.util.Arrays;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
+ * <br/><br/>
+ *
+ * Dialog specification for list with items <br/>
+ *
+ * @author emalyshev
  */
 public class ListDialogSpecification extends BaseDialogSpecification {
 
@@ -68,7 +71,7 @@ public class ListDialogSpecification extends BaseDialogSpecification {
         }
 
         public T items (final int [] itemsResources) {
-            final String[] items = new String[itemsResources.length];
+            final String [] items = new String [itemsResources.length];
 
             int index = 0;
             for (final int itemResource : itemsResources) {
@@ -115,10 +118,37 @@ public class ListDialogSpecification extends BaseDialogSpecification {
 
     @Override
     protected void fillBundle (final Bundle args) {
-        args.putBoolean (Args.HAS_LIST, true);
-        args.putStringArrayList (Args.LIST_ITEMS, mItems);
-        args.putStringArrayList (Args.LIST_ITEMS_TAGS, mTags);
+        args.putBoolean (HardyDialogFragment.Args.HAS_LIST, true);
+        args.putStringArrayList (HardyDialogFragment.Args.LIST_ITEMS, mItems);
+        args.putStringArrayList (HardyDialogFragment.Args.LIST_ITEMS_TAGS, mTags);
         super.fillBundle (args);
+    }
+
+    @Override
+    public boolean equals (Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (! (o instanceof ListDialogSpecification)) {
+            return false;
+        }
+
+        if (! super.equals (o)) {
+            return false;
+        }
+
+        ListDialogSpecification that = (ListDialogSpecification) o;
+
+        return mItems.equals (that.mItems);
+
+    }
+
+    @Override
+    public int hashCode () {
+        int result = super.hashCode ();
+        result = 31 * result + mItems.hashCode ();
+        return result;
     }
 
 }

@@ -16,5 +16,5 @@
     <string name="dialog_button_info">Info</string>
     <string name="dialog_button_retry">Retry</string>
 
-    <string name="progress_dialog_loading">Loading…</string>
+    <string name="progress_dialog_loading">Loading …</string>
 </resources>

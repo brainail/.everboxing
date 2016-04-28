@@ -32,7 +32,7 @@ public final class HardyDialogsContext {
 
     private static volatile Context sContext;
 
-    public static void init(@NonNull final Context context) {
+    public static void init (final @NonNull Context context) {
         sContext = context.getApplicationContext ();
     }
 
@@ -42,8 +42,11 @@ public final class HardyDialogsContext {
 
     static void verify () {
         if (null == sContext && BuildConfig.DEBUG) {
-            throw new IllegalStateException ("You have to initialize "
-                    + HardyDialogsContext.class.getSimpleName () + " before using");
+            throw new IllegalStateException (
+                    "You have to initialize " +
+                    HardyDialogsContext.class.getSimpleName () +
+                    " before using"
+            );
         }
     }
 

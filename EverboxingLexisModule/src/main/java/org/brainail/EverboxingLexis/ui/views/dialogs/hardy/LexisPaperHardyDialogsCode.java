@@ -1,6 +1,7 @@
 package org.brainail.EverboxingLexis.ui.views.dialogs.hardy;
 
-import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsCode;
+import org.brainail.EverboxingHardyDialogs.HardyDialogCodeProvider;
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -27,34 +28,34 @@ import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsCode;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class LexisPaperHardyDialogsCode extends BaseHardyDialogsCode {
+public enum LexisPaperHardyDialogsCode implements HardyDialogCodeProvider {
 
     // Dictionaries scanning
-    public static final BaseHardyDialogsCode D_DICTIONARY_SCANNING_PROGRESS
-            = new BaseHardyDialogsCode ("dictionary.scanning.progress");
-
+    D_DICTIONARY_SCANNING_PROGRESS("dictionary.scanning.progress"),
     // Choose daily style (dark or light ...)
-    public static final BaseHardyDialogsCode D_ARTICLE_DAILY_STYLE
-            = new BaseHardyDialogsCode ("article.daily.style");
-
+    D_ARTICLE_DAILY_STYLE("article.daily.style"),
     // Choose load remote content mode
-    public static final BaseHardyDialogsCode D_ARTICLE_LOAD_REMOTE_CONTENT_MODE
-            = new BaseHardyDialogsCode ("article.load.remote.content.mode");
-
+    D_ARTICLE_LOAD_REMOTE_CONTENT_MODE("article.load.remote.content.mode"),
     // Choose speech language
-    public static final BaseHardyDialogsCode D_SPEECH_LANGUAGE
-            = new BaseHardyDialogsCode ("speech.languagee");
-
+    D_SPEECH_LANGUAGE("speech.language"),
     // Confirm that you want to remove a dictionary
-    public static final BaseHardyDialogsCode D_DICTIONARY_REMOVING_CONFIRMATION
-            = new BaseHardyDialogsCode ("dictionary.removing.confirmation");
-
+    D_DICTIONARY_REMOVING_CONFIRMATION("dictionary.removing.confirmation"),
     // Confirm that you want to remove selected items
-    public static final BaseHardyDialogsCode D_LIST_ITEMS_REMOVING_CONFIRMATION
-            = new BaseHardyDialogsCode ("list.items.removing.confirmation");
+    D_LIST_ITEMS_REMOVING_CONFIRMATION("list.items.removing.confirmation");
 
-    public LexisPaperHardyDialogsCode (String code) {
-        super (code);
+    private final String code;
+
+    LexisPaperHardyDialogsCode (final String code) {
+        this.code = code;
+    }
+
+    public String code () {
+        return code;
+    }
+
+    @Override
+    public String managerTag () {
+        return HardyDialogFragment.MANAGER_TAG_PREFIX + code;
     }
 
 }
