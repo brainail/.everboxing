@@ -12,7 +12,8 @@ import com.squareup.leakcanary.RefWatcher;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsContext;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
-import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
+import org.brainail.EverboxingTools.ToolsContext;
+import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -53,6 +54,12 @@ public class JApplication extends Application {
     public void onCreate () {
         super.onCreate ();
 
+        // Init Hardy dialogs
+        HardyDialogsContext.init (getApplicationContext ());
+
+        // Init tools
+        ToolsContext.init (getApplicationContext ());
+
         // Leaks!
         if (BuildConfig.USE_LEAKCANARY) {
             mRefWatcher = LeakCanary.install (this);
@@ -62,16 +69,15 @@ public class JApplication extends Application {
         mApp = this;
 
         // Initialize crashlytics via Fabric
-        if (BuildConfig.USE_CRASHLYTICS) initFabric ();
+        if (BuildConfig.USE_CRASHLYTICS) {
+            initFabric ();
+        }
 
         // Initialize font
         initFont ();
 
         // Initialize theme
         ThemeManager.init ();
-
-        // Init Hardy dialogs
-        HardyDialogsContext.init (mApp.getApplicationContext ());
     }
 
     public static RefWatcher refWatcher (final Context context) {

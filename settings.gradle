@@ -4,3 +4,4 @@ include ':EverboxingLexisModule'
 
 // Libraries
 include ':EverboxingHardyDialogs'
+include ':EverboxingTools'

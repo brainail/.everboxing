@@ -24,7 +24,7 @@ import android.webkit.WebViewClient;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.utils.Plogger;
-import org.brainail.EverboxingLexis.utils.Sdk;
+import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface;
 import org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface.IStyleHelper;
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;

@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
-import org.brainail.EverboxingLexis.utils.Sdk;
+import org.brainail.EverboxingTools.utils.Sdk;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

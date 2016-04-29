@@ -19,7 +19,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
+import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

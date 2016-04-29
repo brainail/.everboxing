@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.utils.tool.ToolPhone;
+import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.utils.Sdk;
-import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
+import org.brainail.EverboxingTools.utils.Sdk;
+import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import butterknife.ButterKnife;

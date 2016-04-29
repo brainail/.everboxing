@@ -19,7 +19,7 @@ import com.squareup.leakcanary.RefWatcher;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
-import org.brainail.EverboxingLexis.utils.callable.Tagable;
+import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 

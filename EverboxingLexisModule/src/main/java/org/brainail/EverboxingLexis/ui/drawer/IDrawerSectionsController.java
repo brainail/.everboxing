@@ -5,9 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 
+import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.utils.tool.ToolColor;
+import org.brainail.EverboxingTools.utils.tool.ToolColor;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -37,7 +38,9 @@ import org.brainail.EverboxingLexis.utils.tool.ToolColor;
 public interface IDrawerSectionsController
         extends DrawerLayout.DrawerListener, UserInfoApi.AuthCallback {
 
-    public static final int DRAWER_COLOR = ToolColor.by (R.color.menu_drawer_background_default);
+    public static final int DRAWER_COLOR = ToolColor.by (
+            JApplication.appContext(), R.color.menu_drawer_background_default
+    );
 
     public void addDivider ();
     public void addSubheader (final String titleText);

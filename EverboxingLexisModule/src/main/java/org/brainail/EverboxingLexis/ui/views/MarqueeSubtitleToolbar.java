@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import org.brainail.EverboxingLexis.utils.tool.ToolStrings;
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 
 import java.lang.reflect.Field;
 

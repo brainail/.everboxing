@@ -21,10 +21,10 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
 import org.brainail.EverboxingLexis.ui.views.RespectFullscreenInsetsFrameLayout;
-import org.brainail.EverboxingLexis.utils.Sdk;
-import org.brainail.EverboxingLexis.utils.gestures.OnGestureListener;
+import org.brainail.EverboxingTools.utils.Sdk;
+import org.brainail.EverboxingTools.utils.gestures.OnGestureListener;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
-import org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper;
+import org.brainail.EverboxingTools.utils.manager.ui.SystemUiHelper;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
@@ -33,9 +33,9 @@ import itkach.aard2.ui.adapters.ArticleCollectionPagerAdapter;
 import itkach.aard2.ui.fragments.ArticleFragment;
 import itkach.slob.Slob;
 
-import static org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper.FLAG_IMMERSIVE_STICKY;
-import static org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper.LEVEL_HIDE_STATUS_BAR;
-import static org.brainail.EverboxingLexis.utils.manager.ui.SystemUiHelper.LEVEL_IMMERSIVE;
+import static org.brainail.EverboxingTools.utils.manager.ui.SystemUiHelper.FLAG_IMMERSIVE_STICKY;
+import static org.brainail.EverboxingTools.utils.manager.ui.SystemUiHelper.LEVEL_HIDE_STATUS_BAR;
+import static org.brainail.EverboxingTools.utils.manager.ui.SystemUiHelper.LEVEL_IMMERSIVE;
 
 public class ArticleCollectionActivity extends BaseActivity {
 

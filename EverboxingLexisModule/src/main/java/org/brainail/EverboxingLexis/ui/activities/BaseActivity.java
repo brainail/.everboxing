@@ -18,7 +18,7 @@ import org.brainail.EverboxingLexis.ui.notice.NoticeController;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
-import org.brainail.EverboxingLexis.utils.tool.ToolFonts;
+import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolToolbar;
 

@@ -24,7 +24,8 @@ import android.widget.Toast;
 
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.ui.notice.NoticeController;
-import org.brainail.EverboxingLexis.utils.Sdk;
+import org.brainail.EverboxingTools.utils.Sdk;
+import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
 import butterknife.ButterKnife;
 

@@ -12,10 +12,10 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
 import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
-import org.brainail.EverboxingLexis.utils.callable.Tagable;
-import org.brainail.EverboxingLexis.utils.tool.ToolColor;
+import org.brainail.EverboxingTools.utils.callable.Tagable;
+import org.brainail.EverboxingTools.utils.tool.ToolColor;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
-import org.brainail.EverboxingLexis.utils.tool.ToolStrings;
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.util.LinkedList;

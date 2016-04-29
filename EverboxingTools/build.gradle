@@ -1,0 +1,101 @@
+apply plugin: 'com.android.library'
+
+// Version stuff for auto generated versionName and versionCode
+def appVersionMajor = 1
+def appVersionMinor = 0
+def appVersionPatch = 0
+
+// Git hash and build time for app's BuildConfig
+def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def appBuildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
+
+apply plugin: 'com.android.library'
+
+repositories {
+    jcenter()
+    maven { url 'http://repo1.maven.org/maven2' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    mavenCentral()
+    flatDir { dirs 'libs' }
+    maven { url 'file:' + System.getenv('HOME') + '/.m2/repository' }
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 22
+
+        versionCode appVersionMajor * 10000 + appVersionMinor * 100 + appVersionPatch
+        versionName "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
+
+        // Build config fields
+        buildConfigField "String", "MODULE_NAME", "\"$project.name\""
+
+        buildConfigField "String", "GIT_SHA_KEY", "\"Git SHA\""
+        buildConfigField "String", "GIT_SHA", "\"${appGitSha}\""
+
+        buildConfigField "String", "BUILD_TIME_KEY", "\"Build TIME\""
+        buildConfigField "String", "BUILD_TIME", "\"${appBuildTime}\""
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+
+            // Build config fields
+            buildConfigField "boolean", "LOGGABLE", "true"
+        }
+
+        release {
+            // minifyEnabled true
+            // shrinkResources true
+            proguardFiles 'proguard-rules.txt'
+
+            // Build config fields
+            buildConfigField "boolean", "LOGGABLE", "false"
+        }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+        }
+
+        packagingOptions {
+            // Common
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/NOTICE'
+            exclude 'META-INF/LICENSE.txt'
+            exclude 'LICENSE.txt'
+
+            // For ButterKnife
+            exclude 'META-INF/services/javax.annotation.processing.Processor'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDir 'src/main/libs'
+        }
+    }
+
+    publishNonDefault true
+}
+
+dependencies {
+    // Libs folder
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Tests
+    testCompile 'junit:junit:4.12'
+
+    // Support
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    // compile 'com.android.support:recyclerview-v7:23.0.1'
+    // compile 'com.android.support:preference-v7:23.0.1'
+}
+
+

@@ -1,6 +1,6 @@
 package org.brainail.EverboxingLexis.tool;
 
-import org.brainail.EverboxingLexis.utils.tool.ToolCollections;
+import org.brainail.EverboxingTools.utils.tool.ToolCollections;
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 

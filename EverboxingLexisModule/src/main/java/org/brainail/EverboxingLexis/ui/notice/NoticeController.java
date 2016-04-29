@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.EverboxingLexis.utils.Plogger;
-import org.brainail.EverboxingLexis.utils.tool.ToolPhone;
+import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
 import java.util.ArrayList;
 import java.util.HashSet;

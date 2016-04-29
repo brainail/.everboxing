@@ -12,10 +12,10 @@ import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
-import org.brainail.EverboxingLexis.utils.callable.Tagable;
+import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
-import org.brainail.EverboxingLexis.utils.tool.ToolStrings;
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 /**

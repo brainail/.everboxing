@@ -8,8 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.utils.tool.ToolCollections;
-import org.brainail.EverboxingLexis.utils.tool.ToolKeyboard;
+import org.brainail.EverboxingTools.utils.tool.ToolCollections;
+import org.brainail.EverboxingTools.utils.tool.ToolKeyboard;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import butterknife.ButterKnife;

@@ -30,12 +30,12 @@ import org.brainail.EverboxingLexis.ui.fragments.BaseFragment;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 import org.brainail.EverboxingLexis.utils.Plogger;
-import org.brainail.EverboxingLexis.utils.Sdk;
+import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
-import org.brainail.EverboxingLexis.utils.tool.ToolPrint;
+import org.brainail.EverboxingTools.utils.tool.ToolPrint;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
-import org.brainail.EverboxingLexis.utils.tool.ToolStrings;
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.util.List;
@@ -559,7 +559,7 @@ public class ArticleFragment
     @Override
     public void onAllTextSelection (String selection) {
         mAllTextSelectionRaw = selection;
-        mAllTextSelection = ToolStrings.graTtsWords (selection);
+        mAllTextSelection = ToolStrings.grabTtsWords (selection);
 
         if (! (! mAllTextSelection.isEmpty () && null != mMenuItemTtsAll && null != mArticleWebView)) {
             return;
@@ -579,7 +579,7 @@ public class ArticleFragment
 
     @Override
     public void onPartialTextSelection (String selection) {
-        mPartialTextSelection = ToolStrings.graTtsWords (selection);
+        mPartialTextSelection = ToolStrings.grabTtsWords (selection);
 
         if (! (! TextUtils.isEmpty(selection) && null != mActionMode && null != mArticleWebView)) {
             return;

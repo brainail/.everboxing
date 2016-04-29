@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
-import org.brainail.EverboxingLexis.utils.tool.ToolIo;
+import org.brainail.EverboxingTools.utils.tool.ToolIo;
 
 import java.io.File;
 import java.io.IOException;

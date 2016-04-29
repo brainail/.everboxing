@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.utils.tool.ToolLocale;
+import org.brainail.EverboxingTools.utils.tool.ToolLocale;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.util.Locale;

@@ -238,6 +238,9 @@ dependencies {
     // Hardy dialogs
     debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
     releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
+    // Tools
+    debugCompile project(path: ':EverboxingTools', configuration: 'debug')
+    releaseCompile project(path: ':EverboxingTools', configuration: 'release')
     // Leaks
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakcanaryLibVersion}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryLibVersion}"

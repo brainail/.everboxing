@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerFragmentCreator;
-import org.brainail.EverboxingLexis.utils.callable.Tagable;
+import org.brainail.EverboxingTools.utils.callable.Tagable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

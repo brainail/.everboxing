@@ -2,8 +2,8 @@ package org.brainail.EverboxingLexis.ui.drawer;
 
 import android.support.v4.app.Fragment;
 
-import org.brainail.EverboxingLexis.utils.callable.Creatable;
-import org.brainail.EverboxingLexis.utils.callable.Tagable;
+import org.brainail.EverboxingTools.utils.callable.Creatable;
+import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 
 /**

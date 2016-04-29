@@ -11,8 +11,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import org.brainail.EverboxingLexis.utils.Plogger;
-import org.brainail.EverboxingLexis.utils.Sdk;
-import org.brainail.EverboxingLexis.utils.tool.ToolWebView;
+import org.brainail.EverboxingTools.utils.Sdk;
+import org.brainail.EverboxingTools.utils.tool.ToolWebView;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
