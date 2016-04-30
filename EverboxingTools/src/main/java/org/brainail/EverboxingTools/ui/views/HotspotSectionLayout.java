@@ -1,10 +1,14 @@
-package org.brainail.EverboxingLexis.ui.drawer;
+package org.brainail.EverboxingTools.ui.views;
 
-import android.support.v4.app.Fragment;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.widget.RelativeLayout;
 
-import org.brainail.EverboxingTools.utils.callable.Creatable;
-import org.brainail.EverboxingTools.utils.callable.Tagable;
-import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
+import org.brainail.EverboxingTools.utils.Sdk;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -31,28 +35,29 @@ import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class DrawerFragmentCreator implements Tagable, Creatable {
+public class HotspotSectionLayout extends RelativeLayout {
 
-    private Class<?> mClazz;
+    public HotspotSectionLayout (Context context) {
+        super(context);
+    }
 
-    public static DrawerFragmentCreator from (Class<?> clazz) {
-        final DrawerFragmentCreator creator = new DrawerFragmentCreator ();
-        creator.mClazz = clazz;
-        return creator;
+    public HotspotSectionLayout (Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public HotspotSectionLayout (Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     @Override
-    public Object create () {
-        try {
-            return mClazz.newInstance ();
-        } catch (final Exception exception) {
-            return new Fragment ();
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public boolean onTouchEvent(MotionEvent event) {
+        if (Sdk.isSdkSupported(Sdk.LOLLIPOP) && MotionEvent.ACTION_DOWN == event.getActionMasked()) {
+            final Drawable background = getBackground();
+            if (null != background) background.setHotspot(event.getX(), event.getY());
         }
-    }
 
-    @Override
-    public String tag () {
-        return ToolFragments.getTag (mClazz);
+        return super.onTouchEvent(event);
     }
 
 }

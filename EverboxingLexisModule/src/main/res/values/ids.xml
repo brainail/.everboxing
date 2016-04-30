@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Backgrounds -->
-    <item name="app_content" type="id"/>
-
     <!-- Drawer section -->
     <item name="drawer_section_root" type="id"/>
     <item name="drawer_section_text" type="id"/>
@@ -16,9 +13,6 @@
     <item name="notice_container" type="id"/>
     <item name="notice_message" type="id"/>
     <item name="notice_action" type="id"/>
-
-    <!-- Fragments -->
-    <item name="base_fragment_container" type="id"/>
 
     <!-- Menu -->
     <item name="action_tts_selection" type="id"/>

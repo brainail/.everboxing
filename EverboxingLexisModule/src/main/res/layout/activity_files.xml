@@ -10,7 +10,7 @@
         style="@style/AppContentNested">
 
         <!-- Toolbar -->
-        <org.brainail.EverboxingLexis.ui.views.MarqueeSubtitleToolbar
+        <org.brainail.EverboxingTools.ui.views.MarqueeSubtitleToolbar
             android:id="@+id/toolbar_primary"
             android:layout_width="match_parent"
             style="?attr/toolbarDefaultStyle"

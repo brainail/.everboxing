@@ -1,4 +1,4 @@
-package org.brainail.EverboxingLexis.ui.views;
+package org.brainail.EverboxingTools.ui.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingTools.R;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

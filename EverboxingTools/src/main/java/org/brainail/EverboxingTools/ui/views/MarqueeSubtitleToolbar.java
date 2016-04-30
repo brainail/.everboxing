@@ -1,4 +1,4 @@
-package org.brainail.EverboxingLexis.ui.views;
+package org.brainail.EverboxingTools.ui.views;
 
 import android.content.Context;
 import android.support.v7.widget.Toolbar;

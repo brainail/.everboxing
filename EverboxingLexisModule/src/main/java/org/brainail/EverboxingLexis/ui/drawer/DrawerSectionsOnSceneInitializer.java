@@ -6,6 +6,7 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
 import org.brainail.EverboxingLexis.ui.activities.SettingsActivity;
 import org.brainail.EverboxingLexis.ui.views.BaseIcon;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import itkach.aard2.ui.fragments.LexisBookmarksFragment;
@@ -57,7 +58,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle ("\u00A0")
                             .withName (ToolResources.string (R.string.section_lookup))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_search))
-                            .withTarget (DrawerFragmentCreator.from (LexisLookupFragment.class))
+                            .withTarget (ToolFragments.FragmentCreator.from (LexisLookupFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
@@ -67,7 +68,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_bookmarks))
                             .withName (ToolResources.string (R.string.section_bookmarks))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_bookmark_outline))
-                            .withTarget (DrawerFragmentCreator.from (LexisBookmarksFragment.class))
+                            .withTarget (ToolFragments.FragmentCreator.from (LexisBookmarksFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
@@ -77,7 +78,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_history))
                             .withName (ToolResources.string (R.string.section_history))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_time_restore))
-                            .withTarget (DrawerFragmentCreator.from (LexisHistoryFragment.class))
+                            .withTarget (ToolFragments.FragmentCreator.from (LexisHistoryFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
@@ -87,7 +88,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_dictionaries))
                             .withName (ToolResources.string (R.string.section_dictionaries))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_collection_text))
-                            .withTarget (DrawerFragmentCreator.from (LexisDictionariesFragment.class))
+                            .withTarget (ToolFragments.FragmentCreator.from (LexisDictionariesFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 

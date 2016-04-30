@@ -1,6 +1,7 @@
 package org.brainail.EverboxingLexis.ui.drawer;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,14 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
+import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingTools.utils.tool.ToolColor;
-import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
 import org.brainail.EverboxingTools.utils.tool.ToolStrings;
-import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import java.util.LinkedList;
 
@@ -69,7 +68,6 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     public DrawerSectionsController (final SectionedDrawerActivity scene) {
         mScene = scene;
         ButterKnife.inject (this, scene);
-        updateUserInfo (PlayServices.formSettingsUserInfo ());
     }
 
     @Override
@@ -168,7 +166,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     @Override
     // Section by fragment
-    public DrawerSection section (final DrawerFragmentCreator target) {
+    public DrawerSection section (final ToolFragments.FragmentCreator target) {
         final String tagIdentifier = target.tag ();
 
         for (final DrawerSection primarySection : mPrimaryDrawerSections) {
@@ -297,24 +295,28 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     }
 
     @Override
-    public void updateUserInfo (UserInfoApi userInfo) {
-        if (null == userInfo || TextUtils.isEmpty (userInfo.email)) {
+    public void updateUserInfo (final @Nullable DrawerUser.UserProvider userInfo) {
+        final String email = null != userInfo ? userInfo.provideEmail () : null;
+        if (TextUtils.isEmpty (email)) {
             mUserName.setText (ToolStrings.EMPTY);
             mUserEmail.setText (ToolStrings.EMPTY);
         } else {
             mUserName.setText (R.string.drawer_user_data_name_greetings);
-            mUserEmail.setText (userInfo.email);
+            mUserEmail.setText (email);
         }
     }
 
-    @Override
-    public void onAuthSucceeded (UserInfoApi userInfo) {
+    public void onAuthSucceeded (DrawerUser.UserProvider userInfo) {
         updateUserInfo (userInfo);
     }
 
-    @Override
     public void onUnauthSucceeded () {
-        updateUserInfo (new UserInfoApi (ToolStrings.EMPTY));
+        updateUserInfo (new DrawerUser.UserProvider () {
+            @Override
+            public String provideEmail () {
+                return ToolStrings.EMPTY;
+            }
+        });
     }
 
 }

@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.ui.drawer.DrawerFragmentCreator;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionCallback;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
@@ -18,7 +17,7 @@ import org.brainail.EverboxingLexis.ui.fragments.BaseFragment;
 import org.brainail.EverboxingLexis.ui.fragments.BaseListFragment;
 import org.brainail.EverboxingLexis.utils.Plogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
-import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import itkach.aard2.Application;
@@ -169,12 +168,12 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     }
 
     // Lexis stuff
-    private static final DrawerFragmentCreator LEXIS_BOOKMARKS_SECTION_TEMPLATE
-            = DrawerFragmentCreator.from (LexisBookmarksFragment.class);
-    private static final DrawerFragmentCreator LEXIS_HISTORY_SECTION_TEMPLATE
-            = DrawerFragmentCreator.from (LexisHistoryFragment.class);
-    private static final DrawerFragmentCreator LEXIS_DICTIONARIES_SECTION_TEMPLATE
-            = DrawerFragmentCreator.from (LexisDictionariesFragment.class);
+    private static final ToolFragments.FragmentCreator LEXIS_BOOKMARKS_SECTION_TEMPLATE
+            = ToolFragments.FragmentCreator.from (LexisBookmarksFragment.class);
+    private static final ToolFragments.FragmentCreator LEXIS_HISTORY_SECTION_TEMPLATE
+            = ToolFragments.FragmentCreator.from (LexisHistoryFragment.class);
+    private static final ToolFragments.FragmentCreator LEXIS_DICTIONARIES_SECTION_TEMPLATE
+            = ToolFragments.FragmentCreator.from (LexisDictionariesFragment.class);
 
     private void handleIntent (final Intent intent, final boolean isNew) {
         setIntent (intent);

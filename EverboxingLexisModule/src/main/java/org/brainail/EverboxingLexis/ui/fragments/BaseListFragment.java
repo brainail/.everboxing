@@ -21,7 +21,7 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
-import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
 public abstract class BaseListFragment extends ListFragment implements Tagable {
 

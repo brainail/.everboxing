@@ -5,13 +5,14 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.ui.drawer.DrawerFragmentCreator;
+import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsControllerFactory;
-import org.brainail.EverboxingLexis.ui.drawer.IDrawerSectionsController;
-import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
-import org.brainail.EverboxingLexis.utils.tool.ToolToolbar;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerUser;
+import org.brainail.EverboxingLexis.ui.drawer.IDrawerSectionsController;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
+import org.brainail.EverboxingLexis.utils.tool.ToolToolbar;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -113,6 +114,20 @@ public abstract class SectionedDrawerActivity
     }
 
     @Override
+    protected void onResume () {
+        super.onResume ();
+
+        // For the first time get info about user from settings
+        mDrawerSectionsController.updateUserInfo (new DrawerUser.UserProvider () {
+            @Override
+            public String provideEmail () {
+                final UserInfoApi userInfo = PlayServices.formSettingsUserInfo ();
+                return userInfo.email;
+            }
+        });
+    }
+
+    @Override
     protected void onResumeFragments () {
         super.onResumeFragments ();
 
@@ -147,13 +162,18 @@ public abstract class SectionedDrawerActivity
         return mDrawerSectionsController.section (fragment);
     }
 
-    protected final DrawerSection section (final DrawerFragmentCreator fragment) {
+    protected final DrawerSection section (final ToolFragments.FragmentCreator fragment) {
         return mDrawerSectionsController.section (fragment);
     }
 
     @Override
-    public void onAuthSucceeded (UserInfoApi userInfo) {
-        mDrawerSectionsController.onAuthSucceeded (userInfo);
+    public void onAuthSucceeded (final UserInfoApi userInfo) {
+        mDrawerSectionsController.onAuthSucceeded (new DrawerUser.UserProvider () {
+            @Override
+            public String provideEmail () {
+                return userInfo.email;
+            }
+        });
     }
 
     @Override

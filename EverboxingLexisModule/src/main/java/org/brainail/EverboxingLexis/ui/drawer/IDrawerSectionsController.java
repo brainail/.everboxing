@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingTools.utils.tool.ToolColor;
 
 /**
@@ -35,8 +35,7 @@ import org.brainail.EverboxingTools.utils.tool.ToolColor;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public interface IDrawerSectionsController
-        extends DrawerLayout.DrawerListener, UserInfoApi.AuthCallback {
+public interface IDrawerSectionsController extends DrawerLayout.DrawerListener {
 
     public static final int DRAWER_COLOR = ToolColor.by (
             JApplication.appContext(), R.color.menu_drawer_background_default
@@ -49,8 +48,10 @@ public interface IDrawerSectionsController
     public void restoreState (final Bundle state);
     public void investigateFragmentsStack ();
     public DrawerSection section (final Fragment fragment);
-    public DrawerSection section (final DrawerFragmentCreator fragment);
+    public DrawerSection section (final ToolFragments.FragmentCreator fragment);
     public AppCompatActivity scene ();
-    public void updateUserInfo (final UserInfoApi userInfo);
+    public void updateUserInfo (final DrawerUser.UserProvider userInfo);
+    public void onAuthSucceeded (final DrawerUser.UserProvider userInfo);
+    public void onUnauthSucceeded ();
 
 }

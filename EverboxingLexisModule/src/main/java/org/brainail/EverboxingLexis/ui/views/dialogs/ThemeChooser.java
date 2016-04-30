@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.ui.views.ColorCircleView;
+import org.brainail.EverboxingTools.ui.views.ColorCircleView;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 

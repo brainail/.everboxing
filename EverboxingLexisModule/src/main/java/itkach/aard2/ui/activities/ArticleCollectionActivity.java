@@ -20,7 +20,7 @@ import android.view.WindowManager;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
-import org.brainail.EverboxingLexis.ui.views.RespectFullscreenInsetsFrameLayout;
+import org.brainail.EverboxingTools.ui.views.RespectFullscreenInsetsFrameLayout;
 import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingTools.utils.gestures.OnGestureListener;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;

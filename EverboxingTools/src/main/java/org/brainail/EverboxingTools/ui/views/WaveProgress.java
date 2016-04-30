@@ -1,4 +1,4 @@
-package org.brainail.EverboxingLexis.ui.views;
+package org.brainail.EverboxingTools.ui.views;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
-import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingTools.R;
 import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 
 /**

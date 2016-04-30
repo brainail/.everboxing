@@ -20,7 +20,7 @@
         tools:text="Pink"
         android:layout_gravity="left|start|center"/>
 
-    <org.brainail.EverboxingLexis.ui.views.ColorCircleView
+    <org.brainail.EverboxingTools.ui.views.ColorCircleView
         android:id="@+id/color"
         android:layout_width="@dimen/theme_chooser_item_color_circle_size"
         android:layout_height="@dimen/theme_chooser_item_color_circle_size"

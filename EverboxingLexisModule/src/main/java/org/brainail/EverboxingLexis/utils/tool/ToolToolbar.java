@@ -13,6 +13,7 @@ import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingTools.utils.callable.Colorable;
 import org.brainail.EverboxingTools.utils.callable.Titleable;
 import org.brainail.EverboxingTools.utils.tool.ToolColor;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingTools.utils.tool.ToolManifest;
 
 import butterknife.ButterKnife;
@@ -118,6 +119,7 @@ public final class ToolToolbar {
                 final int windowColor = (toolbarColor == primaryColor)
                         ? primaryDarkColor : ToolColor.darkenColor(toolbarColor);
 
+                //noinspection WrongConstant,ResourceAsColor
                 appContentWindow.setBackgroundColor(windowColor);
             }
 

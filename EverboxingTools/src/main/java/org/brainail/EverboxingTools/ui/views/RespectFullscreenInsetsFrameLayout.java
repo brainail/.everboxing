@@ -1,14 +1,11 @@
-package org.brainail.EverboxingLexis.ui.views;
+package org.brainail.EverboxingTools.ui.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.widget.RelativeLayout;
-
-import org.brainail.EverboxingTools.utils.Sdk;
+import android.widget.FrameLayout;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -35,29 +32,35 @@ import org.brainail.EverboxingTools.utils.Sdk;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HotspotSectionLayout extends RelativeLayout {
+public class RespectFullscreenInsetsFrameLayout extends FrameLayout {
 
-    public HotspotSectionLayout (Context context) {
-        super(context);
+    private boolean mShouldRespectFullscreen = false;
+
+    public RespectFullscreenInsetsFrameLayout (Context context) {
+        super (context);
     }
 
-    public HotspotSectionLayout (Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public RespectFullscreenInsetsFrameLayout (Context context, AttributeSet attrs) {
+        super (context, attrs);
     }
 
-    public HotspotSectionLayout (Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public RespectFullscreenInsetsFrameLayout (Context context, AttributeSet attrs, int defStyleAttr) {
+        super (context, attrs, defStyleAttr);
+    }
+
+    @TargetApi (Build.VERSION_CODES.LOLLIPOP)
+    public RespectFullscreenInsetsFrameLayout (Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super (context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    public void respectFullscreenInsets (final boolean shouldRespect) {
+        mShouldRespectFullscreen = shouldRespect;
     }
 
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public boolean onTouchEvent(MotionEvent event) {
-        if (Sdk.isSdkSupported(Sdk.LOLLIPOP) && MotionEvent.ACTION_DOWN == event.getActionMasked()) {
-            final Drawable background = getBackground();
-            if (null != background) background.setHotspot(event.getX(), event.getY());
-        }
-
-        return super.onTouchEvent(event);
+    protected boolean fitSystemWindows (Rect insets) {
+        insets.bottom = mShouldRespectFullscreen && 0 == insets.top ? 0 : insets.bottom;
+        return super.fitSystemWindows (insets);
     }
 
 }

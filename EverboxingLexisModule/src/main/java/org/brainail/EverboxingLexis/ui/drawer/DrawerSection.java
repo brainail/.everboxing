@@ -13,7 +13,7 @@ import android.view.View;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
 import org.brainail.EverboxingTools.utils.callable.Tagable;
-import org.brainail.EverboxingLexis.utils.tool.ToolFragments;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
@@ -217,7 +217,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return this;
     }
 
-    public DrawerSection withTarget (final DrawerFragmentCreator target) {
+    public DrawerSection withTarget (final ToolFragments.FragmentCreator target) {
         mTargetType = TargetType.FRAGMENT;
         mTarget = target;
         return this;
@@ -324,7 +324,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
             scene ().startActivity (wrapIntentOnStart ((Intent) mTarget));
         } else if (TargetType.FRAGMENT == mTargetType) {
             if (! internalAction || ! ToolFragments.isPresented (scene (), (Tagable) mTarget)) {
-                ToolFragments.openDrawerFragment (scene (), (DrawerFragmentCreator) mTarget);
+                ToolFragments.openDrawerFragment (scene (), (ToolFragments.FragmentCreator) mTarget);
             }
         }
     }
