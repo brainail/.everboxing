@@ -10,7 +10,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingTools.utils.tool.ToolWebView;
 
@@ -144,7 +144,7 @@ public abstract class BaseWebView extends WebView {
     public static class LoggingWebChromeClient extends WebChromeClient {
 
         public boolean onConsoleMessage(final ConsoleMessage cm) {
-            Plogger.logW("Console message: %s.\n-- From line: %d", cm.message(), cm.lineNumber());
+            PooLogger.logW("Console message: %s.\n-- From line: %d", cm.message(), cm.lineNumber());
             return true;
         }
 

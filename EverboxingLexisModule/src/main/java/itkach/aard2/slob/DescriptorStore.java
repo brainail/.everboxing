@@ -2,7 +2,7 @@ package itkach.aard2.slob;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class DescriptorStore <T extends BaseDescriptor> {
     
     public void save (T item) {
         if (item.id == null) {
-            Plogger.logD ("Can't save item without id");
+            PooLogger.logD ("Can't save item without id");
             return;
         }
         try {

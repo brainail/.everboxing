@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.fragments.BaseListFragment;
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.tool.ToolKeyboard;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Plogger.logI("Item clicked: " + position);
+                PooLogger.logI("Item clicked: " + position);
                 Intent intent = new Intent(getActivity(), ArticleCollectionActivity.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
@@ -114,7 +114,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     private final SearchView.OnQueryTextListener mOnQueryTextListener = new SearchView.OnQueryTextListener () {
         @Override
         public boolean onQueryTextSubmit (String query) {
-            Plogger.logI ("SUBMIT -> " + query);
+            PooLogger.logI ("SUBMIT -> " + query);
             onQueryTextChange (query);
             ToolKeyboard.hide ((AppCompatActivity) getActivity ());
             return true;
@@ -122,7 +122,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
 
         @Override
         public boolean onQueryTextChange (String newText) {
-            Plogger.logI ("CHANGE -> New text: " + newText);
+            PooLogger.logI ("CHANGE -> New text: " + newText);
             TimerTask doLookup = new TimerTask () {
                 @Override
                 public void run () {

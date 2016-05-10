@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.LogScope;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
 import java.util.ArrayList;
@@ -108,7 +109,7 @@ public final class NoticeController {
         } else if (scene instanceof Fragment) {
             return new NoticeOnFragmentSceneController((Fragment) scene);
         } else {
-            Plogger.logE(Plogger.LogScope.WTF, "Can't create controller for scene");
+            PooLogger.logE(LogScope.WTF, "Can't create controller for scene");
             return new NoticeOnSceneControllerStub();
         }
     }

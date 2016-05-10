@@ -1,6 +1,6 @@
 package itkach.aard2.utils;
 
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -48,15 +48,15 @@ public class DictionaryFinder {
         }
         String absolutePath = dir.getAbsolutePath();
         if (excludedScanDirs.contains(absolutePath)) {
-            Plogger.logD(String.format("%s is excluded", absolutePath));
+            PooLogger.logD(String.format("%s is excluded", absolutePath));
             return Collections.emptyList();
         }
 
         if (dir.isHidden()) {
-            Plogger.logD(String.format("%s is hidden", absolutePath));
+            PooLogger.logD(String.format("%s is hidden", absolutePath));
             return Collections.emptyList();
         }
-        Plogger.logD("Scanning " + absolutePath);
+        PooLogger.logD("Scanning " + absolutePath);
         List<File> candidates = new ArrayList<File>();
         File[] files = dir.listFiles(fileFilter);
         if (files != null) {
@@ -79,10 +79,10 @@ public class DictionaryFinder {
 
     public synchronized List<SlobDescriptor> findDictionaries() {
         cancelRequested = false;
-        Plogger.logD("starting dictionary discovery");
+        PooLogger.logD("starting dictionary discovery");
         long t0 = System.currentTimeMillis();
         List<File> candidates = discover();
-        Plogger.logD("dictionary discovery took " + (System.currentTimeMillis() - t0));
+        PooLogger.logD("dictionary discovery took " + (System.currentTimeMillis() - t0));
         List<SlobDescriptor> descriptors = new ArrayList<SlobDescriptor>();
         Set<String> seen = new HashSet<String>();
         for (File f : candidates) {

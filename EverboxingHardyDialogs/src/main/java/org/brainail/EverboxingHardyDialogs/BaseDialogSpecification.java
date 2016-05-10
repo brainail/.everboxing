@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.Args;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.IsolatedDialogHandler;
-import org.brainail.EverboxingHardyDialogs.utils.BiDiFormatterUtils;
+import org.brainail.EverboxingTools.utils.tool.ToolBidi;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -324,9 +324,9 @@ public class BaseDialogSpecification implements Serializable {
                     throw new IllegalArgumentException (
                             "Only body containing String object without styles can be formatted.");
                 }
-                return body (String.format (Locale.US, body.toString (), BiDiFormatterUtils.wrapArguments (args)));
+                return body (String.format (Locale.US, body.toString (), ToolBidi.wrapArguments (args)));
             } else {
-                return body (BiDiFormatterUtils.wrapStringArguments (HardyDialogsContext.get (), stringId, args));
+                return body (ToolBidi.wrapStringArguments (HardyDialogsContext.get (), stringId, args));
             }
         }
 

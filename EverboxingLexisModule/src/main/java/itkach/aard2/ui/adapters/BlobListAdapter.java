@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ public class BlobListAdapter extends BaseAdapter {
                 }
             });
         }
-        Plogger.logD(String.format("Loaded chunk of %d (adapter size %d) in %d ms",
+        PooLogger.logD(String.format("Loaded chunk of %d (adapter size %d) in %d ms",
                         count, list.size(), (System.currentTimeMillis() - t0)));
     }
 

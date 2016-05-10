@@ -1,4 +1,4 @@
-package org.brainail.EverboxingLexis.utils.js;
+package org.brainail.EverboxingTools.utils.js;
 
 import android.webkit.JavascriptInterface;
 

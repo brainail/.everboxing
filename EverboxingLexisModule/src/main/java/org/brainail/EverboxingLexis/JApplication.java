@@ -11,6 +11,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsContext;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
 import org.brainail.EverboxingTools.ToolsContext;
 import org.brainail.EverboxingTools.utils.tool.ToolFonts;
@@ -53,6 +54,9 @@ public class JApplication extends Application {
     @Override
     public void onCreate () {
         super.onCreate ();
+
+        // Init logger
+        PooLogger.init (BuildConfig.LOGGABLE, BuildConfig.MODULE_NAME);
 
         // Init Hardy dialogs
         HardyDialogsContext.init (getApplicationContext ());

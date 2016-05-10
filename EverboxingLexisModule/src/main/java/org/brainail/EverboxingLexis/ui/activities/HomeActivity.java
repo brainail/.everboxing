@@ -10,12 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
+import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionCallback;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerUser;
 import org.brainail.EverboxingLexis.ui.fragments.BaseFragment;
 import org.brainail.EverboxingLexis.ui.fragments.BaseListFragment;
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingLexis.utils.LogScope;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
@@ -132,6 +136,20 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     }
 
     @Override
+    protected void onResume () {
+        super.onResume ();
+
+        // For the first time get info about user from settings
+        updateUserInfo (new DrawerUser.UserProvider () {
+            @Override
+            public String provideEmail () {
+                final UserInfoApi userInfo = PlayServices.formSettingsUserInfo ();
+                return userInfo.email;
+            }
+        });
+    }
+
+    @Override
     protected void onResumeFragments() {
         super.onResumeFragments ();
         updateDrawerNotifications ();
@@ -183,7 +201,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
         // we never want this to happen. Instead, we check if we are the root and if not, we finish.
         if (! isTaskRoot()) {
             if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(intent.getAction())) {
-                Plogger.logW(Plogger.LogScope.WTF, "Home scene is not the root. Finishing .. instead of launching.");
+                PooLogger.logW(LogScope.WTF, "Home scene is not the root. Finishing .. instead of launching.");
                 finish();
                 return;
             }
@@ -197,7 +215,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     // Some ugly solution to update bookmarks size and other stuff ...
     // It should be reimplemented, anyway.
     public void updateDrawerNotifications() {
-        Plogger.logV (Plogger.LogScope.DRAWER, "Update drawer notifications numbers ...");
+        PooLogger.logV (LogScope.DRAWER, "Update drawer notifications numbers ...");
 
         // Filtered bookmarks
         final DrawerSection bookmarksSection = section (LEXIS_BOOKMARKS_SECTION_TEMPLATE);

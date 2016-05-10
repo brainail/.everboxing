@@ -1,8 +1,7 @@
-package org.brainail.EverboxingLexis.utils;
+package org.brainail.EverboxingTools.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
-
-import org.brainail.EverboxingLexis.BuildConfig;
 
 import java.util.Locale;
 
@@ -31,18 +30,16 @@ import java.util.Locale;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class Plogger {
-    
-    public enum LogScope {
+public final class PooLogger {
 
-        WTF ("Wtf?"),
-        PLAY_SERVICES_AUTH ("Play Services auth flow"),
-        DRAWER ("Drawer"),
-        AUTH_TOKEN ("Auth token");
+    private static volatile boolean sIsInitialized = false;
+    private static volatile boolean LOGGABLE = false;
+    private static volatile String TAG = "[PooLogger]";
 
-        final String mScopeName;
+    public static class PooLogScope {
+        private final String mScopeName;
 
-        private LogScope (final String scopeName) {
+        public PooLogScope (final String scopeName) {
             mScopeName = scopeName;
         }
 
@@ -53,11 +50,19 @@ public final class Plogger {
         public String scopeMsg (final String message) {
             return "[" + mScopeName + "] " + message;
         }
-
     }
 
-    public static final boolean LOGGABLE = BuildConfig.LOGGABLE;
-    public static final String TAG = String.format (Locale.US, "[Plogger]:[%s]", BuildConfig.MODULE_NAME);
+    public static void init(final boolean isLoggable, final String moduleName) {
+        if (! sIsInitialized) {
+            sIsInitialized = true;
+            LOGGABLE = isLoggable;
+
+            if (! TextUtils.isEmpty (moduleName)) {
+                TAG = String.format (Locale.US, "[PooLogger]:[%s]", moduleName);
+            }
+        }
+    }
+    
 
     public static void logV (final String message) {
         if (LOGGABLE) {
@@ -131,61 +136,61 @@ public final class Plogger {
         }
     }
 
-    public static void logV (final LogScope scope, final String message) {
+    public static void logV (final PooLogScope scope, final String message) {
         if (LOGGABLE) {
             Log.v (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logV (final LogScope scope, final String message, final Object... params) {
+    public static void logV (final PooLogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
             Log.v (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logD (final LogScope scope, final String message) {
+    public static void logD (final PooLogScope scope, final String message) {
         if (LOGGABLE) {
             Log.d (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logD (final LogScope scope, final String message, final Object... params) {
+    public static void logD (final PooLogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
             Log.d (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logI (final LogScope scope, final String message) {
+    public static void logI (final PooLogScope scope, final String message) {
         if (LOGGABLE) {
             Log.i (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logI (final LogScope scope, final String message, final Object... params) {
+    public static void logI (final PooLogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
             Log.i (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logW (final LogScope scope, final String message) {
+    public static void logW (final PooLogScope scope, final String message) {
         if (LOGGABLE) {
             Log.w (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logW (final LogScope scope, final String message, final Object... params) {
+    public static void logW (final PooLogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
             Log.w (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }
     }
 
-    public static void logE (final LogScope scope, final String message) {
+    public static void logE (final PooLogScope scope, final String message) {
         if (LOGGABLE) {
             Log.e (TAG, scope.scopeMsg (message));
         }
     }
 
-    public static void logE (final LogScope scope, final String message, final Object... params) {
+    public static void logE (final PooLogScope scope, final String message, final Object... params) {
         if (LOGGABLE) {
             Log.e (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
         }

@@ -1,6 +1,6 @@
 package itkach.aard2.utils;
 
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,7 +16,7 @@ public class Util {
         try {
             Collections.sort(list);
         } catch(Exception e) {
-            Plogger.logW(e, "Error while sorting");
+            PooLogger.logW(e, "Error while sorting");
         }
     };
 
@@ -25,7 +25,7 @@ public class Util {
             Collections.sort(list, comparator);
         }
         catch(Exception e) {
-            Plogger.logW(e, "Error while sorting");
+            PooLogger.logW(e, "Error while sorting");
         }
     }
 

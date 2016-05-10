@@ -23,12 +23,12 @@ import android.webkit.WebViewClient;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface;
 import org.brainail.EverboxingLexis.utils.js.ContentStyleJsInterface.IStyleHelper;
-import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;
-import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface.ISelectionHelper;
+import org.brainail.EverboxingTools.utils.js.ProcessContentJsInterface;
+import org.brainail.EverboxingTools.utils.js.ProcessContentJsInterface.ISelectionHelper;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
@@ -250,7 +250,7 @@ public class ArticleWebView
     }
 
     private String getAutoStyle () {
-        Plogger.logD ("Auto style will return " + mDefaultStyleTitle);
+        PooLogger.logD ("Auto style will return " + mDefaultStyleTitle);
         return mDefaultStyleTitle;
     }
 
@@ -297,7 +297,7 @@ public class ArticleWebView
         e.putInt (PREF_TEXT_ZOOM, textZoom);
         boolean success = e.commit ();
         if (!success) {
-            Plogger.logW ("Failed to save article view text zoom pref");
+            PooLogger.logW ("Failed to save article view text zoom pref");
         }
     }
 
@@ -311,25 +311,25 @@ public class ArticleWebView
         editor.putStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, styleTitles);
         boolean success = editor.commit ();
         if (!success) {
-            Plogger.logW ("Failed to save article view available styles pref");
+            PooLogger.logW ("Failed to save article view available styles pref");
         }
     }
 
     @SuppressWarnings ("unchecked")
     private void loadAvailableStylesPref () {
         if (mCurrentSlobUri == null) {
-            Plogger.logW ("Can't load article view available styles pref - slob uri is null");
+            PooLogger.logW ("Can't load article view available styles pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
-        Plogger.logD ("Available styles before pref load: " + mStyleTitles);
+        PooLogger.logD ("Available styles before pref load: " + mStyleTitles);
         mStyleTitles = new TreeSet<> (prefs.getStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, Collections.EMPTY_SET));
-        Plogger.logD ("Loaded available styles: " + mStyleTitles);
+        PooLogger.logD ("Loaded available styles: " + mStyleTitles);
     }
 
     public void saveStylePref (String styleTitle) {
         if (mCurrentSlobUri == null) {
-            Plogger.logW ("Can't save article view style pref - slob uri is null");
+            PooLogger.logW ("Can't save article view style pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
@@ -338,7 +338,7 @@ public class ArticleWebView
         editor.putString (prefName, styleTitle);
         boolean success = editor.commit ();
         if (!success) {
-            Plogger.logW ("Failed to save article view style pref");
+            PooLogger.logW ("Failed to save article view style pref");
         }
     }
 
@@ -362,7 +362,7 @@ public class ArticleWebView
         }
 
         String result = isAutoStyle (styleTitle) ? getAutoStyle () : styleTitle;
-        Plogger.logD ("getPreferredStyle() will return " + result);
+        PooLogger.logD ("getPreferredStyle() will return " + result);
 
         return result;
     }
@@ -374,13 +374,13 @@ public class ArticleWebView
 
     @Override
     public void onStyleSet (String title) {
-        Plogger.logD ("Style set! " + title);
+        PooLogger.logD ("Style set! " + title);
         mApplyStylePrefTask.cancel ();
     }
 
     @Override
     public void setStyleTitles (String[] titles) {
-        Plogger.logD (String.format ("Got %d style titles", titles.length));
+        PooLogger.logD (String.format ("Got %d style titles", titles.length));
         if (titles.length == 0) return;
 
         final SortedSet<String> newStyleTitlesSet = new TreeSet<> (Arrays.asList (titles));
@@ -464,7 +464,7 @@ public class ArticleWebView
                 mCurrentSlobId = null;
                 mCurrentSlobUri = null;
             }
-            Plogger.logD (String.format ("currentSlobId set from url %s to %s, uri %s", url, mCurrentSlobId, mCurrentSlobUri));
+            PooLogger.logD (String.format ("currentSlobId set from url %s to %s, uri %s", url, mCurrentSlobId, mCurrentSlobUri));
         }
     }
 
@@ -516,13 +516,13 @@ public class ArticleWebView
 
         @Override
         public void onPageStarted (WebView view, String url, Bitmap favicon) {
-            Plogger.logD ("onPageStarted: " + url);
+            PooLogger.logD ("onPageStarted: " + url);
             if (url.startsWith ("about:")) {
                 return;
             }
 
             if (mTimes.containsKey (url)) {
-                Plogger.logD ("onPageStarted: already ready seen " + url);
+                PooLogger.logD ("onPageStarted: already ready seen " + url);
                 mTimes.get (url).add (System.currentTimeMillis ());
             } else {
                 List<Long> tsList = new ArrayList<Long> ();
@@ -532,14 +532,14 @@ public class ArticleWebView
                 try {
                     mTimer.schedule (mApplyStylePrefTask, 250, 200);
                 } catch (IllegalStateException ex) {
-                    Plogger.logW (ex, "Failed to schedule applyStylePref in view " + view.getId ());
+                    PooLogger.logW (ex, "Failed to schedule applyStylePref in view " + view.getId ());
                 }
             }
         }
 
         @Override
         public void onPageFinished (WebView view, String url) {
-            Plogger.logD ("onPageFinished: " + url);
+            PooLogger.logD ("onPageFinished: " + url);
             if (url.startsWith ("about:")) {
                 return;
             }
@@ -547,14 +547,14 @@ public class ArticleWebView
             if (mTimes.containsKey (url)) {
                 List<Long> tsList = mTimes.get (url);
                 long ts = tsList.remove (tsList.size () - 1);
-                Plogger.logD ("onPageFinished: finished: " + url + " in " + (System.currentTimeMillis () - ts));
+                PooLogger.logD ("onPageFinished: finished: " + url + " in " + (System.currentTimeMillis () - ts));
                 if (tsList.isEmpty ()) {
-                    Plogger.logD ("onPageFinished: really done with " + url);
+                    PooLogger.logD ("onPageFinished: really done with " + url);
                     mTimes.remove (url);
                     mApplyStylePrefTask.cancel ();
                 }
             } else {
-                Plogger.logW ("onPageFinished: Unexpected page finished event for " + url);
+                PooLogger.logW ("onPageFinished: Unexpected page finished event for " + url);
             }
 
             view.loadUrl ("javascript:"
@@ -573,7 +573,7 @@ public class ArticleWebView
             try {
                 parsed = Uri.parse (url);
             } catch (Exception e) {
-                Plogger.logW (e, "Failed to parse url: " + url);
+                PooLogger.logW (e, "Failed to parse url: " + url);
                 return super.shouldInterceptRequest (view, url);
             }
             if (parsed.isRelative ()) {
@@ -591,7 +591,7 @@ public class ArticleWebView
 
         @Override
         public boolean shouldOverrideUrlLoading (WebView view, final String url) {
-            Plogger.logD (String.format ("shouldOverrideUrlLoading: %s (current %s)", url, view.getUrl ()));
+            PooLogger.logD (String.format ("shouldOverrideUrlLoading: %s (current %s)", url, view.getUrl ()));
 
             Uri uri = Uri.parse (url);
             String scheme = uri.getScheme ();
@@ -612,11 +612,11 @@ public class ArticleWebView
                 intent.setData (uri);
                 getContext ().startActivity (intent);
 
-                Plogger.logD ("Overriding loading of " + url);
+                PooLogger.logD ("Overriding loading of " + url);
                 return true;
             }
 
-            Plogger.logD ("NOT overriding loading of " + url);
+            PooLogger.logD ("NOT overriding loading of " + url);
             return false;
         }
     };

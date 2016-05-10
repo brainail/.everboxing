@@ -29,14 +29,14 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.fragments.BaseFragment;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
-import org.brainail.EverboxingLexis.utils.Plogger;
-import org.brainail.EverboxingTools.utils.Sdk;
-import org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
-import org.brainail.EverboxingTools.utils.tool.ToolPrint;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
-import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
+import org.brainail.EverboxingTools.utils.PooLogger;
+import org.brainail.EverboxingTools.utils.Sdk;
+import org.brainail.EverboxingTools.utils.js.ProcessContentJsInterface;
+import org.brainail.EverboxingTools.utils.tool.ToolPrint;
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 
 import java.util.List;
 import java.util.Locale;
@@ -103,6 +103,7 @@ public class ArticleFragment
 
         if (null == mTts) {
             mTts = new TextToSpeech (getActivity (), mOnInitTtsListener);
+            // mTts.setOnUtteranceProgressListener(mTtsProgressListener);
         }
     }
 
@@ -461,7 +462,7 @@ public class ArticleFragment
         }
 
         public boolean onConsoleMessage (final ConsoleMessage cm) {
-            Plogger.logW ("Console message: %s.\n-- From line: %d", cm.message (), cm.lineNumber ());
+            PooLogger.logW ("Console message: %s.\n-- From line: %d", cm.message (), cm.lineNumber ());
             return true;
         }
     };
@@ -471,7 +472,7 @@ public class ArticleFragment
         super.onStart ();
 
         // Check tts
-        if (null != mTts && !mIsTtsAvailable) {
+        if (null != mTts && ! mIsTtsAvailable) {
             final int ttsLanguageResult = mTts.setLanguage (ttsLocale ());
             mIsTtsAvailable = !(TextToSpeech.LANG_MISSING_DATA == ttsLanguageResult
                     || TextToSpeech.LANG_NOT_SUPPORTED == ttsLanguageResult);
@@ -625,5 +626,40 @@ public class ArticleFragment
             }
         });
     }
+
+//    private final UtteranceProgressListener mTtsProgressListener = new UtteranceProgressListener () {
+//        @Override
+//        public void onStart (String utteranceId) {
+//            showPlayer ();
+//        }
+//
+//        @Override
+//        public void onDone (String utteranceId) {
+//            hidePlayer ();
+//        }
+//
+//        @Override
+//        public void onError (String utteranceId) {
+//            hidePlayer ();
+//        }
+//
+//        private void hidePlayer () {
+//            NotificationManager notificationManager = (NotificationManager) getActivity ().getSystemService(Context.NOTIFICATION_SERVICE);
+//            notificationManager.cancel (-1024);
+//        }
+//
+//        private void showPlayer () {
+//            Intent notificationIntent = new Intent(getActivity (), TtsNotificationBroadcastReceiver.class);
+//            PendingIntent np = PendingIntent.getBroadcast (getActivity (), 0, notificationIntent, 0);
+//            final android.support.v4.app.NotificationCompat.Builder mNotificationBuilder =
+//                    new NotificationCompat.Builder (getActivity ())
+//                            .setSmallIcon (R.mipmap.ic_launcher)
+//                            .addAction (android.R.drawable.ic_media_play, "Stop", np)
+//                            .setContentTitle(mArticleTitle);
+//
+//            NotificationManager notificationManager = (NotificationManager) getActivity ().getSystemService(Context.NOTIFICATION_SERVICE);
+//            notificationManager.notify(-1024, mNotificationBuilder.build());
+//        }
+//    };
 
 }

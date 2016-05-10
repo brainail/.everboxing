@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.brainail.EverboxingLexis.JApplication;
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.tool.ToolIo;
 
@@ -95,7 +95,7 @@ public class Application extends JApplication {
                         = WebView.class.getMethod ("setWebContentsDebuggingEnabled", boolean.class);
                 setWebContentsDebuggingEnabledMethod.invoke (null, true);
             } catch (Exception e1) {
-                Plogger.logE ("setWebContentsDebuggingEnabledMethod method not found");
+                PooLogger.logE ("setWebContentsDebuggingEnabledMethod method not found");
             }
         }
 
@@ -227,7 +227,7 @@ public class Application extends JApplication {
             mSlobber.start ("127.0.0.1", portCandidate);
             port = portCandidate;
         } catch (IOException e) {
-            Plogger.logW (String.format ("Failed to start on preferred port %d", portCandidate));
+            PooLogger.logW (String.format ("Failed to start on preferred port %d", portCandidate));
             Set<Integer> seen = new HashSet<Integer> ();
             seen.add (PREFERRED_PORT);
             Random rand = new Random ();
@@ -247,7 +247,7 @@ public class Application extends JApplication {
                     break;
                 } catch (IOException e1) {
                     lastError = e1;
-                    Plogger.logW (String.format ("Failed to start on port %d", portCandidate));
+                    PooLogger.logW (String.format ("Failed to start on port %d", portCandidate));
                 }
                 if (attemptCount >= 20) {
                     throw new RuntimeException ("Failed to start web server", lastError);
@@ -262,9 +262,9 @@ public class Application extends JApplication {
 
     public void push (AppCompatActivity activity) {
         this.mArticleActivities.add (activity);
-        Plogger.logD ("AppCompatActivity added, stack size " + this.mArticleActivities.size ());
+        PooLogger.logD ("AppCompatActivity added, stack size " + this.mArticleActivities.size ());
         if (this.mArticleActivities.size () > 3) {
-            Plogger.logD ("Max stack size exceeded, finishing oldest activity");
+            PooLogger.logD ("Max stack size exceeded, finishing oldest activity");
             this.mArticleActivities.get (0).finish ();
         }
     }
@@ -320,7 +320,7 @@ public class Application extends JApplication {
         long t0 = System.currentTimeMillis ();
         Slob[] slobs = activeOnly ? getActiveSlobs () : mSlobber.getSlobs ();
         Slob.PeekableIterator<Blob> result = Slob.find (key, slobs, mSlobber.getSlob (preferredSlobId), upToStrength);
-        Plogger.logD (String.format ("find ran in %dms", System.currentTimeMillis () - t0));
+        PooLogger.logD (String.format ("find ran in %dms", System.currentTimeMillis () - t0));
         return result;
     }
 

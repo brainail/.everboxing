@@ -338,16 +338,16 @@
     @android.webkit.JavascriptInterface <methods>;
 }
 # ProcessContentJsInterface
--keep class org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+-keep class org.brainail.EverboxingTools.utils.js.ProcessContentJsInterface {
     <methods>;
 }
--keep class * extends org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+-keep class * extends org.brainail.EverboxingTools.utils.js.ProcessContentJsInterface {
     <methods>;
 }
--keep class * implements org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+-keep class * implements org.brainail.EverboxingTools.utils.js.ProcessContentJsInterface {
     <methods>;
 }
--keepclassmembers class org.brainail.EverboxingLexis.utils.js.ProcessContentJsInterface {
+-keepclassmembers class org.brainail.EverboxingTools.utils.js.ProcessContentJsInterface {
     <methods>;
 }
 # ContentStyleJsInterface

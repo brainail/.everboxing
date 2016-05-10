@@ -1,6 +1,6 @@
-package org.brainail.EverboxingHardyDialogs.utils;
+package org.brainail.EverboxingLexis.utils;
 
-import java.io.Closeable;
+import org.brainail.EverboxingTools.utils.PooLogger;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -27,16 +27,9 @@ import java.io.Closeable;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class IoUtils {
-    public static void close(final Closeable ... streams) {
-        for (final Closeable stream : streams) {
-            try {
-                if (null != stream) {
-                    stream.close();
-                }
-            } catch (final Exception exception) {
-                // Wow ...
-            }
-        }
-    }
+public final class LogScope {
+    public static final PooLogger.PooLogScope WTF = new PooLogger.PooLogScope ("Wtf?");
+    public static final PooLogger.PooLogScope PLAY_SERVICES_AUTH = new PooLogger.PooLogScope ("Play Services auth flow");
+    public static final PooLogger.PooLogScope DRAWER = new PooLogger.PooLogScope ("Drawer");
+    public static final PooLogger.PooLogScope AUTH_TOKEN = new PooLogger.PooLogScope ("Auth token");
 }

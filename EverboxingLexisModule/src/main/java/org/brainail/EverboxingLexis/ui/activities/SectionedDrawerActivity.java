@@ -5,14 +5,13 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
-import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerUser;
 import org.brainail.EverboxingLexis.ui.drawer.IDrawerSectionsController;
-import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolToolbar;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -113,18 +112,9 @@ public abstract class SectionedDrawerActivity
         mDrawerSectionsController.investigateFragmentsStack ();
     }
 
-    @Override
-    protected void onResume () {
-        super.onResume ();
-
+    protected final void updateUserInfo (final DrawerUser.UserProvider userProvider) {
         // For the first time get info about user from settings
-        mDrawerSectionsController.updateUserInfo (new DrawerUser.UserProvider () {
-            @Override
-            public String provideEmail () {
-                final UserInfoApi userInfo = PlayServices.formSettingsUserInfo ();
-                return userInfo.email;
-            }
-        });
+        mDrawerSectionsController.updateUserInfo (userProvider);
     }
 
     @Override

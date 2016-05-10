@@ -142,6 +142,12 @@
             </intent-filter>
         </activity>
 
+        <!--
+        <receiver
+            android:name="itkach.aard2.broadcast.TtsNotificationBroadcastReceiver"
+            android:exported="false"/>
+        -->
+
         <!-- Google Play Services -->
         <meta-data
             android:name="com.google.android.gms.version"

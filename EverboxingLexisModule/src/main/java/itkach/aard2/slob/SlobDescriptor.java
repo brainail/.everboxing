@@ -1,7 +1,7 @@
 package itkach.aard2.slob;
 
 import org.brainail.EverboxingLexis.R;
-import org.brainail.EverboxingLexis.utils.Plogger;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 
 import java.io.File;
@@ -36,7 +36,7 @@ public class SlobDescriptor extends BaseDescriptor {
             slob = new Slob(f);
             this.update(slob);
         } catch (Exception e) {
-            Plogger.logE(e, "Error while opening " + this.path);
+            PooLogger.logE(e, "Error while opening " + this.path);
             error = e.getMessage();
             expandDetail = true;
             isActive = false;
