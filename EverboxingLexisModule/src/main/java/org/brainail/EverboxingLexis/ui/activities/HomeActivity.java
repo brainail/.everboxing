@@ -19,10 +19,10 @@ import org.brainail.EverboxingLexis.ui.drawer.DrawerUser;
 import org.brainail.EverboxingLexis.ui.fragments.BaseFragment;
 import org.brainail.EverboxingLexis.ui.fragments.BaseListFragment;
 import org.brainail.EverboxingLexis.utils.LogScope;
-import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
-import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
+import org.brainail.EverboxingTools.utils.PooLogger;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
 import itkach.aard2.Application;
 import itkach.aard2.ui.activities.ArticleCollectionActivity;

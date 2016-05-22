@@ -1,0 +1,8 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppDrawer.Section" parent="AppDrawer.SectionBase">
+        <item name="android:background">?attr/listDefaultSelector</item>
+    </style>
+
+</resources>

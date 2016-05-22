@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General -->
+    <string name="app_name_about">О LexisPaper</string>
+    <string name="action_settings">Настройки</string>
+
+    <!-- Settings window -->
+    <string name="settings_activity_title">Настройки</string>
+
+    <!-- Themes -->
+    <string name="settings_theme_header">Оформление</string>
+    <string name="settings_change_theme_title">Цвет темы</string>
+    <string name="settings_change_theme_dialog_title">Выберите тему</string>
+
+    <string name="settings_misc_header">Разное</string>
+    <string name="settings_open_about_title">О приложении</string>
+    <string name="settings_feedback_title">Оставить отзыв/предложение</string>
+    <string name="settings_feedback_summary">Оставьте отзыв об этом приложении или предложение об улучшениях</string>
+
+    <!-- Nav drawer -->
+    <string name="drawer_open">Открыть</string>
+    <string name="drawer_close">Закрыть</string>
+    <string name="drawer_user_data_name_greetings">&#9728; Приветствую тебя! &#9728;</string>
+
+    <!-- Themes -->
+    <string name="theme_name_default">Розовая</string>
+    <string name="theme_name_indigo">Индиго</string>
+    <string name="theme_name_blue">Голубая</string>
+    <string name="theme_name_cyan">Светло-бирюзовая</string>
+    <string name="theme_name_teal">Темно-бирюзовая</string>
+    <string name="theme_name_green">Зеленая</string>
+    <string name="theme_name_lgreen">Светло-зеленая</string>
+    <string name="theme_name_purple">Фиолетовая</string>
+    <string name="theme_name_brown">Коричневая</string>
+    <string name="theme_name_orange">Оранжевая</string>
+    <string name="theme_name_dark">Темная</string>
+
+    <string name="open_url_fallback_no_apps_to_open">Приложение для открытия не найдено</string>
+
+    <!-- Custom tab -->
+    <string name="custom_tab_action_share">Поделиться</string>
+    <string name="custom_tab_action_email">Отправить по почте</string>
+    <string name="custom_tab_action_email_mail_title">Оцени!</string>
+
+    <string name="settings_ringtone_silent_summary">Тишина</string>
+
+    <string name="app_intro_slide_no_00_title">Интро</string>
+    <string name="app_intro_slide_no_00_description">Интро описание.</string>
+
+    <string name="feedback_suggestion_mail_start_body">Привет!\n\n</string>
+    <string name="feedback_suggestion_email_title">Отзыв/предложение (%1$s)</string>
+</resources>

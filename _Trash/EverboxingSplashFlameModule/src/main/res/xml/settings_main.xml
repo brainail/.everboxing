@@ -1,0 +1,41 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/settings_preference_screen_root">
+
+    <org.brainail.EverboxingSplashFlame.ui.views.preference.PreferenceCategory
+        android:enabled="false"
+        android:key="@string/settings_category_data_transfer"
+        android:title="@string/settings_data_transfer_header">
+
+        <org.brainail.EverboxingSplashFlame.ui.views.preference.SwitchPreferenceCompat
+            android:key="@string/settings_sync_account_key"
+            android:title="@string/settings_sync_account_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_sync_account_summary"/>
+
+    </org.brainail.EverboxingSplashFlame.ui.views.preference.PreferenceCategory>
+
+    <org.brainail.EverboxingSplashFlame.ui.views.preference.PreferenceCategory
+        android:title="@string/settings_theme_header">
+
+        <org.brainail.EverboxingSplashFlame.ui.views.preference.Preference
+            android:key="@string/settings_change_theme_key"
+            android:title="@string/settings_change_theme_title"/>
+
+    </org.brainail.EverboxingSplashFlame.ui.views.preference.PreferenceCategory>
+
+    <org.brainail.EverboxingSplashFlame.ui.views.preference.PreferenceCategory
+        android:title="@string/settings_misc_header">
+
+        <org.brainail.EverboxingSplashFlame.ui.views.preference.Preference
+            android:key="@string/settings_feedback_key"
+            android:summary="@string/settings_feedback_summary"
+            android:title="@string/settings_feedback_title"/>
+
+        <org.brainail.EverboxingSplashFlame.ui.views.preference.Preference
+            android:key="@string/settings_open_about_key"
+            android:title="@string/settings_open_about_title"/>
+
+    </org.brainail.EverboxingSplashFlame.ui.views.preference.PreferenceCategory>
+
+</PreferenceScreen>

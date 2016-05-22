@@ -173,7 +173,7 @@ public final class ToolFragments {
 
         private Class<?> mClazz;
 
-        public static FragmentCreator from (Class<?> clazz) {
+        public static FragmentCreator from (final Class<?> clazz) {
             final FragmentCreator creator = new FragmentCreator ();
             creator.mClazz = clazz;
             return creator;

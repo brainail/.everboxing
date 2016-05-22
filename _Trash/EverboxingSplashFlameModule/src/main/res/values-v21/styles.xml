@@ -1,0 +1,11 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Theme chooser -->
+    <style name="ThemeChooserItem">
+    </style>
+
+    <!-- Blob item -->
+    <style name="BlobItem"/>
+
+</resources>

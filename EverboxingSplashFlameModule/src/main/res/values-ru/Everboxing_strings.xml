@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="define_int_Everboxing"></string>
+    <string name="library_Everboxing_libraryDescription">Everboxing это пример стартового Android приложения выполненного в стиле Material дизайна. Гибкая настройка Gradle и многое другое. Наслаждайтесь!</string>
+</resources>

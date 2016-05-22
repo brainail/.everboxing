@@ -1,0 +1,20 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UselessParent"
+    style="@style/AppContent">
+
+    <!-- The main content view -->
+    <LinearLayout
+        android:orientation="vertical"
+        style="@style/AppContentNested">
+
+        <!-- Toolbar -->
+        <include layout="@layout/view_toolbar_primary"/>
+
+        <!-- Box for content -->
+        <include layout="@layout/view_content_container"/>
+
+    </LinearLayout>
+
+</FrameLayout>

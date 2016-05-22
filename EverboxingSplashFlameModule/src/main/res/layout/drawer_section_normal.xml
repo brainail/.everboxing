@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.brainail.EverboxingTools.ui.views.HotspotSectionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppDrawer.Section">
+
+    <ImageView
+        android:id="@id/drawer_section_icon"
+        style="@style/AppDrawer.Icon"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@id/drawer_section_text"
+        android:layout_toLeftOf="@id/drawer_section_notification"
+        android:layout_toStartOf="@id/drawer_section_notification"
+        style="@style/AppDrawer.Title.AfterIcon"/>
+
+    <TextView
+        android:id="@id/drawer_section_notification"
+        style="@style/AppDrawer.Notification"/>
+
+</org.brainail.EverboxingTools.ui.views.HotspotSectionLayout>

@@ -1,5 +1,6 @@
 // Apps
 include ':EverboxingModule'
+include ':EverboxingSplashFlameModule'
 include ':EverboxingLexisModule'
 
 // Libraries

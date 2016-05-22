@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Toolbar -->
+    <style name="AppToolbar" parent="Widget.AppCompat.Toolbar"/>
+    <style name="AppToolbar.Primary">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/AppToolbarTheme</item>
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+    <style name="AppToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@color/md_white_1000</item>
+    </style>
+
+    <!-- ActionBar -->
+    <style name="AppActionBar" parent="Widget.AppCompat.ActionBar"/>
+    <style name="AppActionBar.Primary"/>
+
+</resources>

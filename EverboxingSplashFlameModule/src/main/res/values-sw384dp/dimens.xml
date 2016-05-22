@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Drawer -->
+    <dimen name="menu_drawer_width">320dp</dimen>
+</resources>

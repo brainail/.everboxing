@@ -1,0 +1,355 @@
+// Version stuff for auto generated versionName and versionCode
+def appVersionMajor = 1
+def appVersionMinor = 0
+def appVersionPatch = 0
+
+// Git hash and build time for app's BuildConfig
+def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def appBuildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://jitpack.io" }
+    }
+
+    dependencies {
+        //noinspection GradleDynamicVersion
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+repositories {
+    // ...
+    maven { url "https://jitpack.io" }
+}
+
+//
+// +------------------------------------------------------------+
+// | Configure parameters for the android build. Android DSL    |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    // Snapshots
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+
+    // Maven Central
+    mavenCentral()
+
+    // Jcenter is superset of Maven Central
+    jcenter()
+
+    // Project local
+    flatDir {
+        dirs 'libs'
+    }
+
+    // System local
+    maven {
+        url 'file:' + System.getenv('HOME') + '/.m2/repository'
+    }
+
+    // Fabric
+    maven {
+        url 'https://maven.fabric.io/public'
+    }
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "org.brainail.EverboxingSplashFlame"
+
+        minSdkVersion 15
+        targetSdkVersion 22
+
+        versionCode appVersionMajor * 10000 + appVersionMinor * 100 + appVersionPatch
+        versionName "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
+
+        // Build config fields
+        buildConfigField "String", "MODULE_NAME", "\"$project.name\""
+
+        buildConfigField "String", "GIT_SHA_KEY", "\"Git SHA\""
+        buildConfigField "String", "GIT_SHA", "\"${appGitSha}\""
+
+        buildConfigField "String", "BUILD_TIME_KEY", "\"Build TIME\""
+        buildConfigField "String", "BUILD_TIME", "\"${appBuildTime}\""
+    }
+
+//    sourceSets {
+//        // Remapping the androidTest sourceSet to the test folder
+//        androidTest.setRoot('src/test')
+//    }
+
+    signingConfigs {
+        release {
+            try {
+                // Load properties
+                Properties signProperties = new Properties()
+                signProperties.load(new FileInputStream(rootProject.file('sign/sign.properties')))
+
+                // Assign properties
+                storeFile file(signProperties.STORE_FILE)
+                storePassword signProperties.STORE_PASSWORD
+                keyAlias signProperties.KEY_ALIAS
+                keyPassword signProperties.KEY_PASSWORD
+            } catch (ignored) {
+                throw new InvalidUserDataException("You should provide sign.properties file with correct signingConfigs!")
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+
+            // Build config fields
+            buildConfigField "boolean", "LOGGABLE", "true"
+
+            // buildConfigField "boolean", "USE_CRASHLYTICS", "false"
+            // ext.enableCrashlytics = false
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            ext.enableCrashlytics = true
+
+            buildConfigField "boolean", "USE_LEAKCANARY", "false"
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles 'proguard-rules.txt'
+
+            // Build config fields
+            buildConfigField "boolean", "LOGGABLE", "false"
+
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
+            ext.enableCrashlytics = true
+
+            buildConfigField "boolean", "USE_LEAKCANARY", "false"
+
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        // ButterKnife
+        disable 'InvalidPackage'
+        // set to true to turn off analysis progress reporting by lint
+        quiet false
+        // if true, stop the gradle build if errors are found
+        abortOnError false
+        // if true, only report errors
+        ignoreWarnings false
+        // if true, check all issues, including those that are off by default
+        checkAllWarnings false
+        // if true, treat all warnings as errors
+        warningsAsErrors false
+        // if true, generate an XML report for use by for example Jenkins
+        xmlReport false
+        // if true, generate an HTML report (with issue explanations, sourcecode, etc)
+        htmlReport true
+        // optional path to report (default will be lint-results.html in the build dir)
+        htmlOutput file("$project.buildDir/reports/lint/lint.html")
+    }
+
+    packagingOptions {
+        // Common
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'LICENSE.txt'
+        exclude 'NOTICE.txt'
+        exclude 'LICENSE'
+        exclude 'NOTICE'
+        exclude '.readme'
+
+        // ButterKnife
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    dexOptions {
+        jumboMode = true
+    }
+}
+
+//
+// +------------------------------------------------------------+
+// | Dependencies                                               |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+ext {
+    supportLibVersion = '23.3.0'
+    gservicesLibVersion = '8.4.0'
+    leakcanaryLibVersion = '1.3.1'
+}
+
+dependencies {
+    // Libs folder
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // Support libraries
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:customtabs:${supportLibVersion}"
+    // Google play services
+    compile "com.google.android.gms:play-services-base:${gservicesLibVersion}"
+    compile "com.google.android.gms:play-services-drive:${gservicesLibVersion}"
+    compile "com.google.android.gms:play-services-plus:${gservicesLibVersion}"
+    // Material stuff
+    compile 'com.malinskiy:materialicons:1.0.2'
+    compile 'com.github.clans:fab:1.6.2'
+    // Fonts
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    // Annotations
+    compile 'com.jakewharton:butterknife:6.1.0'
+    // UI stuff
+    compile 'com.github.iammert:ProgressLayout:a2ac196500'
+    // Analytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') { transitive = true; }
+    // About
+    compile('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
+    compile 'com.github.paolorotolo:appintro:3.3.0'
+    // Hardy dialogs
+    debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
+    releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
+    // Tools
+    debugCompile project(path: ':EverboxingTools', configuration: 'debug')
+    releaseCompile project(path: ':EverboxingTools', configuration: 'release')
+    // Leaks
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakcanaryLibVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryLibVersion}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryLibVersion}"
+}
+
+//
+// +------------------------------------------------------------+
+// | Configure tests dependencies                               |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+// apply plugin: 'org.robolectric'
+
+// To run through the Studio (previous approach)
+// apply from: 'robolectric-iml.gradle'
+
+dependencies {
+    // Tests
+    testCompile "junit:junit:4.12"
+    testCompile('org.robolectric:robolectric:3.1-SNAPSHOT') {
+        exclude module: 'commons-logging'
+        exclude module: 'httpclient'
+
+        // WARNING: Conflict with dependency 'com.ibm.icu:icu4j'.
+        // Resolved versions for app (52.1) and test app (53.1) differ.
+        // See http://g.co/androidstudio/app-test-app-conflict for details.
+        exclude group: 'com.ibm.icu'
+    }
+
+    // Checks
+    testCompile "com.squareup:fest-android:1.0.8"
+    testCompile('com.squareup.assertj:assertj-android:1.1.0') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    // Mocks
+    testCompile('org.powermock:powermock-module-junit4:1.6.4') {
+        exclude group: 'org.hamcrest'
+    }
+    testCompile('org.powermock:powermock-api-mockito:1.6.4') {
+        exclude group: 'org.hamcrest'
+    }
+}
+
+// project.gradle.taskGraph.whenReady {
+//     testDebug {
+//         ignoreFailures = true
+//     }
+// }
+
+//
+// +------------------------------------------------------------+
+// | Configure analyzers                                        |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+// Add checkstyle, findbugs, pmd and lint to the check task.
+task analyzecode(type: SourceTask) {
+    description 'All checks for code'
+}
+
+analyzecode.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
+
+//
+// +------------------------------------------------------------+
+// | Configure checkstyle                                       |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+apply plugin: 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+    description 'Check code style'
+    ignoreFailures = true
+    configFile file('config/checkstyle/checkstyle.xml')
+    source 'src/main/java'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+}
+
+//
+// +------------------------------------------------------------+
+// | Configure findbugs                                         |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+apply plugin: "findbugs"
+
+task findbugs(type: FindBugs) {
+    description 'Find bugs'
+    ignoreFailures = true
+    source = fileTree('src/main/java/')
+    classes = fileTree('build/intermediates/classes/debug/')
+    classpath = files()
+    effort = 'max'
+    reportLevel = "high"
+    include '**/*.java'
+    exclude '**/gen/**'
+    excludeFilter = new File('config/findbugs/findbugs-config.xml')
+    reports {
+        html.enabled = true
+        xml.enabled = !html.enabled
+    }
+}
+
+//
+// +------------------------------------------------------------+
+// | Configure pmd                                              |
+// +------------------------------------------------------------+
+// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+apply plugin: "pmd"
+
+task pmd(type: Pmd) {
+    description 'Analyze code via Pmd'
+    ignoreFailures = true
+    include '**/*.java'
+    exclude '**/gen/**'
+    source = fileTree('src/main/java/')
+    ruleSetFiles = files("config/pmd/pmd-config.xml")
+}

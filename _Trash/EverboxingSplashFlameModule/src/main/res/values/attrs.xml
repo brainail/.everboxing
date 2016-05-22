@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Font -->
+    <attr name="fontPath" format="string"/>
+
+    <!-- Default: list selector -->
+    <attr name="listDefaultSelector" format="reference"/>
+
+    <!-- Drawer -->
+    <attr name="drawerCover" format="reference"/>
+    <attr name="menuDrawerBackgroundColor" format="color"/>
+    <attr name="menuDrawerHelSectionsDropshadowColor" format="color"/>
+    <attr name="menuDrawerHelSectionsDropshadowDrawable" format="reference"/>
+
+    <!-- Toolbar -->
+    <attr name="toolbarDefaultStyle" format="reference"/>
+
+    <!-- Background -->
+    <attr name="contentDefaultBackgroundColor" format="color"/>
+    <attr name="cardDefaultBackgroundColor" format="color"/>
+    <attr name="snackDefaultBackgroundColor" format="color"/>
+    <attr name="snackDefaultBackgroundDrawable" format="color"/>
+
+    <!-- FAB -->
+    <attr name="fabDefaultColorNormal" format="reference"/>
+    <attr name="fabDefaultColorPressed" format="reference"/>
+    <attr name="fabDefaultColorRipple" format="reference"/>
+
+    <!-- Misc -->
+    <attr name="dividerDefaultColor" format="color"/>
+    <attr name="dropshadowDefaultColor" format="color"/>
+    <attr name="dropshadowDefaultDrawable" format="reference"/>
+
+</resources>

@@ -2,6 +2,7 @@ package org.brainail.EverboxingLexis.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +19,9 @@ import org.brainail.EverboxingLexis.ui.notice.NoticeController;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.manager.ThemeManager;
+import org.brainail.EverboxingLexis.utils.tool.ToolToolbar;
 import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
-import org.brainail.EverboxingLexis.utils.tool.ToolToolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public abstract class BaseActivity
         NoticeBar.OnVisibilityCallback, ClientApi.Supportable {
 
     // Primary Toolbar
-    private Toolbar mPrimaryToolbar;
+    protected Toolbar mPrimaryToolbar;
 
     // Theme. I use null to define that this is full recreating
     private ThemeManager.AppTheme mTheme = null;
@@ -329,6 +330,18 @@ public abstract class BaseActivity
         }
 
         super.onActivityResult (requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onConfigurationChanged (Configuration newConfig) {
+        super.onConfigurationChanged (newConfig);
+
+        // Fix action bar height if we use "configChanges"
+        // if (null != mPrimaryToolbar) {
+            // final ViewGroup.LayoutParams layoutParams = mPrimaryToolbar.getLayoutParams ();
+            // layoutParams.height = ToolResources.actionBarHeight (this);
+            // mPrimaryToolbar.setLayoutParams (layoutParams);
+        // }
     }
 
     @Override

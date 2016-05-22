@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notice_bar"
+    tools:background="#80900000"
+    style="@style/Notice.Bar">
+
+    <TextView
+        android:id="@id/notice_message"
+        style="@style/Notice.Message"
+        tools:text="Message"/>
+
+    <TextView
+        android:id="@id/notice_action"
+        style="@style/Notice.Action"
+        tools:text="Action"/>
+
+</LinearLayout>

@@ -1,0 +1,9 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Dialogs -->
+    <style name="AppCompatAlertDialogDarkStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- ... -->
+    </style>
+
+</resources>

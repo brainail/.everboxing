@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.util.TypedValue;
 import android.view.Window;
 
 import org.brainail.EverboxingLexis.JApplication;
@@ -170,6 +172,12 @@ public final class ToolResources {
 
     public static String string(final int resId, final Object ... args) {
         return 0 != resId ? JApplication.appContext().getString(resId, args) : null;
+    }
+
+    public static int actionBarHeight(final @NonNull Context context) {
+        final TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true);
+        return TypedValue.complexToDimensionPixelSize(typedValue.data, context.getResources().getDisplayMetrics());
     }
 
 }
