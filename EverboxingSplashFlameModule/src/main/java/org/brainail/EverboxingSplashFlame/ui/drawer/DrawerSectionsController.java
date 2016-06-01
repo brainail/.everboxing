@@ -19,9 +19,8 @@ import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 
 import java.util.LinkedList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -50,26 +49,19 @@ import butterknife.Optional;
  */
 final class DrawerSectionsController implements IDrawerSectionsController {
 
-    @Optional
-    @InjectView (R.id.drawer_menu_primary_sections)
+    @BindView (R.id.drawer_menu_primary_sections)
     LinearLayout mPrimarySections;
-    @Optional
-    @InjectView (R.id.drawer_menu_help_sections)
+    @BindView (R.id.drawer_menu_help_sections)
     LinearLayout mHelpSections;
-    @Optional
-    @InjectView (R.id.drawer_menu_help_sections_separator)
+    @BindView (R.id.drawer_menu_help_sections_separator)
     View mHelpSectionsSeparator;
-    @Optional
-    @InjectView (R.id.drawer_menu_primary)
+    @BindView (R.id.drawer_menu_primary)
     View mDrawerView;
-    @Optional
-    @InjectView (R.id.drawer_menu_user_cover)
+    @BindView (R.id.drawer_menu_user_cover)
     View mUserCoverArea;
-    @Optional
-    @InjectView (R.id.drawer_menu_user_name)
+    @BindView (R.id.drawer_menu_user_name)
     TextView mUserName;
-    @Optional
-    @InjectView (R.id.drawer_menu_user_email)
+    @BindView (R.id.drawer_menu_user_email)
     TextView mUserEmail;
 
     private DrawerSection mCurrentSection;
@@ -81,7 +73,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     public DrawerSectionsController (final SectionedDrawerActivity scene) {
         mScene = scene;
-        ButterKnife.inject (this, scene);
+        ButterKnife.bind (this, scene);
     }
 
     @Override

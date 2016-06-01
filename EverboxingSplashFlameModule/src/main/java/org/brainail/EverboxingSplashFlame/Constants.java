@@ -1,15 +1,7 @@
-package org.brainail.EverboxingSplashFlame.ui.drawer;
+package org.brainail.EverboxingSplashFlame;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.utils.tool.ToolUI;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import static android.os.Environment.getExternalStorageDirectory;
+import static org.brainail.EverboxingSplashFlame.BuildConfig.APP_DIR;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -36,23 +28,11 @@ import butterknife.ButterKnife;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class DrawerSectionHolder {
+public final class Constants {
 
-    View selfView;
-    @BindView (R.id.drawer_section_text)
-    TextView selfText;
-    @BindView (R.id.drawer_section_icon)
-    ImageView selfIcon;
-    @BindView (R.id.drawer_section_notification)
-    TextView selfNotifications;
+    private static final String SDCARD_ABS_PATH = getExternalStorageDirectory().getAbsolutePath() + "/" + APP_DIR;
 
-    public static DrawerSectionHolder inflate (final Context context, final DrawerSection.LayoutType type) {
-        final DrawerSectionHolder viewHolder = new DrawerSectionHolder ();
-
-        viewHolder.selfView = ToolUI.linearWrapper (context, type.layoutId);
-        ButterKnife.bind (viewHolder, viewHolder.selfView);
-
-        return viewHolder;
-    }
+    public static final String APP_MEDIA_DIR_NAME = "media";
+    public static final String APP_MEDIA_DIR_PATH = SDCARD_ABS_PATH + APP_MEDIA_DIR_NAME + "/";
 
 }

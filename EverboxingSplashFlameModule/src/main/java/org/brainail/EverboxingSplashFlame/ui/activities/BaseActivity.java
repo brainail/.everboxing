@@ -259,13 +259,19 @@ public abstract class BaseActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
-        switch (item.getItemId ()) {
-            default:
-                break;
+    public boolean onOptionsItemSelected (MenuItem menuItem) {
+        int menuItemId = menuItem.getItemId ();
+
+        if (android.R.id.home == menuItemId) {
+            navigateUpFromSameTask ();
+            return true;
         }
 
-        return super.onOptionsItemSelected (item);
+        return super.onOptionsItemSelected (menuItem);
+    }
+
+    private void navigateUpFromSameTask () {
+        finish ();
     }
 
     @Override
@@ -287,7 +293,9 @@ public abstract class BaseActivity
         updateToolbarTitle ();
         // We should update here options menu
         // to refresh self after recreate (change theme)
-        getSupportActionBar ().invalidateOptionsMenu ();
+        if (null != getSupportActionBar ()) {
+            getSupportActionBar ().invalidateOptionsMenu ();
+        }
     }
 
     protected void updateToolbarColor () {

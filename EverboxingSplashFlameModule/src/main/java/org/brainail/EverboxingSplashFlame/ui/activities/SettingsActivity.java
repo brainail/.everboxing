@@ -20,7 +20,6 @@ import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.MenuItem;
 
 import org.brainail.EverboxingSplashFlame.BuildConfig;
 import org.brainail.EverboxingSplashFlame.R;
@@ -96,22 +95,6 @@ public class SettingsActivity
                     SettingsFragment.MANAGER_TAG
             ).commit ();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected (MenuItem menuItem) {
-        int menuItemId = menuItem.getItemId ();
-
-        if (android.R.id.home == menuItemId) {
-            navigateUpFromSameTask ();
-            return true;
-        }
-
-        return super.onOptionsItemSelected (menuItem);
-    }
-
-    private void navigateUpFromSameTask () {
-        finish ();
     }
 
     @Override

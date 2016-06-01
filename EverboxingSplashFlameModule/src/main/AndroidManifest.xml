@@ -45,6 +45,11 @@
             </intent-filter>
         </activity>
 
+        <!-- FLAME -->
+        <activity
+            android:name="org.brainail.EverboxingSplashFlame.ui.activities.FlameActivity"
+            android:label="@string/flame_activity_title"/>
+
         <!-- SETTINGS -->
         <activity
             android:name="org.brainail.EverboxingSplashFlame.ui.activities.SettingsActivity"
@@ -85,14 +90,7 @@
         <!-- Fabric key -->
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="31f79ffcea0b848ba23aa7a9b536165c59d8d6c8"/>
-
-        <!-- Remove the TestActivity coming from recyclerview-v7 -->
-        <!--suppress AndroidDomInspection -->
-        <activity
-            android:name="android.support.v7.widget.TestActivity"
-            android:label="RecyclerViewTestActivity"
-            tools:node="remove"/>
+            android:value="${fabricApiKey}"/>
 
         <!-- Multiwindow -->
         <uses-library android:name="com.sec.android.app.multiwindow" android:required="false"/>

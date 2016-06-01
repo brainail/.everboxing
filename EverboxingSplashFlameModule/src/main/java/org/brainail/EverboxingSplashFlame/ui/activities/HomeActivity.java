@@ -18,7 +18,6 @@ import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerUser;
 import org.brainail.EverboxingSplashFlame.ui.fragments.BaseFragment;
 import org.brainail.EverboxingSplashFlame.utils.LogScope;
 import org.brainail.EverboxingSplashFlame.utils.manager.SettingsManager;
-import org.brainail.EverboxingSplashFlame.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
@@ -150,12 +149,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     public void onDrawerOpened (View drawerView) {
         super.onDrawerOpened (drawerView);
 
-        /*
-        final Fragment target = ToolFragments.topFragment (self ());
-        if (target instanceof ... ListFragment) {
-            ((... ListFragment) target).finishCurrentActionMode ();
-        }
-        */
+        // ...
     }
 
     @Override
@@ -198,16 +192,10 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     }
 
     // Some ugly solution to update bookmarks size and other stuff ...
-    // It should be reimplemented, anyway.
     public void updateDrawerNotifications () {
         PooLogger.logV (LogScope.DRAWER, "Update drawer notifications numbers ...");
 
-        /*
-        final DrawerSection section = section (...);
-        if (null != section) {
-            section.withNotifications (...);
-        }
-        */
+        // ...
     }
 
     @Override
@@ -224,15 +212,17 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     }
 
     @Override
-    public void onClick (DrawerSection section) {}
+    public void onClick (DrawerSection section) {
+        // ...
+    }
 
     @Override
     public void onTargetClick (DrawerSection section) {
-        if (DrawerSectionsOnSceneInitializer.LUCKY_SECTION_POSITION == section.getPosition ()) {
+        // if (DrawerSectionsOnSceneInitializer.LUCKY_SECTION_POSITION == section.getPosition ()) {
             // startActivity (intent);
-            ToolUI.showToast (this, "Nothing");
-            investigateFragmentsStack ();
-        }
+            // ToolUI.showToast (this, "Nothing");
+            // investigateFragmentsStack ();
+        // }
     }
 
 }

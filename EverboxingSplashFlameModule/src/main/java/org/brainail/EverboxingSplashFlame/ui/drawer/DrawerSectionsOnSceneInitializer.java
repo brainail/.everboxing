@@ -5,8 +5,8 @@ import com.malinskiy.materialicons.Iconify;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.activities.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.SettingsActivity;
-import org.brainail.EverboxingSplashFlame.ui.fragments.BookmarksFragment;
-import org.brainail.EverboxingSplashFlame.ui.fragments.LookupFragment;
+import org.brainail.EverboxingSplashFlame.ui.fragments.FavouriteFragment;
+import org.brainail.EverboxingSplashFlame.ui.fragments.FlameFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.BaseIcon;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
@@ -49,32 +49,24 @@ public final class DrawerSectionsOnSceneInitializer {
 
         @Override
         public void initialize (final SectionedDrawerActivity scene) {
-            // Lookup
+            // Flamer
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle ("\u00A0")
-                            .withName ("Your section [A]")
-                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_search))
-                            .withTarget (ToolFragments.FragmentCreator.from (LookupFragment.class))
+                            .withTitle (ToolResources.string (R.string.section_flamer))
+                            .withName (ToolResources.string (R.string.section_flamer))
+                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_fire))
+                            .withTarget (ToolFragments.FragmentCreator.from (FlameFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
-            // Bookmarks
+            // Favourite
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle ("Your section [B]")
-                            .withName ("Your section [B]")
-                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_bookmark_outline))
-                            .withTarget (ToolFragments.FragmentCreator.from (BookmarksFragment.class))
+                            .withTitle (ToolResources.string (R.string.section_favourite))
+                            .withName (ToolResources.string (R.string.section_favourite))
+                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_favorite))
+                            .withTarget (ToolFragments.FragmentCreator.from (FavouriteFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
-            );
-
-            // Random
-            scene.addDrawerSection (
-                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withName ("Your section [C]")
-                            .withIcon (BaseIcon.controlIcon (scene, Iconify.IconValue.zmdi_shuffle))
-                            .withTarget ((DrawerSectionCallback) scene)
             );
 
             // Settings

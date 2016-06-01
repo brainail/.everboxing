@@ -281,5 +281,5 @@ public final class ToolUI {
         // Get tab by position from LL
         return tabs.getChildAt (position);
     }
-    
+
 }

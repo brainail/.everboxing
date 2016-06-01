@@ -17,6 +17,7 @@ buildscript {
     dependencies {
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
 
@@ -33,6 +34,11 @@ repositories {
 
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.neenbedankt.android-apt'
+
+if (new File('app/local.gradle').exists()) {
+    apply from: 'local.gradle'
+}
 
 repositories {
     // Snapshots
@@ -83,19 +89,13 @@ android {
 
         buildConfigField "String", "BUILD_TIME_KEY", "\"Build TIME\""
         buildConfigField "String", "BUILD_TIME", "\"${appBuildTime}\""
+
+        buildConfigField('String', 'APP_DIR', "\"${appDir}\"")
+
+        manifestPlaceholders = [
+                fabricApiKey: "${fabricApiKey}"
+        ]
     }
-
-//    ndk {
-//        moduleName = 'flame'
-//        toolchain = 'clang'
-//        CFlags.addAll(['-Wall'])
-//        ldLibs.addAll(['m', 'log', 'tiff'])
-//    }
-
-//    sourceSets {
-//        // Remapping the androidTest sourceSet to the test folder
-//        androidTest.setRoot('src/test')
-//    }
 
     sourceSets.main {
         jni.srcDirs = []
@@ -115,7 +115,7 @@ android {
                 keyAlias signProperties.KEY_ALIAS
                 keyPassword signProperties.KEY_PASSWORD
             } catch (ignored) {
-                throw new InvalidUserDataException("You should provide sign.properties file with correct signingConfigs!")
+                throw new InvalidUserDataException("You should provide sign.properties file")
             }
         }
     }
@@ -207,9 +207,12 @@ android {
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 ext {
-    supportLibVersion = '23.3.0'
-    gservicesLibVersion = '8.4.0'
-    leakcanaryLibVersion = '1.3.1'
+    supportLibVersion = '23.4.0'
+    playServicesLibVersion = '8.4.0'
+    leakCanaryLibVersion = '1.4-beta2'
+    butterKnifeLibVersion = '8.1.0-SNAPSHOT'
+    crashlyticsLibVersion = '2.5.5'
+    glideLibVersion = '3.7.0'
 }
 
 dependencies {
@@ -218,36 +221,55 @@ dependencies {
     // Support libraries
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:customtabs:${supportLibVersion}"
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     // Google play services
-    compile "com.google.android.gms:play-services-base:${gservicesLibVersion}"
-    compile "com.google.android.gms:play-services-drive:${gservicesLibVersion}"
-    compile "com.google.android.gms:play-services-plus:${gservicesLibVersion}"
+    compile "com.google.android.gms:play-services-base:${playServicesLibVersion}"
+    compile "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
+    compile "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
+    // Analytics
+    compile("com.crashlytics.sdk.android:crashlytics:${crashlyticsLibVersion}@aar") { transitive = true; }
+    // Leaks
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
+    // Butterknife
+    compile "com.jakewharton:butterknife:${butterKnifeLibVersion}"
+    apt "com.jakewharton:butterknife-compiler:${butterKnifeLibVersion}"
+    // Images
+    compile "com.github.bumptech.glide:glide:${glideLibVersion}"
+    // Bolts
+    compile 'com.parse.bolts:bolts-tasks:1.4.0'
     // Material stuff
     compile 'com.malinskiy:materialicons:1.0.2'
     compile 'com.github.clans:fab:1.6.2'
     // Fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    // Annotations
-    compile 'com.jakewharton:butterknife:6.1.0'
     // UI stuff
     compile 'com.github.iammert:ProgressLayout:a2ac196500'
-    // Analytics
-    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') { transitive = true; }
     // About
     compile('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
     compile 'com.github.paolorotolo:appintro:3.3.0'
+
     // Hardy dialogs
     debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
     releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
     // Tools
     debugCompile project(path: ':EverboxingTools', configuration: 'debug')
     releaseCompile project(path: ':EverboxingTools', configuration: 'release')
-    // Leaks
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakcanaryLibVersion}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryLibVersion}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryLibVersion}"
-    // Images
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    // Dagger
+    // compile "com.google.dagger:dagger:${daggerVersion}"
+    // apt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    // provided 'org.glassfish:javax.annotation:10.0-b28' // Required by Dagger2
+    // ...
+    // Bus
+    // compile 'org.simple:androideventbus:1.0.5.1'
+    // compile 'org.greenrobot:eventbus:3.0.0'
+    // ...
+    // Icepick
+    // compile "frankiesardo:icepick:${icepickVersion}"
+    // provided "frankiesardo:icepick-processor:${icepickVersion}"
 }
 
 //
