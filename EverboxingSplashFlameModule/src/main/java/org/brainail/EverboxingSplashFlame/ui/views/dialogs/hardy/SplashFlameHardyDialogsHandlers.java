@@ -1,4 +1,6 @@
-package org.brainail.EverboxingSplashFlame.ui.fragments;
+package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
+
+import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsHandlers;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -25,4 +27,4 @@ package org.brainail.EverboxingSplashFlame.ui.fragments;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class FavouriteFragment extends BaseFragment {}
+public class SplashFlameHardyDialogsHandlers extends BaseHardyDialogsHandlers {}

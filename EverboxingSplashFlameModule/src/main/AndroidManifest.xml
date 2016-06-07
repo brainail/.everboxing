@@ -47,7 +47,7 @@
 
         <!-- FLAME -->
         <activity
-            android:name="org.brainail.EverboxingSplashFlame.ui.activities.FlameActivity"
+            android:name="org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity"
             android:label="@string/flame_activity_title"/>
 
         <!-- SETTINGS -->

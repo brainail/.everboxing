@@ -2,6 +2,7 @@
 include ':EverboxingModule'
 include ':EverboxingSplashFlameModule'
 include ':EverboxingLexisModule'
+include ':.EverboxingExperimentalModule'
 
 // Libraries
 include ':EverboxingHardyDialogs'

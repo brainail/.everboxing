@@ -6,7 +6,7 @@ import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.activities.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.SettingsActivity;
 import org.brainail.EverboxingSplashFlame.ui.fragments.FavouriteFragment;
-import org.brainail.EverboxingSplashFlame.ui.fragments.FlameFragment;
+import org.brainail.EverboxingSplashFlame.ui.fragments.FlamePropertiesFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.BaseIcon;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
@@ -55,7 +55,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withTitle (ToolResources.string (R.string.section_flamer))
                             .withName (ToolResources.string (R.string.section_flamer))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_fire))
-                            .withTarget (ToolFragments.FragmentCreator.from (FlameFragment.class))
+                            .withTarget (ToolFragments.FragmentCreator.from (FlamePropertiesFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.brainail.EverboxingTools.ui.views.WaveProgress
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:mlv_borderColor="@android:color/transparent"
+    app:mlv_borderGateWidth="3dp"
+    app:mlv_progressValue="40"
+    app:mlv_shapeType="circle"
+    app:mlv_titleBottom="Flaming ..."
+    app:mlv_titleBottomColor="@android:color/white"
+    app:mlv_titleBottomSize="14sp"
+    app:mlv_waveAmplitude="70"
+    app:mlv_waveColor="?attr/colorAccent"/>
