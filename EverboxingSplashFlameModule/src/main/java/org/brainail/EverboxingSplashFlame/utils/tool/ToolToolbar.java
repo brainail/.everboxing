@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.ui.activities.BaseActivity;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingTools.utils.callable.Colorable;
 import org.brainail.EverboxingTools.utils.callable.Titleable;

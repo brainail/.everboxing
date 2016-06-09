@@ -3,8 +3,8 @@ package org.brainail.EverboxingSplashFlame.ui.drawer;
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.ui.activities.SectionedDrawerActivity;
-import org.brainail.EverboxingSplashFlame.ui.activities.SettingsActivity;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
+import org.brainail.EverboxingSplashFlame.ui.activities.common.SettingsActivity;
 import org.brainail.EverboxingSplashFlame.ui.fragments.FavouriteFragment;
 import org.brainail.EverboxingSplashFlame.ui.fragments.FlamePropertiesFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.BaseIcon;

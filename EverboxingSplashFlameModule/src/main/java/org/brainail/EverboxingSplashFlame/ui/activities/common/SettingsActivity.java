@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.activities;
+package org.brainail.EverboxingSplashFlame.ui.activities.common;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -25,6 +25,7 @@ import org.brainail.EverboxingSplashFlame.BuildConfig;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.api.ClientApi;
 import org.brainail.EverboxingSplashFlame.api.UserInfoApi;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
 import org.brainail.EverboxingSplashFlame.ui.views.BaseIcon;
 import org.brainail.EverboxingSplashFlame.ui.views.dialogs.ThemeChooser;
 import org.brainail.EverboxingSplashFlame.ui.views.preference.SwitchPreferenceCompat;

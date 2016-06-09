@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
-import org.brainail.EverboxingSplashFlame.ui.activities.BaseActivity;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

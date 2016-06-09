@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.activities;
+package org.brainail.EverboxingSplashFlame.ui.activities.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

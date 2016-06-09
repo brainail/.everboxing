@@ -18,6 +18,7 @@ buildscript {
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
     }
 }
 
@@ -32,40 +33,30 @@ repositories {
 // +------------------------------------------------------------+
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+// Main
 apply plugin: 'com.android.application'
+// Fabric (Crashlytics, ...)
 apply plugin: 'io.fabric'
+// ...
 apply plugin: 'com.neenbedankt.android-apt'
-
-if (new File('app/local.gradle').exists()) {
-    apply from: 'local.gradle'
-}
+// Local
+if (new File('app/local.gradle').exists()) { apply from: 'local.gradle' }
+// Retrolambda (apply this plugin last)
+apply plugin: 'me.tatarka.retrolambda'
 
 repositories {
     // Snapshots
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     // Maven Central
     mavenCentral()
-
     // Jcenter is superset of Maven Central
     jcenter()
-
     // Project local
-    flatDir {
-        dirs 'libs'
-    }
-
+    flatDir { dirs 'libs' }
     // System local
-    maven {
-        url 'file:' + System.getenv('HOME') + '/.m2/repository'
-    }
-
+    maven { url 'file:' + System.getenv('HOME') + '/.m2/repository' }
     // Fabric
-    maven {
-        url 'https://maven.fabric.io/public'
-    }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 android {
@@ -92,9 +83,9 @@ android {
 
         buildConfigField('String', 'APP_DIR', "\"${appDir}\"")
 
-        manifestPlaceholders = [
-                fabricApiKey: "${fabricApiKey}"
-        ]
+        manifestPlaceholders = [ fabricApiKey: "${fabricApiKey}" ]
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     sourceSets.main {
@@ -115,7 +106,7 @@ android {
                 keyAlias signProperties.KEY_ALIAS
                 keyPassword signProperties.KEY_PASSWORD
             } catch (ignored) {
-                throw new InvalidUserDataException("You should provide sign.properties file")
+                throw new IllegalAccessException("You should provide sign.properties file")
             }
         }
     }
@@ -154,8 +145,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
@@ -212,6 +203,7 @@ ext {
     leakCanaryLibVersion = '1.4-beta2'
     butterKnifeLibVersion = '8.1.0-SNAPSHOT'
     crashlyticsLibVersion = '2.5.5'
+    constraintLayoutLibVersion = '1.0.0-alpha3'
     glideLibVersion = '3.7.0'
 }
 
@@ -222,7 +214,7 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:customtabs:${supportLibVersion}"
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
+    compile "com.android.support.constraint:constraint-layout:${constraintLayoutLibVersion}"
     // Google play services
     compile "com.google.android.gms:play-services-base:${playServicesLibVersion}"
     compile "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
@@ -246,10 +238,12 @@ dependencies {
     // Fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     // UI stuff
-    compile 'com.github.iammert:ProgressLayout:a2ac196500'
+    // compile 'com.github.iammert:ProgressLayout:a2ac196500'
     // About
     compile('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
     compile 'com.github.paolorotolo:appintro:3.3.0'
+    // Retrolambda
+    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:+'
 
     // Hardy dialogs
     debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
@@ -286,7 +280,7 @@ dependencies {
 dependencies {
     // Tests
     testCompile "junit:junit:4.12"
-    testCompile('org.robolectric:robolectric:3.1-SNAPSHOT') {
+    testCompile('org.robolectric:robolectric:3.1') {
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
 

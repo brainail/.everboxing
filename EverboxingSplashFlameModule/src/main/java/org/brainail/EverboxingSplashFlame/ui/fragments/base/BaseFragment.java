@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.fragments;
+package org.brainail.EverboxingSplashFlame.ui.fragments.base;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.brainail.EverboxingSplashFlame.JApplication;
-import org.brainail.EverboxingSplashFlame.ui.activities.BaseActivity;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
 import org.brainail.EverboxingSplashFlame.utils.chrome.CustomTabsSceneHelper;
 import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;

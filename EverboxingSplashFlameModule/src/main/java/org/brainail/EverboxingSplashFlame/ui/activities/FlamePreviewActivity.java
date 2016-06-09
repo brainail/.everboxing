@@ -3,6 +3,7 @@ package org.brainail.EverboxingSplashFlame.ui.activities;
 import android.os.Bundle;
 
 import org.brainail.EverboxingSplashFlame.R;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
 import org.brainail.EverboxingSplashFlame.ui.fragments.FlamePreviewFragment;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments.FragmentCreator;

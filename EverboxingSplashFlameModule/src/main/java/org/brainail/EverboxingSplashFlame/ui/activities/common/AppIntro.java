@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.activities;
+package org.brainail.EverboxingSplashFlame.ui.activities.common;
 
 import android.app.Activity;
 import android.content.Intent;

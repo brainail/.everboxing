@@ -1,5 +1,7 @@
 package org.brainail.EverboxingSplashFlame.ui.fragments;
 
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
+
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>

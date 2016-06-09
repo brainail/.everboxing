@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.activities;
+package org.brainail.EverboxingSplashFlame.ui.activities.common;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,12 @@ import android.view.View;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.api.UserInfoApi;
 import org.brainail.EverboxingSplashFlame.api.google.PlayServices;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionCallback;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerUser;
-import org.brainail.EverboxingSplashFlame.ui.fragments.BaseFragment;
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 import org.brainail.EverboxingSplashFlame.utils.LogScope;
 import org.brainail.EverboxingSplashFlame.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.PooLogger;

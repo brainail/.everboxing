@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.ui.activities.SectionedDrawerActivity;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.utils.callable.Tagable;

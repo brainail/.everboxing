@@ -8,20 +8,18 @@ import android.support.annotation.UiThread;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity;
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFlameHardyDialogs;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolFractal;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
 import java.io.File;
-import java.util.concurrent.Callable;
 
-import bolts.Continuation;
 import bolts.Task;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +54,7 @@ import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFl
  */
 public class FlamePropertiesFragment extends BaseFragment {
     @BindView (R.id.flame_it)
-    protected Button mFlameIt;
+    protected View mFlameIt;
 
     @Nullable
     @Override
@@ -69,19 +67,13 @@ public class FlamePropertiesFragment extends BaseFragment {
     @OnClick (R.id.flame_it)
     void flameIt () {
         SplashFlameHardyDialogs.generatingFlameDialog ().show (this);
-        Task.callInBackground (new Callable<String> () {
-            @Override
-            public String call () throws Exception {
-                final String filePath = warmUp ();
-                return filePath;
-            }
-        }).continueWith (new Continuation<String, Object> () {
-            @Override
-            public Object then (Task<String> task) throws Exception {
-                HardyDialogsHelper.dismissDialog (FlamePropertiesFragment.this, D_GENERATING_FLAME_PROGRESS);
-                openPreview(task.getResult ());
-                return null;
-            }
+        Task.callInBackground (() -> {
+            final String filePath = warmUp ();
+            return filePath;
+        }).continueWith (task -> {
+            HardyDialogsHelper.dismissDialog (FlamePropertiesFragment.this, D_GENERATING_FLAME_PROGRESS);
+            openPreview(task.getResult ());
+            return null;
         }, Task.UI_THREAD_EXECUTOR);
     }
 

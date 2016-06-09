@@ -1,6 +1,6 @@
 package org.brainail.EverboxingSplashFlame.ui.drawer;
 
-import org.brainail.EverboxingSplashFlame.ui.activities.SectionedDrawerActivity;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

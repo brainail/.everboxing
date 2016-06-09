@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.brainail.EverboxingSplashFlame.R;
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

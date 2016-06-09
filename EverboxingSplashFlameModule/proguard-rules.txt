@@ -335,6 +335,8 @@
     @android.webkit.JavascriptInterface <methods>;
 }
 
+# Retrolambda
+-dontwarn java.lang.invoke.*
 
 
 
