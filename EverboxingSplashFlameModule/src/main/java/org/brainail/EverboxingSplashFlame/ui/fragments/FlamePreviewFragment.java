@@ -42,6 +42,7 @@ import butterknife.ButterKnife;
  * THE SOFTWARE.
  */
 public class FlamePreviewFragment extends BaseFragment {
+
     @BindView (R.id.preview_flame)
     protected ImageView mPreviewFlame;
 
@@ -59,9 +60,9 @@ public class FlamePreviewFragment extends BaseFragment {
         final String filePath = getActivity ().getIntent ().getStringExtra ("flame_file_path");
         Glide.with (this)
                 .load (filePath)
-                .fitCenter ()
                 .diskCacheStrategy (DiskCacheStrategy.NONE)
                 .crossFade ()
                 .into (mPreviewFlame);
     }
+
 }

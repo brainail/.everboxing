@@ -84,7 +84,9 @@ public final class HardyDialogsHelper {
             final FragmentManager fragmentManager,
             final HardyDialogCodeProvider code) {
 
-        final Fragment currentDialog = fragmentManager.findFragmentByTag (code.managerTag ());
+        final Fragment currentDialog = null != fragmentManager
+                ? fragmentManager.findFragmentByTag (code.managerTag ())
+                : null;
 
         if (currentDialog instanceof HardyDialogFragment) {
             return (HardyDialogFragment) currentDialog;

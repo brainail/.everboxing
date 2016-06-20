@@ -142,4 +142,8 @@ public class BaseFragment extends Fragment implements ActionMode.Callback, Tagab
         return ToolFragments.getTag (getClass ());
     }
 
+    protected final Fragment self() {
+        return this;
+    }
+
 }

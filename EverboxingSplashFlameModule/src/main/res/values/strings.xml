@@ -84,8 +84,10 @@
     <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ APP PART ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
     <!-- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
     <string name="section_flamer">Flamer</string>
-    <string name="section_favourite">Favourites</string>
+    <string name="section_history">History</string>
 
     <string name="flame_activity_title">Flame</string>
+
+    <string name="side_size_incorrect_format">Should be from %1$d to %2$d</string>
 
 </resources>

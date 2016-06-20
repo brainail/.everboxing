@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.brainail.EverboxingSplashFlame.ui.views.SquareFrame
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/preview_flame_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:padding="1dp">
+
+    <ImageView
+        android:id="@+id/preview_flame_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:scaleType="centerInside"/>
+</org.brainail.EverboxingSplashFlame.ui.views.SquareFrame>

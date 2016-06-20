@@ -9,6 +9,8 @@
 
     <ImageView
         android:id="@+id/preview_flame"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </android.support.constraint.ConstraintLayout>

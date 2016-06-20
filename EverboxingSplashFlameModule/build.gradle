@@ -201,54 +201,55 @@ ext {
     supportLibVersion = '23.4.0'
     playServicesLibVersion = '8.4.0'
     leakCanaryLibVersion = '1.4-beta2'
-    butterKnifeLibVersion = '8.1.0-SNAPSHOT'
+    butterKnifeLibVersion = '8.1.0'
     crashlyticsLibVersion = '2.5.5'
     constraintLayoutLibVersion = '1.0.0-alpha3'
     glideLibVersion = '3.7.0'
 }
 
 dependencies {
-    // Libs folder
+    // Libs folder > local
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    // Support libraries
+    // Support libraries > backward compatibility
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:customtabs:${supportLibVersion}"
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support.constraint:constraint-layout:${constraintLayoutLibVersion}"
-    // Google play services
+    // Google play services > google features
     compile "com.google.android.gms:play-services-base:${playServicesLibVersion}"
     compile "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
     compile "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
-    // Analytics
+    // Fabric > crashes
     compile("com.crashlytics.sdk.android:crashlytics:${crashlyticsLibVersion}@aar") { transitive = true; }
-    // Leaks
+    // Leakcanary > leaks
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
-    // Butterknife
+    // Butterknife > view binding
     compile "com.jakewharton:butterknife:${butterKnifeLibVersion}"
     apt "com.jakewharton:butterknife-compiler:${butterKnifeLibVersion}"
-    // Images
+    // GLide > load images
     compile "com.github.bumptech.glide:glide:${glideLibVersion}"
-    // Bolts
-    compile 'com.parse.bolts:bolts-tasks:1.4.0'
-    // Material stuff
+    // Material stuff > icons, fab
     compile 'com.malinskiy:materialicons:1.0.2'
     compile 'com.github.clans:fab:1.6.2'
     // Fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    // UI stuff
-    // compile 'com.github.iammert:ProgressLayout:a2ac196500'
-    // About
+    // About > intro, about
     compile('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
     compile 'com.github.paolorotolo:appintro:3.3.0'
-    // Retrolambda
+    // Retrolambda > java8
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:+'
+    // Rx > java, android, binding, lifecycle, etc ...
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    // RxLifecycle
 
-    // Hardy dialogs
+    // Hardy dialogs > custom
     debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
     releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
-    // Tools
+    // Tools > custom
     debugCompile project(path: ':EverboxingTools', configuration: 'debug')
     releaseCompile project(path: ':EverboxingTools', configuration: 'release')
 
@@ -264,6 +265,9 @@ dependencies {
     // Icepick
     // compile "frankiesardo:icepick:${icepickVersion}"
     // provided "frankiesardo:icepick-processor:${icepickVersion}"
+    // ...
+    // Bolts > Background tasks
+    // compile 'com.parse.bolts:bolts-tasks:1.4.0'
 }
 
 //

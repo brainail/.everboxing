@@ -5,25 +5,36 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.support.annotation.WorkerThread;
+import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity;
-import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFlameHardyDialogs;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolFractal;
+import org.brainail.EverboxingTools.utils.tool.ToolNumber;
+import org.brainail.EverboxingTools.utils.tool.ToolNumber.ValidationStatus;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
 import java.io.File;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-import bolts.Task;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFlameHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
 
@@ -52,51 +63,137 @@ import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFl
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class FlamePropertiesFragment extends BaseFragment {
+public class FlamePropertiesFragment extends RxBaseFragment {
+
+    public static final class SideSizeRange {
+        private static final int LOW = 320;
+        private static final int HIGH = 2048;
+    }
+
     @BindView (R.id.flame_it)
     protected View mFlameIt;
+    @BindView (R.id.first_side_size_text_input_layout)
+    protected TextInputLayout mFirstSideSizeInputLayout;
+    @BindView (R.id.first_side_size_edit_text)
+    protected EditText mFirstSideSizeEditText;
+    @BindView (R.id.second_side_size_text_input_layout)
+    protected TextInputLayout mSecondSideSizeInputLayout;
+    @BindView (R.id.second_side_size_edit_text)
+    protected EditText mSecondSideSizeEditText;
 
     @Nullable
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate (R.layout.fragment_flame, container, false);
+        final View view = inflater.inflate (R.layout.fragment_flame_properties, container, false);
         ButterKnife.bind (this, view);
         return view;
     }
 
-    @OnClick (R.id.flame_it)
-    void flameIt () {
-        SplashFlameHardyDialogs.generatingFlameDialog ().show (this);
-        Task.callInBackground (() -> {
-            final String filePath = warmUp ();
-            return filePath;
-        }).continueWith (task -> {
-            HardyDialogsHelper.dismissDialog (FlamePropertiesFragment.this, D_GENERATING_FLAME_PROGRESS);
-            openPreview(task.getResult ());
-            return null;
-        }, Task.UI_THREAD_EXECUTOR);
+    @Override
+    public void onActivityCreated (@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated (savedInstanceState);
+
+        final Observable<String> observable = getCachedObservable (false);
+        bindSubscription (null != observable ? observable.subscribe (this :: openPreview) : null);
+
+        bindSubscription (RxTextView.textChanges (mFirstSideSizeEditText).subscribe (this :: firstSideSizeChanged));
+        bindSubscription (RxTextView.textChanges (mSecondSideSizeEditText).subscribe (this :: secondSideSizeChanged));
+        bindSubscription (RxView.clicks (mFlameIt).debounce (1L, TimeUnit.SECONDS)
+                        .observeOn (AndroidSchedulers.mainThread ())
+                        .subscribe ($ -> {flameIt ();})
+        );
+
+        initDefaultSize (savedInstanceState);
     }
 
-    private String warmUp() {
-        final File filePath = new File (
-                Constants.APP_MEDIA_DIR_PATH,
-                "fractal_" + System.currentTimeMillis () + ".jpeg");
+    private void initDefaultSize(final @Nullable Bundle savedInstanceState) {
+        if (null == savedInstanceState) {
+            final Point sizes = ToolPhone.realScreenSize (getContext ());
+            final int defaultFirstSideSize = Math.max (sizes.x, sizes.y);
+            final int defaultSecondSideSize = Math.min (sizes.x, sizes.y);
+            mFirstSideSizeEditText.setText (String.valueOf (defaultFirstSideSize));
+            mSecondSideSizeEditText.setText (String.valueOf (defaultSecondSideSize));
+        }
+    }
+
+    private int firstSideSizeInt () {
+        return Integer.parseInt (mFirstSideSizeEditText.getText ().toString ());
+    }
+
+    private int secondSideSizeInt () {
+        return Integer.parseInt (mSecondSideSizeEditText.getText ().toString ());
+    }
+
+    private void firstSideSizeChanged (final CharSequence text) {
+        checkSideSizeText (mFirstSideSizeInputLayout, text.toString ());
+    }
+
+    private void secondSideSizeChanged (final CharSequence text) {
+        checkSideSizeText (mSecondSideSizeInputLayout, text.toString ());
+    }
+
+    private boolean checkBothSideSizeText () {
+        if (! checkSideSizeText(mFirstSideSizeInputLayout, mFirstSideSizeEditText.getText ().toString ())) {
+            return false;
+        }
+
+        if (! checkSideSizeText(mSecondSideSizeInputLayout, mSecondSideSizeEditText.getText ().toString ())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkSideSizeText (final TextInputLayout sideSize, final String text) {
+        if (ValidationStatus.OK != ToolNumber.validateIntNumber (text, SideSizeRange.LOW, SideSizeRange.HIGH)) {
+            sideSize.setErrorEnabled (true);
+            sideSize.setError (getString(R.string.side_size_incorrect_format, SideSizeRange.LOW, SideSizeRange.HIGH));
+            return false;
+        } else {
+            sideSize.setErrorEnabled (false);
+            sideSize.setError (null);
+            return true;
+        }
+    }
+
+    private void flameIt () {
+        if (checkBothSideSizeText ()) {
+            SplashFlameHardyDialogs.generatingFlameDialog ().show (this);
+            bindSubscription (cacheObservable (this.<String> createCachedObservable ()).subscribe (this :: openPreview));
+        }
+    }
+
+    @Override
+    protected <T> Observable<T> createCachedObservable () {
+        // noinspection unchecked
+        return (Observable<T>) Observable.fromCallable (this :: warmUp)
+                .subscribeOn (Schedulers.computation ())
+                .observeOn (AndroidSchedulers.mainThread ())
+                .cache ();
+    }
+
+    @WorkerThread
+    private String warmUp () {
+        final File filePath = new File (Constants.APP_MEDIA_DIR_PATH, "ff_" + System.currentTimeMillis () + ".jpeg");
 
         if (! filePath.getParentFile ().exists ()) {
+            // noinspection ResultOfMethodCallIgnored
             filePath.getParentFile ().mkdirs ();
         }
 
-        final Point sizes = ToolPhone.realScreenSize (getContext ());
-        ToolFractal.warmUp (filePath.getAbsolutePath (), Math.max (sizes.x, sizes.y), Math.min (sizes.x, sizes.y), 7);
+        ToolFractal.warmUp (filePath.getAbsolutePath (), firstSideSizeInt (), secondSideSizeInt (), ((new Random ()).nextInt () % 20) + 1);
 
         return filePath.getAbsolutePath ();
     }
 
     @UiThread
-    private void openPreview(final String filePath) {
+    private void openPreview (final String filePath) {
+        cacheObservable (null);
+        HardyDialogsHelper.dismissDialog (this, D_GENERATING_FLAME_PROGRESS);
         // Use Navigator, Dagger
         final Intent previewIntent = new Intent (getActivity (), FlamePreviewActivity.class);
         previewIntent.putExtra ("flame_file_path", filePath);
         startActivity (previewIntent);
     }
+
 }

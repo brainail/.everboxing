@@ -173,7 +173,7 @@ public final class ToolFragments {
     }
 
     public static String getTag (final Class clazz) {
-        return null != clazz ? "Everboxing#" + clazz.getSimpleName () : null;
+        return null != clazz ? "Everboxing#" + clazz.getCanonicalName () : null;
     }
 
     /**

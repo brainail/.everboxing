@@ -480,10 +480,12 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 if (NO_RESOURCE_ID != mContentLayoutId && null != mContentLayoutParams) {
                     final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams ();
                     final Window window = getDialog ().getWindow ();
-                    layoutParams.copyFrom (window.getAttributes ());
-                    layoutParams.width = mContentLayoutParams.widthInPixels ();
-                    layoutParams.height = mContentLayoutParams.heightInPixels ();
-                    window.setAttributes (layoutParams);
+                    if (null != window) {
+                        layoutParams.copyFrom (window.getAttributes ());
+                        layoutParams.width = mContentLayoutParams.widthInPixels ();
+                        layoutParams.height = mContentLayoutParams.heightInPixels ();
+                        window.setAttributes (layoutParams);
+                    }
                 }
             }
         });

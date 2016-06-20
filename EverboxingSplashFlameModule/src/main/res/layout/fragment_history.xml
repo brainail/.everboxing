@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.brainail.EverboxingSplashFlame.ui.views.AutoFitGridRecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/files_history"
+    android:columnWidth="@dimen/history_flame_preview_item_min_width"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"/>

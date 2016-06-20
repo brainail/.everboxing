@@ -5,7 +5,7 @@ import com.malinskiy.materialicons.Iconify;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.SettingsActivity;
-import org.brainail.EverboxingSplashFlame.ui.fragments.FavouriteFragment;
+import org.brainail.EverboxingSplashFlame.ui.fragments.HistoryFragment;
 import org.brainail.EverboxingSplashFlame.ui.fragments.FlamePropertiesFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.BaseIcon;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
@@ -62,10 +62,10 @@ public final class DrawerSectionsOnSceneInitializer {
             // Favourite
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle (ToolResources.string (R.string.section_favourite))
-                            .withName (ToolResources.string (R.string.section_favourite))
-                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_favorite))
-                            .withTarget (ToolFragments.FragmentCreator.from (FavouriteFragment.class))
+                            .withTitle (ToolResources.string (R.string.section_history))
+                            .withName (ToolResources.string (R.string.section_history))
+                            .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_collection_folder_image))
+                            .withTarget (ToolFragments.FragmentCreator.from (HistoryFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
             );
 
