@@ -1,21 +1,29 @@
 package org.brainail.EverboxingSplashFlame;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsContext;
+import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
 import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
 import org.brainail.EverboxingTools.ToolsContext;
 import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 
+import java.util.concurrent.TimeUnit;
+
+import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -47,6 +55,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class JApplication extends Application {
 
+    private static final long APP_RESTART_DELAY_MILLIS = TimeUnit.SECONDS.toMillis(3);
+
+    @Deprecated
     protected static JApplication mApp;
 
     private RefWatcher mRefWatcher;
@@ -55,47 +66,64 @@ public class JApplication extends Application {
     public void onCreate () {
         super.onCreate ();
 
-        // Init logger
+        // Ridiculous way to store for long use
+        mApp = this;
+
+        initLoggers ();
+        initDialogs ();
+        initTools ();
+        initAnalyzers ();
+        initFonts ();
+        initThemes ();
+    }
+
+    private void initLoggers () {
         PooLogger.init (BuildConfig.LOGGABLE, BuildConfig.MODULE_NAME);
 
-        // Init Hardy dialogs
+        // Logging settings of other libraries
+        // Icepick.setDebug(BuildConfig.DEBUG);
+        ButterKnife.setDebug (BuildConfig.DEBUG);
+    }
+
+    private void initDialogs () {
+        // Provide context for dialogs
         HardyDialogsContext.init (getApplicationContext ());
+    }
 
-        // Init tools
+    private void initTools () {
+        // Provide context for tools
         ToolsContext.init (getApplicationContext ());
+    }
 
+    private void initAnalyzers () {
         // Leaks!
         if (BuildConfig.USE_LEAKCANARY) {
             mRefWatcher = LeakCanary.install (this);
         }
 
-        // Store for long use
-        mApp = this;
-
         // Initialize crashlytics via Fabric
         if (BuildConfig.USE_CRASHLYTICS) {
             initFabric ();
         }
+    }
 
-        // Initialize font
-        initFont ();
-
-        // Initialize theme
+    private void initThemes () {
+        // Initialization from preferences
         ThemeManager.init ();
     }
 
     public static RefWatcher refWatcher (final Context context) {
-        final JApplication application = (JApplication) context.getApplicationContext();
+        final JApplication application = (JApplication) context.getApplicationContext ();
         return application.mRefWatcher;
     }
 
-    private void initFabric() {
+    private void initFabric () {
         Fabric.with (this, new Crashlytics ());
         Crashlytics.setString (BuildConfig.BUILD_TIME_KEY, BuildConfig.BUILD_TIME);
         Crashlytics.setString (BuildConfig.GIT_SHA_KEY, BuildConfig.GIT_SHA);
     }
 
-    private void initFont () {
+    private void initFonts () {
         final CalligraphyConfig.Builder fontBuilder = new CalligraphyConfig.Builder ();
         fontBuilder.setDefaultFontPath (ToolFonts.RobotoFonts.ASSETS_LIGHT);
         fontBuilder.setFontAttrId (R.attr.fontPath);
@@ -125,8 +153,32 @@ public class JApplication extends Application {
         super.onConfigurationChanged (newConfig);
     }
 
+    @Deprecated
     public static Context appContext () {
         return mApp.getApplicationContext ();
+    }
+
+    /**
+     * Right way to get application context.
+     */
+    public static JApplication get (final @NonNull Context context) {
+        return (JApplication) context.getApplicationContext ();
+    }
+
+    public void restartApp () {
+        final AlarmManager alarmManager = (AlarmManager) getSystemService (Context.ALARM_SERVICE);
+
+        final Intent intent = new Intent ();
+        intent.setAction (Intent.ACTION_MAIN);
+        intent.addCategory (Intent.CATEGORY_LAUNCHER);
+        intent.setClass (this, HomeActivity.class);
+
+        final PendingIntent pendingIntent = PendingIntent.getActivity (this, 0, intent, 0);
+        final long triggerAtMillis = System.currentTimeMillis () + APP_RESTART_DELAY_MILLIS;
+        alarmManager.set (AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
+
+        final int myPId = android.os.Process.myPid ();
+        android.os.Process.killProcess (myPId);
     }
 
 }

@@ -2,25 +2,15 @@
 
 buildscript {
     repositories {
-        // Snapshots
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-
-        // Maven Central
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         mavenCentral()
-
-        // Jcenter is superset of Maven Central
         jcenter()
-
-        // System local
-        maven {
-            url 'file:' + System.getenv('HOME') + '/.m2/repository'
-        }
+        maven { url 'file:' + System.getenv('HOME') + '/.m2/repository' }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
         // Required for tests
         // classpath 'org.robolectric:robolectric-gradle-plugin:1.0.1'
@@ -29,20 +19,13 @@ buildscript {
 
 allprojects {
     repositories {
-        // Snapshots
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
-
-        // Maven Central
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         mavenCentral()
-
-        // Jcenter is superset of Maven Central
         jcenter()
-
-        // System local
-        maven {
-            url 'file:' + System.getenv('HOME') + '/.m2/repository'
-        }
+        maven { url 'file:' + System.getenv('HOME') + '/.m2/repository' }
     }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
