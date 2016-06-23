@@ -96,24 +96,29 @@ public class JApplication extends Application implements HasComponent<AppCompone
     // ...
     @Inject
     void registerLifecycleCallbacks (ComponentLifecycleCallbacks callbacks) {
+        PooLogger.info ("registerLifecycleCallbacks");
         registerActivityLifecycleCallbacks (callbacks);
         registerComponentCallbacks (callbacks);
+        // Dagger keeps the injected object instance via ScopedProvider in DaggerAppComponent
     }
 
     @Inject
-    void registerEventBusLogger (final RefWatcher refWatcher) {
-        // Dagger keeps RefWatcher instance via ScopedProvider in DaggerAppComponent
+    void registerRefWatcher (final RefWatcher refWatcher) {
+        PooLogger.info ("registerRefWatcher");
+        // Dagger keeps the injected object instance via ScopedProvider in DaggerAppComponent
     }
 
     @Inject
     void registerEventBusLogger (final BusEventsLogger busEventsLogger) {
-        // Dagger keeps BusEventsLogger instance via ScopedProvider in DaggerAppComponent
+        PooLogger.info ("registerEventBusLogger");
+        // Dagger keeps the injected object instance via ScopedProvider in DaggerAppComponent
         busEventsLogger.init ();
     }
 
     @Inject
     void registerConnectionManager (final ConnectionManager connectionManager) {
-        // Dagger keeps BusEventsLogger instance via ScopedProvider in DaggerAppComponent
+        PooLogger.info ("registerConnectionManager");
+        // Dagger keeps the injected object instance via ScopedProvider in DaggerAppComponent
     }
 
     @Override
@@ -174,17 +179,20 @@ public class JApplication extends Application implements HasComponent<AppCompone
     @Override
     public void onLowMemory () {
         super.onLowMemory ();
+        PooLogger.warn ("onLowMemory");
     }
 
     @Override
     @TargetApi (Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void onTrimMemory (final int level) {
         super.onTrimMemory (level);
+        PooLogger.warn ("onTrimMemory: ?", level);
     }
 
     @Override
     public void onConfigurationChanged (Configuration newConfig) {
         super.onConfigurationChanged (newConfig);
+        PooLogger.verb ("onConfigurationChanged: ?", newConfig);
     }
 
     @Deprecated
@@ -200,6 +208,8 @@ public class JApplication extends Application implements HasComponent<AppCompone
     }
 
     public void restartApp () {
+        PooLogger.verb ("restartApp");
+
         final AlarmManager alarmManager = (AlarmManager) getSystemService (Context.ALARM_SERVICE);
 
         final Intent intent = new Intent ();

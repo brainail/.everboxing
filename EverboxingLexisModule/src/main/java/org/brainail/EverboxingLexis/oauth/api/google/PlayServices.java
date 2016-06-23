@@ -91,7 +91,7 @@ public class PlayServices
     }
 
     private PlayServices withEmail (final String email) {
-        PooLogger.logD (LogScope.PLAY_SERVICES_AUTH, "An email has set: %s", email);
+        PooLogger.debug (LogScope.PLAY_SERVICES_AUTH, "An email has set: %s", email);
         mEmail = email;
         return this;
     }
@@ -115,13 +115,13 @@ public class PlayServices
     @Override
     public void revoke () {
         super.revoke ();
-        PooLogger.logI (LogScope.PLAY_SERVICES_AUTH, "Revoke was called");
+        PooLogger.info (LogScope.PLAY_SERVICES_AUTH, "Revoke was called");
 
         Plus.AccountApi.clearDefaultAccount (mApi);
         Plus.AccountApi.revokeAccessAndDisconnect (mApi).setResultCallback (new ResultCallback<Status> () {
             @Override
             public void onResult (Status status) {
-                PooLogger.logI (LogScope.PLAY_SERVICES_AUTH, "Access has been revoked, status: " + status);
+                PooLogger.info (LogScope.PLAY_SERVICES_AUTH, "Access has been revoked, status: " + status);
                 withEmail (null);
                 disconnect ();
                 onUnauthSucceeded ();
@@ -132,7 +132,7 @@ public class PlayServices
     @Override
     public void connect () {
         super.connect ();
-        PooLogger.logI (LogScope.PLAY_SERVICES_AUTH, "Connect was called");
+        PooLogger.info (LogScope.PLAY_SERVICES_AUTH, "Connect was called");
         if (!mResolvingError && null != mApi && !isConnected ()) {
             mApi.connect ();
         }
@@ -141,7 +141,7 @@ public class PlayServices
     @Override
     public void disconnect () {
         super.disconnect ();
-        PooLogger.logI (LogScope.PLAY_SERVICES_AUTH, "Disconnect was called");
+        PooLogger.info (LogScope.PLAY_SERVICES_AUTH, "Disconnect was called");
         if (null != mApi) {
             mApi.disconnect ();
         }
@@ -175,7 +175,7 @@ public class PlayServices
 
     @Override
     public boolean handleOnResult (final int requestCode, final int resultCode, final Intent data) {
-        PooLogger.logI (LogScope.PLAY_SERVICES_AUTH, "Handling result code ...");
+        PooLogger.info (LogScope.PLAY_SERVICES_AUTH, "Handling result code ...");
         if (super.handleOnResult (requestCode, resultCode, data)) return true;
 
         if (RequestCodeApi.REQUEST_RESOLVE_PLAY_SERVICES_ERROR == requestCode) {
@@ -188,7 +188,7 @@ public class PlayServices
 
                 return true;
             } else {
-                PooLogger.logW (LogScope.PLAY_SERVICES_AUTH, "No resolution for play services error");
+                PooLogger.warn (LogScope.PLAY_SERVICES_AUTH, "No resolution for play services error");
             }
         }
 
@@ -206,7 +206,7 @@ public class PlayServices
 
     @Override
     public void onConnected (Bundle bundle) {
-        PooLogger.logI (LogScope.PLAY_SERVICES_AUTH, "Successfully connected to play services");
+        PooLogger.info (LogScope.PLAY_SERVICES_AUTH, "Successfully connected to play services");
 
         // Fallback
         final AppCompatActivity scene = scene ();
@@ -223,7 +223,7 @@ public class PlayServices
 
     @Override
     public void onConnectionSuspended (int cause) {
-        PooLogger.logW (LogScope.PLAY_SERVICES_AUTH, "Connection suspended, cause: %d", cause);
+        PooLogger.warn (LogScope.PLAY_SERVICES_AUTH, "Connection suspended, cause: %d", cause);
 
         // Fallback
         final AppCompatActivity scene = scene ();
@@ -234,7 +234,7 @@ public class PlayServices
 
     @Override
     public void onConnectionFailed (ConnectionResult connectionResult) {
-        PooLogger.logW (LogScope.PLAY_SERVICES_AUTH, "Connection is failed: %s", connectionResult);
+        PooLogger.warn (LogScope.PLAY_SERVICES_AUTH, "Connection is failed: %s", connectionResult);
 
         // Fallback
         final AppCompatActivity scene = scene ();
@@ -244,7 +244,7 @@ public class PlayServices
 
         if (mResolvingError) {
             // Already attempting to resolve an error ...
-            PooLogger.logI (LogScope.PLAY_SERVICES_AUTH, "Skip resolution ...");
+            PooLogger.info (LogScope.PLAY_SERVICES_AUTH, "Skip resolution ...");
         } else if (connectionResult.hasResolution ()) {
             try {
                 mResolvingError = true;
@@ -252,7 +252,7 @@ public class PlayServices
                     connectionResult.startResolutionForResult (scene, RequestCodeApi.REQUEST_RESOLVE_PLAY_SERVICES_ERROR);
                 }
             } catch (final IntentSender.SendIntentException exception) {
-                PooLogger.logE (LogScope.PLAY_SERVICES_AUTH, "Error while starting resolution ...");
+                PooLogger.error (LogScope.PLAY_SERVICES_AUTH, "Error while starting resolution ...");
                 ToolUI.showToast(scene, R.string.auth_flow_unknown_error);
             }
         } else {

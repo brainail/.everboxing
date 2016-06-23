@@ -109,7 +109,7 @@ public final class NoticeController {
         } else if (scene instanceof Fragment) {
             return new NoticeOnFragmentSceneController((Fragment) scene);
         } else {
-            PooLogger.logE(LogScope.WTF, "Can't create controller for scene");
+            PooLogger.error (LogScope.WTF, "Can't create controller for scene");
             return new NoticeOnSceneControllerStub();
         }
     }

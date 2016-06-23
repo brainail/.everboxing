@@ -199,7 +199,7 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
                     bd.blobId = blob.id;
                 }
             } catch (Exception ex) {
-                PooLogger.logW(TAG, String.format("Failed to resolve descriptor %s (%s) in %s (%s)",
+                PooLogger.warn (TAG, String.format("Failed to resolve descriptor %s (%s) in %s (%s)",
                                 bd.blobId, bd.key, slob.getId(), slob.file.getAbsolutePath()));
                 blob = null;
             }
@@ -211,7 +211,7 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
     }
 
     public BlobDescriptor createDescriptor(String contentUrl) {
-        PooLogger.logD("Create descriptor from content url: " + contentUrl);
+        PooLogger.debug ("Create descriptor from content url: " + contentUrl);
         Uri uri = Uri.parse(contentUrl);
         BlobDescriptor bd = BlobDescriptor.fromUri(uri);
         if (bd != null) {
@@ -260,7 +260,7 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
         BlobDescriptor bd = this.list.remove(index);
         if (bd != null) {
             boolean removed = store.delete(bd.id);
-            PooLogger.logD(String.format("Item (%s) %s removed? %s", bd.key, bd.id, removed));
+            PooLogger.debug (String.format("Item (%s) %s removed? %s", bd.key, bd.id, removed));
             if (removed) {
                 notifyDataSetChanged();
             }
@@ -272,7 +272,7 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
         BlobDescriptor bd = createDescriptor(contentUrl);
         int index = this.list.indexOf(bd);
         boolean result = index > -1;
-        PooLogger.logD("Is bookmarked?" + result);
+        PooLogger.debug ("Is bookmarked?" + result);
         return result;
     }
 

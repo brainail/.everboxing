@@ -462,7 +462,7 @@ public class ArticleFragment
         }
 
         public boolean onConsoleMessage (final ConsoleMessage cm) {
-            PooLogger.logW ("Console message: %s.\n-- From line: %d", cm.message (), cm.lineNumber ());
+            PooLogger.warn ("Console message: %s.\n-- From line: %d", cm.message (), cm.lineNumber ());
             return true;
         }
     };

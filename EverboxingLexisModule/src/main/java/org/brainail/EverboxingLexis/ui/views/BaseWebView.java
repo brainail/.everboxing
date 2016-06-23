@@ -144,7 +144,7 @@ public abstract class BaseWebView extends WebView {
     public static class LoggingWebChromeClient extends WebChromeClient {
 
         public boolean onConsoleMessage(final ConsoleMessage cm) {
-            PooLogger.logW("Console message: %s.\n-- From line: %d", cm.message(), cm.lineNumber());
+            PooLogger.warn ("Console message: %s.\n-- From line: %d", cm.message(), cm.lineNumber());
             return true;
         }
 

@@ -36,7 +36,7 @@ public class SlobDescriptor extends BaseDescriptor {
             slob = new Slob(f);
             this.update(slob);
         } catch (Exception e) {
-            PooLogger.logE(e, "Error while opening " + this.path);
+            PooLogger.error (e, "Error while opening " + this.path);
             error = e.getMessage();
             expandDetail = true;
             isActive = false;

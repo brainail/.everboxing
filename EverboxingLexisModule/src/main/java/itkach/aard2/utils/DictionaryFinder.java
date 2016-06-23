@@ -48,15 +48,15 @@ public class DictionaryFinder {
         }
         String absolutePath = dir.getAbsolutePath();
         if (excludedScanDirs.contains(absolutePath)) {
-            PooLogger.logD(String.format("%s is excluded", absolutePath));
+            PooLogger.debug (String.format("%s is excluded", absolutePath));
             return Collections.emptyList();
         }
 
         if (dir.isHidden()) {
-            PooLogger.logD(String.format("%s is hidden", absolutePath));
+            PooLogger.debug (String.format("%s is hidden", absolutePath));
             return Collections.emptyList();
         }
-        PooLogger.logD("Scanning " + absolutePath);
+        PooLogger.debug ("Scanning " + absolutePath);
         List<File> candidates = new ArrayList<File>();
         File[] files = dir.listFiles(fileFilter);
         if (files != null) {
@@ -79,10 +79,10 @@ public class DictionaryFinder {
 
     public synchronized List<SlobDescriptor> findDictionaries() {
         cancelRequested = false;
-        PooLogger.logD("starting dictionary discovery");
+        PooLogger.debug ("starting dictionary discovery");
         long t0 = System.currentTimeMillis();
         List<File> candidates = discover();
-        PooLogger.logD("dictionary discovery took " + (System.currentTimeMillis() - t0));
+        PooLogger.debug ("dictionary discovery took " + (System.currentTimeMillis() - t0));
         List<SlobDescriptor> descriptors = new ArrayList<SlobDescriptor>();
         Set<String> seen = new HashSet<String>();
         for (File f : candidates) {

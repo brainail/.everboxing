@@ -58,7 +58,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         getListView().setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PooLogger.logI("Item clicked: " + position);
+                PooLogger.info ("Item clicked: " + position);
                 Intent intent = new Intent(getActivity(), ArticleCollectionActivity.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
@@ -114,7 +114,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     private final SearchView.OnQueryTextListener mOnQueryTextListener = new SearchView.OnQueryTextListener () {
         @Override
         public boolean onQueryTextSubmit (String query) {
-            PooLogger.logI ("SUBMIT -> " + query);
+            PooLogger.info ("SUBMIT -> " + query);
             onQueryTextChange (query);
             ToolKeyboard.hide ((AppCompatActivity) getActivity ());
             return true;
@@ -122,7 +122,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
 
         @Override
         public boolean onQueryTextChange (String newText) {
-            PooLogger.logI ("CHANGE -> New text: " + newText);
+            PooLogger.info ("CHANGE -> New text: " + newText);
             TimerTask doLookup = new TimerTask () {
                 @Override
                 public void run () {

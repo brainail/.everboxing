@@ -16,7 +16,7 @@ public class Util {
         try {
             Collections.sort(list);
         } catch(Exception e) {
-            PooLogger.logW(e, "Error while sorting");
+            PooLogger.warn (e, "Error while sorting");
         }
     };
 
@@ -25,7 +25,7 @@ public class Util {
             Collections.sort(list, comparator);
         }
         catch(Exception e) {
-            PooLogger.logW(e, "Error while sorting");
+            PooLogger.warn (e, "Error while sorting");
         }
     }
 

@@ -48,13 +48,13 @@ public class DefaultWebChromeClient extends WebChromeClient {
                 consoleMessage.message(),
                 consoleMessage.sourceId(),
                 consoleMessage.lineNumber());
-        PooLogger.logV (message);
+        PooLogger.verb (message);
         return true;
     }
 
     @Override
     public void onReceivedTitle(WebView view, String title) {
-        PooLogger.logV ("onReceivedTitle: view=?, title=?", view, title);
+        PooLogger.verb ("onReceivedTitle: view=?, title=?", view, title);
         super.onReceivedTitle(view, title);
 
         if (mWebPage != null) {
@@ -64,7 +64,7 @@ public class DefaultWebChromeClient extends WebChromeClient {
 
     @Override
     public void onProgressChanged(WebView view, int newProgress) {
-        PooLogger.logV ("onProgressChanged: view=?, newProgress=?", view, newProgress);
+        PooLogger.verb ("onProgressChanged: view=?, newProgress=?", view, newProgress);
         super.onProgressChanged(view, newProgress);
 
         if (mWebPage != null) {

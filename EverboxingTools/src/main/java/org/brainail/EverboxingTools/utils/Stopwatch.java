@@ -62,7 +62,7 @@ public final class Stopwatch implements Serializable {
 
     public void logElapsedMillis(final String logTag) {
         if (BuildConfig.LOGGABLE) {
-            Log.v(logTag, TraceHelper.previousMethod() + " -> elapsed time millis: " + elapsedMillis());
+            Log.v(logTag, TraceHelper.previousMethod(-1) + " -> elapsed time millis: " + elapsedMillis());
         }
     }
 

@@ -42,7 +42,7 @@ public class DescriptorStore <T extends BaseDescriptor> {
     
     public void save (T item) {
         if (item.id == null) {
-            PooLogger.logD ("Can't save item without id");
+            PooLogger.debug ("Can't save item without id");
             return;
         }
         try {

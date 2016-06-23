@@ -48,7 +48,7 @@ public class DefaultWebViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        PooLogger.logV ("shouldOverrideUrlLoading: url=?", url);
+        PooLogger.verb ("shouldOverrideUrlLoading: url=?", url);
 
         if (URLUtil.isNetworkUrl(url)) {
             if (mWebPage.isValidUrl(url)) {
@@ -72,7 +72,7 @@ public class DefaultWebViewClient extends WebViewClient {
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        PooLogger.logV ("onPageStarted: url=?", url);
+        PooLogger.verb ("onPageStarted: url=?", url);
         super.onPageStarted(view, url, favicon);
 
         if (mWebPage != null) {
@@ -82,7 +82,7 @@ public class DefaultWebViewClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        PooLogger.logV ("onPageFinished: url=?", url);
+        PooLogger.verb ("onPageFinished: url=?", url);
         super.onPageFinished(view, url);
 
         if (mWebPage != null) {

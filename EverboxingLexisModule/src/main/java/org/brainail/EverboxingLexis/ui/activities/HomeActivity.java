@@ -201,7 +201,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
         // we never want this to happen. Instead, we check if we are the root and if not, we finish.
         if (! isTaskRoot()) {
             if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(intent.getAction())) {
-                PooLogger.logW(LogScope.WTF, "Home scene is not the root. Finishing .. instead of launching.");
+                PooLogger.warn (LogScope.WTF, "Home scene is not the root. Finishing .. instead of launching.");
                 finish();
                 return;
             }
@@ -215,7 +215,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     // Some ugly solution to update bookmarks size and other stuff ...
     // It should be reimplemented, anyway.
     public void updateDrawerNotifications() {
-        PooLogger.logV (LogScope.DRAWER, "Update drawer notifications numbers ...");
+        PooLogger.verb (LogScope.DRAWER, "Update drawer notifications numbers ...");
 
         // Filtered bookmarks
         final DrawerSection bookmarksSection = section (LEXIS_BOOKMARKS_SECTION_TEMPLATE);

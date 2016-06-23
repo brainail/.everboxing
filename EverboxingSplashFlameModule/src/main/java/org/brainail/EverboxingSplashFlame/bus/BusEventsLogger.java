@@ -44,12 +44,12 @@ public final class BusEventsLogger {
     //<editor-fold desc="Global events">
     @Subscribe
     public void onConnectivityChanged (final GlobalEvents.ConnectivityChanged event) {
-        PooLogger.logV ("onConnectivityChanged: event=?", event);
+        PooLogger.verb ("onConnectivityChanged: event=?", event);
     }
 
     @Subscribe
     public void onUiStateChanged (final GlobalEvents.UiStateChanged event) {
-        PooLogger.logV ("onUiStateChanged: event=?", event);
+        PooLogger.verb ("onUiStateChanged: event=?", event);
     }
     //</editor-fold>
 

@@ -85,7 +85,7 @@ public class BlobListAdapter extends BaseAdapter {
                 }
             });
         }
-        PooLogger.logD(String.format("Loaded chunk of %d (adapter size %d) in %d ms",
+        PooLogger.debug (String.format("Loaded chunk of %d (adapter size %d) in %d ms",
                         count, list.size(), (System.currentTimeMillis() - t0)));
     }
 

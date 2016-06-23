@@ -49,43 +49,43 @@ public class ComponentLifecycleCallbacks implements Application.ActivityLifecycl
 
     @Override
     public void onActivityCreated (Activity activity, Bundle savedInstanceState) {
-        PooLogger.logI ("onActivityCreated: activity=?, savedInstanceState=?", activity, savedInstanceState);
+        PooLogger.info ("onActivityCreated: activity=?, savedInstanceState=?", activity, savedInstanceState);
     }
 
     @Override
     public void onActivityStarted (Activity activity) {
-        PooLogger.logI ("onActivityStarted: activity=?", activity);
+        PooLogger.info ("onActivityStarted: activity=?", activity);
     }
 
     @Override
     public void onActivityResumed (Activity activity) {
-        PooLogger.logI ("onActivityResumed: activity=?", activity);
+        PooLogger.info ("onActivityResumed: activity=?", activity);
         setIsOnForeground (true);
     }
 
     @Override
     public void onActivityPaused (Activity activity) {
-        PooLogger.logI ("onActivityPaused: activity=?", activity);
+        PooLogger.info ("onActivityPaused: activity=?", activity);
     }
 
     @Override
     public void onActivityStopped (Activity activity) {
-        PooLogger.logI ("onActivityStopped: activity=?", activity);
+        PooLogger.info ("onActivityStopped: activity=?", activity);
     }
 
     @Override
     public void onActivitySaveInstanceState (Activity activity, Bundle outState) {
-        PooLogger.logI ("onActivitySaveInstanceState: activity=?, outState=?", activity, outState);
+        PooLogger.info ("onActivitySaveInstanceState: activity=?, outState=?", activity, outState);
     }
 
     @Override
     public void onActivityDestroyed (Activity activity) {
-        PooLogger.logI ("onActivityDestroyed: activity=?", activity);
+        PooLogger.info ("onActivityDestroyed: activity=?", activity);
     }
 
     @Override
     public void onTrimMemory (int level) {
-        PooLogger.logI ("onTrimMemory: level=?", level);
+        PooLogger.info ("onTrimMemory: level=?", level);
 
         // http://stackoverflow.com/a/19920353/317928
         if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
@@ -95,12 +95,12 @@ public class ComponentLifecycleCallbacks implements Application.ActivityLifecycl
 
     @Override
     public void onConfigurationChanged (Configuration newConfig) {
-        PooLogger.logI ("onConfigurationChanged: newConfig=?", newConfig);
+        PooLogger.info ("onConfigurationChanged: newConfig=?", newConfig);
     }
 
     @Override
     public void onLowMemory () {
-        PooLogger.logI ("onLowMemory");
+        PooLogger.info ("onLowMemory");
     }
 
     private void setIsOnForeground (boolean isOnForeground) {
@@ -110,7 +110,7 @@ public class ComponentLifecycleCallbacks implements Application.ActivityLifecycl
             // Notify
             mGlobalBus.post (new GlobalEvents.UiStateChanged (mIsOnForeground));
 
-            PooLogger.logV ("setIsOnForeground: ?", mIsOnForeground);
+            PooLogger.verb ("setIsOnForeground: ?", mIsOnForeground);
         }
     }
 

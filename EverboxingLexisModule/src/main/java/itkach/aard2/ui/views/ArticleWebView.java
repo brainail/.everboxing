@@ -250,7 +250,7 @@ public class ArticleWebView
     }
 
     private String getAutoStyle () {
-        PooLogger.logD ("Auto style will return " + mDefaultStyleTitle);
+        PooLogger.debug ("Auto style will return " + mDefaultStyleTitle);
         return mDefaultStyleTitle;
     }
 
@@ -275,7 +275,7 @@ public class ArticleWebView
             );
         }
 
-        // Plogger.logD (js);
+        // Plogger.debug (js);
         loadUrl (js);
     }
 
@@ -297,7 +297,7 @@ public class ArticleWebView
         e.putInt (PREF_TEXT_ZOOM, textZoom);
         boolean success = e.commit ();
         if (!success) {
-            PooLogger.logW ("Failed to save article view text zoom pref");
+            PooLogger.warn ("Failed to save article view text zoom pref");
         }
     }
 
@@ -311,25 +311,25 @@ public class ArticleWebView
         editor.putStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, styleTitles);
         boolean success = editor.commit ();
         if (!success) {
-            PooLogger.logW ("Failed to save article view available styles pref");
+            PooLogger.warn ("Failed to save article view available styles pref");
         }
     }
 
     @SuppressWarnings ("unchecked")
     private void loadAvailableStylesPref () {
         if (mCurrentSlobUri == null) {
-            PooLogger.logW ("Can't load article view available styles pref - slob uri is null");
+            PooLogger.warn ("Can't load article view available styles pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
-        PooLogger.logD ("Available styles before pref load: " + mStyleTitles);
+        PooLogger.debug ("Available styles before pref load: " + mStyleTitles);
         mStyleTitles = new TreeSet<> (prefs.getStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, Collections.EMPTY_SET));
-        PooLogger.logD ("Loaded available styles: " + mStyleTitles);
+        PooLogger.debug ("Loaded available styles: " + mStyleTitles);
     }
 
     public void saveStylePref (String styleTitle) {
         if (mCurrentSlobUri == null) {
-            PooLogger.logW ("Can't save article view style pref - slob uri is null");
+            PooLogger.warn ("Can't save article view style pref - slob uri is null");
             return;
         }
         SharedPreferences prefs = prefs ();
@@ -338,7 +338,7 @@ public class ArticleWebView
         editor.putString (prefName, styleTitle);
         boolean success = editor.commit ();
         if (!success) {
-            PooLogger.logW ("Failed to save article view style pref");
+            PooLogger.warn ("Failed to save article view style pref");
         }
     }
 
@@ -362,7 +362,7 @@ public class ArticleWebView
         }
 
         String result = isAutoStyle (styleTitle) ? getAutoStyle () : styleTitle;
-        PooLogger.logD ("getPreferredStyle() will return " + result);
+        PooLogger.debug ("getPreferredStyle() will return " + result);
 
         return result;
     }
@@ -374,13 +374,13 @@ public class ArticleWebView
 
     @Override
     public void onStyleSet (String title) {
-        PooLogger.logD ("Style set! " + title);
+        PooLogger.debug ("Style set! " + title);
         mApplyStylePrefTask.cancel ();
     }
 
     @Override
     public void setStyleTitles (String[] titles) {
-        PooLogger.logD (String.format ("Got %d style titles", titles.length));
+        PooLogger.debug (String.format ("Got %d style titles", titles.length));
         if (titles.length == 0) return;
 
         final SortedSet<String> newStyleTitlesSet = new TreeSet<> (Arrays.asList (titles));
@@ -464,7 +464,7 @@ public class ArticleWebView
                 mCurrentSlobId = null;
                 mCurrentSlobUri = null;
             }
-            PooLogger.logD (String.format ("currentSlobId set from url %s to %s, uri %s", url, mCurrentSlobId, mCurrentSlobUri));
+            PooLogger.debug (String.format ("currentSlobId set from url %s to %s, uri %s", url, mCurrentSlobId, mCurrentSlobUri));
         }
     }
 
@@ -516,13 +516,13 @@ public class ArticleWebView
 
         @Override
         public void onPageStarted (WebView view, String url, Bitmap favicon) {
-            PooLogger.logD ("onPageStarted: " + url);
+            PooLogger.debug ("onPageStarted: " + url);
             if (url.startsWith ("about:")) {
                 return;
             }
 
             if (mTimes.containsKey (url)) {
-                PooLogger.logD ("onPageStarted: already ready seen " + url);
+                PooLogger.debug ("onPageStarted: already ready seen " + url);
                 mTimes.get (url).add (System.currentTimeMillis ());
             } else {
                 List<Long> tsList = new ArrayList<Long> ();
@@ -532,14 +532,14 @@ public class ArticleWebView
                 try {
                     mTimer.schedule (mApplyStylePrefTask, 250, 200);
                 } catch (IllegalStateException ex) {
-                    PooLogger.logW (ex, "Failed to schedule applyStylePref in view " + view.getId ());
+                    PooLogger.warn (ex, "Failed to schedule applyStylePref in view " + view.getId ());
                 }
             }
         }
 
         @Override
         public void onPageFinished (WebView view, String url) {
-            PooLogger.logD ("onPageFinished: " + url);
+            PooLogger.debug ("onPageFinished: " + url);
             if (url.startsWith ("about:")) {
                 return;
             }
@@ -547,14 +547,14 @@ public class ArticleWebView
             if (mTimes.containsKey (url)) {
                 List<Long> tsList = mTimes.get (url);
                 long ts = tsList.remove (tsList.size () - 1);
-                PooLogger.logD ("onPageFinished: finished: " + url + " in " + (System.currentTimeMillis () - ts));
+                PooLogger.debug ("onPageFinished: finished: " + url + " in " + (System.currentTimeMillis () - ts));
                 if (tsList.isEmpty ()) {
-                    PooLogger.logD ("onPageFinished: really done with " + url);
+                    PooLogger.debug ("onPageFinished: really done with " + url);
                     mTimes.remove (url);
                     mApplyStylePrefTask.cancel ();
                 }
             } else {
-                PooLogger.logW ("onPageFinished: Unexpected page finished event for " + url);
+                PooLogger.warn ("onPageFinished: Unexpected page finished event for " + url);
             }
 
             view.loadUrl ("javascript:"
@@ -573,7 +573,7 @@ public class ArticleWebView
             try {
                 parsed = Uri.parse (url);
             } catch (Exception e) {
-                PooLogger.logW (e, "Failed to parse url: " + url);
+                PooLogger.warn (e, "Failed to parse url: " + url);
                 return super.shouldInterceptRequest (view, url);
             }
             if (parsed.isRelative ()) {
@@ -591,7 +591,7 @@ public class ArticleWebView
 
         @Override
         public boolean shouldOverrideUrlLoading (WebView view, final String url) {
-            PooLogger.logD (String.format ("shouldOverrideUrlLoading: %s (current %s)", url, view.getUrl ()));
+            PooLogger.debug (String.format ("shouldOverrideUrlLoading: %s (current %s)", url, view.getUrl ()));
 
             Uri uri = Uri.parse (url);
             String scheme = uri.getScheme ();
@@ -612,11 +612,11 @@ public class ArticleWebView
                 intent.setData (uri);
                 getContext ().startActivity (intent);
 
-                PooLogger.logD ("Overriding loading of " + url);
+                PooLogger.debug ("Overriding loading of " + url);
                 return true;
             }
 
-            PooLogger.logD ("NOT overriding loading of " + url);
+            PooLogger.debug ("NOT overriding loading of " + url);
             return false;
         }
     };
