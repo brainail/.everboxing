@@ -1,6 +1,5 @@
 package org.brainail.EverboxingSplashFlame.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,8 +8,7 @@ import android.view.ViewGroup;
 
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.data.ui.adapter.FilesHistoryRecyclerViewAdapter;
-import org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity;
+import org.brainail.EverboxingSplashFlame.ui.adapter.FilesHistoryRecyclerViewAdapter;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.AutoFitGridRecyclerView;
 import org.brainail.EverboxingSplashFlame.utils.tool.rx.RxToolFiles;
@@ -19,7 +17,6 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -81,16 +78,12 @@ public class HistoryFragment
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate (R.layout.fragment_history, container, false);
-        ButterKnife.bind (this, view);
-        return view;
+        return bind (view);
     }
 
     @Override
     public void onItemClick (final View itemView, final File data) {
-        // Use Navigator, Dagger
-        final Intent previewIntent = new Intent (getActivity (), FlamePreviewActivity.class);
-        previewIntent.putExtra ("flame_file_path", data.getAbsolutePath ());
-        startActivity (previewIntent);
+        mNavigator.flameFilePreview (data.getAbsolutePath ()).start ();
     }
 
 }

@@ -11,10 +11,14 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsContext;
+import org.brainail.EverboxingSplashFlame.bus.BusEventsLogger;
+import org.brainail.EverboxingSplashFlame.di.HasComponent;
+import org.brainail.EverboxingSplashFlame.di.component.AppComponent;
+import org.brainail.EverboxingSplashFlame.di.component.DaggerAppComponent;
+import org.brainail.EverboxingSplashFlame.di.module.AndroidModule;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
 import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
 import org.brainail.EverboxingTools.ToolsContext;
@@ -23,7 +27,8 @@ import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 
 import java.util.concurrent.TimeUnit;
 
-import butterknife.ButterKnife;
+import javax.inject.Inject;
+
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -53,14 +58,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class JApplication extends Application {
+public class JApplication extends Application implements HasComponent<AppComponent> {
 
-    private static final long APP_RESTART_DELAY_MILLIS = TimeUnit.SECONDS.toMillis(3);
+    private static final long APP_RESTART_DELAY_MILLIS = TimeUnit.SECONDS.toMillis (3);
 
     @Deprecated
     protected static JApplication mApp;
 
-    private RefWatcher mRefWatcher;
+    private AppComponent mAppComponent;
 
     @Override
     public void onCreate () {
@@ -75,6 +80,45 @@ public class JApplication extends Application {
         initAnalyzers ();
         initFonts ();
         initThemes ();
+        initAppComponent ();
+    }
+
+    private void initAppComponent () {
+        mAppComponent = DaggerAppComponent.builder ()
+                .androidModule (new AndroidModule (this))
+                .build ();
+        mAppComponent.inject (this);
+    }
+
+    // Method injections are called after AppComponent.inject(...App)
+    // call in order methods are defined.
+    // Move dependencies that can be used by other dependencies to top.
+    // ...
+    @Inject
+    void registerLifecycleCallbacks (ComponentLifecycleCallbacks callbacks) {
+        registerActivityLifecycleCallbacks (callbacks);
+        registerComponentCallbacks (callbacks);
+    }
+
+    @Inject
+    void registerEventBusLogger (final RefWatcher refWatcher) {
+        // Dagger keeps RefWatcher instance via ScopedProvider in DaggerAppComponent
+    }
+
+    @Inject
+    void registerEventBusLogger (final BusEventsLogger busEventsLogger) {
+        // Dagger keeps BusEventsLogger instance via ScopedProvider in DaggerAppComponent
+        busEventsLogger.init ();
+    }
+
+    @Inject
+    void registerConnectionManager (final ConnectionManager connectionManager) {
+        // Dagger keeps BusEventsLogger instance via ScopedProvider in DaggerAppComponent
+    }
+
+    @Override
+    public AppComponent getComponent () {
+        return mAppComponent;
     }
 
     private void initLoggers () {
@@ -82,7 +126,7 @@ public class JApplication extends Application {
 
         // Logging settings of other libraries
         // Icepick.setDebug(BuildConfig.DEBUG);
-        ButterKnife.setDebug (BuildConfig.DEBUG);
+        // ButterKnife.setDebug (BuildConfig.DEBUG);
     }
 
     private void initDialogs () {
@@ -96,11 +140,6 @@ public class JApplication extends Application {
     }
 
     private void initAnalyzers () {
-        // Leaks!
-        if (BuildConfig.USE_LEAKCANARY) {
-            mRefWatcher = LeakCanary.install (this);
-        }
-
         // Initialize crashlytics via Fabric
         if (BuildConfig.USE_CRASHLYTICS) {
             initFabric ();
@@ -110,11 +149,6 @@ public class JApplication extends Application {
     private void initThemes () {
         // Initialization from preferences
         ThemeManager.init ();
-    }
-
-    public static RefWatcher refWatcher (final Context context) {
-        final JApplication application = (JApplication) context.getApplicationContext ();
-        return application.mRefWatcher;
     }
 
     private void initFabric () {

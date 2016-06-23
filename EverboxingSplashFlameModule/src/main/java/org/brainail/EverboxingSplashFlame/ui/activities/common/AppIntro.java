@@ -81,13 +81,6 @@ public class AppIntro extends com.github.paolorotolo.appintro.AppIntro2 {
         finish ();
     }
 
-    /*
-    @Override
-    public void onSkipPressed () {
-        launchHome ();
-    }
-    */
-
     @Override
     public void onNextPressed () {}
 

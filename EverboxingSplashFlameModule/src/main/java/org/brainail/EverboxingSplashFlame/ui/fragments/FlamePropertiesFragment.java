@@ -1,6 +1,5 @@
 package org.brainail.EverboxingSplashFlame.ui.fragments;
 
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +17,6 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFlameHardyDialogs;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolFractal;
@@ -31,7 +29,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -85,8 +82,7 @@ public class FlamePropertiesFragment extends RxBaseFragment {
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate (R.layout.fragment_flame_properties, container, false);
-        ButterKnife.bind (this, view);
-        return view;
+        return bind (view);
     }
 
     @Override
@@ -190,10 +186,7 @@ public class FlamePropertiesFragment extends RxBaseFragment {
     private void openPreview (final String filePath) {
         cacheObservable (null);
         HardyDialogsHelper.dismissDialog (this, D_GENERATING_FLAME_PROGRESS);
-        // Use Navigator, Dagger
-        final Intent previewIntent = new Intent (getActivity (), FlamePreviewActivity.class);
-        previewIntent.putExtra ("flame_file_path", filePath);
-        startActivity (previewIntent);
+        mNavigator.flameFilePreview (filePath).start ();
     }
 
 }

@@ -251,7 +251,7 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28' // Required by Dagger2
     // ... Bus > events, communication
     // compile 'org.simple:androideventbus:1.0.5.1'
-    // compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
     // ... Icepick > args, bundle, saved state
     // compile "frankiesardo:icepick:${icepickVersion}"
     // provided "frankiesardo:icepick-processor:${icepickVersion}"

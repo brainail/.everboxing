@@ -1,7 +1,8 @@
 package org.brainail.EverboxingTools.utils;
 
-import android.text.TextUtils;
 import android.util.Log;
+
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 
 import java.util.Locale;
 
@@ -32,9 +33,11 @@ import java.util.Locale;
  */
 public final class PooLogger {
 
+    private static final String TAG = "[PooLogger]";
+
     private static volatile boolean sIsInitialized = false;
-    private static volatile boolean LOGGABLE = false;
-    private static volatile String TAG = "[PooLogger]";
+    private static volatile boolean sIsLoggable = false;
+    private static volatile String sModule = null;
 
     public static class PooLogScope {
         private final String mScopeName;
@@ -52,147 +55,147 @@ public final class PooLogger {
         }
     }
 
+    private static String moduleMsg (final String message) {
+        return "[" + sModule + "] ⭆⭆⭆ " + message;
+    }
+
     public static void init(final boolean isLoggable, final String moduleName) {
         if (! sIsInitialized) {
             sIsInitialized = true;
-            LOGGABLE = isLoggable;
-
-            if (! TextUtils.isEmpty (moduleName)) {
-                TAG = String.format (Locale.US, "[PooLogger]:[%s]", moduleName);
-            }
+            sIsLoggable = isLoggable;
+            sModule = moduleName;
         }
     }
-    
 
     public static void logV (final String message) {
-        if (LOGGABLE) {
-            Log.v (TAG, message);
+        if (sIsLoggable) {
+            Log.v (TAG, moduleMsg (message));
         }
     }
 
     public static void logV (final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.v (TAG, String.format (Locale.US, message, params));
+        if (sIsLoggable) {
+            Log.v (TAG, moduleMsg (ToolStrings.formatArgs (Locale.US, message, params)));
         }
     }
 
     public static void logD (final String message) {
-        if (LOGGABLE) {
-            Log.d (TAG, message);
+        if (sIsLoggable) {
+            Log.d (TAG, moduleMsg (message));
         }
     }
 
     public static void logD (final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.d (TAG, String.format (Locale.US, message, params));
+        if (sIsLoggable) {
+            Log.d (TAG, moduleMsg (ToolStrings.formatArgs (Locale.US, message, params)));
         }
     }
 
     public static void logI (final String message) {
-        if (LOGGABLE) {
-            Log.i (TAG, message);
+        if (sIsLoggable) {
+            Log.i (TAG, moduleMsg (message));
         }
     }
 
     public static void logI (final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.i (TAG, String.format (Locale.US, message, params));
+        if (sIsLoggable) {
+            Log.i (TAG, moduleMsg (ToolStrings.formatArgs (Locale.US, message, params)));
         }
     }
 
     public static void logW (final String message) {
-        if (LOGGABLE) {
-            Log.w (TAG, message);
+        if (sIsLoggable) {
+            Log.w (TAG, moduleMsg (message));
         }
     }
 
     public static void logW (final Throwable error, final String message) {
-        if (LOGGABLE) {
-            Log.w (TAG, message, error);
+        if (sIsLoggable) {
+            Log.w (TAG, moduleMsg (message), error);
         }
     }
 
     public static void logW (final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.w (TAG, String.format (Locale.US, message, params));
+        if (sIsLoggable) {
+            Log.w (TAG, moduleMsg (ToolStrings.formatArgs (Locale.US, message, params)));
         }
     }
 
     public static void logE (final String message) {
-        if (LOGGABLE) {
-            Log.e (TAG, message);
+        if (sIsLoggable) {
+            Log.e (TAG, moduleMsg (message));
         }
     }
 
     public static void logE (final Throwable error, final String message) {
-        if (LOGGABLE) {
-            Log.e (TAG, message, error);
+        if (sIsLoggable) {
+            Log.e (TAG, moduleMsg (message), error);
         }
     }
 
     public static void logE (final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.e (TAG, String.format (Locale.US, message, params));
+        if (sIsLoggable) {
+            Log.e (TAG, moduleMsg (ToolStrings.formatArgs (Locale.US, message, params)));
         }
     }
 
     public static void logV (final PooLogScope scope, final String message) {
-        if (LOGGABLE) {
-            Log.v (TAG, scope.scopeMsg (message));
+        if (sIsLoggable) {
+            Log.v (TAG, moduleMsg (scope.scopeMsg (message)));
         }
     }
 
     public static void logV (final PooLogScope scope, final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.v (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
+        if (sIsLoggable) {
+            Log.v (TAG, moduleMsg (scope.scopeMsg (ToolStrings.formatArgs (Locale.US, message, params))));
         }
     }
 
     public static void logD (final PooLogScope scope, final String message) {
-        if (LOGGABLE) {
-            Log.d (TAG, scope.scopeMsg (message));
+        if (sIsLoggable) {
+            Log.d (TAG, moduleMsg (scope.scopeMsg (message)));
         }
     }
 
     public static void logD (final PooLogScope scope, final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.d (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
+        if (sIsLoggable) {
+            Log.d (TAG, moduleMsg (scope.scopeMsg (ToolStrings.formatArgs (Locale.US, message, params))));
         }
     }
 
     public static void logI (final PooLogScope scope, final String message) {
-        if (LOGGABLE) {
-            Log.i (TAG, scope.scopeMsg (message));
+        if (sIsLoggable) {
+            Log.i (TAG, moduleMsg (scope.scopeMsg (message)));
         }
     }
 
     public static void logI (final PooLogScope scope, final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.i (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
+        if (sIsLoggable) {
+            Log.i (TAG, moduleMsg (scope.scopeMsg (ToolStrings.formatArgs (Locale.US, message, params))));
         }
     }
 
     public static void logW (final PooLogScope scope, final String message) {
-        if (LOGGABLE) {
-            Log.w (TAG, scope.scopeMsg (message));
+        if (sIsLoggable) {
+            Log.w (TAG, moduleMsg (scope.scopeMsg (message)));
         }
     }
 
     public static void logW (final PooLogScope scope, final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.w (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
+        if (sIsLoggable) {
+            Log.w (TAG, moduleMsg (scope.scopeMsg (ToolStrings.formatArgs (Locale.US, message, params))));
         }
     }
 
     public static void logE (final PooLogScope scope, final String message) {
-        if (LOGGABLE) {
-            Log.e (TAG, scope.scopeMsg (message));
+        if (sIsLoggable) {
+            Log.e (TAG, moduleMsg (scope.scopeMsg (message)));
         }
     }
 
     public static void logE (final PooLogScope scope, final String message, final Object... params) {
-        if (LOGGABLE) {
-            Log.e (TAG, scope.scopeMsg (String.format (Locale.US, message, params)));
+        if (sIsLoggable) {
+            Log.e (TAG, moduleMsg (scope.scopeMsg (ToolStrings.formatArgs (Locale.US, message, params))));
         }
     }
 

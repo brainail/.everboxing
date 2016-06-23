@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.data.ui.adapter;
+package org.brainail.EverboxingSplashFlame.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;

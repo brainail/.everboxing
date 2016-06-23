@@ -11,8 +11,15 @@ import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.brainail.EverboxingSplashFlame.JApplication;
 import org.brainail.EverboxingSplashFlame.api.ClientApi;
 import org.brainail.EverboxingSplashFlame.api.google.PlayServices;
+import org.brainail.EverboxingSplashFlame.di.ActivityContext;
+import org.brainail.EverboxingSplashFlame.di.HasComponent;
+import org.brainail.EverboxingSplashFlame.di.component.ActivityComponent;
+import org.brainail.EverboxingSplashFlame.di.component.AppComponent;
+import org.brainail.EverboxingSplashFlame.di.module.ActivityModule;
+import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
 import org.brainail.EverboxingSplashFlame.ui.notice.NoticeBar;
 import org.brainail.EverboxingSplashFlame.ui.notice.NoticeController;
 import org.brainail.EverboxingSplashFlame.utils.chrome.CustomTabsSceneHelper;
@@ -24,6 +31,8 @@ import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -56,7 +65,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public abstract class BaseActivity
         extends AppCompatActivity
         implements FragmentManager.OnBackStackChangedListener, NoticeBar.OnActionCallback,
-        NoticeBar.OnVisibilityCallback, ClientApi.Supportable {
+        NoticeBar.OnVisibilityCallback, ClientApi.Supportable, HasComponent<ActivityComponent> {
+
+    private ActivityComponent mComponent;
 
     // Primary Toolbar
     protected Toolbar mPrimaryToolbar;
@@ -70,6 +81,11 @@ public abstract class BaseActivity
 
     // Chrome tabs stuff
     private CustomTabsSceneHelper mCustomTabsSceneHelper;
+
+    @Inject
+    @ActivityContext
+    Navigator mNavigator;
+    // @Inject EventBus mGlobalBus;
 
     @SuppressWarnings ("unchecked")
     public <T extends View> T bindView (final int id) {
@@ -121,6 +137,9 @@ public abstract class BaseActivity
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
 
+        setupComponent (JApplication.get (this).getComponent ());
+        injectMembers (JApplication.get (this).getComponent ());
+
         // Window background causes an useless overdraw.
         // Nullifying the background removes that overdraw.
         getWindow ().setBackgroundDrawable (null);
@@ -146,6 +165,31 @@ public abstract class BaseActivity
         // Chrome tabs stuff
         mCustomTabsSceneHelper = new CustomTabsSceneHelper ();
         mCustomTabsSceneHelper.onCreateScene (self ());
+    }
+
+    /**
+     * Override this method to create custom component instance. Super implementation <b>must</b> be called first.
+     * Note that injection is not allowed here. See {@link BaseActivity#injectMembers(AppComponent)}.
+     *
+     * @param appComponent default application component, for convenience
+     */
+    protected void setupComponent (AppComponent appComponent) {
+        mComponent = appComponent.plus (new ActivityModule (this));
+    }
+
+    /**
+     * Override this method to apply field injection. Usually, you shouldn't call super implementation, because
+     * fields in base classes are injected automatically.
+     *
+     * @param appComponent default activity component, for convenience
+     */
+    protected void injectMembers (AppComponent appComponent) {
+        getComponent ().inject (this);
+    }
+
+    @Override
+    public ActivityComponent getComponent () {
+        return mComponent;
     }
 
     private void initAPIs (Bundle savedInstanceState) {
@@ -214,6 +258,9 @@ public abstract class BaseActivity
 
         super.onStart ();
 
+        // Register to catch events
+        // mGlobalBus.register (this);
+
         // Chrome tabs stuff
         mCustomTabsSceneHelper.onStartScene (self ());
     }
@@ -241,6 +288,9 @@ public abstract class BaseActivity
 
         super.onStop ();
 
+        // Unregister to stop catching
+        // mGlobalBus.unregister (this);
+
         // Chrome tabs stuff
         mCustomTabsSceneHelper.onStopScene (self ());
     }
@@ -253,7 +303,7 @@ public abstract class BaseActivity
 
     @Override
     public void onBackPressed () {
-        if (! ToolFragments.navigateBack (this)) {
+        if (!ToolFragments.navigateBack (this)) {
             supportFinishAfterTransition ();
         }
     }

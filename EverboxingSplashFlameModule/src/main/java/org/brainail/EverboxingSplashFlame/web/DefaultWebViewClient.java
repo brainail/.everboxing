@@ -1,0 +1,93 @@
+package org.brainail.EverboxingSplashFlame.web;
+
+import android.graphics.Bitmap;
+import android.net.MailTo;
+import android.webkit.URLUtil;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import org.brainail.EverboxingSplashFlame.di.PerFragment;
+import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingTools.utils.PooLogger;
+
+/**
+ * This file is part of Everboxing modules. <br/><br/>
+ * <p>
+ * The MIT License (MIT) <br/><br/>
+ * <p>
+ * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
+ * of this software and associated documentation files (the "Software"), to deal <br/>
+ * in the Software without restriction, including without limitation the rights <br/>
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
+ * copies of the Software, and to permit persons to whom the Software is <br/>
+ * furnished to do so, subject to the following conditions: <br/><br/>
+ * <p>
+ * The above copyright notice and this permission notice shall be included in <br/>
+ * all copies or substantial portions of the Software. <br/><br/>
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER <br/>
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, <br/>
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
+ * THE SOFTWARE.
+ */
+@PerFragment
+public class DefaultWebViewClient extends WebViewClient {
+
+    private WebPage mWebPage;
+    private Navigator mNavigator;
+
+    public DefaultWebViewClient(WebPage webPage, Navigator navigator) {
+        mWebPage = webPage;
+        mNavigator = navigator;
+    }
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        PooLogger.logV ("shouldOverrideUrlLoading: url=?", url);
+
+        if (URLUtil.isNetworkUrl(url)) {
+            if (mWebPage.isValidUrl(url)) {
+                // allow only network urls (with optional validity check) to be opened in web view
+                return false;
+            } else {
+                // fallback to external browser
+                mNavigator.openUrlAction(url).start();
+                return true;
+            }
+        } else if (MailTo.isMailTo(url)) {
+            // handle 'mailto' scheme
+            mNavigator.openMailToAction(MailTo.parse(url)).start();
+            return true;
+        } else {
+            // fallback to external browser, this will also handle ..., 'tel' schemes
+            mNavigator.openUrlAction(url).start();
+            return true;
+        }
+    }
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        PooLogger.logV ("onPageStarted: url=?", url);
+        super.onPageStarted(view, url, favicon);
+
+        if (mWebPage != null) {
+            mWebPage.onPageStarted(view, url, favicon);
+        }
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        PooLogger.logV ("onPageFinished: url=?", url);
+        super.onPageFinished(view, url);
+
+        if (mWebPage != null) {
+            mWebPage.onPageFinished(view, url);
+        }
+    }
+
+}

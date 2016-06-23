@@ -14,7 +14,8 @@ import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+
+import static org.brainail.EverboxingSplashFlame.ui.fragments.FlamePreviewFragment.Extras.PREV_FLAME_FILE_PATH;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -43,6 +44,10 @@ import butterknife.ButterKnife;
  */
 public class FlamePreviewFragment extends BaseFragment {
 
+    public static final class Extras {
+        public static final String PREV_FLAME_FILE_PATH = "org.brainail.Everboxing.extra#preview.flame.file.path";
+    }
+
     @BindView (R.id.preview_flame)
     protected ImageView mPreviewFlame;
 
@@ -50,14 +55,13 @@ public class FlamePreviewFragment extends BaseFragment {
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate (R.layout.fragment_preview_flame, container, false);
-        ButterKnife.bind (this, view);
-        return view;
+        return bind (view);
     }
 
     @Override
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated (savedInstanceState);
-        final String filePath = getActivity ().getIntent ().getStringExtra ("flame_file_path");
+        final String filePath = getActivity ().getIntent ().getStringExtra (PREV_FLAME_FILE_PATH);
         Glide.with (this)
                 .load (filePath)
                 .diskCacheStrategy (DiskCacheStrategy.NONE)

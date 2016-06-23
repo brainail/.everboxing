@@ -4,6 +4,9 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -31,6 +34,9 @@ import java.util.List;
  * THE SOFTWARE.
  */
 public final class ToolStrings {
+
+    // match '?' if not after '\'
+    private static final Pattern FORMAT_PATTERN = Pattern.compile("(?<!\\\\)\\?");
 
     public static String EMPTY = "";
     public static String PLUS = "+";
@@ -103,6 +109,24 @@ public final class ToolStrings {
         }
 
         return resultWords;
+    }
+
+    // format messages with '?' as a placeholder
+    public static String formatArgs (final Locale locale, final String message, final Object ... args) {
+        if (null != message) {
+            final int argsCount = args == null ? 1 : args.length;
+
+            if (0 == argsCount) {
+                return message;
+            } else {
+                final Matcher m = FORMAT_PATTERN.matcher(message);
+                // replace matches with %s, then escaped sequence '\?' with a single '?'
+                final String fmt = m.replaceAll("%s").replace("\\?", "?");
+                return null != locale ? String.format(locale, fmt, args) : String.format(fmt, args);
+            }
+        }
+
+        return null;
     }
 
 }

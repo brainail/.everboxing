@@ -1,21 +1,38 @@
 package org.brainail.EverboxingSplashFlame.ui.fragments.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.squareup.leakcanary.RefWatcher;
 
-import org.brainail.EverboxingSplashFlame.JApplication;
+import org.brainail.EverboxingSplashFlame.BuildConfig;
+import org.brainail.EverboxingSplashFlame.bus.GlobalEvents;
+import org.brainail.EverboxingSplashFlame.di.ActivityContext;
+import org.brainail.EverboxingSplashFlame.di.component.ActivityComponent;
+import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragmentDelegate.BaseFragmentCallbacks;
 import org.brainail.EverboxingSplashFlame.utils.chrome.CustomTabsSceneHelper;
+import org.brainail.EverboxingSplashFlame.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -42,10 +59,49 @@ import org.brainail.EverboxingTools.utils.tool.ToolFragments;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class BaseFragment extends Fragment implements ActionMode.Callback, Tagable {
+public class BaseFragment
+        extends Fragment
+        implements ActionMode.Callback, Tagable, BaseFragmentCallbacks {
 
     // Chrome tabs stuff
     private CustomTabsSceneHelper mCustomTabsSceneHelper;
+
+    @Inject
+    protected EventBus mGlobalBus;
+    @Inject
+    @ActivityContext
+    protected Navigator mNavigator;
+    @Inject
+    protected RefWatcher mRefWatcher;
+
+    private Unbinder mUnbinder;
+    private BaseFragmentDelegate mBaseFragmentDelegate;
+
+    @Override
+    public void onAttach (Context context) {
+        super.onAttach (context);
+        mBaseFragmentDelegate = new BaseFragmentDelegate (this);
+        mBaseFragmentDelegate.onAttach (context);
+    }
+
+    @Override
+    public void onActivityCreated (@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated (savedInstanceState);
+        mBaseFragmentDelegate.onActivityCreated (savedInstanceState);
+    }
+
+    @Override
+    public void setupComponent (ActivityComponent activityComponent) {}
+
+    @Override
+    public void injectMembers (ActivityComponent activityComponent) {
+        activityComponent.inject (this);
+    }
+
+    protected final View bind (final View source) {
+        mUnbinder = ButterKnife.bind (this, source);
+        return source;
+    }
 
     @Override
     public void onCreate (Bundle savedInstanceState) {
@@ -60,6 +116,8 @@ public class BaseFragment extends Fragment implements ActionMode.Callback, Tagab
     public void onStart () {
         super.onStart ();
 
+        mGlobalBus.register (this);
+
         // Chrome tabs stuff
         mCustomTabsSceneHelper.onStartScene (getActivity ());
     }
@@ -68,11 +126,10 @@ public class BaseFragment extends Fragment implements ActionMode.Callback, Tagab
     public void onStop () {
         super.onStop ();
 
+        mGlobalBus.unregister (this);
+
         // Chrome tabs stuff
         mCustomTabsSceneHelper.onStopScene (getActivity ());
-
-        final RefWatcher refWatcher = JApplication.refWatcher (getActivity ());
-        if (null != refWatcher) refWatcher.watch (this);
     }
 
     @Override
@@ -81,6 +138,34 @@ public class BaseFragment extends Fragment implements ActionMode.Callback, Tagab
         mCustomTabsSceneHelper.onDestroyScene (getActivity ());
 
         super.onDestroy ();
+
+        if (mRefWatcher != null) {
+            mRefWatcher.watch (this);
+        }
+    }
+
+    @Override
+    public void onDestroyView () {
+        super.onDestroyView ();
+
+        if (mUnbinder != null) {
+            mUnbinder.unbind ();
+        }
+    }
+
+    @Subscribe
+    public void onConnectivityChanged (GlobalEvents.ConnectivityChanged event) {
+        onConnectivityChanged (event.isConnected);
+    }
+
+    protected void onConnectivityChanged (boolean isConnected) {
+        if (!isConnected && BuildConfig.DEBUG) {
+            ToolUI.showToast (getActivity (), "No internet connection ...");
+        }
+    }
+
+    protected final AppCompatActivity getAppCompatActivity () {
+        return (AppCompatActivity) getActivity ();
     }
 
     public void openUrl (final String url) {
@@ -142,7 +227,7 @@ public class BaseFragment extends Fragment implements ActionMode.Callback, Tagab
         return ToolFragments.getTag (getClass ());
     }
 
-    protected final Fragment self() {
+    protected final Fragment self () {
         return this;
     }
 
