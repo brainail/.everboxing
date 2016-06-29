@@ -202,10 +202,10 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
         // Show title
         intentBuilder.setShowTitle (true);
         // Custom menu item > Share
-        final String shareActionText = ToolResources.string (R.string.custom_tab_action_share);
+        final String shareActionText = ToolResources.string (context, R.string.custom_tab_action_share);
         intentBuilder.addMenuItem (shareActionText, createPendingShareIntent (context, action));
         // Custom menu item > Email
-        final String emailActionText = ToolResources.string (R.string.custom_tab_action_email);
+        final String emailActionText = ToolResources.string (context, R.string.custom_tab_action_email);
         intentBuilder.addMenuItem (emailActionText, createPendingEmailIntent (context, action));
         // Specify close button icon
         // final int mainCloseResId = android.support.design.R.drawable.abc_ic_ab_back_mtrl_am_alpha;
@@ -233,7 +233,7 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
             @NonNull final ActionInfo action) {
 
         Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:"));
-        final String emailTitle = ToolResources.string (R.string.custom_tab_action_email_mail_title);
+        final String emailTitle = ToolResources.string (context, R.string.custom_tab_action_email_mail_title);
         actionIntent.putExtra (Intent.EXTRA_SUBJECT, emailTitle + action.emailTitleExtra ());
         actionIntent.putExtra (Intent.EXTRA_TEXT, action.emailBody ());
         return PendingIntent.getActivity (context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);

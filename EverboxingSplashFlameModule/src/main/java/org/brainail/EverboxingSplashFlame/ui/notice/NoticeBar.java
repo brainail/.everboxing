@@ -2,13 +2,13 @@ package org.brainail.EverboxingSplashFlame.ui.notice;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.brainail.EverboxingSplashFlame.JApplication;
 import org.brainail.EverboxingSplashFlame.R;
 
 import butterknife.ButterKnife;
@@ -104,6 +104,7 @@ public class NoticeBar {
     public static class Builder {
 
         private NoticeBar noticeBar;
+        private Resources resources;
 
         String body = null;
         String action = null;
@@ -119,11 +120,13 @@ public class NoticeBar {
         // @package-local for controller
         Builder (final NoticeOnSceneController controller, final Activity activity) {
             noticeBar = new NoticeBar (controller, activity);
+            resources = activity.getResources ();
         }
 
         // @package-local for controller
         Builder (final NoticeOnSceneController controller, final Context context, final View root) {
             noticeBar = new NoticeBar (controller, context, root);
+            resources = root.getContext ().getResources ();
         }
 
         public Builder withText (final String textProvider) {
@@ -132,7 +135,7 @@ public class NoticeBar {
         }
 
         public Builder withText (final int resId) {
-            body = JApplication.appContext ().getString (resId);
+            body = resources.getString (resId);
             return this;
         }
 
@@ -142,7 +145,7 @@ public class NoticeBar {
         }
 
         public Builder withActionText (final int resId) {
-            action = JApplication.appContext ().getString (resId);
+            action = resources.getString (resId);
             return this;
         }
 

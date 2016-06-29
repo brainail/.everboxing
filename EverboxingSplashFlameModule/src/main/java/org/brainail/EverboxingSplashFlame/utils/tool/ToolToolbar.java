@@ -73,7 +73,7 @@ public final class ToolToolbar {
 
         // Try to use app name as the last resort
         if (TextUtils.isEmpty(toolbarTitle)) {
-            toolbarTitle = ToolResources.string(R.string.app_name);
+            toolbarTitle = ToolResources.string(activity, R.string.app_name);
         }
 
         // Set title for toolbar

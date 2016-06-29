@@ -290,9 +290,9 @@ public class SettingsActivity
 
     private static void sendFeedbackOrSuggestion (@NonNull final Activity activity) {
         final Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:" + ToolEmail.APP_EMAIL));
-        final String subject = ToolResources.string (R.string.feedback_suggestion_email_title, feedbackAppInfo ());
+        final String subject = ToolResources.string (activity, R.string.feedback_suggestion_email_title, feedbackAppInfo ());
         actionIntent.putExtra (Intent.EXTRA_SUBJECT, subject);
-        actionIntent.putExtra (Intent.EXTRA_TEXT, ToolResources.string (R.string.feedback_suggestion_mail_start_body));
+        actionIntent.putExtra (Intent.EXTRA_TEXT, ToolResources.string (activity, R.string.feedback_suggestion_mail_start_body));
         activity.startActivity (actionIntent);
     }
 

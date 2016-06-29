@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.brainail.EverboxingSplashFlame.JApplication;
 import org.brainail.EverboxingSplashFlame.ui.notice.NoticeController;
 import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
@@ -93,7 +92,7 @@ public final class ToolUI {
     }
 
     public static void showToast (final Fragment fragment, final int resId) {
-        showToast (fragment, JApplication.appContext ().getString (resId));
+        showToast (fragment, fragment.getString (resId));
     }
 
     public static <T extends Activity> void showToast (final T activity, final String message) {
@@ -112,7 +111,7 @@ public final class ToolUI {
     }
 
     public static <T extends Activity> void showToast (final T activity, final int resId) {
-        showToast (activity, JApplication.appContext ().getString (resId));
+        showToast (activity, activity.getString (resId));
     }
 
     public static void fixSettingsPaddingWorkaround (final AppCompatActivity activity) {

@@ -1,9 +1,9 @@
 package org.brainail.EverboxingSplashFlame.utils.manager;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import org.brainail.EverboxingSplashFlame.JApplication;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.api.UserInfoApi;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
@@ -35,6 +35,10 @@ import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
  */
 public final class SettingsManager {
 
+    private static volatile SettingsManager INSTANCE;
+
+    private Context mContext;
+
     private SharedPreferences mDefaultPreferences;
 
     private String mPlayAccountPfKey;
@@ -45,7 +49,9 @@ public final class SettingsManager {
 
     private String mShouldIntroducePfKey;
 
-    private SettingsManager () {
+    private SettingsManager (final Context context) {
+        mContext = context.getApplicationContext ();
+
         initializePreferences ();
         initializePreferencesKeys ();
     }
@@ -53,23 +59,31 @@ public final class SettingsManager {
     private void initializePreferencesKeys () {
         mShouldIntroducePfKey = "settings_app_should_introduce";
 
-        mPlayAccountPfKey = ToolResources.string (R.string.settings_add_play_account_key);
-        mSyncDataPfKey = ToolResources.string (R.string.settings_sync_account_key);
+        mPlayAccountPfKey = ToolResources.string (mContext, R.string.settings_add_play_account_key);
+        mSyncDataPfKey = ToolResources.string (mContext, R.string.settings_sync_account_key);
 
-        mAppThemeNamePfKey = ToolResources.string (R.string.settings_change_theme_key);
+        mAppThemeNamePfKey = ToolResources.string (mContext, R.string.settings_change_theme_key);
         mAppThemePfKey = "settings_app_theme";
     }
 
     private void initializePreferences () {
-        mDefaultPreferences = PreferenceManager.getDefaultSharedPreferences (JApplication.appContext ());
-    }
-
-    private static class LazyHolder {
-        private static final SettingsManager INSTANCE = new SettingsManager ();
+        mDefaultPreferences = PreferenceManager.getDefaultSharedPreferences (mContext);
     }
 
     public static SettingsManager getInstance () {
-        return LazyHolder.INSTANCE;
+        return INSTANCE;
+    }
+
+    public static SettingsManager init (final Context context) {
+        if (null == INSTANCE) {
+            synchronized (SettingsManager.class) {
+                if (null == INSTANCE) {
+                    INSTANCE = new SettingsManager (context);
+                }
+            }
+        }
+
+        return INSTANCE;
     }
 
     public SharedPreferences defaultPreferences () {
@@ -93,7 +107,7 @@ public final class SettingsManager {
     }
 
     public void saveAppTheme (final ThemeManager.AppTheme theme) {
-        final String themeName = JApplication.appContext ().getString (theme.getNameResId ());
+        final String themeName = mContext.getString (theme.getNameResId ());
 
         mDefaultPreferences.edit ()
                 .putString (mAppThemeNamePfKey, themeName)
@@ -115,9 +129,9 @@ public final class SettingsManager {
         final String sTheme = mDefaultPreferences.getString (mAppThemePfKey, ThemeManager.AppTheme.PINK.name ());
 
         try {
-            return ToolResources.string (ThemeManager.AppTheme.valueOf (sTheme).getNameResId ());
+            return ToolResources.string (mContext, ThemeManager.AppTheme.valueOf (sTheme).getNameResId ());
         } catch (final Exception exception) {
-            return ToolResources.string (ThemeManager.AppTheme.PINK.getNameResId ());
+            return ToolResources.string (mContext, ThemeManager.AppTheme.PINK.getNameResId ());
         }
     }
 

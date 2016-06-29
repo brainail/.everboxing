@@ -1,7 +1,6 @@
 package org.brainail.EverboxingSplashFlame;
 
-import static android.os.Environment.getExternalStorageDirectory;
-import static org.brainail.EverboxingSplashFlame.BuildConfig.APP_DIR;
+import android.os.Environment;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -30,7 +29,9 @@ import static org.brainail.EverboxingSplashFlame.BuildConfig.APP_DIR;
  */
 public final class Constants {
 
-    private static final String SDCARD_ABS_PATH = getExternalStorageDirectory().getAbsolutePath() + "/" + APP_DIR;
+    private static final String SDCARD_ABS_PATH
+            = Environment.getExternalStorageDirectory ().getAbsolutePath ()
+            + "/" + BuildConfig.APP_DIR;
 
     public static final String APP_MEDIA_DIR_NAME = "media";
     public static final String APP_MEDIA_DIR_PATH = SDCARD_ABS_PATH + APP_MEDIA_DIR_NAME + "/";

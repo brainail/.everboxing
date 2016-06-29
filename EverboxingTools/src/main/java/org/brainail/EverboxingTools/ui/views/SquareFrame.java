@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.views;
+package org.brainail.EverboxingTools.ui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

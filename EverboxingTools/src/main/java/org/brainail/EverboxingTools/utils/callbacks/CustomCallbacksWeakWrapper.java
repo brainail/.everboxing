@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.utils.callbacks;
+package org.brainail.EverboxingTools.utils.callbacks;
 
 /**
  * This class keeps some sdk callbacks weakly to protect us from memory leaks.

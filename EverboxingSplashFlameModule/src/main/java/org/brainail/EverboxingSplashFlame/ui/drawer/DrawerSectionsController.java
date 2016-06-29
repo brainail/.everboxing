@@ -246,6 +246,8 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     @Override
     public void onDrawerSlide (View drawerView, float slideOffset) {
         if (mScene.sectionInitializer ().isTransparentable ()) {
+            final int DRAWER_COLOR = ToolColor.by (drawerView.getContext (), R.color.menu_drawer_background_default);
+
             // Change alpha by offset
             mUserCoverArea.setAlpha (slideOffset);
             mDrawerView.setBackgroundColor (ToolColor.withAlpha (DRAWER_COLOR, (1 - slideOffset) * 100));

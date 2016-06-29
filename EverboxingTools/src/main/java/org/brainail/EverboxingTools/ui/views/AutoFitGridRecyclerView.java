@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.views;
+package org.brainail.EverboxingTools.ui.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-
-import org.brainail.EverboxingSplashFlame.R;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -65,9 +63,8 @@ public class AutoFitGridRecyclerView extends RecyclerView {
             styledAttrs.recycle ();
         }
 
-        // Default
         if (mColumnWidth < 0) {
-            mColumnWidth = context.getResources ().getDimensionPixelSize (R.dimen.history_flame_preview_item_min_width);
+            mColumnWidth = 1 << 7;
         }
 
         mLayoutManager = new GridLayoutManager (context, 1);

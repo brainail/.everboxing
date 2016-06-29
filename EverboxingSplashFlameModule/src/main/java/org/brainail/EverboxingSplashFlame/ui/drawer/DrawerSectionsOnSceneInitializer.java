@@ -52,8 +52,8 @@ public final class DrawerSectionsOnSceneInitializer {
             // Flamer
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle (ToolResources.string (R.string.section_flamer))
-                            .withName (ToolResources.string (R.string.section_flamer))
+                            .withTitle (ToolResources.string (scene, R.string.section_flamer))
+                            .withName (ToolResources.string (scene, R.string.section_flamer))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_fire))
                             .withTarget (ToolFragments.FragmentCreator.from (FlamePropertiesFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
@@ -62,8 +62,8 @@ public final class DrawerSectionsOnSceneInitializer {
             // Favourite
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withTitle (ToolResources.string (R.string.section_history))
-                            .withName (ToolResources.string (R.string.section_history))
+                            .withTitle (ToolResources.string (scene, R.string.section_history))
+                            .withName (ToolResources.string (scene, R.string.section_history))
                             .withIcon (BaseIcon.defIcon (scene, Iconify.IconValue.zmdi_collection_folder_image))
                             .withTarget (ToolFragments.FragmentCreator.from (HistoryFragment.class))
                             .withSectionColor (ToolResources.retrievePrimaryColor (scene))
@@ -72,7 +72,7 @@ public final class DrawerSectionsOnSceneInitializer {
             // Settings
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withName (ToolResources.string (R.string.settings_activity_title))
+                            .withName (ToolResources.string (scene, R.string.settings_activity_title))
                             .withLocationType (DrawerSection.LocationType.HELP)
                             .withIcon (BaseIcon.controlIcon (scene, Iconify.IconValue.zmdi_settings))
                             .withTarget (SettingsActivity.class)

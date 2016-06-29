@@ -10,7 +10,7 @@ import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.adapter.FilesHistoryRecyclerViewAdapter;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
-import org.brainail.EverboxingSplashFlame.ui.views.AutoFitGridRecyclerView;
+import org.brainail.EverboxingTools.ui.views.AutoFitGridRecyclerView;
 import org.brainail.EverboxingSplashFlame.utils.tool.rx.RxToolFiles;
 
 import java.io.File;

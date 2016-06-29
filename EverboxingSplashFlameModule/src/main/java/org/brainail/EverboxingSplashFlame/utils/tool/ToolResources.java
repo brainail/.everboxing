@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Window;
 
-import org.brainail.EverboxingSplashFlame.JApplication;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
 
@@ -166,12 +165,12 @@ public final class ToolResources {
         return resources.getIdentifier(identifier, "dimen", "android");
     }
 
-    public static String string(final int resId) {
-        return 0 != resId ? JApplication.appContext().getString(resId) : null;
+    public static String string(final Context context, final int resId) {
+        return 0 != resId ? context.getString(resId) : null;
     }
 
-    public static String string(final int resId, final Object ... args) {
-        return 0 != resId ? JApplication.appContext().getString(resId, args) : null;
+    public static String string(final Context context, final int resId, final Object ... args) {
+        return 0 != resId ? context.getString(resId, args) : null;
     }
 
     public static int actionBarHeight(final @NonNull Context context) {

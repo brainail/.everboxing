@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.utils.callbacks;
+package org.brainail.EverboxingTools.utils.callbacks;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -20,6 +20,7 @@ import org.brainail.EverboxingSplashFlame.di.component.AppComponent;
 import org.brainail.EverboxingSplashFlame.di.component.DaggerAppComponent;
 import org.brainail.EverboxingSplashFlame.di.module.AndroidModule;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
+import org.brainail.EverboxingSplashFlame.utils.manager.SettingsManager;
 import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
 import org.brainail.EverboxingTools.ToolsContext;
 import org.brainail.EverboxingTools.utils.PooLogger;
@@ -61,19 +62,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class JApplication extends Application implements HasComponent<AppComponent> {
 
-    @Deprecated
-    protected static JApplication mApp;
-
     private AppComponent mAppComponent;
 
     @Override
     public void onCreate () {
         super.onCreate ();
 
-        // Ridiculous way to store for long use
-        mApp = this;
-
         initLoggers ();
+        initPrefs ();
         initDialogs ();
         initTools ();
         initAnalyzers ();
@@ -129,6 +125,11 @@ public class JApplication extends Application implements HasComponent<AppCompone
     @Override
     public AppComponent getComponent () {
         return mAppComponent;
+    }
+
+    private void initPrefs () {
+        // Provide context for prefs
+        SettingsManager.init (getApplicationContext ());
     }
 
     private void initLoggers () {
@@ -198,11 +199,6 @@ public class JApplication extends Application implements HasComponent<AppCompone
     public void onConfigurationChanged (Configuration newConfig) {
         super.onConfigurationChanged (newConfig);
         PooLogger.verb ("onConfigurationChanged: ?", newConfig);
-    }
-
-    @Deprecated
-    public static Context appContext () {
-        return mApp.getApplicationContext ();
     }
 
     /**

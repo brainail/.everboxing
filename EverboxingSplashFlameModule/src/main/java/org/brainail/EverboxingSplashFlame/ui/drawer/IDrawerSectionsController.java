@@ -5,9 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 
-import org.brainail.EverboxingSplashFlame.JApplication;
-import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingTools.utils.tool.ToolColor;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
 /**
@@ -36,11 +33,6 @@ import org.brainail.EverboxingTools.utils.tool.ToolFragments;
  * THE SOFTWARE.
  */
 public interface IDrawerSectionsController extends DrawerLayout.DrawerListener {
-
-    public static final int DRAWER_COLOR = ToolColor.by (
-            JApplication.appContext (), R.color.menu_drawer_background_default
-    );
-
     public void addDivider ();
     public void addSubheader (final String titleText);
     public void addSection (final DrawerSection section);
@@ -53,5 +45,4 @@ public interface IDrawerSectionsController extends DrawerLayout.DrawerListener {
     public void updateUserInfo (final DrawerUser.UserProvider userInfo);
     public void onAuthSucceeded (final DrawerUser.UserProvider userInfo);
     public void onUnauthSucceeded ();
-
 }

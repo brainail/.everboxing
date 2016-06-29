@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 
-import org.brainail.EverboxingSplashFlame.JApplication;
-
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>
@@ -147,7 +145,7 @@ public abstract class NoticeOnSceneController implements NoticeBar.OnActionCallb
     }
 
     public void notifyScene (@StringRes final int resId) {
-        notifyScene (JApplication.appContext ().getString (resId));
+        notifyScene (rootScene ().getString (resId));
     }
 
     public void notifyScene (final String message) {

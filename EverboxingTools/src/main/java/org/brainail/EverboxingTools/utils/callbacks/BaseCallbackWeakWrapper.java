@@ -1,6 +1,6 @@
-package org.brainail.EverboxingSplashFlame.utils.callbacks;
+package org.brainail.EverboxingTools.utils.callbacks;
 
-import org.brainail.EverboxingSplashFlame.BuildConfig;
+import org.brainail.EverboxingTools.BuildConfig;
 
 import java.lang.ref.WeakReference;
 
