@@ -9,6 +9,7 @@ import org.brainail.EverboxingSplashFlame.BuildConfig;
 import org.brainail.EverboxingSplashFlame.ComponentLifecycleCallbacks;
 import org.brainail.EverboxingSplashFlame.JApplication;
 import org.brainail.EverboxingSplashFlame.di.AppContext;
+import org.brainail.EverboxingTools.utils.detector.StrictModeInitializer;
 import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Singleton;
@@ -66,6 +67,12 @@ public class AndroidModule {
     @Singleton
     RefWatcher provideRefWatcher () {
         return BuildConfig.USE_LEAKCANARY ? LeakCanary.install (mApp) : RefWatcher.DISABLED;
+    }
+
+    @Provides
+    @Singleton
+    StrictModeInitializer provideStrictMode () {
+        return BuildConfig.DEBUG ? StrictModeInitializer.ENABLED : StrictModeInitializer.DISABLED;
     }
 
 }

@@ -39,7 +39,7 @@ class FallbackAction extends DefaultAction {
 
     @Override
     public void start () {
-        if (!super.startActivity ()) {
+        if (! super.startActivity ()) {
             setTargetIntent (mFallbackIntent);
             super.startActivity ();
         }

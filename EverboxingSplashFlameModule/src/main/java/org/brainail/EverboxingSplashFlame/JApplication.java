@@ -23,6 +23,7 @@ import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
 import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
 import org.brainail.EverboxingTools.ToolsContext;
 import org.brainail.EverboxingTools.utils.PooLogger;
+import org.brainail.EverboxingTools.utils.detector.StrictModeInitializer;
 import org.brainail.EverboxingTools.utils.tool.ToolFonts;
 
 import java.util.concurrent.TimeUnit;
@@ -59,8 +60,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * THE SOFTWARE.
  */
 public class JApplication extends Application implements HasComponent<AppComponent> {
-
-    private static final long APP_RESTART_DELAY_MILLIS = TimeUnit.SECONDS.toMillis (3);
 
     @Deprecated
     protected static JApplication mApp;
@@ -99,6 +98,12 @@ public class JApplication extends Application implements HasComponent<AppCompone
         PooLogger.info ("registerLifecycleCallbacks");
         registerActivityLifecycleCallbacks (callbacks);
         registerComponentCallbacks (callbacks);
+        // Dagger keeps the injected object instance via ScopedProvider in DaggerAppComponent
+    }
+
+    @Inject
+    void registerStrictMode (final StrictModeInitializer strictModeInitializer) {
+        PooLogger.info ("registerStrictMode");
         // Dagger keeps the injected object instance via ScopedProvider in DaggerAppComponent
     }
 
@@ -210,6 +215,7 @@ public class JApplication extends Application implements HasComponent<AppCompone
     public void restartApp () {
         PooLogger.verb ("restartApp");
 
+        final long APP_RESTART_DELAY_MILLIS = TimeUnit.SECONDS.toMillis (3);
         final AlarmManager alarmManager = (AlarmManager) getSystemService (Context.ALARM_SERVICE);
 
         final Intent intent = new Intent ();
