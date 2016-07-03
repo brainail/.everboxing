@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.brainail.EverboxingTools.ui.views.SquareFrame
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/preview_flame_frame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/history_flame_preview_item_height"
     android:foreground="?attr/selectableItemBackground"
     android:clickable="true"
     android:padding="1dp">
@@ -14,7 +14,12 @@
         android:id="@+id/preview_flame_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:adjustViewBounds="true"
+        android:adjustViewBounds="false"
         android:background="@null"
         android:scaleType="centerInside"/>
-</org.brainail.EverboxingTools.ui.views.SquareFrame>
+
+    <FrameLayout
+        android:background="@drawable/files_history_item_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>
