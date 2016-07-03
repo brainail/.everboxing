@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FlameProperties"/>
+    <style name="FlameProperties.Icon">
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
+    </style>
+    <style name="FlameProperties.Icon.Action">
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+    <style name="FlameProperties.Input">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="FlameProperties.Edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="FlameProperties.Edit.Disabled">
+        <item name="android:inputType">none</item>
+    </style>
+</resources>

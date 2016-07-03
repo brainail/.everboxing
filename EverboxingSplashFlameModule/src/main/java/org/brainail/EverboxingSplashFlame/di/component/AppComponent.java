@@ -47,9 +47,6 @@ public interface AppComponent {
 
     ActivityComponent plus (ActivityModule module);
 
-    // We need explicitly define items in the upstream component.
-    // If the downstream modules will be performing the injection,
-    // they should also be removed from the upstream components too:
     @AppContext Navigator navigator ();
     DeviceConfig deviceConfig ();
 }

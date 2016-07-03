@@ -29,6 +29,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -63,7 +64,7 @@ import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFl
 public class FlamePropertiesFragment extends RxBaseFragment {
 
     public static final class SideSizeRange {
-        private static final int LOW = 320;
+        private static final int LOW = 640;
         private static final int HIGH = 2048;
     }
 
@@ -188,5 +189,14 @@ public class FlamePropertiesFragment extends RxBaseFragment {
         HardyDialogsHelper.dismissDialog (this, D_GENERATING_FLAME_PROGRESS);
         mNavigator.flameFilePreview (filePath).start ();
     }
+
+    @OnClick (R.id.first_side_size_selector)
+    protected final void selectFirstSideSize () {}
+
+    @OnClick (R.id.second_side_size_selector)
+    protected final void selectSecondSideSize () {}
+
+    @OnClick (R.id.style_type_selector)
+    protected final void selectStyleType () {}
 
 }

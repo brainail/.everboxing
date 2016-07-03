@@ -36,9 +36,6 @@ import dagger.Subcomponent;
 @PerFragment
 @Subcomponent (modules = WebModule.class)
 public interface WebComponent {
-
-    // void inject (BaseWebViewFragment fragment);
-
     WebChromeClient webChromeClient ();
     WebViewClient webViewClient ();
 }

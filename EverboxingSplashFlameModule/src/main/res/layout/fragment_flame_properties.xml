@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,36 +22,27 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                style="@style/FlameProperties.Icon"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_border_horizontal" />
+                app:srcCompat="@drawable/ic_border_horizontal"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/first_side_size_text_input_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1">
+                style="@style/FlameProperties.Input"
+                android:layout_gravity="center_vertical">
 
                 <EditText
                     android:id="@+id/first_side_size_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="First dimension"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:textSize="16sp"
-                    tools:text="1024" />
+                    style="@style/FlameProperties.Edit"
+                    android:hint="@string/flame_properties_first_dimension_hint"
+                    tools:text="1024"/>
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:id="@+id/first_side_size_selector"
+                style="@style/FlameProperties.Icon.Action"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_menu" />
+                app:srcCompat="@drawable/ic_menu"/>
         </LinearLayout>
 
         <LinearLayout
@@ -61,36 +52,27 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                style="@style/FlameProperties.Icon"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_border_vertical" />
+                app:srcCompat="@drawable/ic_border_vertical"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/second_side_size_text_input_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1">
+                style="@style/FlameProperties.Input"
+                android:layout_gravity="center_vertical">
 
                 <EditText
                     android:id="@+id/second_side_size_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Second dimension"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:textSize="16sp"
-                    tools:text="1024" />
+                    style="@style/FlameProperties.Edit"
+                    android:hint="@string/flame_properties_second_dimension_hint"
+                    tools:text="1024"/>
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:id="@+id/second_side_size_selector"
+                style="@style/FlameProperties.Icon.Action"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_menu" />
+                app:srcCompat="@drawable/ic_menu"/>
         </LinearLayout>
 
         <LinearLayout
@@ -100,46 +82,37 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                style="@style/FlameProperties.Icon"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_style" />
+                app:srcCompat="@drawable/ic_style"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/style_type_text_input_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1">
+                style="@style/FlameProperties.Input"
+                android:layout_gravity="center_vertical">
 
                 <EditText
                     android:id="@+id/style_type_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Style type"
-                    android:inputType="none"
-                    android:maxLines="1"
+                    style="@style/FlameProperties.Edit.Disabled"
                     android:clickable="false"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:text="Star"
-                    android:textSize="16sp" />
+                    android:hint="@string/flame_properties_style_type_hint"
+                    tools:text="Star"/>
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:id="@+id/style_type_selector"
+                style="@style/FlameProperties.Icon.Action"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_menu" />
+                app:srcCompat="@drawable/ic_menu"/>
         </LinearLayout>
 
         <FrameLayout
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1">
 
             <com.github.clans.fab.FloatingActionButton
@@ -148,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"
-                android:src="@drawable/ic_blur_on_white_24dp" />
+                android:src="@drawable/ic_blur_on_white_24dp"/>
         </FrameLayout>
     </LinearLayout>
 </ScrollView>
