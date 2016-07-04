@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -133,6 +134,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         public static final String DISABLE_DISMISS_ON_NEUTRAL_BUTTON = "disable_dismiss_on_neutral_button";
         public static final String LOCKED_ORIENTATION_AFTER_DISMISS = "locked_orientation_current";
         public static final String LINKS_CLICKABLE = "links_clickable";
+        public static final String IS_BOTTOM_SHEET = "is_bottom_sheet";
     }
 
     /**
@@ -214,6 +216,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     private CharSequence [] mListItems;
     private String [] mListItemsTags;
 
+    private boolean mIsBottomSheet;
+
     // Callback for actions
     public static interface OnDialogActionCallback {
         public void onDialogAction (final HardyDialogFragment dialog, final int actionRequestCode);
@@ -285,17 +289,17 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         // Common
         mTitle = args.getString (Args.TITLE);
         mBody = args.getCharSequence (Args.BODY);
-        mBodyId = args.getInt (Args.BODY_ID);
-        mContentLayoutId = args.getInt (Args.CONTENT_LAYOUT_ID);
+        mBodyId = args.getInt (Args.BODY_ID, NO_RESOURCE_ID);
+        mContentLayoutId = args.getInt (Args.CONTENT_LAYOUT_ID, NO_RESOURCE_ID);
         mContentLayoutParams = (LayoutParams) args.getSerializable (Args.CONTENT_LAYOUT_PARAMS);
         mPositiveButton = args.getString (Args.POSITIVE_BUTTON);
-        mPositiveButtonId = args.getInt (Args.POSITIVE_BUTTON_ID);
+        mPositiveButtonId = args.getInt (Args.POSITIVE_BUTTON_ID, NO_RESOURCE_ID);
         mPositiveActionRequestCode = args.getInt (Args.POSITIVE_ACTION_REQUEST_CODE);
         mNegativeButton = args.getString (Args.NEGATIVE_BUTTON);
-        mNegativeButtonId = args.getInt (Args.NEGATIVE_BUTTON_ID);
+        mNegativeButtonId = args.getInt (Args.NEGATIVE_BUTTON_ID, NO_RESOURCE_ID);
         mNegativeActionRequestCode = args.getInt (Args.NEGATIVE_ACTION_REQUEST_CODE);
         mNeutralButton = args.getString (Args.NEUTRAL_BUTTON);
-        mNeutralButtonId = args.getInt (Args.NEUTRAL_BUTTON_ID);
+        mNeutralButtonId = args.getInt (Args.NEUTRAL_BUTTON_ID, NO_RESOURCE_ID);
         mNeutralActionRequestCode = args.getInt (Args.NEUTRAL_ACTION_REQUEST_CODE);
         mCancelActionRequestCode = args.getInt (Args.CANCEL_ACTION_REQUEST_CODE);
         mDismissActionRequestCode = args.getInt (Args.DISMISS_ACTION_REQUEST_CODE);
@@ -346,23 +350,36 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         } else if (args.containsKey (Args.ATTACHED_SERIALIZABLE_DATA)) {
             mAttachedData = args.getSerializable (Args.ATTACHED_SERIALIZABLE_DATA);
         }
+
+        // Bottom sheet stuff
+        mIsBottomSheet = args.getBoolean (Args.IS_BOTTOM_SHEET);
     }
 
     @Override
     @NonNull
     public Dialog onCreateDialog (Bundle savedInstanceState) {
         // Don't let to restore this dialog
-        if (null != savedInstanceState && !mIsRestorable) {
+        if (null != savedInstanceState && ! mIsRestorable) {
             dismiss ();
         }
 
         final AlertDialog.Builder builder;
-        if (!mHasProgress) {
-            builder = mCustomStyle != 0
-                    ? new AlertDialog.Builder (getActivity (), mCustomStyle)
-                    : new AlertDialog.Builder (getActivity ());
+        final BottomSheetDialog bottomSheetDialog;
+        if (! mHasProgress) {
+            if (! mIsBottomSheet) {
+                bottomSheetDialog = null;
+                builder = 0 != mCustomStyle
+                        ? new AlertDialog.Builder (getActivity (), mCustomStyle)
+                        : new AlertDialog.Builder (getActivity ());
+            } else {
+                builder = null;
+                bottomSheetDialog = 0 != mCustomStyle
+                        ? new BottomSheetDialog (getActivity (), mCustomStyle)
+                        : new BottomSheetDialog (getActivity ());
+            }
         } else {
             builder = null;
+            bottomSheetDialog = null;
         }
 
         final ProgressDialog progress = mHasProgress ? new ProgressDialog (getActivity ()) : null;
@@ -370,7 +387,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         if (!TextUtils.isEmpty (mTitle)) {
             if (null != progress) {
                 progress.setTitle (mTitle);
-            } else {
+            } else if (null != builder) {
                 builder.setTitle (mTitle);
             }
         }
@@ -379,59 +396,61 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             if (null != progress) {
                 progress.setMessage (mBody);
             } else if (NO_RESOURCE_ID == mBodyId) {
-                builder.setMessage (mBody);
+                if (null != builder) {
+                    builder.setMessage (mBody);
+                }
             }
         }
 
         // Content view binding
         View contentView = null;
-        if (null != builder && NO_RESOURCE_ID != mContentLayoutId) {
+        if (NO_RESOURCE_ID != mContentLayoutId) {
             contentView = getActivity ().getLayoutInflater ().inflate (mContentLayoutId, null);
-            builder.setView (contentView);
+
+            if (null != builder) {
+                builder.setView (contentView);
+            } else if (null != bottomSheetDialog) {
+                bottomSheetDialog.setContentView (contentView);
+            }
+
             handleDialogViewPreparation (contentView, mContentLayoutId);
         }
 
-        if (null != builder && NO_RESOURCE_ID != mBodyId && null != contentView) {
+        if (NO_RESOURCE_ID != mBodyId && null != contentView) {
             final View body = contentView.findViewById (mBodyId);
             if (body instanceof TextView) {
                 ((TextView) body).setText (mBody);
             }
         }
 
-        if (null != builder) {
-            if (NO_RESOURCE_ID != mPositiveButtonId && null != contentView) {
-                final View positiveButton = contentView.findViewById (mPositiveButtonId);
-                if (positiveButton instanceof TextView) {
-                    ((TextView) positiveButton).setText (mPositiveButton);
-                    positiveButton.setOnClickListener (mOnPositiveButtonListenerClickWrapper);
-                }
-            } else if (!TextUtils.isEmpty (mPositiveButton)) {
-                builder.setPositiveButton (mPositiveButton, mOnPositiveButtonListener);
+        if (NO_RESOURCE_ID != mPositiveButtonId && null != contentView) {
+            final View positiveButton = contentView.findViewById (mPositiveButtonId);
+            if (positiveButton instanceof TextView) {
+                ((TextView) positiveButton).setText (mPositiveButton);
+                positiveButton.setOnClickListener (mOnPositiveButtonListenerClickWrapper);
             }
+        } else if (null != builder && !TextUtils.isEmpty (mPositiveButton)) {
+            builder.setPositiveButton (mPositiveButton, mOnPositiveButtonListener);
         }
 
-        if (null != builder) {
-            if (NO_RESOURCE_ID != mNeutralButtonId && null != contentView) {
-                final View neutralButton = contentView.findViewById (mNeutralButtonId);
-                if (neutralButton instanceof TextView) {
-                    ((TextView) neutralButton).setText (mNeutralButton);
-                    neutralButton.setOnClickListener (mOnNeutralButtonListenerClickWrapper);
-                }
-            } else if (!TextUtils.isEmpty (mNeutralButton)) {
-                builder.setNeutralButton (mNeutralButton, mOnNeutralButtonListener);
+        if (NO_RESOURCE_ID != mNeutralButtonId && null != contentView) {
+            final View neutralButton = contentView.findViewById (mNeutralButtonId);
+            if (neutralButton instanceof TextView) {
+                ((TextView) neutralButton).setText (mNeutralButton);
+                neutralButton.setOnClickListener (mOnNeutralButtonListenerClickWrapper);
             }
+        } else if (null != builder && !TextUtils.isEmpty (mNeutralButton)) {
+            builder.setNeutralButton (mNeutralButton, mOnNeutralButtonListener);
         }
 
-        if (null != builder) {
-            if (NO_RESOURCE_ID != mNegativeButtonId && null != contentView) {
-                final View negativeButton = contentView.findViewById (mNegativeButtonId);
-                if (negativeButton instanceof TextView) {
-                    ((TextView) negativeButton).setText (mNegativeButton);
-                    negativeButton.setOnClickListener (mOnNegativeButtonListenerClickWrapper);
-                }
-            } else if (!TextUtils.isEmpty (mNegativeButton)) {
-                builder.setNegativeButton (mNegativeButton, mOnNegativeButtonListener);
+        if (NO_RESOURCE_ID != mNegativeButtonId && null != contentView) {
+            final View negativeButton = contentView.findViewById (mNegativeButtonId);
+            if (negativeButton instanceof TextView) {
+                ((TextView) negativeButton).setText (mNegativeButton);
+                negativeButton.setOnClickListener (mOnNegativeButtonListenerClickWrapper);
             }
+        } else if (null != builder && !TextUtils.isEmpty (mNegativeButton)) {
+            builder.setNegativeButton (mNegativeButton, mOnNegativeButtonListener);
         }
 
         if (null != builder && mHasList) {
@@ -447,18 +466,20 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             progress.setIndeterminate (mIsIndeterminateProgress);
         }
 
-        final Dialog dialog = null != builder ? builder.create () : progress;
+        final Dialog dialog = null != builder
+                ? builder.create ()
+                : (null != bottomSheetDialog ? bottomSheetDialog : progress);
         final Window window = dialog.getWindow ();
 
         if (TextUtils.isEmpty (mTitle)) {
             if (builder != null) {
                 ((AlertDialog) dialog).supportRequestWindowFeature (Window.FEATURE_NO_TITLE);
-            } else {
+            } else if (null != progress) {
                 dialog.requestWindowFeature (Window.FEATURE_NO_TITLE);
             }
         }
 
-        if (!mIsCancelable) {
+        if (! mIsCancelable) {
             dialog.setCancelable (false);
             dialog.setCanceledOnTouchOutside (false);
         }
