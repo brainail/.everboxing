@@ -70,7 +70,7 @@
 
         <!-- Hardy dialogs -->
         <activity
-            android:name="org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.RemoteHardyDialogsActivity"
+            android:name="org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogsRemoteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
             android:excludeFromRecents="true"
             android:exported="false"

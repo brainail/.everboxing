@@ -389,6 +389,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 progress.setTitle (mTitle);
             } else if (null != builder) {
                 builder.setTitle (mTitle);
+            } else {
+                bottomSheetDialog.setTitle(mTitle);
             }
         }
 
@@ -499,9 +501,9 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
 
                 // The system is finicky about when they are set ;(
                 if (NO_RESOURCE_ID != mContentLayoutId && null != mContentLayoutParams) {
-                    final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams ();
-                    final Window window = getDialog ().getWindow ();
+                    final Window window = ((Dialog) dialog).getWindow ();
                     if (null != window) {
+                        final WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams ();
                         layoutParams.copyFrom (window.getAttributes ());
                         layoutParams.width = mContentLayoutParams.widthInPixels ();
                         layoutParams.height = mContentLayoutParams.heightInPixels ();

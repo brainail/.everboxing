@@ -1,8 +1,14 @@
 package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
 
-import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
-import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.LayoutParams;
-import org.brainail.EverboxingSplashFlame.R;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,15 +35,32 @@ import org.brainail.EverboxingSplashFlame.R;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class SplashFlameHardyDialogs {
+public class AppHardyDialogsRemoteActivity extends org.brainail.EverboxingHardyDialogs.RemoteHardyDialogsActivity {
 
-    public static BaseDialogSpecification.Builder<?> generatingFlameDialog () {
-        return BaseDialogSpecification.create ()
-                .code (SplashFlameHardyDialogsCode.D_GENERATING_FLAME_PROGRESS)
-                .contentLayoutParams (new LayoutParams (200 /*dp*/, 200 /*dp*/))
-                .content (R.layout.view_generating_flame_progress)
-                .cancelable (false)
-                .translucent (true);
+    // Theme. I use null to define that this is full recreating
+    private ThemeManager.AppTheme mTheme = null;
+
+    @Override
+    protected void onCreate (@Nullable Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
+
+        // getWindow ().setBackgroundDrawable (null);
+        getWindow ().setBackgroundDrawable (new ColorDrawable (Color.TRANSPARENT));
+
+        // Init & check theme
+        mTheme = ThemeManager.checkOnCreate (this, mTheme);
+    }
+
+    @Override
+    protected void attachBaseContext (final Context baseContext) {
+        // Attach the Calligraphy
+        super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
+    }
+
+    @Override
+    protected void onResume () {
+        ThemeManager.checkOnResume (this, mTheme);
+        super.onResume ();
     }
 
 }

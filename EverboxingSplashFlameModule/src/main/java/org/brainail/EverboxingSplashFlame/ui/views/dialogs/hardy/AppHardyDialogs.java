@@ -1,7 +1,8 @@
 package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
 
-import org.brainail.EverboxingHardyDialogs.HardyDialogCodeProvider;
-import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
+import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.LayoutParams;
+import org.brainail.EverboxingSplashFlame.R;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -28,24 +29,15 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public enum SplashFlameHardyDialogsCode implements HardyDialogCodeProvider {
+public final class AppHardyDialogs {
 
-    // Generating flame
-    D_GENERATING_FLAME_PROGRESS ("generating.flame.progress");
-
-    private final String code;
-
-    SplashFlameHardyDialogsCode (final String code) {
-        this.code = code;
-    }
-
-    public String code () {
-        return code;
-    }
-
-    @Override
-    public String managerTag () {
-        return HardyDialogFragment.MANAGER_TAG_PREFIX + code;
+    public static BaseDialogSpecification.Builder<?> generatingFlameDialog () {
+        return BaseDialogSpecification.create ()
+                .code (AppHardyDialogsCode.D_GENERATING_FLAME_PROGRESS)
+                .contentLayoutParams (new LayoutParams (200 /*dp*/, 200 /*dp*/))
+                .content (R.layout.view_generating_flame_progress)
+                .cancelable (false)
+                .translucent (true);
     }
 
 }

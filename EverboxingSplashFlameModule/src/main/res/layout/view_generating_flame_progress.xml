@@ -8,7 +8,7 @@
     app:mlv_borderGateWidth="3dp"
     app:mlv_progressValue="40"
     app:mlv_shapeType="circle"
-    app:mlv_titleBottom="Flaming ..."
+    app:mlv_titleBottom="@string/flaming_process"
     app:mlv_titleBottomColor="@android:color/white"
     app:mlv_titleBottomSize="14sp"
     app:mlv_waveAmplitude="70"

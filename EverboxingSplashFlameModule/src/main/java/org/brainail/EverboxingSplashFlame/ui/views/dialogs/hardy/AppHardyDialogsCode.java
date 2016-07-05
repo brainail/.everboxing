@@ -1,6 +1,7 @@
 package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
 
-import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsHandlers;
+import org.brainail.EverboxingHardyDialogs.HardyDialogCodeProvider;
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -27,4 +28,24 @@ import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsHandlers;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class SplashFlameHardyDialogsHandlers extends BaseHardyDialogsHandlers {}
+public enum AppHardyDialogsCode implements HardyDialogCodeProvider {
+
+    // Generating flame
+    D_GENERATING_FLAME_PROGRESS ("generating.flame.progress");
+
+    private final String code;
+
+    AppHardyDialogsCode(final String code) {
+        this.code = code;
+    }
+
+    public String code () {
+        return code;
+    }
+
+    @Override
+    public String managerTag () {
+        return HardyDialogFragment.MANAGER_TAG_PREFIX + code;
+    }
+
+}

@@ -18,7 +18,7 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
-import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFlameHardyDialogs;
+import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolFractal;
 import org.brainail.EverboxingTools.utils.tool.ToolNumber;
 import org.brainail.EverboxingTools.utils.tool.ToolNumber.ValidationStatus;
@@ -34,7 +34,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.SplashFlameHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
+import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -65,7 +65,14 @@ public class FlamePropertiesFragment extends RxBaseFragment {
 
     public static final class SideSizeRange {
         private static final int LOW = 640;
-        private static final int HIGH = 2048;
+        private static final int HIGH = 2560;
+
+        public final int low, high;
+
+        public SideSizeRange(final int low, final int high) {
+            this.low = low;
+            this.high = high;
+        }
     }
 
     @BindView (R.id.flame_it)
@@ -141,10 +148,16 @@ public class FlamePropertiesFragment extends RxBaseFragment {
         return true;
     }
 
+    private SideSizeRange calcSideSizeRange () {
+        final Point sizes = ToolPhone.realScreenSize (getContext ());
+        return new SideSizeRange (SideSizeRange.LOW, Math.max (Math.max (sizes.x, sizes.y), SideSizeRange.HIGH));
+    }
+
     private boolean checkSideSizeText (final TextInputLayout sideSize, final String text) {
-        if (ValidationStatus.OK != ToolNumber.validateIntNumber (text, SideSizeRange.LOW, SideSizeRange.HIGH)) {
+        final SideSizeRange sideSizeRange = calcSideSizeRange ();
+        if (ValidationStatus.OK != ToolNumber.validateIntNumber (text, sideSizeRange.low, sideSizeRange.high)) {
             sideSize.setErrorEnabled (true);
-            sideSize.setError (getString(R.string.side_size_incorrect_format, SideSizeRange.LOW, SideSizeRange.HIGH));
+            sideSize.setError (getString(R.string.side_size_incorrect_format, sideSizeRange.low, sideSizeRange.high));
             return false;
         } else {
             sideSize.setErrorEnabled (false);
@@ -155,7 +168,7 @@ public class FlamePropertiesFragment extends RxBaseFragment {
 
     private void flameIt () {
         if (checkBothSideSizeText ()) {
-            SplashFlameHardyDialogs.generatingFlameDialog ().show (this);
+            AppHardyDialogs.generatingFlameDialog ().show (this);
             bindSubscription (cacheObservable (this.<String> createCachedObservable ()).subscribe (this :: openPreview));
         }
     }

@@ -1,14 +1,6 @@
 package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-
-import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsHandlers;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -35,32 +27,4 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class RemoteHardyDialogsActivity extends org.brainail.EverboxingHardyDialogs.RemoteHardyDialogsActivity {
-
-    // Theme. I use null to define that this is full recreating
-    private ThemeManager.AppTheme mTheme = null;
-
-    @Override
-    protected void onCreate (@Nullable Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-
-        // getWindow ().setBackgroundDrawable (null);
-        getWindow ().setBackgroundDrawable (new ColorDrawable (Color.TRANSPARENT));
-
-        // Init & check theme
-        mTheme = ThemeManager.checkOnCreate (this, mTheme);
-    }
-
-    @Override
-    protected void attachBaseContext (final Context baseContext) {
-        // Attach the Calligraphy
-        super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
-    }
-
-    @Override
-    protected void onResume () {
-        ThemeManager.checkOnResume (this, mTheme);
-        super.onResume ();
-    }
-
-}
+public class AppHardyDialogsHandlers extends BaseHardyDialogsHandlers {}
