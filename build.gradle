@@ -29,3 +29,14 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    supportLibVersion = '24.0.0'
+    playServicesLibVersion = '9.2.0'
+    leakCanaryLibVersion = '1.4-beta2'
+    butterKnifeLibVersion = '8.1.0'
+    crashlyticsLibVersion = '2.5.5'
+    constraintLayoutLibVersion = '1.0.0-alpha3'
+    glideLibVersion = '3.7.0'
+    dagger2LibVersion = '2.4'
+}

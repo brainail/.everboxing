@@ -21,8 +21,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 14
@@ -84,10 +84,6 @@ android {
     publishNonDefault true
 }
 
-ext {
-    supportLibVersion = '23.3.0'
-}
-
 dependencies {
     // Libs folder
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -98,6 +94,7 @@ dependencies {
     // Support
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:support-annotations:${supportLibVersion}"
 }
 
 

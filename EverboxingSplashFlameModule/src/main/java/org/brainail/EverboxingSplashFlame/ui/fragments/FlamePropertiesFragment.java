@@ -25,7 +25,6 @@ import org.brainail.EverboxingTools.utils.tool.ToolNumber.ValidationStatus;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
 import java.io.File;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -191,7 +190,11 @@ public class FlamePropertiesFragment extends RxBaseFragment {
             filePath.getParentFile ().mkdirs ();
         }
 
-        ToolFractal.warmUp (filePath.getAbsolutePath (), firstSideSizeInt (), secondSideSizeInt (), ((new Random ()).nextInt () % 20) + 1);
+        ToolFractal.warmUp (
+                filePath.getAbsolutePath (),
+                firstSideSizeInt (),
+                secondSideSizeInt (),
+                (int) ((System.currentTimeMillis () % 20) + 1));
 
         return filePath.getAbsolutePath ();
     }

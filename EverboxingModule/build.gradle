@@ -185,11 +185,6 @@ android {
 // +------------------------------------------------------------+
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-ext {
-    supportLibVersion = '23.2.0'
-    gservicesLibVersion = '8.4.0'
-}
-
 dependencies {
     // Libs folder
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -203,9 +198,9 @@ dependencies {
     compile "com.android.support:customtabs:${supportLibVersion}"
 
     // Google play services
-    compile "com.google.android.gms:play-services-base:${gservicesLibVersion}"
-    compile "com.google.android.gms:play-services-drive:${gservicesLibVersion}"
-    compile "com.google.android.gms:play-services-plus:${gservicesLibVersion}"
+    compile "com.google.android.gms:play-services-base:${playServicesLibVersion}"
+    compile "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
+    compile "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
 
     // Material stuff
     compile 'com.malinskiy:materialicons:1.0.1'
