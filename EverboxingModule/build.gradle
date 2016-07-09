@@ -62,8 +62,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion compileSdkVersionExt
+    buildToolsVersion "${buildToolsVersionExt}"
 
     defaultConfig {
         applicationId "org.brainail.Everboxing"

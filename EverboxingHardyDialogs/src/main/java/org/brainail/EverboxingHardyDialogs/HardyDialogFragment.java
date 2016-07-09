@@ -135,6 +135,9 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         public static final String LOCKED_ORIENTATION_AFTER_DISMISS = "locked_orientation_current";
         public static final String LINKS_CLICKABLE = "links_clickable";
         public static final String IS_BOTTOM_SHEET = "is_bottom_sheet";
+
+        // Internal args
+        private static final String IS_DISMISSED = "is_dismissed";
     }
 
     /**
@@ -197,9 +200,11 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     private boolean mIsTranslucent;
     private Object mAttachedData;
     private boolean mHasTargetFragment;
-    private boolean mIsRestorable;
     private boolean mHasDestroyableUnderlay;
     private boolean mLinksClickable;
+
+    private boolean mIsRestorable;
+    private boolean mIsDismissed;
 
     private int mCustomStyle;
 
@@ -309,9 +314,11 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         mIsCancelable = args.getBoolean (Args.IS_CANCELABLE);
         mIsTranslucent = args.getBoolean (Args.IS_TRANSLUCENT);
         mHasTargetFragment = args.getBoolean (Args.HAS_TARGET_FRAGMENT);
-        mIsRestorable = args.getBoolean (Args.IS_RESTORABLE);
         mHasDestroyableUnderlay = args.getBoolean (Args.HAS_DESTROYABLE_UNDERLAY);
         mLinksClickable = args.getBoolean (Args.LINKS_CLICKABLE);
+
+        mIsRestorable = args.getBoolean (Args.IS_RESTORABLE);
+        mIsDismissed = args.getBoolean (Args.IS_DISMISSED);
 
         mCustomStyle = args.getInt (Args.CUSTOM_STYLE);
 
@@ -360,6 +367,13 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     public Dialog onCreateDialog (Bundle savedInstanceState) {
         // Don't let to restore this dialog
         if (null != savedInstanceState && ! mIsRestorable) {
+            dismiss ();
+        }
+
+        // To be sure that already dismissed dialog
+        // even after ...#onSaveInstanceState(...)
+        // won't appear anymore
+        if (mIsDismissed) {
             dismiss ();
         }
 
@@ -721,9 +735,10 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
 
     @Override
     public void dismiss () {
+        getArguments ().putBoolean (Args.IS_DISMISSED, true);
+
         // NullPointerException at #dismissInternal(...)
         if (null != getFragmentManager ()) {
-            // ANDROID-9514
             try {
                 super.dismiss ();
             } catch (final IllegalStateException exception) {
@@ -734,9 +749,10 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
 
     @Override
     public void dismissAllowingStateLoss () {
+        getArguments ().putBoolean (Args.IS_DISMISSED, true);
+
         // NullPointerException at #dismissInternal(...)
         if (null != getFragmentManager ()) {
-            // ANDROID-9514
             try {
                 super.dismissAllowingStateLoss ();
             } catch (final IllegalStateException exception) {
