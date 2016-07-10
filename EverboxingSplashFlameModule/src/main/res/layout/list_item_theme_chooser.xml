@@ -14,11 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/md_listitem_textsize"
-        android:gravity="start|left|center_horizontal"
+        android:gravity="start|center_horizontal"
         android:layout_marginLeft="@dimen/md_listitem_margin_left"
         android:layout_marginStart="@dimen/md_listitem_margin_left"
         tools:text="Pink"
-        android:layout_gravity="left|start|center"/>
+        android:layout_gravity="start|center"/>
 
     <org.brainail.EverboxingTools.ui.views.ColorCircleView
         android:id="@+id/color"
@@ -26,7 +26,7 @@
         android:layout_height="@dimen/theme_chooser_item_color_circle_size"
         android:layout_marginRight="@dimen/md_icon_margin"
         android:layout_marginEnd="@dimen/md_icon_margin"
-        android:layout_gravity="end|right|center"
+        android:layout_gravity="end|center"
         android:layout_marginTop="@dimen/theme_chooser_item_color_circle_vertical_margin"
         android:layout_marginBottom="@dimen/theme_chooser_item_color_circle_vertical_margin"
         app:circleRadius="@dimen/theme_chooser_item_color_circle_radius"

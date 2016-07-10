@@ -5,5 +5,8 @@
     <style name="AppCompatAlertDialogDarkStyle" parent="Theme.AppCompat.Dialog.Alert">
         <!-- ... -->
     </style>
+    <style name="AppBottomSheetDialogDarkTheme" parent="Theme.Design.BottomSheetDialog">
+        <!-- ... -->
+    </style>
 
 </resources>

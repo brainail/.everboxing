@@ -12,6 +12,7 @@
         <item name="colorAccent">#43b0e0</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogDarkStyle</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogDarkTheme</item>
         <item name="android:windowBackground">@color/content_bg_dark_default</item>
         <item name="actionBarStyle">@style/AppActionBarDark.Primary</item>
         <!-- We use toolbarDefaultStyle instead of ... -->

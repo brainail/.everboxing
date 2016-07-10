@@ -33,6 +33,9 @@
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- ... -->
     </style>
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <!-- ... -->
+    </style>
 
     <!-- Text -->
     <style name="AppTextAppearance" parent="TextAppearance.AppCompat">

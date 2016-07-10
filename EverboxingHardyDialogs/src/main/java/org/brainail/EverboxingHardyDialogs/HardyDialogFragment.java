@@ -16,12 +16,15 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -63,7 +66,9 @@ import static org.brainail.EverboxingHardyDialogs.BaseDialogSpecification.EXTRA_
  *
  * @author emalyshev
  */
-public class HardyDialogFragment extends AppCompatDialogFragment {
+public class HardyDialogFragment
+        extends AppCompatDialogFragment
+        implements SimpleBottomSheetAdapter.OnListItemClickListener<CharSequence> {
 
     private static final String LOG_TAG = HardyDialogFragment.class.getSimpleName ();
 
@@ -218,8 +223,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     private boolean mIsIndeterminateProgress;
 
     private boolean mHasList;
-    private CharSequence [] mListItems;
-    private String [] mListItemsTags;
+    private CharSequence[] mListItems;
+    private String[] mListItemsTags;
 
     private boolean mIsBottomSheet;
 
@@ -337,12 +342,12 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         mHasList = args.getBoolean (Args.HAS_LIST);
         final ArrayList<String> items = getArguments ().getStringArrayList (Args.LIST_ITEMS);
         mListItems = (null != items && !items.isEmpty ())
-                ? items.toArray (new CharSequence [items.size ()])
-                : new CharSequence [] {};
+                ? items.toArray (new CharSequence[items.size ()])
+                : new CharSequence[] {};
         final ArrayList<String> itemsTags = getArguments ().getStringArrayList (Args.LIST_ITEMS_TAGS);
         mListItemsTags = (null != itemsTags && !itemsTags.isEmpty ())
-                ? itemsTags.toArray (new String [itemsTags.size ()])
-                : new String [] {};
+                ? itemsTags.toArray (new String[itemsTags.size ()])
+                : new String[] {};
 
         if (!mIsRestorable) {
             // Remove to avoid leaks and crashes
@@ -365,8 +370,10 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
     @Override
     @NonNull
     public Dialog onCreateDialog (Bundle savedInstanceState) {
+        final Activity scene = getActivity ();
+        
         // Don't let to restore this dialog
-        if (null != savedInstanceState && ! mIsRestorable) {
+        if (null != savedInstanceState && !mIsRestorable) {
             dismiss ();
         }
 
@@ -379,24 +386,24 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
 
         final AlertDialog.Builder builder;
         final BottomSheetDialog bottomSheetDialog;
-        if (! mHasProgress) {
-            if (! mIsBottomSheet) {
+        if (!mHasProgress) {
+            if (!mIsBottomSheet) {
                 bottomSheetDialog = null;
                 builder = 0 != mCustomStyle
-                        ? new AlertDialog.Builder (getActivity (), mCustomStyle)
-                        : new AlertDialog.Builder (getActivity ());
+                        ? new AlertDialog.Builder (scene, mCustomStyle)
+                        : new AlertDialog.Builder (scene);
             } else {
                 builder = null;
                 bottomSheetDialog = 0 != mCustomStyle
-                        ? new BottomSheetDialog (getActivity (), mCustomStyle)
-                        : new BottomSheetDialog (getActivity ());
+                        ? new BottomSheetDialog (scene, mCustomStyle)
+                        : new BottomSheetDialog (scene);
             }
         } else {
             builder = null;
             bottomSheetDialog = null;
         }
 
-        final ProgressDialog progress = mHasProgress ? new ProgressDialog (getActivity ()) : null;
+        final ProgressDialog progress = mHasProgress ? new ProgressDialog (scene) : null;
 
         if (!TextUtils.isEmpty (mTitle)) {
             if (null != progress) {
@@ -404,7 +411,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             } else if (null != builder) {
                 builder.setTitle (mTitle);
             } else {
-                bottomSheetDialog.setTitle(mTitle);
+                bottomSheetDialog.setTitle (mTitle);
             }
         }
 
@@ -421,7 +428,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         // Content view binding
         View contentView = null;
         if (NO_RESOURCE_ID != mContentLayoutId) {
-            contentView = getActivity ().getLayoutInflater ().inflate (mContentLayoutId, null);
+            contentView = inflater ().inflate (mContentLayoutId, null);
 
             if (null != builder) {
                 builder.setView (contentView);
@@ -469,13 +476,22 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             builder.setNegativeButton (mNegativeButton, mOnNegativeButtonListener);
         }
 
-        if (null != builder && mHasList) {
-            builder.setItems (mListItems, new DialogInterface.OnClickListener () {
-                @Override
-                public void onClick (DialogInterface dialog, int which) {
-                    handleDialogListAction (which);
-                }
-            });
+        if (mHasList) {
+            if (null != builder) {
+                builder.setItems (mListItems, new DialogInterface.OnClickListener () {
+                    @Override
+                    public void onClick (DialogInterface dialog, int which) {
+                        handleDialogListAction (which);
+                    }
+                });
+            } else if (null != bottomSheetDialog) {
+                final View dialogContent = inflater ().inflate (R.layout.content_view_internal_list, null);
+                final RecyclerView recyclerView = (RecyclerView) dialogContent.findViewById (R.id.dialog_recycler_view);
+                recyclerView.setHasFixedSize (true);
+                recyclerView.setLayoutManager (new LinearLayoutManager (scene));
+                recyclerView.setAdapter (new SimpleBottomSheetAdapter<> (scene, mListItems, this));
+                bottomSheetDialog.setContentView (dialogContent);
+            }
         }
 
         if (null != progress) {
@@ -495,7 +511,7 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
             }
         }
 
-        if (! mIsCancelable) {
+        if (!mIsCancelable) {
             dialog.setCancelable (false);
             dialog.setCanceledOnTouchOutside (false);
         }
@@ -528,6 +544,10 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
         });
 
         return dialog;
+    }
+
+    private LayoutInflater inflater () {
+        return getActivity ().getLayoutInflater ();
     }
 
     private void setOnKeyListener (final Dialog dialog) {
@@ -623,27 +643,27 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
 
     private void finishIfDialogActivity () {
         // Finish the transparent system dialog activity
-        final Activity activity = getActivity ();
-        if (activity instanceof RemoteHardyDialogsActivity) {
-            activity.finish ();
-        } else if (null != activity && mHasDestroyableUnderlay) {
-            activity.finish ();
+        final Activity scene = getActivity ();
+        if (scene instanceof RemoteHardyDialogsActivity) {
+            scene.finish ();
+        } else if (null != scene && mHasDestroyableUnderlay) {
+            scene.finish ();
         }
     }
 
     protected final void restoreLockedOrientation () {
         if (null != mLockedOrientationAfterDismiss) {
-            final Activity activity = getActivity ();
-            if (null != activity) {
-                activity.setRequestedOrientation (mLockedOrientationAfterDismiss);
+            final Activity scene = getActivity ();
+            if (null != scene) {
+                scene.setRequestedOrientation (mLockedOrientationAfterDismiss);
             }
         }
     }
 
     private void makeBodyLinksClickable () {
         final Dialog dialog = getDialog ();
-        if (dialog != null && mLinksClickable && !TextUtils.isEmpty (mBody)) {
-            final int bodyViewId;
+        if (null != dialog && mLinksClickable && !TextUtils.isEmpty (mBody)) {
+            int bodyViewId = NO_RESOURCE_ID;
             if (NO_RESOURCE_ID != mContentLayoutId) {
                 bodyViewId = mBodyId;
             } else {
@@ -673,8 +693,8 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
 
     protected final void handleDialogListAction (final int which) {
         if (mHasCallbacks) {
-            final String item = which < mListItems.length ? mListItems [which].toString () : null;
-            final String itemTag = which < mListItemsTags.length ? mListItemsTags [which] : null;
+            final String item = which < mListItems.length ? mListItems[which].toString () : null;
+            final String itemTag = which < mListItemsTags.length ? mListItemsTags[which] : null;
             if (null != mIsolatedHandler) {
                 mIsolatedHandler.onDialogListAction (this, which, item, itemTag);
             } else if (mHasTargetFragment && getParentFragment () instanceof OnDialogListActionCallback) {
@@ -731,6 +751,12 @@ public class HardyDialogFragment extends AppCompatDialogFragment {
                 ((OnDialogSaveRestoreState) getActivity ()).onDialogRestoreState (this, state);
             }
         }
+    }
+
+    @Override
+    public void onListItemClick (View itemView, CharSequence data, int position) {
+        handleDialogListAction (position);
+        dismiss ();
     }
 
     @Override

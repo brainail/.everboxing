@@ -42,7 +42,7 @@
                 android:id="@+id/first_side_size_selector"
                 style="@style/FlameProperties.Icon.Action"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_menu"/>
+                app:srcCompat="@drawable/ic_more_vert"/>
         </LinearLayout>
 
         <LinearLayout
@@ -72,7 +72,12 @@
                 android:id="@+id/second_side_size_selector"
                 style="@style/FlameProperties.Icon.Action"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_menu"/>
+                android:visibility="invisible"
+                android:clickable="false"
+                android:focusable="false"
+                tools:visibility="visible"
+                android:focusableInTouchMode="false"
+                app:srcCompat="@drawable/ic_more_vert"/>
         </LinearLayout>
 
         <LinearLayout
@@ -106,7 +111,7 @@
                 android:id="@+id/style_type_selector"
                 style="@style/FlameProperties.Icon.Action"
                 android:layout_gravity="center_vertical"
-                app:srcCompat="@drawable/ic_menu"/>
+                app:srcCompat="@drawable/ic_more_vert"/>
         </LinearLayout>
 
         <FrameLayout

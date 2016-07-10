@@ -84,6 +84,8 @@ public class BaseDialogSpecification implements Serializable {
     private boolean mHasCallbacks;
     // Sometimes we don't wanna give abilities to cancel our dialog (back key, touch outside)
     private boolean mIsCancelable;
+    // We wanna let to show dialog from the bottom
+    private boolean mIsBottomSheet;
     // Sometimes we want to remove dialog's underlay (transparent)
     private boolean mIsTranslucent;
     // We can attach some own data (Serializable object or Parcelable object)
@@ -121,6 +123,7 @@ public class BaseDialogSpecification implements Serializable {
         mIsolatedHandler = builder.isolatedHandler;
         mHasCallbacks = builder.hasCallbacks;
         mIsCancelable = builder.isCancelable;
+        mIsBottomSheet = builder.isBottomSheet;
         mIsTranslucent = builder.isTranslucent;
         mAttachedData = builder.attachedData;
         mIsRestorable = builder.isRestorable;
@@ -146,6 +149,7 @@ public class BaseDialogSpecification implements Serializable {
         private IsolatedDialogHandler isolatedHandler = null;
         private boolean hasCallbacks = false;
         private boolean isCancelable = true;
+        private boolean isBottomSheet = false;
         private boolean isTranslucent = false;
         private transient Object attachedData = null;
         private boolean isRestorable = true;
@@ -173,6 +177,7 @@ public class BaseDialogSpecification implements Serializable {
             isolatedHandler = specification.mIsolatedHandler;
             hasCallbacks = specification.mHasCallbacks;
             isCancelable = specification.mIsCancelable;
+            isBottomSheet = specification.mIsBottomSheet;
             isTranslucent = specification.mIsTranslucent;
             attachedData = specification.mAttachedData;
             isRestorable = specification.mIsRestorable;
@@ -202,6 +207,8 @@ public class BaseDialogSpecification implements Serializable {
             hasDestroyableUnderlay (false);
             // By default links are clickable
             linksClickable (true);
+            // By default we show general dialog (in the center)
+            fromBottom (false);
             // ...
         }
 
@@ -226,6 +233,11 @@ public class BaseDialogSpecification implements Serializable {
 
         public T cancelable (final boolean isCancelable) {
             this.isCancelable = isCancelable;
+            return self ();
+        }
+
+        public T fromBottom (final boolean isBottomSheet) {
+            this.isBottomSheet = isBottomSheet;
             return self ();
         }
 
@@ -704,6 +716,7 @@ public class BaseDialogSpecification implements Serializable {
         args.putSerializable (Args.ISOLATED_HANDLER, mIsolatedHandler);
         args.putBoolean (Args.HAS_CALLBACKS, mHasCallbacks);
         args.putBoolean (Args.IS_CANCELABLE, mIsCancelable);
+        args.putBoolean (Args.IS_BOTTOM_SHEET, mIsBottomSheet);
         args.putBoolean (Args.IS_TRANSLUCENT, mIsTranslucent);
         args.putBoolean (Args.HAS_TARGET_FRAGMENT, mHasTargetFragment);
         args.putBoolean (Args.IS_RESTORABLE, mIsRestorable);

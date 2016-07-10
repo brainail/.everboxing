@@ -15,6 +15,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
+import org.brainail.EverboxingHardyDialogs.ListDialogSpecification;
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
@@ -194,6 +195,7 @@ public class FlamePropertiesFragment extends RxBaseFragment {
                 filePath.getAbsolutePath (),
                 firstSideSizeInt (),
                 secondSideSizeInt (),
+                // FIXME: Selected type
                 (int) ((System.currentTimeMillis () % 20) + 1));
 
         return filePath.getAbsolutePath ();
@@ -207,10 +209,13 @@ public class FlamePropertiesFragment extends RxBaseFragment {
     }
 
     @OnClick (R.id.first_side_size_selector)
-    protected final void selectFirstSideSize () {}
-
-    @OnClick (R.id.second_side_size_selector)
-    protected final void selectSecondSideSize () {}
+    protected final void selectFirstSideSize () {
+        ListDialogSpecification.create ()
+                // FIXME: Real data
+                .items (new String [] {"100 x 100"})
+                .fromBottom (true)
+                .show (this);
+    }
 
     @OnClick (R.id.style_type_selector)
     protected final void selectStyleType () {}

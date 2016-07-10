@@ -12,6 +12,7 @@
         <item name="colorAccent">@color/md_indigo_400</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:windowBackground">@color/content_bg_default</item>
         <item name="actionBarStyle">@style/AppActionBar.Primary</item>
         <!-- We use toolbarDefaultStyle instead of ... -->
