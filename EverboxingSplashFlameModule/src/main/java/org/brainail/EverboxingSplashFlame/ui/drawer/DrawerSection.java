@@ -107,6 +107,9 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     private int mColor = Color.BLACK;
     private boolean mHasColor = false;
 
+    // Identifiers
+    private Object mTag;
+
     // View holder
     private final DrawerSectionHolder mViewHolder;
 
@@ -163,6 +166,10 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return mPosition;
     }
 
+    /**
+     * To receive callbacks (instantly) when we click on section.
+     * @see #withTarget(DrawerSectionCallback)
+     */
     public DrawerSection withOnClickCallback (final DrawerSectionCallback callback) {
         mCallback = callback;
         mTargetType = TargetType.CALLBACK;
@@ -211,6 +218,11 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return this;
     }
 
+    public DrawerSection withTag (final Object tag) {
+        mTag = tag;
+        return this;
+    }
+
     public DrawerSection withTarget (final DrawerSectionCallback target) {
         mTargetType = TargetType.CALLBACK;
         mTarget = target;
@@ -250,6 +262,10 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
     public LocationType getLocationType () {
         return mLocationType;
+    }
+
+    public Object tag () {
+        return mTag;
     }
 
     public DrawerSection withSectionColor (final Integer color) {

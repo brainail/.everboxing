@@ -219,11 +219,9 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
 
     @Override
     public void onTargetClick (DrawerSection section) {
-        // if (DrawerSectionsOnSceneInitializer.LUCKY_SECTION_POSITION == section.getPosition ()) {
-            // startActivity (intent);
-            // ToolUI.showToast (this, "Nothing");
-            // investigateFragmentsStack ();
-        // }
+         if (DrawerSectionsOnSceneInitializer.SectionTag.FEEDBACK_RATING.equals (section.tag ())) {
+             investigateFragmentsStack ();
+         }
     }
 
 }

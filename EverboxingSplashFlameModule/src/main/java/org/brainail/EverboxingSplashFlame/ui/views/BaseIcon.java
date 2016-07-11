@@ -1,6 +1,8 @@
 package org.brainail.EverboxingSplashFlame.ui.views;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 
 import com.malinskiy.materialicons.IconDrawable;
 import com.malinskiy.materialicons.Iconify;
@@ -37,6 +39,17 @@ public class BaseIcon extends IconDrawable {
 
     public BaseIcon (final Context context, final Iconify.IconValue icon) {
         super (context, icon);
+    }
+
+    public static BaseIcon colorIcon (
+            final Context context,
+            final Iconify.IconValue icon,
+            final @ColorRes int colorId) {
+
+        final BaseIcon drawable = new BaseIcon (context, icon);
+        drawable.color (ContextCompat.getColor (context, colorId));
+        drawable.sizeRes (R.dimen.base_icon_size);
+        return drawable;
     }
 
     public static BaseIcon controlIcon (final Context context, final Iconify.IconValue icon) {

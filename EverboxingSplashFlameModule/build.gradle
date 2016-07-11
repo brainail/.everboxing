@@ -226,6 +226,7 @@ dependencies {
     compile "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
     // ... Fabric > crashes
     compile("com.crashlytics.sdk.android:crashlytics:${crashlyticsLibVersion}@aar") { transitive = true; }
+    compile("com.crashlytics.sdk.android:crashlytics-ndk:${crashlyticsNdkLibVersion}@aar") { transitive = true; }
     // ... Leakcanary > leaks
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
@@ -268,6 +269,13 @@ dependencies {
     // Tools > custom
     debugCompile project(path: ':EverboxingTools', configuration: 'debug')
     releaseCompile project(path: ':EverboxingTools', configuration: 'release')
+}
+
+// Ndk reports
+crashlytics {
+    enableNdk true
+    androidNdkOut 'obj'
+    androidNdkLibsOut 'libs'
 }
 
 //

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.squareup.leakcanary.RefWatcher;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogsContext;
@@ -163,7 +164,7 @@ public class JApplication extends Application implements HasComponent<AppCompone
     }
 
     private void initFabric () {
-        Fabric.with (this, new Crashlytics ());
+        Fabric.with (this, new Crashlytics (), new CrashlyticsNdk ());
         Crashlytics.setString (BuildConfig.BUILD_TIME_KEY, BuildConfig.BUILD_TIME);
         Crashlytics.setString (BuildConfig.GIT_SHA_KEY, BuildConfig.GIT_SHA);
     }
