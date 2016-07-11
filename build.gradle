@@ -39,7 +39,7 @@ ext {
     leakCanaryLibVersion = '1.4-beta2'
     butterKnifeLibVersion = '8.1.0'
     crashlyticsLibVersion = '2.5.5'
-    constraintLayoutLibVersion = '1.0.0-alpha3'
+    constraintLayoutLibVersion = '1.0.0-alpha4'
     glideLibVersion = '3.7.0'
     dagger2LibVersion = '2.4'
 }
