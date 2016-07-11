@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.navigate.navigator;
+package org.brainail.EverboxingSplashFlame.navigator;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import android.support.annotation.Nullable;
 import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingSplashFlame.di.PerActivity;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.action.NavigatorAction;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.action.NavigatorActionFactory;
+import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorAction;
+import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorActionFactory;
 import org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.AboutActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;

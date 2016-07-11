@@ -6,7 +6,7 @@ import org.brainail.EverboxingSplashFlame.ConnectionManager;
 import org.brainail.EverboxingSplashFlame.bus.BusEventsLogger;
 import org.brainail.EverboxingSplashFlame.config.DeviceConfig;
 import org.brainail.EverboxingSplashFlame.di.AppContext;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Singleton;

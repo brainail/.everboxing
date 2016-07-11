@@ -7,7 +7,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import org.brainail.EverboxingSplashFlame.di.PerFragment;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 import org.brainail.EverboxingTools.utils.PooLogger;
 
 /**

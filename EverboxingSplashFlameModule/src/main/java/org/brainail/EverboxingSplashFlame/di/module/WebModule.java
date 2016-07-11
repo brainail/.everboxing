@@ -5,7 +5,7 @@ import android.webkit.WebViewClient;
 
 import org.brainail.EverboxingSplashFlame.di.ActivityContext;
 import org.brainail.EverboxingSplashFlame.di.PerFragment;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 import org.brainail.EverboxingSplashFlame.web.DefaultWebChromeClient;
 import org.brainail.EverboxingSplashFlame.web.DefaultWebViewClient;
 import org.brainail.EverboxingSplashFlame.web.WebPage;

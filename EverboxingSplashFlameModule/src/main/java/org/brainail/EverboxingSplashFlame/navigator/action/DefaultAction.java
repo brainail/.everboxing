@@ -1,7 +1,10 @@
-package org.brainail.EverboxingSplashFlame.navigate.navigator.action;
+package org.brainail.EverboxingSplashFlame.navigator.action;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -28,20 +31,58 @@ import android.content.Intent;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class NavigatorActionFactory {
+class DefaultAction implements NavigatorAction {
 
-    private NavigatorActionFactory () {}
+    private Context mContext;
+    private Intent mIntent;
 
-    public static NavigatorAction emptyAction () {
-        return new EmptyAction ();
+    private Bundle mSharedExtras;
+
+    public DefaultAction (Context context, Intent intent) {
+        mContext = context;
+        mIntent = intent;
     }
 
-    public static NavigatorAction create (Context context, Intent intent) {
-        return new DefaultAction (context, intent);
+    @Override
+    public void start () {
+        startActivity ();
     }
 
-    public static NavigatorAction create (Context context, Intent intent, Intent fallbackIntent) {
-        return new FallbackAction (context, intent, fallbackIntent);
+    protected final boolean startActivity () {
+        if (mIntent == null) {
+            return false;
+        }
+
+        if (!(mContext instanceof Activity)) {
+            mIntent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+
+        try {
+            if (mSharedExtras != null) {
+                mIntent.putExtras (mSharedExtras);
+            }
+            mContext.startActivity (mIntent);
+        } catch (final Exception ignored) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public Intent getTargetIntent () {
+        return mIntent;
+    }
+
+    @Override
+    public NavigatorAction setSharedExtras (Bundle extras) {
+        mSharedExtras = new Bundle (extras);
+        return this;
+    }
+
+    protected void setTargetIntent (Intent intent) {
+        mIntent = intent;
     }
 
 }

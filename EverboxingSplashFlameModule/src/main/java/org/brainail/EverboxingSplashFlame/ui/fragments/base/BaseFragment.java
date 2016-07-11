@@ -19,7 +19,7 @@ import org.brainail.EverboxingSplashFlame.BuildConfig;
 import org.brainail.EverboxingSplashFlame.bus.GlobalEvents;
 import org.brainail.EverboxingSplashFlame.di.ActivityContext;
 import org.brainail.EverboxingSplashFlame.di.component.ActivityComponent;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragmentDelegate.BaseFragmentCallbacks;
 import org.brainail.EverboxingSplashFlame.utils.chrome.CustomTabsSceneHelper;

@@ -1,7 +1,8 @@
-package org.brainail.EverboxingSplashFlame.navigate.navigator.action;
+package org.brainail.EverboxingSplashFlame.navigator.action;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -28,21 +29,23 @@ import android.content.Intent;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class FallbackAction extends DefaultAction {
-
-    private Intent mFallbackIntent;
-
-    public FallbackAction (Context context, Intent intent, Intent fallbackIntent) {
-        super (context, intent);
-        mFallbackIntent = fallbackIntent;
-    }
+class EmptyAction implements NavigatorAction {
 
     @Override
     public void start () {
-        if (! super.startActivity ()) {
-            setTargetIntent (mFallbackIntent);
-            super.startActivity ();
-        }
+        // NO-OP
+    }
+
+    @Nullable
+    @Override
+    public Intent getTargetIntent () {
+        return null;
+    }
+
+    @Override
+    public NavigatorAction setSharedExtras (Bundle extras) {
+        // NO-OP
+        return this;
     }
 
 }

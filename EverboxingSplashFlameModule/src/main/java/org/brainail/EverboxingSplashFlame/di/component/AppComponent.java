@@ -6,7 +6,7 @@ import org.brainail.EverboxingSplashFlame.di.AppContext;
 import org.brainail.EverboxingSplashFlame.di.module.ActivityModule;
 import org.brainail.EverboxingSplashFlame.di.module.AndroidModule;
 import org.brainail.EverboxingSplashFlame.di.module.AppModule;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 
 import javax.inject.Singleton;
 

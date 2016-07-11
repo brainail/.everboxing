@@ -1,8 +1,4 @@
-package org.brainail.EverboxingSplashFlame.navigate.navigator.action;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+package org.brainail.EverboxingSplashFlame.navigator;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -29,23 +25,10 @@ import android.support.annotation.Nullable;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-class EmptyAction implements NavigatorAction {
+public final class NavigatorConstants {
 
-    @Override
-    public void start () {
-        // NO-OP
-    }
-
-    @Nullable
-    @Override
-    public Intent getTargetIntent () {
-        return null;
-    }
-
-    @Override
-    public NavigatorAction setSharedExtras (Bundle extras) {
-        // NO-OP
-        return this;
+    public static final class ExternalSources {
+        public static final String MEDIUM = "https://medium.com/@brainail";
     }
 
 }

@@ -5,7 +5,7 @@ import android.content.Context;
 
 import org.brainail.EverboxingSplashFlame.di.ActivityContext;
 import org.brainail.EverboxingSplashFlame.di.PerActivity;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 
 import dagger.Module;
 import dagger.Provides;

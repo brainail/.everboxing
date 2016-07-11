@@ -19,7 +19,7 @@ import org.brainail.EverboxingSplashFlame.di.HasComponent;
 import org.brainail.EverboxingSplashFlame.di.component.ActivityComponent;
 import org.brainail.EverboxingSplashFlame.di.component.AppComponent;
 import org.brainail.EverboxingSplashFlame.di.module.ActivityModule;
-import org.brainail.EverboxingSplashFlame.navigate.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 import org.brainail.EverboxingSplashFlame.ui.notice.NoticeBar;
 import org.brainail.EverboxingSplashFlame.ui.notice.NoticeController;
 import org.brainail.EverboxingSplashFlame.utils.chrome.CustomTabsSceneHelper;
