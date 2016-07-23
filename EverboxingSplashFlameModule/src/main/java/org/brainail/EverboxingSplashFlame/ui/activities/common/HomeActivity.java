@@ -17,6 +17,7 @@ import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionCallback;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerUser;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
+import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs;
 import org.brainail.EverboxingSplashFlame.utils.LogScope;
 import org.brainail.EverboxingSplashFlame.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.PooLogger;
@@ -221,6 +222,7 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
     public void onTargetClick (DrawerSection section) {
          if (DrawerSectionsOnSceneInitializer.SectionTag.FEEDBACK_RATING.equals (section.tag ())) {
              investigateFragmentsStack ();
+             AppHardyDialogs.helpUs ().setCallbacks (this).show (this);
          }
     }
 

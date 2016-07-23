@@ -34,7 +34,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
+import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>

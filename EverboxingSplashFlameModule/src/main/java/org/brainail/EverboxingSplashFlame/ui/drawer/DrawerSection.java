@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -203,6 +204,9 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     public DrawerSection withIcon (final Drawable icon) {
         if (null != mViewHolder.selfIcon) {
             mViewHolder.selfIcon.setImageDrawable (icon);
+            if (icon instanceof AnimatedVectorDrawableCompat) {
+                ((AnimatedVectorDrawableCompat) icon).start ();
+            }
         }
 
         updateTextAndIconColor ();

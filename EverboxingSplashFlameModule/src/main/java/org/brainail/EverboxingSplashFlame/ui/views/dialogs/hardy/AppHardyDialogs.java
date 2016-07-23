@@ -1,7 +1,11 @@
 package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
 
 import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
+import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsHandlers;
+import org.brainail.EverboxingHardyDialogs.HardyDialogCodeProvider;
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.LayoutParams;
+import org.brainail.EverboxingHardyDialogs.ListDialogSpecification;
 import org.brainail.EverboxingSplashFlame.R;
 
 /**
@@ -39,5 +43,45 @@ public final class AppHardyDialogs {
                 .cancelable (false)
                 .translucent (true);
     }
+
+    public static ListDialogSpecification.Builder<?> helpUs () {
+        return ListDialogSpecification.create ()
+                .code (AppHardyDialogsCode.D_HELP_US)
+                .title (R.string.drawer_item_help_us)
+                .items (new int [] {R.string.dialog_button_rate_app, R.string.dialog_button_feedback_suggestion})
+                .cancelable (true);
+    }
+
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓ CODES ↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    public static enum AppHardyDialogsCode implements HardyDialogCodeProvider {
+
+        // Generating flame
+        D_GENERATING_FLAME_PROGRESS ("generating.flame.progress"),
+        // Help Us from drawer
+        D_HELP_US ("help.us");
+
+        private final String code;
+
+        AppHardyDialogsCode(final String code) {
+            this.code = code;
+        }
+
+        public String code () {
+            return code;
+        }
+
+        @Override
+        public String managerTag () {
+            return HardyDialogFragment.MANAGER_TAG_PREFIX + code;
+        }
+
+    }
+
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓ HANDLERS ↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    public static class AppHardyDialogsHandlers extends BaseHardyDialogsHandlers {}
 
 }

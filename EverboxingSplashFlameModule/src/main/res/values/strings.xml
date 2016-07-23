@@ -9,8 +9,6 @@
     <string name="action_settings">Settings</string>
 
     <!-- Settings window -->
-    <string name="drawer_item_rating">Rate the App</string>
-
     <string name="settings_activity_title">Settings</string>
     <string name="settings_preference_screen_root" translatable="false">settings_preference_screen_root</string>
 
@@ -47,6 +45,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_user_data_name_greetings">&#9728; Greeting you! &#9728;</string>
+    <string name="drawer_item_help_us">Help Us</string>
 
     <!-- Themes -->
     <string name="theme_name_default">Pink</string>

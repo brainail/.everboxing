@@ -10,7 +10,7 @@
     <dimen name="menu_drawer_section_help_section_dropdown_shadow_height">4dp</dimen>
     <dimen name="menu_drawer_section_notifications_width">40dp</dimen>
     <item name="menu_drawer_section_icon_alpha" type="dimen" format="float">1</item>
-    <dimen name="menu_drawer_user_cover_height">164dp</dimen>
+    <dimen name="menu_drawer_user_cover_height">128dp</dimen>
     <dimen name="menu_drawer_user_data_height">70dp</dimen>
 
     <item name="section_title_alpha" type="dimen" format="float">0.87</item>

@@ -1,5 +1,7 @@
 package org.brainail.EverboxingSplashFlame.ui.drawer;
 
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
+
 import com.malinskiy.materialicons.Iconify.IconValue;
 
 import org.brainail.EverboxingSplashFlame.R;
@@ -74,10 +76,10 @@ public final class DrawerSectionsOnSceneInitializer {
             // Feedback/Rating
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
-                            .withName (ToolResources.string (scene, R.string.drawer_item_rating))
+                            .withName (ToolResources.string (scene, R.string.drawer_item_help_us))
                             .withLocationType (DrawerSection.LocationType.HELP)
                             .withTag (SectionTag.FEEDBACK_RATING)
-                            .withIcon (BaseIcon.colorIcon (scene, IconValue.zmdi_star, R.color.md_lime_600))
+                            .withIcon (AnimatedVectorDrawableCompat.create(scene, R.drawable.ic_star_rating))
                             .withTarget (scene instanceof DrawerSectionCallback ? (DrawerSectionCallback) scene : null)
             );
 

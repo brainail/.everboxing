@@ -14,6 +14,8 @@
     <string name="dialog_button_save">Сохранить</string>
     <string name="dialog_button_info">Информация</string>
     <string name="dialog_button_retry">Повторить</string>
+    <string name="dialog_button_rate_app">Оценить Приложение</string>
+    <string name="dialog_button_feedback_suggestion">Оставить отзыв/предложение</string>
 
     <string name="progress_dialog_loading">Загрузка …</string>
 </resources>
