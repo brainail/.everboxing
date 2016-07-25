@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.OnDialogListActionCallback;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.api.UserInfoApi;
 import org.brainail.EverboxingSplashFlame.api.google.PlayServices;
@@ -48,7 +50,9 @@ import org.brainail.EverboxingTools.utils.tool.ToolFragments;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HomeActivity extends SectionedDrawerActivity implements DrawerSectionCallback {
+public class HomeActivity
+        extends SectionedDrawerActivity
+        implements DrawerSectionCallback, OnDialogListActionCallback {
 
     private boolean mShouldUpdateDrawerNotifications = true;
 
@@ -224,6 +228,20 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
              investigateFragmentsStack ();
              AppHardyDialogs.helpUs ().setCallbacks (this).show (this);
          }
+    }
+
+    @Override
+    public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
+        if (dialog.isDialogWithCode (AppHardyDialogs.AppHardyDialogsCode.D_HELP_US)) {
+            switch (whichItem) {
+                case 0:
+                    mNavigator.openAppInMarketAction ("org.brainail.EverboxingLexis").start ();
+                    break;
+                case 1:
+                    mNavigator.sendFeedbackOrSuggestion ().start ();
+                    break;
+            }
+        }
     }
 
 }

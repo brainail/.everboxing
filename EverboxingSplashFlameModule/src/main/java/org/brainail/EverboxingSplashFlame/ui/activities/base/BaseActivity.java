@@ -84,7 +84,7 @@ public abstract class BaseActivity
 
     @Inject
     @ActivityContext
-    Navigator mNavigator;
+    protected Navigator mNavigator;
     // @Inject EventBus mGlobalBus;
 
     @SuppressWarnings ("unchecked")

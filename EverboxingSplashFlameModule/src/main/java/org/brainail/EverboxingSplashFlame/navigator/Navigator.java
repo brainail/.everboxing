@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 
 import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
+import org.brainail.EverboxingSplashFlame.BuildConfig;
+import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.di.PerActivity;
 import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorAction;
 import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorActionFactory;
@@ -16,6 +18,8 @@ import org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.AboutActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.SettingsActivity;
+import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
+import org.brainail.EverboxingTools.utils.tool.ToolEmail;
 
 import javax.inject.Singleton;
 
@@ -123,6 +127,22 @@ public class Navigator {
 
     public HardyDialogFragment showDialog (BaseDialogSpecification.Builder dialogSpecification) {
         return dialogSpecification.show (mContext);
+    }
+
+    @CheckResult
+    public NavigatorAction sendFeedbackOrSuggestion () {
+        final Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:" + ToolEmail.APP_EMAIL));
+        final String subject = ToolResources.string (mContext, R.string.feedback_suggestion_email_title, feedbackAppInfo ());
+        actionIntent.putExtra (Intent.EXTRA_SUBJECT, subject);
+        actionIntent.putExtra (Intent.EXTRA_TEXT, ToolResources.string (mContext, R.string.feedback_suggestion_mail_start_body));
+        return NavigatorActionFactory.create (mContext, actionIntent);
+    }
+
+    private static String feedbackAppInfo () {
+        return "v_" + BuildConfig.VERSION_NAME
+                + " / c_" + BuildConfig.VERSION_CODE
+                + " / g_" + BuildConfig.GIT_SHA
+                + " / m_" + BuildConfig.MODULE_NAME;
     }
 
 }

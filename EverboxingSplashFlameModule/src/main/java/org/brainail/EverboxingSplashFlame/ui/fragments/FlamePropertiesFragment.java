@@ -211,8 +211,7 @@ public class FlamePropertiesFragment extends RxBaseFragment {
     @OnClick (R.id.first_side_size_selector)
     protected final void selectFirstSideSize () {
         ListDialogSpecification.create ()
-                // FIXME: Real data
-                .items (new String [] {"100 x 100"})
+                .items (getResources ().getStringArray (R.array.popular_resolutions))
                 .fromBottom (true)
                 .show (this);
     }

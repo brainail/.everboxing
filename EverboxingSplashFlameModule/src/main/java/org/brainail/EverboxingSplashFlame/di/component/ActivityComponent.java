@@ -4,6 +4,7 @@ import org.brainail.EverboxingSplashFlame.di.PerActivity;
 import org.brainail.EverboxingSplashFlame.di.module.ActivityModule;
 import org.brainail.EverboxingSplashFlame.di.module.WebModule;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.BasePreferenceFragment;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 
@@ -41,6 +42,7 @@ public interface ActivityComponent {
     void inject (HomeActivity activity);
 
     void inject (BaseFragment fragment);
+    void inject (BasePreferenceFragment fragment);
 
     WebComponent plus (WebModule module);
 }
