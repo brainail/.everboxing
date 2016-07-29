@@ -1,5 +1,6 @@
 package org.brainail.EverboxingSplashFlame.ui.fragments;
 
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,8 +15,8 @@ import android.widget.EditText;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
-import org.brainail.EverboxingHardyDialogs.ListDialogSpecification;
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
@@ -34,6 +35,8 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_FLAME_SIDE_SIZES;
+import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_FLAME_STYLE_TYPES;
 import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
 
 /**
@@ -61,7 +64,9 @@ import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardy
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class FlamePropertiesFragment extends RxBaseFragment {
+public class FlamePropertiesFragment
+        extends RxBaseFragment
+        implements HardyDialogFragment.OnDialogListActionCallback {
 
     public static final class SideSizeRange {
         private static final int LOW = 640;
@@ -85,12 +90,27 @@ public class FlamePropertiesFragment extends RxBaseFragment {
     protected TextInputLayout mSecondSideSizeInputLayout;
     @BindView (R.id.second_side_size_edit_text)
     protected EditText mSecondSideSizeEditText;
+    @BindView (R.id.style_type_edit_text)
+    protected EditText mStyleTypeSizeEditText;
 
     @Nullable
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate (R.layout.fragment_flame_properties, container, false);
-        return bind (view);
+        bind (view);
+        initViews();
+        return view;
+    }
+
+    private void initViews () {
+        final Resources resources = getContext ().getResources ();
+
+        // Init default style type
+        final int DEFAULT_STYLE_TYPE_INDEX = 0;
+        mStyleTypeSizeEditText.setText (
+                resources.getStringArray (R.array.flame_style_types) [DEFAULT_STYLE_TYPE_INDEX]);
+        mStyleTypeSizeEditText.setTag (
+                resources.getStringArray (R.array.flame_style_types_tags) [DEFAULT_STYLE_TYPE_INDEX]);
     }
 
     @Override
@@ -102,7 +122,7 @@ public class FlamePropertiesFragment extends RxBaseFragment {
 
         bindSubscription (RxTextView.textChanges (mFirstSideSizeEditText).subscribe (this :: firstSideSizeChanged));
         bindSubscription (RxTextView.textChanges (mSecondSideSizeEditText).subscribe (this :: secondSideSizeChanged));
-        bindSubscription (RxView.clicks (mFlameIt).debounce (1L, TimeUnit.SECONDS)
+        bindSubscription (RxView.clicks (mFlameIt).throttleFirst (1L, TimeUnit.SECONDS)
                         .observeOn (AndroidSchedulers.mainThread ())
                         .subscribe ($ -> {flameIt ();})
         );
@@ -126,6 +146,10 @@ public class FlamePropertiesFragment extends RxBaseFragment {
 
     private int secondSideSizeInt () {
         return Integer.parseInt (mSecondSideSizeEditText.getText ().toString ());
+    }
+
+    private int styleTypeInt () {
+        return Integer.parseInt ((String) mStyleTypeSizeEditText.getTag ());
     }
 
     private void firstSideSizeChanged (final CharSequence text) {
@@ -195,8 +219,7 @@ public class FlamePropertiesFragment extends RxBaseFragment {
                 filePath.getAbsolutePath (),
                 firstSideSizeInt (),
                 secondSideSizeInt (),
-                // FIXME: Selected type
-                (int) ((System.currentTimeMillis () % 20) + 1));
+                styleTypeInt ());
 
         return filePath.getAbsolutePath ();
     }
@@ -210,13 +233,26 @@ public class FlamePropertiesFragment extends RxBaseFragment {
 
     @OnClick (R.id.first_side_size_selector)
     protected final void selectFirstSideSize () {
-        ListDialogSpecification.create ()
-                .items (getResources ().getStringArray (R.array.popular_resolutions))
-                .fromBottom (true)
-                .show (this);
+        AppHardyDialogs.flameSideSizes (getContext ()).setCallbacks (this).show (this);
     }
 
     @OnClick (R.id.style_type_selector)
-    protected final void selectStyleType () {}
+    protected final void selectStyleType () {
+        AppHardyDialogs.flameStyleTypes (getContext ()).setCallbacks (this).show (this);
+    }
+
+    @Override
+    public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
+        if (dialog.isDialogWithCode (D_FLAME_SIDE_SIZES)) {
+            final String[] sides = item.split ("\\s?x\\s?");
+            final int firstSideSize = Integer.parseInt (sides[0]);
+            final int secondSideSize = Integer.parseInt (sides[1]);
+            mFirstSideSizeEditText.setText (String.valueOf (Math.max (firstSideSize, secondSideSize)));
+            mSecondSideSizeEditText.setText (String.valueOf (Math.min (secondSideSize, secondSideSize)));
+        } else if (dialog.isDialogWithCode (D_FLAME_STYLE_TYPES)) {
+            mStyleTypeSizeEditText.setText (item);
+            mStyleTypeSizeEditText.setTag (itemTag);
+        }
+    }
 
 }

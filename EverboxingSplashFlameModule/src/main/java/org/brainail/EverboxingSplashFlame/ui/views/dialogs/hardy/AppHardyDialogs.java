@@ -1,5 +1,8 @@
 package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
 import org.brainail.EverboxingHardyDialogs.BaseHardyDialogsHandlers;
 import org.brainail.EverboxingHardyDialogs.HardyDialogCodeProvider;
@@ -52,6 +55,21 @@ public final class AppHardyDialogs {
                 .cancelable (true);
     }
 
+    public static ListDialogSpecification.Builder<?> flameSideSizes (final @NonNull Context context) {
+        return ListDialogSpecification.create ()
+                .items (context.getResources ().getStringArray (R.array.popular_resolutions))
+                .fromBottom (true)
+                .code (AppHardyDialogsCode.D_FLAME_SIDE_SIZES);
+    }
+
+    public static ListDialogSpecification.Builder<?> flameStyleTypes (final @NonNull Context context) {
+        return ListDialogSpecification.create ()
+                .items (context.getResources ().getStringArray (R.array.flame_style_types))
+                .tags (context.getResources ().getStringArray (R.array.flame_style_types_tags))
+                .fromBottom (true)
+                .code (AppHardyDialogsCode.D_FLAME_STYLE_TYPES);
+    }
+
     // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓ CODES ↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
@@ -60,7 +78,11 @@ public final class AppHardyDialogs {
         // Generating flame
         D_GENERATING_FLAME_PROGRESS ("generating.flame.progress"),
         // Help Us from drawer
-        D_HELP_US ("help.us");
+        D_HELP_US ("help.us"),
+        // Flame side sizes
+        D_FLAME_SIDE_SIZES ("flame.side.sizes"),
+        // Flame style types
+        D_FLAME_STYLE_TYPES ("flame.style.types");
 
         private final String code;
 
