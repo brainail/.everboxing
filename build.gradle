@@ -32,10 +32,10 @@ task clean(type: Delete) {
 
 ext {
     compileSdkVersionExt = 24
-    buildToolsVersionExt = '23.0.3'
+    buildToolsVersionExt = '24.0.1'
 
-    supportLibVersion = '24.0.0' 
-    playServicesLibVersion = '9.2.0'
+    supportLibVersion = '24.1.1'
+    playServicesLibVersion = '9.2.1'
     leakCanaryLibVersion = '1.4-beta2'
     butterKnifeLibVersion = '8.1.0'
     crashlyticsLibVersion = '2.6.0'
