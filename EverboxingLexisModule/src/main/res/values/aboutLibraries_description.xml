@@ -7,9 +7,9 @@
         <![CDATA[<b>Read and search through the all your offline wiki books and use it as your dictionary app!</b>]]>
     </string>
 
-    <string name="aboutLibraries_description_special1_name">Successor</string>
+    <string name="aboutLibraries_description_special1_name">Based on Aard2</string>
     <string name="aboutLibraries_description_special1_text">
-        <![CDATA[Based on <br/>
+        <![CDATA[Based on refined version of<br/>
         <a href="http://aarddict.org/">Aard Dictionary for Android</a>,<br/>
         <a href="https://medium.com/@brainail/my-skeleton-for-android-app-start-kit-with-source-code-plus-flexible-gradle-configuration-and-95e30c26e788">Everboxing Start Kit</a><br/>
         and comes with some redesigned user interface. Enjoy!]]>

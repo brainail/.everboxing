@@ -4,9 +4,9 @@
         <![CDATA[<b>Наслаждайтесь чтением и поиском среди всех ваших словарей в режиме оффлайн!</b>]]>
     </string>
 
-    <string name="aboutLibraries_description_special1_name">Наследие</string>
+    <string name="aboutLibraries_description_special1_name">Создано на основе Aard2</string>
     <string name="aboutLibraries_description_special1_text">
-        <![CDATA[Создано на основе <br/>
+        <![CDATA[Создано на основе улучшенной версии<br/>
         <a href="http://aarddict.org/">Aard Dictionary for Android</a>,<br/>
         <a href="https://medium.com/@brainail/my-skeleton-for-android-app-start-kit-with-source-code-plus-flexible-gradle-configuration-and-95e30c26e788">Everboxing Start Kit</a><br/>
         с переработанным интерфейсом и добавленными дополнительными функциями. Наслаждайтесь!]]>
