@@ -50,23 +50,25 @@ public final class AppHardyDialogs {
     public static ListDialogSpecification.Builder<?> helpUs () {
         return ListDialogSpecification.create ()
                 .code (AppHardyDialogsCode.D_HELP_US)
-                .title (R.string.drawer_item_help_us)
+                .title (R.string.dialog_help_us_title)
                 .items (new int [] {R.string.dialog_button_rate_app, R.string.dialog_button_feedback_suggestion})
                 .cancelable (true);
     }
 
     public static ListDialogSpecification.Builder<?> flameSideSizes (final @NonNull Context context) {
         return ListDialogSpecification.create ()
-                .items (context.getResources ().getStringArray (R.array.popular_resolutions))
+                .items (context.getResources ().getStringArray (R.array.dialog_popular_resolutions_body))
                 .fromBottom (true)
+                .title (R.string.dialog_popular_resolutions_title)
                 .code (AppHardyDialogsCode.D_FLAME_SIDE_SIZES);
     }
 
     public static ListDialogSpecification.Builder<?> flameStyleTypes (final @NonNull Context context) {
         return ListDialogSpecification.create ()
-                .items (context.getResources ().getStringArray (R.array.flame_style_types))
-                .tags (context.getResources ().getStringArray (R.array.flame_style_types_tags))
+                .items (context.getResources ().getStringArray (R.array.dialog_flame_style_types_body))
+                .tags (context.getResources ().getStringArray (R.array.dialog_flame_style_types_tags))
                 .fromBottom (true)
+                .title (R.string.dialog_flame_style_types_title)
                 .code (AppHardyDialogsCode.D_FLAME_STYLE_TYPES);
     }
 

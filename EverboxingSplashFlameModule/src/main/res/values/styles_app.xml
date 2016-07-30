@@ -18,11 +18,11 @@
     <style name="FlameProperties.Edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:inputType">number</item>
+        <item name="android:inputType">number|textNoSuggestions</item>
         <item name="android:maxLines">1</item>
         <item name="android:textSize">16sp</item>
     </style>
     <style name="FlameProperties.Edit.Disabled">
-        <item name="android:inputType">none</item>
+        <item name="android:inputType">none|textNoSuggestions</item>
     </style>
 </resources>

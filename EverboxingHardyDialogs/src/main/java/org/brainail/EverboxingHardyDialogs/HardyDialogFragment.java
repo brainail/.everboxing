@@ -410,8 +410,6 @@ public class HardyDialogFragment
                 progress.setTitle (mTitle);
             } else if (null != builder) {
                 builder.setTitle (mTitle);
-            } else {
-                bottomSheetDialog.setTitle (mTitle);
             }
         }
 
@@ -485,13 +483,20 @@ public class HardyDialogFragment
                     }
                 });
             } else if (null != bottomSheetDialog) {
-                final View dialogContent = inflater ().inflate (R.layout.content_view_internal_list, null);
-                final RecyclerView recyclerView = (RecyclerView) dialogContent.findViewById (R.id.dialog_recycler_view);
+                contentView = inflater ().inflate (R.layout.content_view_internal_list, null);
+                final RecyclerView recyclerView = (RecyclerView) contentView.findViewById (R.id.dialog_recycler_view);
                 recyclerView.setHasFixedSize (true);
                 recyclerView.setLayoutManager (new LinearLayoutManager (scene));
                 recyclerView.setAdapter (new SimpleBottomSheetAdapter<> (scene, mListItems, this));
-                bottomSheetDialog.setContentView (dialogContent);
+                bottomSheetDialog.setContentView (contentView);
             }
+        }
+
+        if (! TextUtils.isEmpty (mTitle) && null != bottomSheetDialog && null != contentView) {
+            final View dialogFrameTitle = contentView.findViewById (R.id.dialog_frame_title_internal);
+            final TextView dialogTitle = (TextView) contentView.findViewById (R.id.dialog_title_internal);
+            dialogFrameTitle.setVisibility (View.VISIBLE);
+            dialogTitle.setText (mTitle);
         }
 
         if (null != progress) {
@@ -517,7 +522,9 @@ public class HardyDialogFragment
         }
 
         if (mIsTranslucent) {
-            window.setBackgroundDrawable (new ColorDrawable (Color.TRANSPARENT));
+            if (null != window) {
+                window.setBackgroundDrawable (new ColorDrawable (Color.TRANSPARENT));
+            }
             // dialog.getWindow ().clearFlags (WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         }
 

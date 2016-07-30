@@ -108,9 +108,9 @@ public class FlamePropertiesFragment
         // Init default style type
         final int DEFAULT_STYLE_TYPE_INDEX = 0;
         mStyleTypeSizeEditText.setText (
-                resources.getStringArray (R.array.flame_style_types) [DEFAULT_STYLE_TYPE_INDEX]);
+                resources.getStringArray (R.array.dialog_flame_style_types_body) [DEFAULT_STYLE_TYPE_INDEX]);
         mStyleTypeSizeEditText.setTag (
-                resources.getStringArray (R.array.flame_style_types_tags) [DEFAULT_STYLE_TYPE_INDEX]);
+                resources.getStringArray (R.array.dialog_flame_style_types_tags) [DEFAULT_STYLE_TYPE_INDEX]);
     }
 
     @Override

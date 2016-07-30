@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <FrameLayout
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/dialog_frame_title_internal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/dialog_title_internal"
+            style="@style/RtlOverlay.DialogWindowTitle.AppCompat"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+            android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            tools:text="Title"/>
+
+        <!-- <View
+            android:visibility="gone"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#5b5b5b"/> -->
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/dialog_recycler_view"
