@@ -10,7 +10,6 @@ import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsControllerFact
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerUser;
 import org.brainail.EverboxingSplashFlame.ui.drawer.IDrawerSectionsController;
-import org.brainail.EverboxingSplashFlame.utils.tool.ToolToolbar;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
 /**
@@ -133,7 +132,7 @@ public abstract class SectionedDrawerActivity
         if (null == section) {
             super.updateToolbarColor ();
         } else {
-            ToolToolbar.updateToolbarColor (this, section.hasDestinationColor () ? section.getDestinationColor () : null);
+            mToolbarTuner.updateToolbarColor (section.hasDestinationColor () ? section.getDestinationColor () : null);
         }
     }
 
@@ -144,7 +143,7 @@ public abstract class SectionedDrawerActivity
         if (null == section) {
             super.updateToolbarTitle ();
         } else {
-            ToolToolbar.updateToolbarTitle (this, section.getTitle ());
+            mToolbarTuner.updateToolbarTitle (section.getTitle ());
         }
     }
 

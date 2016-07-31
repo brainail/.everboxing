@@ -1,9 +1,9 @@
 package org.brainail.EverboxingTools.utils.tool;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.support.v7.app.AppCompatActivity;
 
 import org.brainail.EverboxingTools.ToolsContext;
 
@@ -34,7 +34,7 @@ import org.brainail.EverboxingTools.ToolsContext;
  */
 public final class ToolManifest {
 
-    public static ActivityInfo activityInfo(final AppCompatActivity activity) {
+    public static ActivityInfo activityInfo(final Activity activity) {
         try {
             final PackageManager packageManager = activity.getPackageManager();
             return packageManager.getActivityInfo(new ComponentName(activity, activity.getClass()), 0);
@@ -43,7 +43,7 @@ public final class ToolManifest {
         }
     }
 
-    public static String activityLabel(final AppCompatActivity activity) {
+    public static String activityLabel(final Activity activity) {
         final ActivityInfo activityInfo = activityInfo(activity);
         return null != activityInfo ? (0 != activityInfo.labelRes
                 ? ToolsContext.get ().getString (activityInfo.labelRes)

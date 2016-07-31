@@ -85,7 +85,11 @@ public abstract class BaseActivity
     @Inject
     @ActivityContext
     protected Navigator mNavigator;
-    // @Inject EventBus mGlobalBus;
+    @Inject
+    @ActivityContext
+    protected ToolToolbar mToolbarTuner;
+    // @Inject
+    // EventBus mGlobalBus;
 
     @SuppressWarnings ("unchecked")
     public <T extends View> T bindView (final int id) {
@@ -349,11 +353,11 @@ public abstract class BaseActivity
     }
 
     protected void updateToolbarColor () {
-        ToolToolbar.updateToolbarColor (this, null);
+        mToolbarTuner.updateToolbarColor (null);
     }
 
     protected void updateToolbarTitle () {
-        ToolToolbar.updateToolbarTitle (this, null);
+        mToolbarTuner.updateToolbarTitle (null);
     }
 
     @Override

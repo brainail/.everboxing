@@ -1,5 +1,9 @@
 package org.brainail.EverboxingSplashFlame.utils.tool;
 
+import android.support.annotation.AttrRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,16 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 
-import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
-import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingTools.utils.callable.Colorable;
 import org.brainail.EverboxingTools.utils.callable.Titleable;
 import org.brainail.EverboxingTools.utils.tool.ToolColor;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingTools.utils.tool.ToolManifest;
-
-import butterknife.ButterKnife;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -45,80 +45,133 @@ import butterknife.ButterKnife;
  */
 public final class ToolToolbar {
 
-    public static void updateToolbarTitle (final AppCompatActivity activity, final String title) {
-        // No place
-        if (null == activity) return;
+    private final @Nullable AppCompatActivity mScene;
+    private final @Nullable String mTitleIntentExtra;
+    private final @Nullable String mColorIntentExtra;
+    private final @Nullable String mTitleCallback;
+    private final @AttrRes int mToolbarCustomStyle;
+    private final @IdRes int mAppContentId;
+
+    public ToolToolbar (
+            final @Nullable AppCompatActivity scene,
+            final @Nullable String titleIntentExtra,
+            final @Nullable String colorIntentExtra,
+            final @AttrRes int toolbarCustomStyle,
+            final @IdRes int appContentId,
+            final @StringRes int titleFallback) {
+
+        this(
+                scene,
+                titleIntentExtra,
+                colorIntentExtra,
+                toolbarCustomStyle,
+                appContentId,
+                ToolResources.string (scene, titleFallback));
+    }
+
+    public ToolToolbar (
+            final @Nullable AppCompatActivity scene,
+            final @Nullable String titleIntentExtra,
+            final @Nullable String colorIntentExtra,
+            final @AttrRes int toolbarCustomStyle,
+            final @IdRes int appContentId,
+            final @Nullable String titleFallback) {
+
+        mScene = scene;
+        mTitleIntentExtra = titleIntentExtra;
+        mColorIntentExtra = colorIntentExtra;
+        mToolbarCustomStyle = toolbarCustomStyle;
+        mAppContentId = appContentId;
+        mTitleCallback = titleFallback;
+    }
+
+    public void updateToolbarTitle (final String presentedTitle) {
+        if (null == mScene) {
+            // No place
+            return;
+        }
 
         // Use presented
-        String toolbarTitle = title;
+        String toolbarTitle = presentedTitle;
 
         // Try to use title from fragment if necessary
         if (TextUtils.isEmpty (toolbarTitle)) {
-            final Fragment fragment = ToolFragments.topFragment (activity);
+            final Fragment fragment = ToolFragments.topFragment (mScene);
             if (fragment instanceof Titleable) {
                 final String fragmentTitle = ((Titleable) fragment).title ();
-                if (!TextUtils.isEmpty (fragmentTitle)) toolbarTitle = fragmentTitle;
+                if (!TextUtils.isEmpty (fragmentTitle)) {
+                    toolbarTitle = fragmentTitle;
+                }
             }
         }
 
         // Try to get from the activity's intent (perhaps it was started from the Drawer)
-        if (TextUtils.isEmpty (toolbarTitle) && null != activity.getIntent ()) {
-            toolbarTitle = activity.getIntent ().getStringExtra (DrawerSection.ExtraKey.TITLE);
+        if (TextUtils.isEmpty (toolbarTitle) && null != mScene.getIntent ()) {
+            toolbarTitle = mScene.getIntent ().getStringExtra (mTitleIntentExtra);
         }
 
         // Check manifest
         if (TextUtils.isEmpty (toolbarTitle)) {
-            toolbarTitle = ToolManifest.activityLabel (activity);
+            toolbarTitle = ToolManifest.activityLabel (mScene);
         }
 
         // Try to use app name as the last resort
         if (TextUtils.isEmpty (toolbarTitle)) {
-            toolbarTitle = ToolResources.string (activity, R.string.app_name);
+            toolbarTitle = mTitleCallback;
         }
 
         // Set title for toolbar
-        final ActionBar toolbar = activity.getSupportActionBar ();
-        if (null != toolbar) toolbar.setTitle (toolbarTitle);
+        final ActionBar toolbar = mScene.getSupportActionBar ();
+        if (null != toolbar) {
+            toolbar.setTitle (toolbarTitle);
+        }
     }
 
-    public static void updateToolbarColor (final AppCompatActivity activity, final Integer color) {
-        // No place
-        if (null == activity) return;
+    public void updateToolbarColor (final Integer presentedColor) {
+        if (null == mScene) {
+            // No place
+            return;
+        }
 
         // Use presented
-        Integer toolbarColor = color;
+        Integer toolbarColor = presentedColor;
 
         // Try to use color from fragment if necessary
         if (null == toolbarColor) {
-            final Fragment fragment = ToolFragments.topFragment (activity);
+            final Fragment fragment = ToolFragments.topFragment (mScene);
             if (fragment instanceof Colorable) {
                 final Integer fragmentColor = ((Colorable) fragment).color ();
-                if (null != fragmentColor) toolbarColor = fragmentColor;
+                if (null != fragmentColor) {
+                    toolbarColor = fragmentColor;
+                }
             }
         }
 
         // Try to get from the activity's intent (perhaps it was started from the Drawer)
-        if (null == toolbarColor && null != activity.getIntent ()) {
-            toolbarColor = (Integer) activity.getIntent ().getSerializableExtra (DrawerSection.ExtraKey.COLOR);
+        if (null == toolbarColor && null != mScene.getIntent ()) {
+            toolbarColor = (Integer) mScene.getIntent ().getSerializableExtra (mColorIntentExtra);
         }
 
         // Try to get color from custom toolbar theme's background
         if (null == toolbarColor) {
-            final Integer customToolbarColor = ToolResources.retrieveCustomToolbarThemeColor (activity);
-            if (null != customToolbarColor) toolbarColor = customToolbarColor;
+            final Integer customToolbarColor
+                    = ToolResources.retrieveCustomToolbarThemeColor (mScene, mToolbarCustomStyle);
+            if (null != customToolbarColor) {
+                toolbarColor = customToolbarColor;
+            }
         }
 
         // Try to use app color as the last resort
-        final int primaryColor = ToolResources.retrievePrimaryColor (activity);
-        final int primaryDarkColor = ToolResources.retrievePrimaryDarkColor (activity);
+        final int primaryColor = ToolResources.retrievePrimaryColor (mScene);
+        final int primaryDarkColor = ToolResources.retrievePrimaryDarkColor (mScene);
         if (null == toolbarColor) {
             toolbarColor = primaryColor;
         }
 
         // Set color for toolbar & status bar
-        final Toolbar toolbar = ((BaseActivity) activity).getPrimaryToolbar ();
+        final Toolbar toolbar = ((BaseActivity) mScene).getPrimaryToolbar ();
         if (null != toolbar) {
-            final View appContentWindow = ButterKnife.findById (activity, R.id.app_content);
+            final View appContentWindow = mScene.findViewById (mAppContentId);
 
             // Similar to getWindow() to set background color for status bar
             if (null != appContentWindow) {

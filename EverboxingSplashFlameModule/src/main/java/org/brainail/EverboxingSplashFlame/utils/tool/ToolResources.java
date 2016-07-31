@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.AttrRes;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
@@ -145,11 +146,11 @@ public final class ToolResources {
         );
     }
 
-    public static Integer retrieveCustomToolbarThemeColor (final Context context) {
+    public static Integer retrieveCustomToolbarThemeColor (final Context context, final @AttrRes int toolbarAttr) {
         final int themeResId = ThemeManager.appTheme().getThemeResId();
 
         final TypedArray typedArray
-                = context.obtainStyledAttributes(themeResId, new int [] {R.attr.toolbarDefaultStyle});
+                = context.obtainStyledAttributes(themeResId, new int [] {toolbarAttr});
         try {
             return retrieveThemeColor (
                     context,

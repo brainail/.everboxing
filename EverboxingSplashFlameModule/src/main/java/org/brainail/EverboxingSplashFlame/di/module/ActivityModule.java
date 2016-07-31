@@ -1,11 +1,14 @@
 package org.brainail.EverboxingSplashFlame.di.module;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
+import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.di.ActivityContext;
 import org.brainail.EverboxingSplashFlame.di.PerActivity;
 import org.brainail.EverboxingSplashFlame.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
+import org.brainail.EverboxingSplashFlame.utils.tool.ToolToolbar;
 
 import dagger.Module;
 import dagger.Provides;
@@ -38,24 +41,37 @@ import dagger.Provides;
 @Module
 public class ActivityModule {
 
-    private Activity mActivity;
+    private AppCompatActivity mScene;
 
-    public ActivityModule (Activity activity) {
-        mActivity = activity;
+    public ActivityModule (AppCompatActivity activity) {
+        mScene = activity;
     }
 
     @Provides
     @PerActivity
     @ActivityContext
     Context provideActivityContext () {
-        return mActivity;
+        return mScene;
     }
 
     @Provides
     @PerActivity
     @ActivityContext
     Navigator provideNavigator () {
-        return new Navigator (mActivity);
+        return new Navigator (mScene);
+    }
+
+    @Provides
+    @PerActivity
+    @ActivityContext
+    ToolToolbar provideToolToolbar () {
+        return new ToolToolbar (
+                mScene,
+                DrawerSection.ExtraKey.TITLE,
+                DrawerSection.ExtraKey.COLOR,
+                R.attr.toolbarDefaultStyle,
+                R.id.app_content,
+                R.string.app_name);
     }
 
 }
