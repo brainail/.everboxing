@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Window;
@@ -57,12 +58,27 @@ public final class ToolResources {
             final Context context,
             final int themeResId,
             final int [] attributes,
-            final int defaultColor) {
+            final @ColorRes int defaultColor) {
 
         final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
 
         try {
             return typedArray.getColor(0, context.getResources().getColor(defaultColor));
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    public static Integer retrieveThemeColor(
+            final Context context,
+            final int themeResId,
+            final int [] attributes) {
+
+        final TypedArray typedArray = context.obtainStyledAttributes(themeResId, attributes);
+
+        try {
+            final int color = typedArray.getColor(0, Integer.MIN_VALUE);
+            return Integer.MIN_VALUE == color ? null : color;
         } finally {
             typedArray.recycle();
         }
@@ -127,6 +143,21 @@ public final class ToolResources {
                 new int [] {android.R.attr.textColorPrimary},
                 android.R.color.black
         );
+    }
+
+    public static Integer retrieveCustomToolbarThemeColor (final Context context) {
+        final int themeResId = ThemeManager.appTheme().getThemeResId();
+
+        final TypedArray typedArray
+                = context.obtainStyledAttributes(themeResId, new int [] {R.attr.toolbarDefaultStyle});
+        try {
+            return retrieveThemeColor (
+                    context,
+                    typedArray.peekValue (0).data,
+                    new int [] {android.R.attr.background});
+        } finally {
+            typedArray.recycle ();
+        }
     }
 
     /**

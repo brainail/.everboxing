@@ -10,8 +10,8 @@
     <!-- Drawer -->
     <attr name="drawerCover" format="reference"/>
     <attr name="menuDrawerBackgroundColor" format="color"/>
-    <attr name="menuDrawerHelSectionsDropshadowColor" format="color"/>
-    <attr name="menuDrawerHelSectionsDropshadowDrawable" format="reference"/>
+    <attr name="menuDrawerHelpSectionsDropshadowColor" format="color"/>
+    <attr name="menuDrawerHelpSectionsDropshadowDrawable" format="reference"/>
 
     <!-- Toolbar -->
     <attr name="toolbarDefaultStyle" format="reference"/>

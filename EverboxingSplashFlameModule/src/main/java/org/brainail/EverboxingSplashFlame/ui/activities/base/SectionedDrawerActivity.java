@@ -133,7 +133,7 @@ public abstract class SectionedDrawerActivity
         if (null == section) {
             super.updateToolbarColor ();
         } else {
-            ToolToolbar.updateToolbarColor (this, section.hasColor () ? section.getColor () : null);
+            ToolToolbar.updateToolbarColor (this, section.hasDestinationColor () ? section.getDestinationColor () : null);
         }
     }
 

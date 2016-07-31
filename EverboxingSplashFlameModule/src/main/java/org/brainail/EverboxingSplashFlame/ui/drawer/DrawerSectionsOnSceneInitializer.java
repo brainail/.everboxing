@@ -53,6 +53,8 @@ public final class DrawerSectionsOnSceneInitializer {
 
         @Override
         public void initialize (final SectionedDrawerActivity scene) {
+            final int primaryColor = ToolResources.retrievePrimaryColor (scene);
+
             // Flamer
             scene.addDrawerSection (
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
@@ -60,7 +62,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withName (ToolResources.string (scene, R.string.section_flamer))
                             .withIcon (BaseIcon.defIcon (scene, IconValue.zmdi_fire))
                             .withTarget (ToolFragments.FragmentCreator.from (FlamePropertiesFragment.class))
-                            .withSectionColor (ToolResources.retrievePrimaryColor (scene))
+                            .withSectionColor (primaryColor)
             );
 
             // Favourite
@@ -70,7 +72,7 @@ public final class DrawerSectionsOnSceneInitializer {
                             .withName (ToolResources.string (scene, R.string.section_history))
                             .withIcon (BaseIcon.defIcon (scene, IconValue.zmdi_collection_folder_image))
                             .withTarget (ToolFragments.FragmentCreator.from (HistoryFragment.class))
-                            .withSectionColor (ToolResources.retrievePrimaryColor (scene))
+                            .withSectionColor (primaryColor)
             );
 
             // Feedback/Rating

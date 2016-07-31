@@ -31,8 +31,8 @@
         <item name="dividerDefaultColor">@color/divider_color</item>
         <item name="dropshadowDefaultColor">@color/separator_dropshadow_default</item>
         <item name="dropshadowDefaultDrawable">@drawable/toolbar_dropshadow</item>
-        <item name="menuDrawerHelSectionsDropshadowColor">@color/menu_drawer_help_sections_dropshadow</item>
-        <item name="menuDrawerHelSectionsDropshadowDrawable">@drawable/drawer_menu_help_sections_dropshadow</item>
+        <item name="menuDrawerHelpSectionsDropshadowColor">@color/menu_drawer_help_sections_dropshadow</item>
+        <item name="menuDrawerHelpSectionsDropshadowDrawable">@drawable/drawer_menu_help_sections_dropshadow</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_indigo_700</item>
@@ -168,6 +168,22 @@
         <item name="fabDefaultColorNormal">@color/md_brown_700</item>
         <item name="fabDefaultColorPressed">@color/md_brown_600</item>
         <item name="fabDefaultColorRipple">@color/md_brown_300</item>
+    </style>
+
+    <!-- Default. Colorized. Bleach -->
+    <style name="AppTheme.Default.Bleach">
+        <item name="colorPrimary">@color/md_grey_500</item>
+        <item name="colorPrimaryDark">@color/md_grey_600</item>
+        <item name="colorAccent">@color/md_blue_grey_400</item>
+        <item name="drawerCover">@drawable/drawer_user_cover_bleach_theme</item>
+
+        <!-- FAB -->
+        <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>
+        <item name="fabDefaultColorPressed">@color/md_blue_grey_600</item>
+        <item name="fabDefaultColorRipple">@color/md_blue_grey_300</item>
+
+        <item name="actionBarStyle">@style/AppActionBarBleach.Primary</item>
+        <item name="toolbarDefaultStyle">@style/AppToolbarBleach.Primary</item>
     </style>
 
 </resources>

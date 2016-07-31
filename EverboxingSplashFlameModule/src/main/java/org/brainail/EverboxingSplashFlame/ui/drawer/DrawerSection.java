@@ -106,7 +106,9 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     private int mNumberNotifications = 0;
     private int mNotificationsLimit = 99;
     private int mColor = Color.BLACK;
+    private int mDestinationColor = Color.WHITE;
     private boolean mHasColor = false;
+    private boolean mHasDestinationColor = false;
 
     // Identifiers
     private Object mTag;
@@ -273,8 +275,14 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
     }
 
     public DrawerSection withSectionColor (final Integer color) {
+        return withSectionColor (color, null);
+    }
+
+    public DrawerSection withSectionColor (final Integer color, final Integer destinationColor) {
         mHasColor = null != color;
         mColor = null != color ? color : Color.BLACK;
+        mHasDestinationColor = null != destinationColor;
+        mDestinationColor = null != destinationColor ? destinationColor : Color.WHITE;
         updateTextAndIconColor ();
         return this;
     }
@@ -291,8 +299,16 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
         return mHasColor;
     }
 
+    public boolean hasDestinationColor () {
+        return mHasDestinationColor;
+    }
+
     public int getColor () {
         return mColor;
+    }
+
+    public int getDestinationColor () {
+        return mDestinationColor;
     }
 
     public DrawerSection withNotificationsLimit (final int notificationsLimit) {
@@ -351,7 +367,7 @@ public class DrawerSection implements DrawerLayout.DrawerListener {
 
     private Intent wrapIntentOnStart (final Intent intent) {
         final Intent wrappedIntent = new Intent (intent);
-        wrappedIntent.putExtra (ExtraKey.COLOR, hasColor () ? (Integer) mColor : (Integer) null);
+        wrappedIntent.putExtra (ExtraKey.COLOR, hasDestinationColor () ? mDestinationColor : null);
         wrappedIntent.putExtra (ExtraKey.TITLE, getTitle ());
         return wrappedIntent;
     }

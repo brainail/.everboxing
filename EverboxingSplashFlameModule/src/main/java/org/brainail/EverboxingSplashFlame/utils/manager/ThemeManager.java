@@ -38,6 +38,7 @@ public class ThemeManager {
     public enum AppTheme {
 
         DARK (R.style.AppThemeDark_Default, R.string.theme_name_dark),
+        BLEACH (R.style.AppTheme_Default_Bleach, R.string.theme_name_bleach),
         PINK (R.style.AppTheme_Default, R.string.theme_name_default),
         INDIGO (R.style.AppTheme_Default_Indigo, R.string.theme_name_indigo),
         BLUE (R.style.AppTheme_Default_Blue, R.string.theme_name_blue),

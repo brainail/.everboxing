@@ -117,7 +117,7 @@
         android:layout_height="@dimen/menu_drawer_section_help_section_dropdown_shadow_height"
         android:visibility="gone"
         android:layout_above="@+id/drawer_menu_help_sections"
-        android:background="?attr/menuDrawerHelSectionsDropshadowDrawable"/>
+        android:background="?attr/menuDrawerHelpSectionsDropshadowDrawable"/>
 
     <LinearLayout
         android:id="@+id/drawer_menu_help_sections"

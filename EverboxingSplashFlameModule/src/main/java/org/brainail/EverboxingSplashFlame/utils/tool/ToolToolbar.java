@@ -20,21 +20,21 @@ import butterknife.ButterKnife;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- *
+ * <p>
  * The MIT License (MIT) <br/><br/>
- *
+ * <p>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -45,7 +45,7 @@ import butterknife.ButterKnife;
  */
 public final class ToolToolbar {
 
-    public static void updateToolbarTitle(final AppCompatActivity activity, final String title) {
+    public static void updateToolbarTitle (final AppCompatActivity activity, final String title) {
         // No place
         if (null == activity) return;
 
@@ -53,35 +53,35 @@ public final class ToolToolbar {
         String toolbarTitle = title;
 
         // Try to use title from fragment if necessary
-        if (TextUtils.isEmpty(toolbarTitle)) {
-            final Fragment fragment = ToolFragments.topFragment(activity);
+        if (TextUtils.isEmpty (toolbarTitle)) {
+            final Fragment fragment = ToolFragments.topFragment (activity);
             if (fragment instanceof Titleable) {
-                final String fragmentTitle = ((Titleable) fragment).title();
-                if (!TextUtils.isEmpty(fragmentTitle)) toolbarTitle = fragmentTitle;
+                final String fragmentTitle = ((Titleable) fragment).title ();
+                if (!TextUtils.isEmpty (fragmentTitle)) toolbarTitle = fragmentTitle;
             }
         }
 
         // Try to get from the activity's intent (perhaps it was started from the Drawer)
-        if (TextUtils.isEmpty(toolbarTitle) && null != activity.getIntent()) {
-            toolbarTitle = activity.getIntent().getStringExtra(DrawerSection.ExtraKey.TITLE);
+        if (TextUtils.isEmpty (toolbarTitle) && null != activity.getIntent ()) {
+            toolbarTitle = activity.getIntent ().getStringExtra (DrawerSection.ExtraKey.TITLE);
         }
 
         // Check manifest
-        if (TextUtils.isEmpty(toolbarTitle)) {
-            toolbarTitle = ToolManifest.activityLabel(activity);
+        if (TextUtils.isEmpty (toolbarTitle)) {
+            toolbarTitle = ToolManifest.activityLabel (activity);
         }
 
         // Try to use app name as the last resort
-        if (TextUtils.isEmpty(toolbarTitle)) {
-            toolbarTitle = ToolResources.string(activity, R.string.app_name);
+        if (TextUtils.isEmpty (toolbarTitle)) {
+            toolbarTitle = ToolResources.string (activity, R.string.app_name);
         }
 
         // Set title for toolbar
-        final ActionBar toolbar = activity.getSupportActionBar();
-        if (null != toolbar) toolbar.setTitle(toolbarTitle);
+        final ActionBar toolbar = activity.getSupportActionBar ();
+        if (null != toolbar) toolbar.setTitle (toolbarTitle);
     }
 
-    public static void updateToolbarColor(final AppCompatActivity activity, final Integer color) {
+    public static void updateToolbarColor (final AppCompatActivity activity, final Integer color) {
         // No place
         if (null == activity) return;
 
@@ -90,40 +90,46 @@ public final class ToolToolbar {
 
         // Try to use color from fragment if necessary
         if (null == toolbarColor) {
-            final Fragment fragment = ToolFragments.topFragment(activity);
+            final Fragment fragment = ToolFragments.topFragment (activity);
             if (fragment instanceof Colorable) {
-                final Integer fragmentColor = ((Colorable) fragment).color();
+                final Integer fragmentColor = ((Colorable) fragment).color ();
                 if (null != fragmentColor) toolbarColor = fragmentColor;
             }
         }
 
         // Try to get from the activity's intent (perhaps it was started from the Drawer)
-        if (null == toolbarColor && null != activity.getIntent()) {
-            toolbarColor = (Integer) activity.getIntent().getSerializableExtra(DrawerSection.ExtraKey.COLOR);
+        if (null == toolbarColor && null != activity.getIntent ()) {
+            toolbarColor = (Integer) activity.getIntent ().getSerializableExtra (DrawerSection.ExtraKey.COLOR);
+        }
+
+        // Try to get color from custom toolbar theme's background
+        if (null == toolbarColor) {
+            final Integer customToolbarColor = ToolResources.retrieveCustomToolbarThemeColor (activity);
+            if (null != customToolbarColor) toolbarColor = customToolbarColor;
         }
 
         // Try to use app color as the last resort
-        final int primaryColor = ToolResources.retrievePrimaryColor(activity);
-        final int primaryDarkColor = ToolResources.retrievePrimaryDarkColor(activity);
+        final int primaryColor = ToolResources.retrievePrimaryColor (activity);
+        final int primaryDarkColor = ToolResources.retrievePrimaryDarkColor (activity);
         if (null == toolbarColor) {
             toolbarColor = primaryColor;
         }
 
         // Set color for toolbar & status bar
-        final Toolbar toolbar = ((BaseActivity) activity).getPrimaryToolbar();
+        final Toolbar toolbar = ((BaseActivity) activity).getPrimaryToolbar ();
         if (null != toolbar) {
-            final View appContentWindow = ButterKnife.findById(activity, R.id.app_content);
+            final View appContentWindow = ButterKnife.findById (activity, R.id.app_content);
 
             // Similar to getWindow() to set background color for status bar
             if (null != appContentWindow) {
                 final int windowColor = (toolbarColor == primaryColor)
-                        ? primaryDarkColor : ToolColor.darkenColor(toolbarColor);
+                        ? primaryDarkColor : ToolColor.darkenColor (toolbarColor);
 
                 //noinspection WrongConstant,ResourceAsColor
-                appContentWindow.setBackgroundColor(windowColor);
+                appContentWindow.setBackgroundColor (windowColor);
             }
 
-            toolbar.setBackgroundColor(toolbarColor);
+            toolbar.setBackgroundColor (toolbarColor);
         }
     }
 

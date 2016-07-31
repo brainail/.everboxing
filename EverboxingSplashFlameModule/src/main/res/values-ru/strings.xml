@@ -35,6 +35,7 @@
     <string name="theme_name_brown">Коричневая</string>
     <string name="theme_name_orange">Оранжевая</string>
     <string name="theme_name_dark">Темная</string>
+    <string name="theme_name_bleach">Белизна</string>
 
     <string name="open_url_fallback_no_apps_to_open">Приложение для открытия не найдено</string>
 
