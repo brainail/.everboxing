@@ -18,9 +18,9 @@ import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActi
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionCallback;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsOnSceneInitializer;
-import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerUser;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs;
+import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode;
 import org.brainail.EverboxingSplashFlame.utils.LogScope;
 import org.brainail.EverboxingSplashFlame.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.PooLogger;
@@ -137,12 +137,9 @@ public class HomeActivity
         super.onResume ();
 
         // For the first time get info about user from settings
-        updateUserInfo (new DrawerUser.UserProvider () {
-            @Override
-            public String provideEmail () {
-                final UserInfoApi userInfo = PlayServices.formSettingsUserInfo ();
-                return userInfo.email;
-            }
+        updateUserInfo (() -> {
+            final UserInfoApi userInfo = PlayServices.formSettingsUserInfo ();
+            return userInfo.email;
         });
     }
 
@@ -233,12 +230,15 @@ public class HomeActivity
 
     @Override
     public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
-        if (dialog.isDialogWithCode (AppHardyDialogs.AppHardyDialogsCode.D_HELP_US)) {
+        if (dialog.isDialogWithCode (AppHardyDialogsCode.D_HELP_US)) {
             switch (whichItem) {
                 case 0:
                     mNavigator.openAppInMarketAction (BuildConfig.APPLICATION_ID).start ();
                     break;
                 case 1:
+                    mNavigator.shareApp (BuildConfig.APPLICATION_ID).start ();
+                    break;
+                case 2:
                     mNavigator.sendFeedbackOrSuggestion ().start ();
                     break;
             }

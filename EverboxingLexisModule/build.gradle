@@ -83,6 +83,8 @@ android {
 
         buildConfigField "String", "BUILD_TIME_KEY", "\"Build TIME\""
         buildConfigField "String", "BUILD_TIME", "\"${appBuildTime}\""
+
+        vectorDrawables.useSupportLibrary = true
     }
 
 //    sourceSets {

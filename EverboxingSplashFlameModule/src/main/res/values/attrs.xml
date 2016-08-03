@@ -14,6 +14,7 @@
     <attr name="menuDrawerHelpSectionsDropshadowDrawable" format="reference"/>
 
     <!-- Toolbar -->
+    <attr name="toolbarControlColor" format="reference"/>
     <attr name="toolbarDefaultStyle" format="reference"/>
 
     <!-- Background -->

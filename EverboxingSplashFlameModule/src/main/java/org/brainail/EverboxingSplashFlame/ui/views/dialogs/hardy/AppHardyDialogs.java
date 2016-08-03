@@ -51,7 +51,10 @@ public final class AppHardyDialogs {
         return ListDialogSpecification.create ()
                 .code (AppHardyDialogsCode.D_HELP_US)
                 .title (R.string.dialog_help_us_title)
-                .items (new int [] {R.string.dialog_button_rate_app, R.string.dialog_button_feedback_suggestion})
+                .items (new int [] {
+                        R.string.dialog_button_rate_app,
+                        R.string.dialog_button_share_with_friends,
+                        R.string.dialog_button_feedback_suggestion})
                 .cancelable (true);
     }
 

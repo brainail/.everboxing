@@ -15,6 +15,7 @@
 
     <!-- Toolbar -->
     <attr name="toolbarDefaultStyle" format="reference"/>
+    <attr name="toolbarControlColor" format="reference"/>
 
     <!-- Background -->
     <attr name="contentDefaultBackgroundColor" format="color"/>

@@ -198,7 +198,7 @@ public abstract class BaseActivity
 
     private void initAPIs (Bundle savedInstanceState) {
         // All
-        mClientApis = new ArrayList<ClientApi> ();
+        mClientApis = new ArrayList<> ();
 
         // Google Play Services
         mPlayServices = new PlayServices (this, savedInstanceState);
@@ -220,6 +220,7 @@ public abstract class BaseActivity
 
         if (null != mPrimaryToolbar) {
             setSupportActionBar (mPrimaryToolbar);
+            // noinspection ConstantConditions
             getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
             getSupportActionBar ().setHomeButtonEnabled (true);
         }
@@ -335,6 +336,7 @@ public abstract class BaseActivity
         updateToolbarTitle ();
         // We should update here options menu
         // to refresh self after recreate (change theme)
+        // noinspection ConstantConditions
         getSupportActionBar ().invalidateOptionsMenu ();
     }
 

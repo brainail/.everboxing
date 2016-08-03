@@ -130,6 +130,15 @@ public class Navigator {
     }
 
     @CheckResult
+    public NavigatorAction shareApp (final String packageName) {
+        final Intent actionIntent = new Intent (Intent.ACTION_SEND);
+        final String playUrl = "https://play.google.com/store/apps/details?id=" + packageName;
+        actionIntent.putExtra (Intent.EXTRA_TEXT, ToolResources.string (mContext, R.string.share_app_text, playUrl));
+        actionIntent.setType("text/plain");
+        return NavigatorActionFactory.create (mContext, actionIntent);
+    }
+
+    @CheckResult
     public NavigatorAction sendFeedbackOrSuggestion () {
         final Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:" + ToolEmail.APP_EMAIL));
         final String subject = ToolResources.string (mContext, R.string.feedback_suggestion_email_title, feedbackAppInfo ());

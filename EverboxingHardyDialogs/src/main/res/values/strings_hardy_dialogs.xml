@@ -16,6 +16,7 @@
     <string name="dialog_button_info">Info</string>
     <string name="dialog_button_retry">Retry</string>
     <string name="dialog_button_rate_app">Rate the App</string>
+    <string name="dialog_button_share_with_friends">Share with folks</string>
     <string name="dialog_button_feedback_suggestion">Send feedback/suggestion</string>
 
     <string name="progress_dialog_loading">Loading …</string>

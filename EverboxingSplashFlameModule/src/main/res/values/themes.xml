@@ -22,6 +22,7 @@
         <!-- ... -->
         <item name="drawerCover">@drawable/drawer_user_cover_default_pink_theme</item>
         <item name="listDefaultSelector">@drawable/list_item_default_selector</item>
+        <item name="toolbarControlColor">@color/md_white_1000</item>
         <item name="toolbarDefaultStyle">@style/AppToolbar.Primary</item>
         <item name="contentDefaultBackgroundColor">@color/content_bg_default</item>
         <item name="cardDefaultBackgroundColor">@color/card_bg_default</item>
@@ -176,6 +177,7 @@
         <item name="colorPrimaryDark">@color/md_grey_600</item>
         <item name="colorAccent">@color/md_blue_grey_400</item>
         <item name="drawerCover">@drawable/drawer_user_cover_bleach_theme</item>
+        <item name="toolbarControlColor">@color/md_black_1000</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>

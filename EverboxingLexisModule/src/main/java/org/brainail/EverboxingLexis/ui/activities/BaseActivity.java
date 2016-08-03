@@ -12,8 +12,10 @@ import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.ClientApi;
 import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
+import org.brainail.EverboxingLexis.ui.drawer.DrawerSection;
 import org.brainail.EverboxingLexis.ui.notice.NoticeBar;
 import org.brainail.EverboxingLexis.ui.notice.NoticeController;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
@@ -71,6 +73,9 @@ public abstract class BaseActivity
 
     // Chrome tabs stuff
     private CustomTabsSceneHelper mCustomTabsSceneHelper;
+
+    // Toolbar tuner (use via provide method to load it lazily)
+    private ToolToolbar mToolToolbarTuner;
 
     @SuppressWarnings("unchecked")
     public <T extends View> T bindView(final int id) {
@@ -292,11 +297,25 @@ public abstract class BaseActivity
     }
 
     protected void updateToolbarColor () {
-        ToolToolbar.updateToolbarColor (this, null);
+        provideToolToolbar ().updateToolbarColor (null);
     }
 
     protected void updateToolbarTitle () {
-        ToolToolbar.updateToolbarTitle (this, null);
+        provideToolToolbar ().updateToolbarTitle (null);
+    }
+
+    protected final ToolToolbar provideToolToolbar () {
+        if (null == mToolToolbarTuner) {
+            mToolToolbarTuner = new ToolToolbar (
+                    this,
+                    DrawerSection.ExtraKey.TITLE,
+                    DrawerSection.ExtraKey.COLOR,
+                    R.attr.toolbarDefaultStyle,
+                    R.id.app_content,
+                    R.string.app_name);
+        }
+
+        return mToolToolbarTuner;
     }
 
     @Override

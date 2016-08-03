@@ -10,7 +10,6 @@ import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsControllerFactory;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerUser;
 import org.brainail.EverboxingLexis.ui.drawer.IDrawerSectionsController;
-import org.brainail.EverboxingLexis.utils.tool.ToolToolbar;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
 /**
@@ -133,7 +132,7 @@ public abstract class SectionedDrawerActivity
         if (null == section) {
             super.updateToolbarColor ();
         } else {
-            ToolToolbar.updateToolbarColor (this, section.hasColor () ? section.getColor () : null);
+            provideToolToolbar ().updateToolbarColor (section.hasDestinationColor () ? section.getDestinationColor () : null);
         }
     }
 
@@ -144,7 +143,7 @@ public abstract class SectionedDrawerActivity
         if (null == section) {
             super.updateToolbarTitle ();
         } else {
-            ToolToolbar.updateToolbarTitle (this, section.getTitle ());
+            provideToolToolbar ().updateToolbarTitle (section.getTitle ());
         }
     }
 

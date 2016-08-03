@@ -178,7 +178,7 @@ public final class ToolToolbar {
                 final int windowColor = (toolbarColor == primaryColor)
                         ? primaryDarkColor : ToolColor.darkenColor (toolbarColor);
 
-                //noinspection WrongConstant,ResourceAsColor
+                // noinspection WrongConstant,ResourceAsColor
                 appContentWindow.setBackgroundColor (windowColor);
             }
 
