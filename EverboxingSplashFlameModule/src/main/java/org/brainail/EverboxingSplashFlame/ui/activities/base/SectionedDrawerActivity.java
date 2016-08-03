@@ -157,12 +157,7 @@ public abstract class SectionedDrawerActivity
 
     @Override
     public void onAuthSucceeded (final UserInfoApi userInfo) {
-        mDrawerSectionsController.onAuthSucceeded (new DrawerUser.UserProvider () {
-            @Override
-            public String provideEmail () {
-                return userInfo.email;
-            }
-        });
+        mDrawerSectionsController.onAuthSucceeded (() -> userInfo.email);
     }
 
     @Override

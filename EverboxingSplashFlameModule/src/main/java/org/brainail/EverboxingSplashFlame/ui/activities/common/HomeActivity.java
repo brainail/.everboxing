@@ -10,6 +10,7 @@ import android.view.View;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.OnDialogListActionCallback;
+import org.brainail.EverboxingSplashFlame.BuildConfig;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.api.UserInfoApi;
 import org.brainail.EverboxingSplashFlame.api.google.PlayServices;
@@ -235,7 +236,7 @@ public class HomeActivity
         if (dialog.isDialogWithCode (AppHardyDialogs.AppHardyDialogsCode.D_HELP_US)) {
             switch (whichItem) {
                 case 0:
-                    mNavigator.openAppInMarketAction ("org.brainail.EverboxingLexis").start ();
+                    mNavigator.openAppInMarketAction (BuildConfig.APPLICATION_ID).start ();
                     break;
                 case 1:
                     mNavigator.sendFeedbackOrSuggestion ().start ();

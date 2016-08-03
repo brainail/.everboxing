@@ -253,6 +253,12 @@ dependencies {
 // To run through the Studio (previous approach)
 // apply from: 'robolectric-iml.gradle'
 
+configurations.all {
+    resolutionStrategy {
+        force "com.android.support:support-v4:${supportLibVersion}"
+    }
+}
+
 dependencies {
     // Tests
     testCompile "junit:junit:4.12"
@@ -267,7 +273,9 @@ dependencies {
     }
 
     // Checks
-    testCompile "com.squareup:fest-android:1.0.8"
+    testCompile ('com.squareup:fest-android:1.0.+') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
     testCompile('com.squareup.assertj:assertj-android:1.1.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
