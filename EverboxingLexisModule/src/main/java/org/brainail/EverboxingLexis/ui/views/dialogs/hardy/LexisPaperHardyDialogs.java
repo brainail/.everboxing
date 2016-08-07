@@ -113,4 +113,15 @@ public final class LexisPaperHardyDialogs {
                 .negativeButton (R.string.dialog_button_no);
     }
 
+    public static ListDialogSpecification.Builder<?> helpUs () {
+        return ListDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_HELP_US)
+                .title (R.string.dialog_help_us_title)
+                .items (new int [] {
+                        R.string.dialog_button_rate_app,
+                        R.string.dialog_button_share_with_friends,
+                        R.string.dialog_button_feedback_suggestion})
+                .cancelable (true);
+    }
+
 }

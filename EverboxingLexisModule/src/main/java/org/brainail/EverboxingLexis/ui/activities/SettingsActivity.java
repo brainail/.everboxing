@@ -19,12 +19,10 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import org.brainail.EverboxingLexis.BuildConfig;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.ClientApi;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
@@ -33,8 +31,7 @@ import org.brainail.EverboxingLexis.ui.views.dialogs.ThemeChooser;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
 import org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
-import org.brainail.EverboxingTools.utils.tool.ToolEmail;
-import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+import org.brainail.EverboxingLexis.utils.navigator.Navigator;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.utils.tool.ToolTts;
 
@@ -224,9 +221,14 @@ public class SettingsActivity
         private TextToSpeech mTts;
         private volatile Pair<List<String>, List<String>> mSupportedTtsLanguages;
 
+        private Navigator mNavigator;
+
         @Override
         public void onCreate (Bundle savedInstanceState) {
             super.onCreate (savedInstanceState);
+
+            mNavigator = new Navigator (getActivity ());
+
             addPreferencesFromResource (R.xml.settings_main);
 
             // Bind the summaries of (EditText, List, Dialog, Ringtone) preferences to
@@ -363,7 +365,7 @@ public class SettingsActivity
 
             // Feedback
             if (getString (R.string.settings_feedback_key).equals (preference.getKey ())) {
-                sendFeedbackOrSuggestion (getActivity ());
+                mNavigator.sendFeedbackOrSuggestion ().start ();
             }
 
             // About
@@ -452,20 +454,6 @@ public class SettingsActivity
             }
         }
 
-    }
-
-    private static void sendFeedbackOrSuggestion (@NonNull final Activity activity) {
-        final Intent actionIntent = new Intent (Intent.ACTION_SENDTO, Uri.parse ("mailto:" + ToolEmail.APP_EMAIL));
-        final String subject = ToolResources.string (R.string.feedback_suggestion_email_title, feedbackAppInfo ());
-        actionIntent.putExtra (Intent.EXTRA_SUBJECT, subject);
-        actionIntent.putExtra (Intent.EXTRA_TEXT, ToolResources.string (R.string.feedback_suggestion_mail_start_body));
-        activity.startActivity (actionIntent);
-    }
-
-    private static String feedbackAppInfo () {
-        return "v_" + BuildConfig.VERSION_NAME
-                + " / c_" + BuildConfig.VERSION_CODE
-                + " / g_" + BuildConfig.GIT_SHA;
     }
 
 }

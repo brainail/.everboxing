@@ -198,7 +198,12 @@ public class CustomTabsSceneHelper implements CustomTabsConnectionCallbacks {
         // Construct our intent via builder
         final CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder (session);
         // Toolbar color
-        intentBuilder.setToolbarColor (ToolResources.retrievePrimaryColor (context));
+        Integer customToolbarColor
+                = ToolResources.retrieveCustomToolbarThemeColor (context, R.attr.toolbarDefaultStyle);
+        if (null == customToolbarColor) {
+            customToolbarColor = ToolResources.retrievePrimaryColor (context);
+        }
+        intentBuilder.setToolbarColor (customToolbarColor);
         // Show title
         intentBuilder.setShowTitle (true);
         // Custom menu item > Share

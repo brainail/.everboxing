@@ -1,5 +1,7 @@
 package org.brainail.EverboxingLexis.ui.drawer;
 
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
+
 import com.malinskiy.materialicons.Iconify;
 
 import org.brainail.EverboxingLexis.R;
@@ -42,6 +44,10 @@ import itkach.aard2.ui.fragments.LexisLookupFragment;
 public final class DrawerSectionsOnSceneInitializer {
 
     public static final int LUCKY_SECTION_POSITION = 4;
+
+    public static final class SectionTag {
+        public static final String FEEDBACK_RATING = "feedback/rating";
+    }
 
     public interface IDrawerSectionInitializer {
         void initialize (final SectionedDrawerActivity scene);
@@ -97,6 +103,16 @@ public final class DrawerSectionsOnSceneInitializer {
                     new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
                             .withName (ToolResources.string (R.string.section_lucky))
                             .withIcon (BaseIcon.controlIcon (scene, Iconify.IconValue.zmdi_shuffle))
+                            .withTarget ((DrawerSectionCallback) scene)
+            );
+
+            // Feedback/Rating
+            scene.addDrawerSection (
+                    new DrawerSection (scene, DrawerSection.LayoutType.NORMAL)
+                            .withName (ToolResources.string (R.string.drawer_item_help_us))
+                            .withLocationType (DrawerSection.LocationType.HELP)
+                            .withIcon (AnimatedVectorDrawableCompat.create(scene, R.drawable.ic_star_rating))
+                            .withTag (SectionTag.FEEDBACK_RATING)
                             .withTarget ((DrawerSectionCallback) scene)
             );
 

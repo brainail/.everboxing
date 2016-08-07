@@ -69,6 +69,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_user_data_name_greetings">&#9728; Greeting you! &#9728;</string>
+    <string name="drawer_item_help_us">Help Us</string>
 
     <string name="section_dictionaries">Dictionaries</string>
     <string name="section_history">History</string>
@@ -104,6 +105,9 @@
     <string name="custom_tab_action_share">Share</string>
     <string name="custom_tab_action_email">Email</string>
     <string name="custom_tab_action_email_mail_title">Check this out</string>
+
+    <string name="dialog_help_us_title">Help Us</string>
+    <string name="share_app_text">Yo!\n\nCheck out the following app \n%s\nIt is really interesting stuff!\nDownload and enjoy!</string>
 
     <!-- ||||||||||||||||||||||| Slob prj ||||||||||||||||||||||| -->
     <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->

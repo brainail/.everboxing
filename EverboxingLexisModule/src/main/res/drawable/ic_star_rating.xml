@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="NewApi,MissingPrefix">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportHeight="24.0"
+            android:viewportWidth="24.0">
+            <group
+                android:name="star_group"
+                android:pivotX="12.0"
+                android:pivotY="12.0"
+                android:rotation="45.0">
+                <path
+                    android:name="star_path"
+                    android:fillColor="#ffdc41"
+                    android:pathData="M12,17.27L18.18,21l-1.64,-7.03L22,9.24l-7.19,-0.61L12,2 9.19,8.63 2,9.24l5.46,4.73L5.82,21z"/>
+            </group>
+        </vector>
+    </aapt:attr>
+
+    <target android:name="star_group">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="5000"
+                    android:propertyName="rotation"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:valueFrom="0"
+                    android:valueTo="360"/>
+                <objectAnimator
+                    android:duration="2500"
+                    android:propertyName="scaleX"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:valueTo="0.7"/>
+                <objectAnimator
+                    android:duration="2500"
+                    android:propertyName="scaleY"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:valueTo="0.7"/>
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

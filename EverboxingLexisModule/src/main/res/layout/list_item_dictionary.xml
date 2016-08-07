@@ -39,9 +39,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:background="@null"
                     android:id="@+id/dictionary_favourite"
                     android:paddingLeft="12dp"
-                    android:src="@drawable/ic_favorite_border_black_24dp"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -86,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:layout_marginRight="4dp"
-                    android:src="@drawable/ic_whatshot_black_18dp"/>
+                    app:srcCompat="@drawable/ic_whatshot_black_18dp"/>
 
                 <TextView
                     android:id="@+id/dictionary_error"
@@ -131,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_copyright_black_18dp"/>
+                        app:srcCompat="@drawable/ic_copyright_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_copyright"
@@ -159,7 +160,7 @@
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
                         android:layout_gravity="top"
-                        android:src="@drawable/ic_perm_identity_black_18dp"/>
+                        app:srcCompat="@drawable/ic_perm_identity_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_license"
@@ -187,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_open_in_browser_black_18dp"/>
+                        app:srcCompat="@drawable/ic_open_in_browser_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_source"
@@ -214,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:src="@drawable/ic_sd_storage_black_18dp"/>
+                        app:srcCompat="@drawable/ic_sd_card_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_path"
@@ -239,9 +240,9 @@
                 <ImageView
                     android:id="@+id/dictionary_btn_toggle_detail"
                     android:layout_width="wrap_content"
+                    android:background="@null"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:background="@null"
                     android:adjustViewBounds="true"
                     android:layout_marginLeft="-5dp"
                     android:paddingTop="5dp"
@@ -257,7 +258,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:src="@drawable/ic_delete_black_24dp"/>
+                    android:background="@null"
+                    app:srcCompat="@drawable/ic_delete_black_24dp"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

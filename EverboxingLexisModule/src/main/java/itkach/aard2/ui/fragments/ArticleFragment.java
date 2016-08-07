@@ -234,8 +234,8 @@ public class ArticleFragment
         mMenuItemFullscreenMode = menu.findItem (R.id.action_fullscreen_mode);
         mMenuItemFullscreenMode.setIcon (
                 ((ArticleCollectionActivity) getActivity ()).isInFullscreen ()
-                        ? R.drawable.ic_fullscreen_exit_white_24dp
-                        : R.drawable.ic_fullscreen_white_24dp
+                        ? R.drawable.ic_menu_fullscreen_exit
+                        : R.drawable.ic_menu_fullscreen
         );
     }
 
@@ -243,10 +243,10 @@ public class ArticleFragment
         if (null != mMenuItemBookmark) {
             if (isBookmarked) {
                 mMenuItemBookmark.setChecked (true);
-                mMenuItemBookmark.setIcon (R.drawable.ic_bookmark_white_24dp);
+                mMenuItemBookmark.setIcon (R.drawable.ic_menu_bookmark);
             } else {
                 mMenuItemBookmark.setChecked (false);
-                mMenuItemBookmark.setIcon (R.drawable.ic_bookmark_border_white_24dp);
+                mMenuItemBookmark.setIcon (R.drawable.ic_menu_bookmark_border);
             }
         }
     }
@@ -309,8 +309,8 @@ public class ArticleFragment
             ((ArticleCollectionActivity) getActivity ()).updateFullscreenModeWithUi (nextFullscreenMode);
             mMenuItemFullscreenMode.setIcon (
                     ((ArticleCollectionActivity) getActivity ()).isInFullscreen ()
-                            ? R.drawable.ic_fullscreen_exit_white_24dp
-                            : R.drawable.ic_fullscreen_white_24dp
+                            ? R.drawable.ic_menu_fullscreen_exit
+                            : R.drawable.ic_menu_fullscreen
             );
         }
 

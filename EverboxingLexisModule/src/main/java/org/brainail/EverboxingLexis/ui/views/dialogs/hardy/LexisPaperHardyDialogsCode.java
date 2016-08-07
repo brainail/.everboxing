@@ -41,7 +41,9 @@ public enum LexisPaperHardyDialogsCode implements HardyDialogCodeProvider {
     // Confirm that you want to remove a dictionary
     D_DICTIONARY_REMOVING_CONFIRMATION("dictionary.removing.confirmation"),
     // Confirm that you want to remove selected items
-    D_LIST_ITEMS_REMOVING_CONFIRMATION("list.items.removing.confirmation");
+    D_LIST_ITEMS_REMOVING_CONFIRMATION("list.items.removing.confirmation"),
+    // Help Us from Drawer
+    D_HELP_US("help.us");
 
     private final String code;
 

@@ -158,7 +158,7 @@ public abstract class BlobDescriptorListFragment
             MenuItemCompat.expandActionView (menuItemFilter);
             searchView.clearFocus ();
         } else {
-            menuItemFilter.setIcon (R.drawable.ic_filter_list_white_24dp);
+            menuItemFilter.setIcon (R.drawable.ic_menu_filter_list);
         }
 
         searchView.setImeOptions(searchView.getImeOptions()
@@ -193,10 +193,10 @@ public abstract class BlobDescriptorListFragment
 
     private void setSortOrder(MenuItem menuItem, BlobDescriptorList.SortOrder order) {
         if (order != BlobDescriptorList.SortOrder.TIME) {
-            menuItem.setIcon(R.drawable.ic_access_time_white_24dp);
+            menuItem.setIcon(R.drawable.ic_menu_access_time);
             menuItem.setTitle(R.string.action_sort_by_time);
         } else {
-            menuItem.setIcon(R.drawable.ic_sort_white_24dp);
+            menuItem.setIcon(R.drawable.ic_menu_sort);
             menuItem.setTitle(R.string.action_sort_by_title);
         }
 
@@ -205,10 +205,10 @@ public abstract class BlobDescriptorListFragment
 
     private void setAscending(MenuItem menuItem, boolean isAscending) {
         if (! isAscending) {
-            menuItem.setIcon(R.drawable.ic_trending_up_white_24dp);
+            menuItem.setIcon(R.drawable.ic_menu_trending_up);
             menuItem.setTitle(R.string.action_ascending);
         } else {
-            menuItem.setIcon(R.drawable.ic_trending_down_white_24dp);
+            menuItem.setIcon(R.drawable.ic_menu_trending_down);
             menuItem.setTitle(R.string.action_descending);
         }
 

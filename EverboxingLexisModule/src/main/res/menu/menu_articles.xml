@@ -7,7 +7,7 @@
         android:id="@+id/action_bookmark_article"
         android:checkable="true"
         android:checked="false"
-        android:icon="@drawable/ic_bookmark_border_white_24dp"
+        android:icon="@drawable/ic_menu_bookmark_border"
         android:title="@string/action_bookmark_article"
         app:showAsAction="always"
         android:orderInCategory="8"
@@ -16,7 +16,7 @@
     <item
         android:id="@+id/action_fullscreen_mode"
         android:title="@string/action_article_in_fullscreen"
-        android:icon="@drawable/ic_fullscreen_white_24dp"
+        android:icon="@drawable/ic_menu_fullscreen"
         app:showAsAction="always"
         android:orderInCategory="16"
         tools:ignore="AlwaysShowAction"/>
@@ -24,7 +24,7 @@
     <item
         android:id="@+id/action_search_externally_article"
         android:title="@string/action_search_externally_article"
-        android:icon="@drawable/ic_youtube_searched_for_white_24dp"
+        android:icon="@drawable/ic_menu_searched_for"
         app:showAsAction="always"
         android:orderInCategory="20"
         tools:ignore="AlwaysShowAction"/>
@@ -32,14 +32,14 @@
     <item
         android:id="@+id/action_tts"
         android:title="@string/action_tts"
-        android:icon="@drawable/ic_record_voice_over_white_24dp"
+        android:icon="@drawable/ic_menu_record_voice_over"
         android:orderInCategory="24"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_tts_all"
         android:title="@string/action_tts_all"
-        android:icon="@drawable/ic_record_voice_over_white_24dp"
+        android:icon="@drawable/ic_menu_record_voice_over"
         android:orderInCategory="26"
         app:showAsAction="never"/>
 

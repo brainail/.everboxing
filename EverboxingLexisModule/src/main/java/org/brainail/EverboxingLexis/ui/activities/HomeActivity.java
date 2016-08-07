@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
+import org.brainail.EverboxingLexis.BuildConfig;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.UserInfoApi;
 import org.brainail.EverboxingLexis.oauth.api.google.PlayServices;
@@ -18,8 +20,11 @@ import org.brainail.EverboxingLexis.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingLexis.ui.drawer.DrawerUser;
 import org.brainail.EverboxingLexis.ui.fragments.BaseFragment;
 import org.brainail.EverboxingLexis.ui.fragments.BaseListFragment;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogs;
+import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsCode;
 import org.brainail.EverboxingLexis.utils.LogScope;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
+import org.brainail.EverboxingLexis.utils.navigator.Navigator;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
@@ -56,13 +61,18 @@ import itkach.slob.Slob;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class HomeActivity extends SectionedDrawerActivity implements DrawerSectionCallback {
+public class HomeActivity
+        extends SectionedDrawerActivity
+        implements DrawerSectionCallback, HardyDialogFragment.OnDialogListActionCallback {
 
     private boolean mShouldUpdateDrawerNotifications = true;
+    private Navigator mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mNavigator = new Navigator (this);
 
         // ...
 
@@ -278,6 +288,26 @@ public class HomeActivity extends SectionedDrawerActivity implements DrawerSecti
             } else {
                 ToolUI.showToast (this, R.string.article_collection_nothing_found);
                 investigateFragmentsStack ();
+            }
+        } else if (DrawerSectionsOnSceneInitializer.SectionTag.FEEDBACK_RATING.equals (section.tag ())) {
+            investigateFragmentsStack ();
+            LexisPaperHardyDialogs.helpUs ().setCallbacks (this).show (this);
+        }
+    }
+
+    @Override
+    public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
+        if (dialog.isDialogWithCode (LexisPaperHardyDialogsCode.D_HELP_US)) {
+            switch (whichItem) {
+                case 0:
+                    mNavigator.openAppInMarketAction (BuildConfig.APPLICATION_ID).start ();
+                    break;
+                case 1:
+                    mNavigator.shareApp (BuildConfig.APPLICATION_ID).start ();
+                    break;
+                case 2:
+                    mNavigator.sendFeedbackOrSuggestion ().start ();
+                    break;
             }
         }
     }
