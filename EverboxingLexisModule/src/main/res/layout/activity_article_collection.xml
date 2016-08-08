@@ -18,10 +18,10 @@
             android:id="@+id/articles_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="?toolbarBackground"
             app:tabGravity="fill"
             app:tabMode="scrollable"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+            app:theme="?tabDefaultStyle"/>
 
         <!-- Content for articles -->
         <android.support.v4.view.ViewPager

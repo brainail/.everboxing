@@ -24,6 +24,8 @@
         <item name="listDefaultSelector">@drawable/list_item_default_selector</item>
         <item name="toolbarControlColor">@color/md_white_1000</item>
         <item name="toolbarDefaultStyle">@style/AppToolbar.Primary</item>
+        <item name="toolbarBackground">?colorPrimary</item>
+        <item name="tabDefaultStyle">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="contentDefaultBackgroundColor">@color/content_bg_default</item>
         <item name="cardDefaultBackgroundColor">@color/card_bg_default</item>
         <item name="snackDefaultBackgroundColor">@color/notice_background</item>
@@ -178,6 +180,8 @@
         <item name="colorAccent">@color/md_blue_grey_400</item>
         <item name="drawerCover">@drawable/drawer_user_cover_bleach_theme</item>
         <item name="toolbarControlColor">@color/md_black_1000</item>
+        <item name="toolbarBackground">@color/md_white_1000</item>
+        <item name="tabDefaultStyle">@style/ThemeOverlay.AppCompat.Light</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>

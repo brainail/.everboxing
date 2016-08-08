@@ -5,11 +5,11 @@
     <style name="AppToolbarBleach.Primary">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="theme">@style/AppToolbarBleachTheme</item>
-        <item name="android:background">@color/md_white_1000</item>
+        <item name="android:background">?toolbarBackground</item>
     </style>
 
     <style name="AppToolbarBleachTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/md_black_1000</item>
+        <item name="colorControlNormal">?toolbarControlColor</item>
     </style>
 
     <!-- ActionBar -->
