@@ -33,8 +33,8 @@
         <item name="dividerDefaultColor">@color/divider_dark_color</item>
         <item name="dropshadowDefaultColor">@color/separator_dropshadow_dark_default</item>
         <item name="dropshadowDefaultDrawable">@drawable/toolbar_dropshadow_dark</item>
-        <item name="menuDrawerHelSectionsDropshadowColor">@color/menu_drawer_help_sections_dark_dropshadow</item>
-        <item name="menuDrawerHelSectionsDropshadowDrawable">@drawable/drawer_menu_help_sections_dropshadow_dark</item>
+        <item name="menuDrawerHelpSectionsDropshadowColor">@color/menu_drawer_help_sections_dark_dropshadow</item>
+        <item name="menuDrawerHelpSectionsDropshadowDrawable">@drawable/drawer_menu_help_sections_dropshadow_dark</item>
 
         <!-- FAB -->
         <item name="fabDefaultColorNormal">@color/md_blue_grey_700</item>
