@@ -79,6 +79,7 @@ public class JApplication extends Application implements HasComponent<AppCompone
         initAppComponent ();
     }
 
+    //<editor-fold desc="Dagger registration">
     private void initAppComponent () {
         mAppComponent = DaggerAppComponent.builder ()
                 .androidModule (new AndroidModule (this))
@@ -122,6 +123,7 @@ public class JApplication extends Application implements HasComponent<AppCompone
         PooLogger.info ("registerConnectionManager");
         // Dagger keeps the injected object instance via ScopedProvider in DaggerAppComponent
     }
+    //</editor-fold>
 
     @Override
     public AppComponent getComponent () {
