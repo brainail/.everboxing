@@ -9,7 +9,6 @@
 
     <string name="dialog_popular_resolutions_title">Resolutions</string>
     <string-array name="dialog_popular_resolutions_body">
-        <item>720 x 720</item>
         <item>960 x 640</item>
         <item>1024 x 768</item>
         <item>1136 x 640</item>
@@ -28,8 +27,6 @@
         <item>1920 x 1080</item>
         <item>1920 x 1200</item>
         <item>2048 x 1536</item>
-        <item>2560 x 1440</item>
-        <item>2560 x 1600</item>
     </string-array>
 
     <string name="dialog_flame_style_types_title">Types</string>

@@ -70,7 +70,7 @@ public class FlamePropertiesFragment
 
     public static final class SideSizeRange {
         private static final int LOW = 640;
-        private static final int HIGH = 2560;
+        private static final int HIGH = 2048;
 
         public final int low, high;
 

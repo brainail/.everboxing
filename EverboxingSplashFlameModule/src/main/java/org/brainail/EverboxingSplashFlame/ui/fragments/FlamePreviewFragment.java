@@ -1,17 +1,20 @@
 package org.brainail.EverboxingSplashFlame.ui.fragments;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
+import org.brainail.EverboxingTools.ui.views.PhotoView;
 
 import butterknife.BindView;
 
@@ -49,7 +52,7 @@ public class FlamePreviewFragment extends BaseFragment {
     }
 
     @BindView (R.id.preview_flame)
-    protected ImageView mPreviewFlame;
+    protected PhotoView mPreviewFlame;
 
     @Nullable
     @Override
@@ -61,12 +64,18 @@ public class FlamePreviewFragment extends BaseFragment {
     @Override
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated (savedInstanceState);
+        mPreviewFlame.setZoom (1f);
         final String filePath = getActivity ().getIntent ().getStringExtra (PREV_FLAME_FILE_PATH);
         Glide.with (this)
                 .load (filePath)
-                .diskCacheStrategy (DiskCacheStrategy.NONE)
-                .crossFade ()
-                .into (mPreviewFlame);
+                .asBitmap ()
+                .diskCacheStrategy (DiskCacheStrategy.ALL)
+                .into (new SimpleTarget<Bitmap> () {
+                    @Override
+                    public void onResourceReady (Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        mPreviewFlame.setImageBitmap (resource);
+                    }
+                });
     }
 
 }

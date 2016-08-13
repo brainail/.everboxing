@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:id="@+id/constraint_layout">
 
-    <ImageView
+    <org.brainail.EverboxingTools.ui.views.PhotoView
         android:id="@+id/preview_flame"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
