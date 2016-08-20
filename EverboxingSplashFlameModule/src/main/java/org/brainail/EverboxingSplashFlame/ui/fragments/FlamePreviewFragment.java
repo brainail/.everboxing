@@ -15,10 +15,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 import org.brainail.EverboxingTools.ui.views.PhotoView;
+import org.brainail.EverboxingTools.utils.PooLogger;
 
 import butterknife.BindView;
-
-import static org.brainail.EverboxingSplashFlame.ui.fragments.FlamePreviewFragment.Extras.PREV_FLAME_FILE_PATH;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -54,6 +53,8 @@ public class FlamePreviewFragment extends BaseFragment {
     @BindView (R.id.preview_flame)
     protected PhotoView mPreviewFlame;
 
+    private SimpleTarget<Bitmap> mPreviewFlameTarget;
+
     @Nullable
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,9 +65,12 @@ public class FlamePreviewFragment extends BaseFragment {
     @Override
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated (savedInstanceState);
+
+        final String filePath = getActivity ().getIntent ().getStringExtra (Extras.PREV_FLAME_FILE_PATH);
+        PooLogger.info ("onActivityCreated: filePath = ?", filePath);
+
         mPreviewFlame.setZoom (1f);
-        final String filePath = getActivity ().getIntent ().getStringExtra (PREV_FLAME_FILE_PATH);
-        Glide.with (this)
+        mPreviewFlameTarget = Glide.with (this)
                 .load (filePath)
                 .asBitmap ()
                 .diskCacheStrategy (DiskCacheStrategy.ALL)
@@ -76,6 +80,15 @@ public class FlamePreviewFragment extends BaseFragment {
                         mPreviewFlame.setImageBitmap (resource);
                     }
                 });
+    }
+
+    @Override
+    public void onDestroyView () {
+        super.onDestroyView ();
+
+        if (null != mPreviewFlameTarget) {
+            Glide.clear (mPreviewFlameTarget);
+        }
     }
 
 }
