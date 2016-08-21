@@ -338,5 +338,11 @@
 # Retrolambda
 -dontwarn java.lang.invoke.*
 
+# Greerobot > Eventbus
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+
 
 
