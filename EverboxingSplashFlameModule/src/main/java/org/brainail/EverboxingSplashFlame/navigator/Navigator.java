@@ -14,7 +14,7 @@ import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.di.PerActivity;
 import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorAction;
 import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorActionFactory;
-import org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity;
+import org.brainail.EverboxingSplashFlame._app.features.flame_preview.FlamePreviewActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.AboutActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.SettingsActivity;
@@ -23,7 +23,7 @@ import org.brainail.EverboxingTools.utils.tool.ToolEmail;
 
 import javax.inject.Singleton;
 
-import static org.brainail.EverboxingSplashFlame.ui.fragments.FlamePreviewFragment.Extras.PREV_FLAME_FILE_PATH;
+import static org.brainail.EverboxingSplashFlame._app.features.flame_preview.FlamePreviewFragment.Extras.PREV_FLAME_FILE_PATH;
 
 /**
  * Helper class to navigate through the app (like opening of different parts/pages/screens) <br/>

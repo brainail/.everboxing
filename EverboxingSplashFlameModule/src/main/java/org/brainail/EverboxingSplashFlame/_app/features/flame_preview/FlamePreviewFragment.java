@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.fragments;
+package org.brainail.EverboxingSplashFlame._app.features.flame_preview;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;

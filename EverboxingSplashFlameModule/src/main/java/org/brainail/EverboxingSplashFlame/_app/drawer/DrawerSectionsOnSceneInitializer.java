@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.drawer;
+package org.brainail.EverboxingSplashFlame._app.drawer;
 
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 
@@ -7,8 +7,11 @@ import com.malinskiy.materialicons.Iconify.IconValue;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.SettingsActivity;
-import org.brainail.EverboxingSplashFlame.ui.fragments.FlamePropertiesFragment;
-import org.brainail.EverboxingSplashFlame.ui.fragments.HistoryFragment;
+import org.brainail.EverboxingSplashFlame._app.features.flame_properties.FlamePropertiesFragment;
+import org.brainail.EverboxingSplashFlame._app.features.history.HistoryFragment;
+import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
+import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionCallback;
+import org.brainail.EverboxingSplashFlame.ui.drawer.IDrawerSectionInitializer;
 import org.brainail.EverboxingSplashFlame.ui.views.BaseIcon;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
@@ -42,11 +45,6 @@ public final class DrawerSectionsOnSceneInitializer {
 
     public static final class SectionTag {
         public static final String FEEDBACK_RATING = "feedback/rating";
-    }
-
-    public interface IDrawerSectionInitializer {
-        void initialize (final SectionedDrawerActivity scene);
-        boolean isTransparentable ();
     }
 
     public static final IDrawerSectionInitializer HOME = new IDrawerSectionInitializer () {

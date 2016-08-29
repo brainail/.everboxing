@@ -7,8 +7,8 @@ import android.view.View;
 import org.brainail.EverboxingSplashFlame.api.UserInfoApi;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsControllerFactory;
-import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerUser;
+import org.brainail.EverboxingSplashFlame.ui.drawer.IDrawerSectionInitializer;
 import org.brainail.EverboxingSplashFlame.ui.drawer.IDrawerSectionsController;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 
@@ -169,6 +169,6 @@ public abstract class SectionedDrawerActivity
         mDrawerSectionsController.investigateFragmentsStack ();
     }
 
-    public abstract DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer ();
+    public abstract IDrawerSectionInitializer sectionInitializer ();
 
 }

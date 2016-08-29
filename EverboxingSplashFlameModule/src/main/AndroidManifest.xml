@@ -47,7 +47,7 @@
 
         <!-- FLAME -->
         <activity
-            android:name="org.brainail.EverboxingSplashFlame.ui.activities.FlamePreviewActivity"
+            android:name="org.brainail.EverboxingSplashFlame._app.features.flame_preview.FlamePreviewActivity"
             android:label="@string/flame_activity_title"/>
 
         <!-- SETTINGS -->
@@ -70,7 +70,7 @@
 
         <!-- Hardy dialogs -->
         <activity
-            android:name="org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogsRemoteActivity"
+            android:name="._app.dialogs.hardy.AppHardyDialogsRemoteActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
             android:excludeFromRecents="true"
             android:exported="false"

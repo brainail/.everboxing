@@ -1,32 +1,29 @@
-package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
+package org.brainail.EverboxingSplashFlame._app.features.flame_preview;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
-import org.brainail.EverboxingSplashFlame.utils.manager.ThemeManager;
-
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import org.brainail.EverboxingSplashFlame.R;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments.FragmentCreator;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
- * <p/>
+ * <p>
  * The MIT License (MIT) <br/><br/>
- * <p/>
+ * <p>
  * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
- * <p/>
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
  * in the Software without restriction, including without limitation the rights <br/>
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell <br/>
  * copies of the Software, and to permit persons to whom the Software is <br/>
  * furnished to do so, subject to the following conditions: <br/><br/>
- * <p/>
+ * <p>
  * The above copyright notice and this permission notice shall be included in <br/>
  * all copies or substantial portions of the Software. <br/><br/>
- * <p/>
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR <br/>
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, <br/>
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE <br/>
@@ -35,32 +32,20 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class AppHardyDialogsRemoteActivity extends org.brainail.EverboxingHardyDialogs.RemoteHardyDialogsActivity {
-
-    // Theme. I use null to define that this is full recreating
-    private ThemeManager.AppTheme mTheme = null;
-
+public class FlamePreviewActivity extends BaseActivity {
     @Override
-    protected void onCreate (@Nullable Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-
-        // getWindow ().setBackgroundDrawable (null);
-        getWindow ().setBackgroundDrawable (new ColorDrawable (Color.TRANSPARENT));
-
-        // Init & check theme
-        mTheme = ThemeManager.checkOnCreate (this, mTheme);
+    protected Integer getLayoutResourceId () {
+        return R.layout.activity_flame;
     }
 
     @Override
-    protected void attachBaseContext (final Context baseContext) {
-        // Attach the Calligraphy
-        super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
+    protected Integer getPrimaryToolbarLayoutResourceId () {
+        return R.id.toolbar_primary;
     }
 
     @Override
-    protected void onResume () {
-        ThemeManager.checkOnResume (this, mTheme);
-        super.onResume ();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ToolFragments.openFragment (this, FragmentCreator.from (FlamePreviewFragment.class), false);
     }
-
 }

@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.fragments;
+package org.brainail.EverboxingSplashFlame._app.features.history;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.ui.adapter.FilesHistoryRecyclerViewAdapter;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
 import org.brainail.EverboxingSplashFlame.utils.tool.rx.RxToolFiles;
 import org.brainail.EverboxingTools.ui.views.AutoFitGridRecyclerView;

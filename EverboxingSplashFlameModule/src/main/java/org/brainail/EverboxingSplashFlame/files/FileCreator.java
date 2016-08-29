@@ -1,19 +1,17 @@
-package org.brainail.EverboxingSplashFlame.ui.activities;
+package org.brainail.EverboxingSplashFlame.files;
 
-import android.os.Bundle;
+import android.support.annotation.CheckResult;
 
-import org.brainail.EverboxingSplashFlame.R;
-import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
-import org.brainail.EverboxingSplashFlame.ui.fragments.FlamePreviewFragment;
-import org.brainail.EverboxingTools.utils.tool.ToolFragments;
-import org.brainail.EverboxingTools.utils.tool.ToolFragments.FragmentCreator;
+import org.brainail.EverboxingSplashFlame.Constants;
+
+import java.io.File;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p>
  * The MIT License (MIT) <br/><br/>
  * <p>
- * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
+ * Copyright (c) 2016 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
@@ -33,20 +31,15 @@ import org.brainail.EverboxingTools.utils.tool.ToolFragments.FragmentCreator;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public class FlamePreviewActivity extends BaseActivity {
-    @Override
-    protected Integer getLayoutResourceId () {
-        return R.layout.activity_flame;
-    }
+public final class FileCreator {
+    public @CheckResult File provideOrCreateFlamePreview() {
+        final File filePath = new File (Constants.APP_MEDIA_DIR_PATH, "fpf_" + System.currentTimeMillis () + ".jpeg");
 
-    @Override
-    protected Integer getPrimaryToolbarLayoutResourceId () {
-        return R.id.toolbar_primary;
-    }
+        if (! filePath.getParentFile ().exists ()) {
+            // noinspection ResultOfMethodCallIgnored
+            filePath.getParentFile ().mkdirs ();
+        }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ToolFragments.openFragment (this, FragmentCreator.from (FlamePreviewFragment.class), false);
+        return filePath;
     }
 }

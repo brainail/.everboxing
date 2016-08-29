@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.fragments;
+package org.brainail.EverboxingSplashFlame._app.features.flame_properties;
 
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -17,11 +17,13 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
-import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
+import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs;
+import org.brainail.EverboxingSplashFlame.di.component.ActivityComponent;
+import org.brainail.EverboxingSplashFlame.files.FileCreator;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
-import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolFractal;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.tool.ToolNumber;
 import org.brainail.EverboxingTools.utils.tool.ToolNumber.ValidationStatus;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
@@ -29,15 +31,17 @@ import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_FLAME_SIDE_SIZES;
-import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_FLAME_STYLE_TYPES;
-import static org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
+import static org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_FLAME_SIDE_SIZES;
+import static org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_FLAME_STYLE_TYPES;
+import static org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode.D_GENERATING_FLAME_PROGRESS;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -93,6 +97,9 @@ public class FlamePropertiesFragment
     @BindView (R.id.style_type_edit_text)
     protected EditText mStyleTypeSizeEditText;
 
+    @Inject
+    protected FileCreator mFileCreator;
+
     @Nullable
     @Override
     public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -111,6 +118,11 @@ public class FlamePropertiesFragment
                 resources.getStringArray (R.array.dialog_flame_style_types_body) [DEFAULT_STYLE_TYPE_INDEX]);
         mStyleTypeSizeEditText.setTag (
                 resources.getStringArray (R.array.dialog_flame_style_types_tags) [DEFAULT_STYLE_TYPE_INDEX]);
+    }
+
+    @Override
+    public void injectMembers (ActivityComponent activityComponent) {
+        activityComponent.inject (this);
     }
 
     @Override
@@ -208,12 +220,8 @@ public class FlamePropertiesFragment
 
     @WorkerThread
     private String warmUp () {
-        final File filePath = new File (Constants.APP_MEDIA_DIR_PATH, "ff_" + System.currentTimeMillis () + ".jpeg");
-
-        if (! filePath.getParentFile ().exists ()) {
-            // noinspection ResultOfMethodCallIgnored
-            filePath.getParentFile ().mkdirs ();
-        }
+        final File filePath = mFileCreator.provideOrCreateFlamePreview ();
+        PooLogger.debug ("warmUp: filePath = ?", filePath);
 
         ToolFractal.warmUp (
                 filePath.getAbsolutePath (),
@@ -244,9 +252,9 @@ public class FlamePropertiesFragment
     @Override
     public void onDialogListAction (HardyDialogFragment dialog, int whichItem, String item, String itemTag) {
         if (dialog.isDialogWithCode (D_FLAME_SIDE_SIZES)) {
-            final String[] sides = item.split ("\\s?x\\s?");
-            final int firstSideSize = Integer.parseInt (sides[0]);
-            final int secondSideSize = Integer.parseInt (sides[1]);
+            final String [] sides = item.split ("\\s?x\\s?");
+            final int firstSideSize = Integer.parseInt (sides [0]);
+            final int secondSideSize = Integer.parseInt (sides [1]);
             mFirstSideSizeEditText.setText (String.valueOf (Math.max (firstSideSize, secondSideSize)));
             mSecondSideSizeEditText.setText (String.valueOf (Math.min (secondSideSize, secondSideSize)));
         } else if (dialog.isDialogWithCode (D_FLAME_STYLE_TYPES)) {

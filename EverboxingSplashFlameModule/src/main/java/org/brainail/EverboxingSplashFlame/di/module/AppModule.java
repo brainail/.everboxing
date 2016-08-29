@@ -3,6 +3,7 @@ package org.brainail.EverboxingSplashFlame.di.module;
 import android.content.Context;
 
 import org.brainail.EverboxingSplashFlame.ConnectionManager;
+import org.brainail.EverboxingSplashFlame.files.FileCreator;
 import org.brainail.EverboxingSplashFlame.bus.BusEventsLogger;
 import org.brainail.EverboxingSplashFlame.config.DeviceConfig;
 import org.brainail.EverboxingSplashFlame.di.AppContext;
@@ -71,6 +72,12 @@ public class AppModule {
     @Singleton
     static ConnectionManager provideConnectionManager (@AppContext Context context, EventBus globalBus) {
         return new ConnectionManager (context, globalBus);
+    }
+
+    @Provides
+    @Singleton
+    static FileCreator provideFileCreator () {
+        return new FileCreator ();
     }
 
 }

@@ -1,4 +1,4 @@
-package org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy;
+package org.brainail.EverboxingSplashFlame._app.dialogs.hardy;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -17,10 +17,11 @@ import org.brainail.EverboxingSplashFlame.api.google.PlayServices;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionCallback;
-import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionsOnSceneInitializer;
+import org.brainail.EverboxingSplashFlame._app.drawer.DrawerSectionsOnSceneInitializer;
+import org.brainail.EverboxingSplashFlame.ui.drawer.IDrawerSectionInitializer;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
-import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs;
-import org.brainail.EverboxingSplashFlame.ui.views.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode;
+import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs;
+import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode;
 import org.brainail.EverboxingSplashFlame.utils.LogScope;
 import org.brainail.EverboxingSplashFlame.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.PooLogger;
@@ -128,7 +129,7 @@ public class HomeActivity
     }
 
     @Override
-    public DrawerSectionsOnSceneInitializer.IDrawerSectionInitializer sectionInitializer () {
+    public IDrawerSectionInitializer sectionInitializer () {
         return DrawerSectionsOnSceneInitializer.HOME;
     }
 
