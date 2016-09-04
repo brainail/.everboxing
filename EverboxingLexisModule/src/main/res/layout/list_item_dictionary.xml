@@ -9,21 +9,23 @@
     tools:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/dictionary_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="2dp"
-        app:contentPaddingTop="0dp"
-        android:padding="0dp"
-        android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="@dimen/card_margin_horizontal"
         android:layout_marginRight="@dimen/card_margin_horizontal"
-        app:cardCornerRadius="0dp"
+        android:layout_marginTop="0dp"
+        android:clickable="true"
+        android:foreground="?selectableItemBackground"
+        android:padding="0dp"
         app:cardBackgroundColor="?attr/cardDefaultBackgroundColor"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="2dp"
+        app:contentPaddingTop="0dp"
         tools:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/dictionary_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -39,45 +41,45 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:background="@null"
                     android:id="@+id/dictionary_favourite"
-                    android:paddingLeft="12dp"
-                    app:srcCompat="@drawable/ic_favorite_border_black_24dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:paddingLeft="12dp"
+                    app:srcCompat="@drawable/ic_favorite_border_black_24dp"/>
 
                 <TextView
                     android:id="@+id/dictionary_label"
+                    fontPath="fonts/Roboto-Regular.ttf"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:includeFontPadding="true"
                     android:layout_weight="1"
                     android:gravity="left|top"
+                    android:includeFontPadding="true"
                     android:paddingLeft="8dp"
                     android:textSize="18sp"
-                    fontPath="fonts/Roboto-Regular.ttf"
-                    tools:text="The collobarative dictionary シシシ シシシ シシシ シシシ シシシシシシ シシシ"
-                    tools:ignore="MissingPrefix"/>
+                    tools:ignore="MissingPrefix"
+                    tools:text="The collobarative dictionary シシシ シシシ シシシ シシシ シシシシシシ シシシ"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/dictionary_active"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minHeight="0dp"
                     android:background="@null"
                     android:checked="true"
-                    android:enabled="true"/>
+                    android:enabled="true"
+                    android:minHeight="0dp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/dictionary_error_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
                 android:layout_marginBottom="4dp"
                 android:gravity="top"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:paddingTop="4dp"
                 android:visibility="gone"
                 tools:visibility="visible">
 
@@ -93,10 +95,10 @@
                     android:id="@+id/dictionary_error"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:includeFontPadding="false"
-                    android:textSize="14sp"
                     android:gravity="top"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="14sp"
                     android:visibility="visible"
                     tools:text="シシシ シシシ File シシシ does シシシ not シシシ exist シシシ シシシ"/>
             </LinearLayout>
@@ -111,11 +113,11 @@
 
                 <TextView
                     android:id="@+id/dictionary_blob_count"
-                    android:textSize="14sp"
-                    android:includeFontPadding="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
+                    android:includeFontPadding="false"
+                    android:textSize="14sp"
                     tools:text="1,000,000,000 items"/>
 
                 <LinearLayout
@@ -138,9 +140,9 @@
                         android:id="@+id/dictionary_copyright"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"
-                        android:includeFontPadding="false"
                         android:gravity="top"
+                        android:includeFontPadding="false"
+                        android:textSize="14sp"
                         tools:text="シ 2014 シ Wikipedia シ editors シ and シ contributors シ"/>
 
                 </LinearLayout>
@@ -157,20 +159,20 @@
                         android:id="@+id/dictionary_license_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="top"
                         android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
-                        android:layout_gravity="top"
                         app:srcCompat="@drawable/ic_perm_identity_black_18dp"/>
 
                     <TextView
                         android:id="@+id/dictionary_license"
-                        android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="true"
-                        android:includeFontPadding="false"
-                        android:gravity="top"
                         android:focusable="false"
+                        android:gravity="top"
+                        android:includeFontPadding="false"
+                        android:textSize="14sp"
                         tools:text="シシ Creative シシ Commons シシ with シシ Attribution シシ"/>
                 </LinearLayout>
 
@@ -192,11 +194,11 @@
 
                     <TextView
                         android:id="@+id/dictionary_source"
-                        android:textSize="14sp"
-                        android:includeFontPadding="false"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="top"
+                        android:includeFontPadding="false"
+                        android:textSize="14sp"
                         tools:text="シシシ シシシ シシシ http://en.wikipedia.org シシシ シシシ シシシ"/>
 
                 </LinearLayout>
@@ -219,11 +221,11 @@
 
                     <TextView
                         android:id="@+id/dictionary_path"
-                        android:textSize="14sp"
-                        android:includeFontPadding="false"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="top"
+                        android:includeFontPadding="false"
+                        android:textSize="14sp"
                         tools:text="シシシ /mntシシシ/sdcardシシシ/WordNet-3.0.slob シシシ"/>
                 </LinearLayout>
             </LinearLayout>
@@ -233,18 +235,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:paddingLeft="16dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="16dp">
 
                 <ImageView
                     android:id="@+id/dictionary_btn_toggle_detail"
                     android:layout_width="wrap_content"
-                    android:background="@null"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:adjustViewBounds="true"
                     android:layout_marginLeft="-5dp"
+                    android:adjustViewBounds="true"
+                    android:background="@null"
                     android:paddingTop="5dp"
                     app:srcCompat="@drawable/ic_expand_more_black_24dp"/>
 

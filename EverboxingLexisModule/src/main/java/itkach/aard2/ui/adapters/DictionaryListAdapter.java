@@ -139,7 +139,7 @@ public class DictionaryListAdapter extends BaseAdapter {
             });
 
             final ImageView btnToggleDetail = (ImageView) view.findViewById (R.id.dictionary_btn_toggle_detail);
-            btnToggleDetail.setOnClickListener (new View.OnClickListener () {
+            final View.OnClickListener btnToggleDetailClickListener = new View.OnClickListener () {
                 @Override
                 public void onClick (View view) {
                     Integer position = (Integer) view.getTag ();
@@ -152,7 +152,11 @@ public class DictionaryListAdapter extends BaseAdapter {
                             : R.drawable.ic_expand_more_black_24dp
                     );
                 }
-            });
+            };
+            btnToggleDetail.setOnClickListener (btnToggleDetailClickListener);
+
+            final View dictionaryCard = view.findViewById (R.id.dictionary_card);
+            dictionaryCard.setOnClickListener (btnToggleDetailClickListener);
 
             final View.OnClickListener toggleFavListener = new View.OnClickListener() {
                 @Override
@@ -197,9 +201,10 @@ public class DictionaryListAdapter extends BaseAdapter {
         setupPathView (path, available, view);
         setupErrorView (desc, view);
 
-        ImageView btnToggleDetail = (ImageView) view.findViewById (R.id.dictionary_btn_toggle_detail);
+        final View dictionaryCard = view.findViewById (R.id.dictionary_card);
+        dictionaryCard.setTag (position);
+        final ImageView btnToggleDetail = (ImageView) view.findViewById (R.id.dictionary_btn_toggle_detail);
         btnToggleDetail.setTag (position);
-
         btnToggleDetail.setImageResource (desc.expandDetail
                 ? R.drawable.ic_expand_less_black_24dp
                 : R.drawable.ic_expand_more_black_24dp
