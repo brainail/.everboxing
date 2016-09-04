@@ -84,8 +84,13 @@ public class ArticleWebView
         add ("https");
         add ("ftp");
         add ("sftp");
-        add ("mailto");
-        add ("geo");
+    }};
+
+    public Set<String> mExternalActionSchemes = new HashSet<String> () {{
+        add ("mailto"); add ("geo"); add ("tel"); add ("sms"); add ("smsto"); add ("mms");
+        add ("mmsto"); add ("voicemail"); add ("callto"); add ("fax"); add ("map"); add ("maps");
+        add ("market"); add ("play"); add ("google.streetview"); add ("message"); add ("sip");
+        add ("skype"); add ("gtalk"); add ("spotify"); add ("lastfm");
     }};
 
     private SortedSet<String> mStyleTitles = new TreeSet<String> ();
@@ -614,6 +619,17 @@ public class ArticleWebView
 
                 PooLogger.debug ("Overriding loading of " + url);
                 return true;
+            }
+
+            if (mExternalActionSchemes.contains (scheme)) {
+                // Allow the OS to handle it
+                final Intent intent = new Intent (Intent.ACTION_VIEW, Uri.parse (url));
+                try {
+                    getContext ().startActivity (intent);
+                    return true;
+                } catch (final Exception ignored) {
+                    // Skip. We will return `false` later
+                }
             }
 
             PooLogger.debug ("NOT overriding loading of " + url);

@@ -55,118 +55,124 @@ public class FileSelectFragment extends ListFragment {
     public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#files.fragment";
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onActivityCreated (Bundle savedInstanceState) {
+        super.onActivityCreated (savedInstanceState);
 
         setHasOptionsMenu (true);
 
-        final FileSelectListAdapter adapter = new FileSelectListAdapter();
-        adapter.registerDataSetObserver(new DataSetObserver () {
+        final FileSelectListAdapter adapter = new FileSelectListAdapter ();
+        adapter.registerDataSetObserver (new DataSetObserver () {
             @Override
-            public void onChanged() {
-                File root = adapter.getRoot();
+            public void onChanged () {
+                File root = adapter.getRoot ();
                 String path;
                 if (root != null) {
-                    path = root.getAbsolutePath();
+                    path = root.getAbsolutePath ();
                 } else {
                     path = "";
                 }
-                ((BaseActivity) getActivity ()).getPrimaryToolbar ().setSubtitle(path);
-                savePath(path);
+                ((BaseActivity) getActivity ()).getPrimaryToolbar ().setSubtitle (path);
+                savePath (path);
             }
         });
-        setListAdapter(adapter);
+        setListAdapter (adapter);
         setPath (savedInstanceState);
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
         inflater.inflate (R.menu.menu_file_manager, menu);
         super.onCreateOptionsMenu (menu, inflater);
     }
 
     @Override
     public void onPrepareOptionsMenu (Menu menu) {
-        final File parent = ((FileSelectListAdapter) getListAdapter()).getRoot().getParentFile();
-        menu.findItem(R.id.action_goto_parent_dir).setEnabled (parent != null);
+        final File parent = ((FileSelectListAdapter) getListAdapter ()).getRoot ().getParentFile ();
+        menu.findItem (R.id.action_goto_parent_dir).setEnabled (parent != null);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId ();
-        FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter();
-        if (id == R.id.action_goto_parent_dir) {
-            File root = adapter.getRoot();
-            File parent = root.getParentFile();
-            if (parent != null) {
-                adapter.setRoot(parent);
-            }
-            return true;
-        }
-        if (id == R.id.action_reload_directory) {
-            adapter.reload();
-            return true;
-        }
-        if (id == android.R.id.home) {
-            getActivity ().finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected (MenuItem item) {
+        final int id = item.getItemId ();
+        final FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter ();
 
+        if (id == R.id.action_goto_parent_dir) {
+            handleBack ();
+            return true;
+        } else if (id == R.id.action_reload_directory) {
+            adapter.reload ();
+            return true;
+        } else if (id == android.R.id.home) {
+            getActivity ().finish ();
+            return true;
+        }
+
+        return super.onOptionsItemSelected (item);
     }
 
-    private SharedPreferences prefs() {
+    public boolean handleBack () {
+        final FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter ();
+        final File root = adapter.getRoot ();
+        final File parent = root.getParentFile ();
+        if (parent != null) {
+            adapter.setRoot (parent);
+            return true;
+        }
+        return false;
+    }
+
+    private SharedPreferences prefs () {
         return getActivity ().getSharedPreferences (FileSelectActivity.PREF, AppCompatActivity.MODE_PRIVATE);
     }
 
-    private void savePath(String path) {
-        SharedPreferences p = prefs();
-        SharedPreferences.Editor edit = p.edit();
-        edit.putString(FileSelectActivity.KEY_SELECTED_FILE_PATH, path);
-        edit.apply();
+    private void savePath (String path) {
+        SharedPreferences p = prefs ();
+        SharedPreferences.Editor edit = p.edit ();
+        edit.putString (FileSelectActivity.KEY_SELECTED_FILE_PATH, path);
+        edit.apply ();
     }
 
     @Override
     public void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState (outState);
-        FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter();
+        FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter ();
         if (adapter != null) {
-            File root = adapter.getRoot();
+            File root = adapter.getRoot ();
             if (root != null) {
-                outState.putString(FileSelectActivity.KEY_SELECTED_FILE_PATH, root.getAbsolutePath());
+                outState.putString (FileSelectActivity.KEY_SELECTED_FILE_PATH, root.getAbsolutePath ());
             }
         }
     }
 
-    private void setPath(Bundle state) {
-        FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter();
+    private void setPath (Bundle state) {
+        FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter ();
         if (adapter != null) {
-            String path = state == null ? null : state.getString(FileSelectActivity.KEY_SELECTED_FILE_PATH);
+            String path = state == null ? null : state.getString (FileSelectActivity.KEY_SELECTED_FILE_PATH);
             File root = null;
-            if (path != null && path.length() > 0) {
-                root = new File(path);
+            if (path != null && path.length () > 0) {
+                root = new File (path);
             } else {
-                SharedPreferences p = prefs();
-                path = p.getString(FileSelectActivity.KEY_SELECTED_FILE_PATH, null);
+                SharedPreferences p = prefs ();
+                path = p.getString (FileSelectActivity.KEY_SELECTED_FILE_PATH, null);
                 if (path != null) {
-                    root = new File(path);
+                    root = new File (path);
                 }
             }
-            if (root == null || !root.exists()) {
+            if (root == null || ! root.exists ()) {
                 root = Environment.getExternalStorageDirectory ();
             }
-            adapter.setRoot(root);
+            adapter.setRoot (root);
         }
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        FileSelectListAdapter adapter = (FileSelectListAdapter) l.getAdapter();
+    public void onListItemClick (ListView l, View v, int position, long id) {
+        FileSelectListAdapter adapter = (FileSelectListAdapter) l.getAdapter ();
         File f = (File) adapter.getItem (position);
-        if (f.isDirectory()) {
-            adapter.setRoot(f);
+        if (f.isDirectory ()) {
+            adapter.setRoot (f);
         } else {
-            Intent data = new Intent();
+            Intent data = new Intent ();
             data.putExtra (FileSelectActivity.KEY_SELECTED_FILE_PATH, f.getAbsolutePath ());
             getActivity ().setResult (Activity.RESULT_OK, data);
             getActivity ().finish ();
@@ -177,7 +183,7 @@ public class FileSelectFragment extends ListFragment {
     public void onDestroy () {
         super.onDestroy ();
 
-        final RefWatcher refWatcher = JApplication.refWatcher (getActivity());
+        final RefWatcher refWatcher = JApplication.refWatcher (getActivity ());
         if (null != refWatcher) refWatcher.watch (this);
     }
 

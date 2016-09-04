@@ -1,6 +1,7 @@
 package itkach.aard2.ui.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import org.brainail.EverboxingLexis.R;
@@ -28,6 +29,22 @@ public class FileSelectActivity extends BaseActivity {
             final FragmentTransaction fragmentTransaction = getSupportFragmentManager ().beginTransaction ();
             fragmentTransaction.replace (R.id.base_fragment_container, new FileSelectFragment (), FileSelectFragment.MANAGER_TAG).commit ();
         }
+    }
+
+    private Fragment getFragment() {
+        return getSupportFragmentManager ().findFragmentByTag (FileSelectFragment.MANAGER_TAG);
+    }
+
+    @Override
+    public void onBackPressed () {
+        final Fragment fragment = getFragment ();
+        if (fragment instanceof FileSelectFragment) {
+            if (((FileSelectFragment) fragment).handleBack ()) {
+                return;
+            }
+        }
+
+        super.onBackPressed ();
     }
 
     @Override
