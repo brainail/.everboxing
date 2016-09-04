@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.brainail.EverboxingLexis.BuildConfig;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
@@ -89,7 +90,7 @@ public class Application extends JApplication {
     public void onCreate () {
         super.onCreate ();
 
-        if (Build.VERSION.SDK_INT >= 19) {
+        if (Build.VERSION.SDK_INT >= 19 && BuildConfig.DEBUG) {
             try {
                 final Method setWebContentsDebuggingEnabledMethod
                         = WebView.class.getMethod ("setWebContentsDebuggingEnabled", boolean.class);

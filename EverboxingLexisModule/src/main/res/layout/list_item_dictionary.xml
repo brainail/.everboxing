@@ -246,7 +246,7 @@
                     android:adjustViewBounds="true"
                     android:layout_marginLeft="-5dp"
                     android:paddingTop="5dp"
-                    android:src="@drawable/ic_expand_more_black_24dp"/>
+                    app:srcCompat="@drawable/ic_expand_more_black_24dp"/>
 
                 <Space
                     android:layout_width="0dp"
