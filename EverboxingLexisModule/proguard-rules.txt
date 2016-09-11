@@ -313,6 +313,9 @@
 -keep interface android.support.v4.internal.view.** { *; }
 -keep public class * extends android.support.v4.view.ActionProvider { *; }
 
+# Keep drawable.* to fix problems with animated vector drawable
+-keep class android.support.graphics.drawable.** { *; }
+
 # Third-party progress
 -keep class co.mobiwise.library.**
 -keep interface co.mobiwise.library.**

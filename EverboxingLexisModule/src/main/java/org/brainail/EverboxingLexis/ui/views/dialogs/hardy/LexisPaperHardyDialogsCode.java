@@ -43,7 +43,9 @@ public enum LexisPaperHardyDialogsCode implements HardyDialogCodeProvider {
     // Confirm that you want to remove selected items
     D_LIST_ITEMS_REMOVING_CONFIRMATION("list.items.removing.confirmation"),
     // Help Us from Drawer
-    D_HELP_US("help.us");
+    D_HELP_US("help.us"),
+    // Volume navigation How-to
+    D_VOLUME_NAVIGATION_HOW_TO("volume.navigation.how.to");
 
     private final String code;
 

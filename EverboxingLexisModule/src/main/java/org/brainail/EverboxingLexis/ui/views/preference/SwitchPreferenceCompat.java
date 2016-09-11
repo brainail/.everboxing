@@ -5,8 +5,11 @@ import android.content.Context;
 import android.os.Build;
 import android.preference.CheckBoxPreference;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingTools.utils.tool.ToolGestures;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -58,6 +61,14 @@ public class SwitchPreferenceCompat extends CheckBoxPreference {
 
     private void init() {
         setWidgetLayoutResource(R.layout.view_preference_switch);
+    }
+
+    @Override
+    protected void onBindView (View view) {
+        super.onBindView (view);
+
+        final TextView summaryView = (TextView) view.findViewById(android.R.id.summary);
+        ToolGestures.fixTouchesOnClickableSpanWithNoEffectOnPressedState (summaryView);
     }
 
 }

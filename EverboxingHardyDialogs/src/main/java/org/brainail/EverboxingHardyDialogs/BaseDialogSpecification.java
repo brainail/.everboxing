@@ -544,7 +544,6 @@ public class BaseDialogSpecification implements Serializable {
         return mCustomStyle;
     }
 
-
     private Intent showIsolated (final Intent dialogIntent, final boolean showImmediately) {
         if (BuildConfig.DEBUG && ! HardyDialogsVerifier.verify (this, true)) {
             return null;

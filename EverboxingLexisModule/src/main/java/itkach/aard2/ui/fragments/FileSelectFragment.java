@@ -86,12 +86,6 @@ public class FileSelectFragment extends ListFragment {
     }
 
     @Override
-    public void onPrepareOptionsMenu (Menu menu) {
-        final File parent = ((FileSelectListAdapter) getListAdapter ()).getRoot ().getParentFile ();
-        menu.findItem (R.id.action_goto_parent_dir).setEnabled (parent != null);
-    }
-
-    @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         final int id = item.getItemId ();
         final FileSelectListAdapter adapter = (FileSelectListAdapter) getListAdapter ();

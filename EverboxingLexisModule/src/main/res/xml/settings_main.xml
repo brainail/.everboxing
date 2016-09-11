@@ -54,6 +54,12 @@
             android:summary="@string/settings_long_tap_scroll_to_bottom_summary"/>
 
         <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat
+            android:key="@string/settings_volume_navigation_key"
+            android:title="@string/settings_volume_navigation_title"
+            android:defaultValue="false"
+            android:summary="@string/settings_volume_navigation_summary"/>
+
+        <org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat
             android:key="@string/settings_article_in_fullscreen_key"
             android:title="@string/settings_article_in_fullscreen_title"
             android:defaultValue="false"

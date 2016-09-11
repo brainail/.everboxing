@@ -87,10 +87,27 @@ public class ArticleWebView
     }};
 
     public Set<String> mExternalActionSchemes = new HashSet<String> () {{
-        add ("mailto"); add ("geo"); add ("tel"); add ("sms"); add ("smsto"); add ("mms");
-        add ("mmsto"); add ("voicemail"); add ("callto"); add ("fax"); add ("map"); add ("maps");
-        add ("market"); add ("play"); add ("google.streetview"); add ("message"); add ("sip");
-        add ("skype"); add ("gtalk"); add ("spotify"); add ("lastfm");
+        add ("mailto");
+        add ("geo");
+        add ("tel");
+        add ("sms");
+        add ("smsto");
+        add ("mms");
+        add ("mmsto");
+        add ("voicemail");
+        add ("callto");
+        add ("fax");
+        add ("map");
+        add ("maps");
+        add ("market");
+        add ("play");
+        add ("google.streetview");
+        add ("message");
+        add ("sip");
+        add ("skype");
+        add ("gtalk");
+        add ("spotify");
+        add ("lastfm");
     }};
 
     private SortedSet<String> mStyleTitles = new TreeSet<String> ();
@@ -243,12 +260,12 @@ public class ArticleWebView
     }
 
     public String[] getAvailableStylesTitles () {
-        final String [] styles = getAvailableStyles ();
-        final String [] stylesTitles = new String [styles.length];
+        final String[] styles = getAvailableStyles ();
+        final String[] stylesTitles = new String[styles.length];
         for (int index = 0; index < styles.length; ++ index) {
-            stylesTitles [index] = mStyleNameTranslatationMapping.get (styles [index]);
-            if (TextUtils.isEmpty (stylesTitles [index])) {
-                stylesTitles [index] = styles [index];
+            stylesTitles[index] = mStyleNameTranslatationMapping.get (styles[index]);
+            if (TextUtils.isEmpty (stylesTitles[index])) {
+                stylesTitles[index] = styles[index];
             }
         }
         return stylesTitles;
@@ -301,7 +318,7 @@ public class ArticleWebView
         SharedPreferences.Editor e = prefs.edit ();
         e.putInt (PREF_TEXT_ZOOM, textZoom);
         boolean success = e.commit ();
-        if (!success) {
+        if (! success) {
             PooLogger.warn ("Failed to save article view text zoom pref");
         }
     }
@@ -315,7 +332,7 @@ public class ArticleWebView
         SharedPreferences.Editor editor = prefs.edit ();
         editor.putStringSet (PREF_STYLE_AVAILABLE + mCurrentSlobUri, styleTitles);
         boolean success = editor.commit ();
-        if (!success) {
+        if (! success) {
             PooLogger.warn ("Failed to save article view available styles pref");
         }
     }
@@ -342,7 +359,7 @@ public class ArticleWebView
         SharedPreferences.Editor editor = prefs.edit ();
         editor.putString (prefName, styleTitle);
         boolean success = editor.commit ();
-        if (!success) {
+        if (! success) {
             PooLogger.warn ("Failed to save article view style pref");
         }
     }
@@ -385,11 +402,11 @@ public class ArticleWebView
 
     @Override
     public void setStyleTitles (String[] titles) {
-        PooLogger.debug (String.format ("Got %d style titles", titles.length));
+        PooLogger.debug (String.format (Locale.US, "Got %d style titles", titles.length));
         if (titles.length == 0) return;
 
         final SortedSet<String> newStyleTitlesSet = new TreeSet<> (Arrays.asList (titles));
-        if (!mStyleTitles.equals (newStyleTitlesSet)) {
+        if (! mStyleTitles.equals (newStyleTitlesSet)) {
             mStyleTitles = newStyleTitlesSet;
             saveAvailableStylesPref (mStyleTitles);
         }
@@ -397,6 +414,7 @@ public class ArticleWebView
 
     public void applyStylePref () {
         String styleTitle = getPreferredStyle ();
+        PooLogger.verb ("applyStylePref: styleTitle = ?", styleTitle);
         setStyle (styleTitle);
     }
 
@@ -443,12 +461,13 @@ public class ArticleWebView
 
     private void beforeLoadUrl (String url) {
         setCurrentSlobIdFromUrl (url);
-        if (!url.startsWith ("javascript:")) {
-            updateBackgrounColor ();
+        if (! url.startsWith ("javascript:")) {
+            updateBackgroundColor ();
         }
     }
 
-    private void updateBackgrounColor () {
+    // Oh my god :(
+    private void updateBackgroundColor () {
         int color = Color.WHITE;
         String preferredStyle = getPreferredStyle ().toLowerCase ();
         if (preferredStyle.contains ("night") || preferredStyle.contains ("dark")) {
@@ -458,7 +477,7 @@ public class ArticleWebView
     }
 
     private void setCurrentSlobIdFromUrl (String url) {
-        if (!url.startsWith ("javascript:")) {
+        if (! url.startsWith ("javascript:")) {
             Uri uri = Uri.parse (url);
             BlobDescriptor bd = BlobDescriptor.fromUri (uri);
             if (bd != null) {
@@ -507,7 +526,7 @@ public class ArticleWebView
         if (null != mOnScrollDirectionListener) {
             if (t - oldt > SCROLL_RECOGNIZE_DIRECTION_DISTANCE) {
                 mOnScrollDirectionListener.onScrollDown ();
-            } else if (t - oldt < -SCROLL_RECOGNIZE_DIRECTION_DISTANCE) {
+            } else if (t - oldt < - SCROLL_RECOGNIZE_DIRECTION_DISTANCE) {
                 mOnScrollDirectionListener.onScrollUp ();
             }
         }
@@ -603,7 +622,7 @@ public class ArticleWebView
             String host = uri.getHost ();
 
             if (mExternalSchemes.contains (scheme) ||
-                    (scheme.equals ("http") && !host.equals (Application.LOCALHOST))) {
+                    (scheme.startsWith ("http") && ! host.equals (Application.LOCALHOST))) {
 
                 openUrl (url);
                 return true;

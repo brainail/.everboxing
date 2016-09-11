@@ -2,7 +2,6 @@
     <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_continue">Continue</string>
     <string name="dialog_button_ok">OK</string>
-    <string name="dialog_button_done">Done</string>
     <string name="dialog_button_close">Close</string>
     <string name="dialog_button_clear">Clear</string>
     <string name="dialog_button_delete">Delete</string>

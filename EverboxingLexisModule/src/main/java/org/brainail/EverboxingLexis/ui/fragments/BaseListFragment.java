@@ -1,7 +1,10 @@
 package org.brainail.EverboxingLexis.ui.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
@@ -19,6 +23,7 @@ import com.squareup.leakcanary.RefWatcher;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
+import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingLexis.utils.chrome.CustomTabsSceneHelper;
 import org.brainail.EverboxingTools.utils.tool.ToolFragments;
@@ -27,6 +32,7 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
 
     protected ViewGroup mEmptyPlaceholderView;
     protected ActionMode mActionMode;
+    private Handler mHandler;
 
     // Chrome tabs stuff
     private CustomTabsSceneHelper mCustomTabsSceneHelper;
@@ -39,12 +45,47 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
     @Override
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
+
+        mHandler = new Handler (Looper.getMainLooper ());
+
         setHasOptionsMenu (true);
         setRetainInstance (true);
 
         // Chrome tabs stuff
         mCustomTabsSceneHelper = new CustomTabsSceneHelper ();
         mCustomTabsSceneHelper.onCreateScene (getActivity ());
+    }
+
+    protected boolean shouldHideKeyboardOnScroll() {
+        return true;
+    }
+
+    @Override
+    public void onActivityCreated (Bundle savedInstanceState) {
+        super.onActivityCreated (savedInstanceState);
+        mHandler.post (mHideKeyboardAction);
+    }
+
+    private Runnable mHideKeyboardAction = new Runnable () {
+        @Override
+        public void run () {
+            hideKeyboard ();
+        }
+    };
+
+    private void hideKeyboard () {
+        final View view = getView ();
+        if (null != view) {
+            final InputMethodManager inputManager = (InputMethodManager) getActivity ().getSystemService (Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow (view.getWindowToken (), 0);
+            PooLogger.verb ("hideKeyboard");
+        }
+    }
+
+    @Override
+    public void onDestroyView () {
+        mHandler.removeCallbacks (mHideKeyboardAction);
+        super.onDestroyView ();
     }
 
     @Override
@@ -170,6 +211,24 @@ public abstract class BaseListFragment extends ListFragment implements Tagable {
                 public void onItemCheckedStateChanged (ActionMode mode, int position, long id, boolean checked) {}
             });
         }
+
+        getListView ().setOnScrollListener (! shouldHideKeyboardOnScroll () ? null : new AbsListView.OnScrollListener () {
+            private boolean mIsScrolling = false;
+
+            @Override
+            public void onScrollStateChanged (AbsListView view, int scrollState) {
+                if (SCROLL_STATE_IDLE != scrollState && !mIsScrolling) {
+                    PooLogger.verb ("onScrollStateChanged: schedule hiding of keyboard when scrolling");
+                    mHandler.removeCallbacks (mHideKeyboardAction);
+                    mHandler.postDelayed (mHideKeyboardAction, 500);
+                }
+
+                mIsScrolling = SCROLL_STATE_IDLE != scrollState;
+            }
+
+            @Override
+            public void onScroll (AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {}
+        });
     }
 
 }

@@ -16,17 +16,18 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.BaseActivity;
 import org.brainail.EverboxingLexis.ui.activities.HomeActivity;
+import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.ui.views.RespectFullscreenInsetsFrameLayout;
 import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingTools.utils.gestures.OnGestureListener;
-import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.manager.ui.SystemUiHelper;
-import org.brainail.EverboxingLexis.utils.tool.ToolResources;
-import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
 import itkach.aard2.Application;
 import itkach.aard2.ui.adapters.ArticleCollectionPagerAdapter;
@@ -67,7 +68,7 @@ public class ArticleCollectionActivity extends BaseActivity {
     protected static volatile Boolean sIsFullscreenMode;
     protected SystemUiHelper mUiHelper;
 
-    protected SystemUiHelper uiHelper() {
+    protected SystemUiHelper uiHelper () {
         if (null != mUiHelper) {
             return mUiHelper;
         }
@@ -89,12 +90,12 @@ public class ArticleCollectionActivity extends BaseActivity {
         return mUiHelper;
     }
 
-    protected void fixFullscreenMode(final int delayMillis) {
+    protected void fixFullscreenMode (final int delayMillis) {
         if (sIsFullscreenMode) {
             mContent.respectFullscreenInsets (true);
 
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow ().clearFlags (WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            getWindow ().addFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
             if (delayMillis > 0) {
                 uiHelper ().delayHide (delayMillis);
@@ -104,8 +105,8 @@ public class ArticleCollectionActivity extends BaseActivity {
         } else {
             mContent.respectFullscreenInsets (false);
 
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            getWindow ().clearFlags (WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow ().addFlags (WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
             uiHelper ().show ();
         }
@@ -173,8 +174,8 @@ public class ArticleCollectionActivity extends BaseActivity {
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
+    public void onWindowFocusChanged (boolean hasFocus) {
+        super.onWindowFocusChanged (hasFocus);
         if (hasFocus) {
             fixFullscreenMode (1500);
         }
@@ -283,10 +284,27 @@ public class ArticleCollectionActivity extends BaseActivity {
         return true;
     }
 
+    private void stopCurrentTts (final int newPagePosition) {
+        if (null != mPagerAdapter) {
+            if (null != mViewPager && mViewPager.getCurrentItem () == newPagePosition) {
+                // Don't need to stop if we resume to the same page
+                return;
+            }
+
+            final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();
+            if (null != articlePage) {
+                articlePage.finishTts (false);
+            }
+        }
+    }
+
     public void assignTabLayoutListener () {
         mTabLayout.setOnTabSelectedListener (new TabLayout.OnTabSelectedListener () {
             @Override
             public void onTabSelected (TabLayout.Tab tab) {
+                // Stop ASAP
+                stopCurrentTts (tab.getPosition ());
+
                 mViewPager.setCurrentItem (tab.getPosition ());
             }
 
@@ -348,7 +366,7 @@ public class ArticleCollectionActivity extends BaseActivity {
         mViewPager.setCurrentItem (position);
     }
 
-    public boolean isDestroyed() {
+    public boolean isDestroyed () {
         return mIsDestroyed;
     }
 
@@ -418,12 +436,96 @@ public class ArticleCollectionActivity extends BaseActivity {
     public boolean onKeyUp (int keyCode, KeyEvent event) {
         if (null != mPagerAdapter) {
             final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();
-            if (null != articlePage && articlePage.onKeyUp (keyCode, event)) {
-                return true;
+            if (null != articlePage) {
+                if (articlePage.onKeyUp (keyCode, event)) {
+                    return true;
+                }
+
+                // Navigation via volume buttons
+                if (SettingsManager.getInstance ().retrieveShouldUseVolumeNavigation ()) {
+                    if (event.isCanceled ()) {
+                        return super.onKeyUp (keyCode, event);
+                    }
+
+                    final WebView articleWebView = articlePage.webView ();
+                    if (null == articleWebView) {
+                        return super.onKeyUp (keyCode, event);
+                    }
+
+                    if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+                        if (! articleWebView.pageUp (false)) {
+                            final int currentItem = null != mViewPager ? mViewPager.getCurrentItem () : - 1;
+                            if (currentItem > 0) {
+                                mViewPager.setCurrentItem (currentItem - 1);
+                            }
+                        }
+                        return true;
+                    } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                        if (! articleWebView.pageDown (false)) {
+                            final int currentItem = null != mViewPager ? mViewPager.getCurrentItem () : - 1;
+                            if (currentItem < mPagerAdapter.getCount () - 1) {
+                                mViewPager.setCurrentItem (currentItem + 1);
+                            }
+                        }
+                        return true;
+                    }
+                }
             }
         }
 
         return super.onKeyUp (keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyDown (int keyCode, KeyEvent event) {
+        if (null != mPagerAdapter) {
+            final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();
+            if (null != articlePage) {
+                if (articlePage.onKeyDown (keyCode, event)) {
+                    return true;
+                }
+
+                // Navigation via volume buttons
+                if (SettingsManager.getInstance ().retrieveShouldUseVolumeNavigation ()) {
+                    if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                        event.startTracking ();
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return super.onKeyDown (keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyLongPress (int keyCode, KeyEvent event) {
+        if (null != mPagerAdapter) {
+            final ArticleFragment articlePage = (ArticleFragment) mPagerAdapter.currentPage ();
+            if (null != articlePage) {
+                if (articlePage.onKeyLongPress (keyCode, event)) {
+                    return true;
+                }
+
+                final WebView articleWebView = articlePage.webView ();
+                if (null == articleWebView) {
+                    return super.onKeyLongPress (keyCode, event);
+                }
+
+                // Navigation via volume buttons
+                if (SettingsManager.getInstance ().retrieveShouldUseVolumeNavigation ()) {
+                    if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+                        articleWebView.pageUp (true);
+                        return true;
+                    } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                        articleWebView.pageDown (true);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return super.onKeyLongPress (keyCode, event);
     }
 
     @Override

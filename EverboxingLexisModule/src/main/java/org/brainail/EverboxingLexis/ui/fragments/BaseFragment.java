@@ -69,7 +69,7 @@ public class BaseFragment extends Fragment implements ActionMode.Callback {
         // Chrome tabs stuff
         mCustomTabsSceneHelper.onStopScene (getActivity ());
 
-        final RefWatcher refWatcher = JApplication.refWatcher (getActivity());
+        final RefWatcher refWatcher = JApplication.refWatcher (getActivity ());
         if (null != refWatcher) refWatcher.watch (this);
     }
 
@@ -114,6 +114,14 @@ public class BaseFragment extends Fragment implements ActionMode.Callback {
                 break;
         }
 
+        return false;
+    }
+
+    public boolean onKeyDown (int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    public boolean onKeyLongPress (int keyCode, KeyEvent event) {
         return false;
     }
 

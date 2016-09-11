@@ -1,6 +1,22 @@
 package org.brainail.EverboxingTools.utils.tool;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.CharacterStyle;
+import android.view.View;
+
+import org.brainail.EverboxingTools.utils.Sdk;
+import org.brainail.EverboxingTools.utils.text.spannable.ColoredURLSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +143,58 @@ public final class ToolStrings {
         }
 
         return null;
+    }
+
+    /**
+     * Use {@link View#getTag(int)} with {@code textStringId} as key to identify later.
+     */
+    public static CharSequence createTextWithLink(
+            final @NonNull Context context,
+            final @StringRes int textStringId,
+            final @ColorRes int linkColorId,
+            final @StringRes int linkStringId,
+            final boolean isLinkUnderline,
+            final String textSeparator,
+            final @Nullable View.OnClickListener clickListener) {
+
+        final Resources resources = context.getResources ();
+        final SpannableStringBuilder textBuilder = new SpannableStringBuilder();
+        String text = resources.getString(textStringId);
+        SpannableString textSpannable = new SpannableString(text);
+        textBuilder.append(textSpannable);
+
+        textBuilder.append(textSeparator);
+
+        text = resources.getString(linkStringId);
+        textSpannable = new SpannableString(text);
+        final int textColor = ContextCompat.getColor(context, linkColorId);
+        final CharacterStyle textSpan = new ColoredURLSpan (text, textColor, isLinkUnderline) {
+            @Override
+            public void onClick(View widget) {
+                // Set tag to identify later
+                widget.setTag (textStringId, linkStringId);
+
+                if (null != clickListener) {
+                    clickListener.onClick(widget);
+                }
+
+                widget.setTag (textStringId, null);
+            }
+        };
+
+        textSpannable.setSpan(textSpan, 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textBuilder.append(textSpannable);
+
+        return textBuilder;
+    }
+
+    public static Spanned fromHtmlCompat(final String text) {
+        if (Sdk.isSdkSupported (Sdk.N)) {
+            return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            // noinspection deprecation
+            return Html.fromHtml(text);
+        }
     }
 
 }

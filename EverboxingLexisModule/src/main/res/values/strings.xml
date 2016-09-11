@@ -46,6 +46,10 @@
     <string name="settings_long_tap_scroll_to_bottom_title">Long tap on tab</string>
     <string name="settings_long_tap_scroll_to_bottom_summary">Scroll content to bottom when long tap on tab</string>
     <string name="settings_long_tap_scroll_to_bottom_key" translatable="false">settings_long_tap_on_tab_scroll_to_bottom</string>
+    <string name="settings_volume_navigation_title">Volume navigation</string>
+    <string name="settings_volume_navigation_summary">Use volume hardware buttons to navigate between article\'s pages and within them</string>
+    <string name="settings_volume_navigation_summary_info">How?</string>
+    <string name="settings_volume_navigation_key" translatable="false">settings_volume_navigation</string>
     <string name="settings_article_in_fullscreen_title">Article in fullscreen</string>
     <string name="settings_article_in_fullscreen_summary">Open articles in fullscreen mode</string>
     <string name="settings_article_in_fullscreen_key" translatable="false">settings_article_in_fullscreen</string>
@@ -228,4 +232,17 @@
     <string name="feedback_suggestion_mail_start_body">Yo!\n\n</string>
     <string name="feedback_suggestion_email_title">Feedback/suggestion (%1$s)</string>
     <string name="item_without_dictionary">No dictionary</string>
+
+    <string name="dialog_volume_navigation_how_to_message">
+        <![CDATA[
+        &#9679; Long press on the <i><b>Volume Up</b></i> button will scroll to the top of the page.<br/>
+        &#9679; Long press on the <i><b>Volume Down</b></i> button will scroll to the bottom of the page.<br/>
+        &#9679; Tapping on the <i><b>Volume Up</b></i> button will scroll to the previous piece of the page.<br/>
+        &#9679; Tapping on the <i><b>Volume Down</b></i> button will scroll to the next piece of the page.<br/>
+        &#9679; When you are already see the top of the page then
+        tapping on the <i><b>Volume Up</b></i> button will open the previous article.<br/>
+        &#9679; When you are already see the bottom of the page then
+        tapping on the <i><b>Volume Down</b></i> button will open the next article.
+        ]]>
+    </string>
 </resources>

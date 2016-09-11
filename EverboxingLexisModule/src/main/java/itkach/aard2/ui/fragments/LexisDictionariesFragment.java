@@ -201,6 +201,11 @@ public class LexisDictionariesFragment extends BaseListFragment {
     }
 
     @Override
+    protected boolean shouldHideKeyboardOnScroll () {
+        return false;
+    }
+
+    @Override
     public void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (requestCode != FILE_SELECT_REQUEST) {
             return;

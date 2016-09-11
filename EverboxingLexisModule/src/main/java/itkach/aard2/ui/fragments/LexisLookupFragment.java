@@ -1,7 +1,6 @@
 package itkach.aard2.ui.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -13,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
@@ -38,77 +36,68 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
 
     private SearchView mSearchView;
     private String mInitialQuery;
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Application.app ().addLookupListener(this);
+    public void onCreate (Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
+        Application.app ().addLookupListener (this);
     }
 
     @Override
-    protected boolean supportsSelection() {
+    protected boolean supportsSelection () {
         return false;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated (View view, Bundle savedInstanceState) {
+        super.onViewCreated (view, savedInstanceState);
 
-        setBusy(false);
-        getListView().setOnItemClickListener(new OnItemClickListener() {
+        setBusy (false);
+        getListView ().setOnItemClickListener (new OnItemClickListener () {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
                 PooLogger.info ("Item clicked: " + position);
-                Intent intent = new Intent(getActivity(), ArticleCollectionActivity.class);
-                intent.putExtra("position", position);
-                startActivity(intent);
+                Intent intent = new Intent (getActivity (), ArticleCollectionActivity.class);
+                intent.putExtra ("position", position);
+                startActivity (intent);
             }
         });
 
-        getListView().setAdapter(Application.app ().mLastResult);
+        getListView ().setAdapter (Application.app ().mLastResult);
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
-        super.onActivityCreated (savedInstanceState);
-        final InputMethodManager inputManager
-                = (InputMethodManager) getActivity ().getSystemService (Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow (getView ().getWindowToken (), 0);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_lookup, menu);
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+        inflater.inflate (R.menu.menu_lookup, menu);
         MenuItem miFilter = menu.findItem (R.id.action_lookup);
 
-        mTimer = new Timer();
+        mTimer = new Timer ();
 
-        mSearchView = (SearchView) MenuItemCompat.getActionView(miFilter);
+        mSearchView = (SearchView) MenuItemCompat.getActionView (miFilter);
         mSearchView.setQueryHint (getString (R.string.menu_search_action_hint));
-        mSearchView.setIconified(false);
+        mSearchView.setIconified (false);
 
-        mSearchView.setImeOptions(mSearchView.getImeOptions ()
-                        | EditorInfo.IME_ACTION_SEARCH
-                        | EditorInfo.IME_FLAG_NO_EXTRACT_UI
-                        | EditorInfo.IME_FLAG_NO_FULLSCREEN
+        mSearchView.setImeOptions (mSearchView.getImeOptions ()
+                | EditorInfo.IME_ACTION_SEARCH
+                | EditorInfo.IME_FLAG_NO_EXTRACT_UI
+                | EditorInfo.IME_FLAG_NO_FULLSCREEN
         );
 
-        mSearchView.setOnQueryTextListener(mOnQueryTextListener);
-        
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+        mSearchView.setOnQueryTextListener (mOnQueryTextListener);
+
+        mSearchView.setOnCloseListener (new SearchView.OnCloseListener () {
             @Override
-            public boolean onClose() {
+            public boolean onClose () {
                 return true;
             }
         });
 
-        mSearchView.setSubmitButtonEnabled(false);
+        mSearchView.setSubmitButtonEnabled (false);
         if (mInitialQuery != null) {
-            mSearchView.setQuery(mInitialQuery, true);
+            mSearchView.setQuery (mInitialQuery, true);
             mInitialQuery = null;
         }
 
-        mSearchView.clearFocus();
+        mSearchView.clearFocus ();
     }
 
     private final SearchView.OnQueryTextListener mOnQueryTextListener = new SearchView.OnQueryTextListener () {
@@ -141,7 +130,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
             };
 
             final String query = mSearchView.getQuery ().toString ();
-            if (!Application.app ().getLookupQuery ().equals (query)) {
+            if (! Application.app ().getLookupQuery ().equals (query)) {
                 if (mScheduledLookup != null) {
                     mScheduledLookup.cancel ();
                 }
@@ -162,7 +151,7 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
         if (requestCode == VOICE_RECOGNITION_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 ArrayList<String> textMatchList = data.getStringArrayListExtra (RecognizerIntent.EXTRA_RESULTS);
-                if (!textMatchList.isEmpty ()) {
+                if (! textMatchList.isEmpty ()) {
                     final String searchQuery = textMatchList.get (0);
                     mOnQueryTextListener.onQueryTextSubmit (searchQuery);
                 }
@@ -171,61 +160,61 @@ public class LexisLookupFragment extends BaseListFragment implements LookupListe
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        mSearchView.setQuery(Application.app ().getLookupQuery(), true);
-        if (Application.app ().mLastResult.getCount() > 0) {
-            mSearchView.clearFocus();
+    public void onPrepareOptionsMenu (Menu menu) {
+        mSearchView.setQuery (Application.app ().getLookupQuery (), true);
+        if (Application.app ().mLastResult.getCount () > 0) {
+            mSearchView.clearFocus ();
         }
-        super.onPrepareOptionsMenu(menu);
+        super.onPrepareOptionsMenu (menu);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    public void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState (outState);
         if (mSearchView != null) {
-            String query = mSearchView.getQuery().toString();
-            outState.putString("lookupQuery", query);
+            String query = mSearchView.getQuery ().toString ();
+            outState.putString ("lookupQuery", query);
         }
     }
 
-    private void setBusy(boolean busy) {
-        setListShown(! busy);
+    private void setBusy (boolean busy) {
+        setListShown (! busy);
         if (! busy) {
-            TextView emptyText = ((TextView) mEmptyPlaceholderView.findViewById(R.id.empty_text));
+            TextView emptyText = ((TextView) mEmptyPlaceholderView.findViewById (R.id.empty_text));
             String msg = "";
-            String query = Application.app ().getLookupQuery();
-            if (query != null && ! query.equals("")) {
-                msg = getString(R.string.lookup_nothing_found);
+            String query = Application.app ().getLookupQuery ();
+            if (query != null && ! query.equals ("")) {
+                msg = getString (R.string.lookup_nothing_found);
             }
-            emptyText.setText(msg);
+            emptyText.setText (msg);
         }
     }
 
     @Override
-    public void onDestroy() {
-        if (mTimer != null) mTimer.cancel();
+    public void onDestroy () {
+        if (mTimer != null) mTimer.cancel ();
         Application.app ().removeLookupListener (this);
-        super.onDestroy();
+        super.onDestroy ();
     }
 
     @Override
-    public void onLookupStarted(String query) {
-        setBusy(true);
+    public void onLookupStarted (String query) {
+        setBusy (true);
     }
 
     @Override
-    public void onLookupFinished(String query) {
-        setBusy(false);
+    public void onLookupFinished (String query) {
+        setBusy (false);
     }
 
     @Override
-    public void onLookupCanceled(String query) {
-        setBusy(false);
+    public void onLookupCanceled (String query) {
+        setBusy (false);
     }
 
-    void setQuery(String query) {
+    void setQuery (String query) {
         if (mSearchView != null) {
-            mSearchView.setQuery(query, true);
+            mSearchView.setQuery (query, true);
         } else {
             this.mInitialQuery = query;
         }

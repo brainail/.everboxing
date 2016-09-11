@@ -204,6 +204,14 @@ public class BaseFragment
         return false;
     }
 
+    public boolean onKeyDown (int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    public boolean onKeyLongPress (int keyCode, KeyEvent event) {
+        return false;
+    }
+
     @Override
     public boolean onCreateActionMode (ActionMode mode, Menu menu) {
         return false;

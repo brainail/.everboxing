@@ -139,7 +139,8 @@ public class ArticleFragment
         return SettingsManager.getInstance ().retrieveSpeechLanguage ();
     }
 
-    @Nullable public WebView webView () {
+    @Nullable
+    public WebView webView () {
         return mArticleWebView;
     }
 
@@ -172,11 +173,14 @@ public class ArticleFragment
         }
     }
 
-    private void finishTts () {
+    public void finishTts (final boolean shouldRelease) {
         if (null != mTts) {
             mTts.stop ();
-            mTts.shutdown ();
-            mTts = null;
+
+            if (shouldRelease) {
+                mTts.shutdown ();
+                mTts = null;
+            }
         }
     }
 
@@ -193,7 +197,7 @@ public class ArticleFragment
     @Override
     public void onDetach () {
         super.onDetach ();
-        finishTts ();
+        finishTts (true);
         mHandler.removeCallbacks (mLiftUpFabAction);
     }
 
@@ -285,8 +289,8 @@ public class ArticleFragment
             }
             return true;
         } else if (itemId == R.id.action_select_style) {
-            final String [] stylesTitles = mArticleWebView.getAvailableStylesTitles ();
-            final String [] styles = mArticleWebView.getAvailableStyles ();
+            final String[] stylesTitles = mArticleWebView.getAvailableStylesTitles ();
+            final String[] styles = mArticleWebView.getAvailableStyles ();
             LexisPaperHardyDialogs.articleDailyStyleDialog ()
                     .items (stylesTitles).tags (styles).setCallbacks (this).show (this);
         } else if (itemId == R.id.action_search_externally_article) {
@@ -318,10 +322,10 @@ public class ArticleFragment
     }
 
     public void speakSelectionText (final List<String> text) {
-        if (null != mTts && null != text && !text.isEmpty ()) {
+        if (null != mTts && null != text && ! text.isEmpty ()) {
             if (mIsTtsAvailable) {
                 mTts.stop ();
-                for (int textIndex = 0; textIndex < text.size (); ++textIndex) {
+                for (int textIndex = 0; textIndex < text.size (); ++ textIndex) {
                     mTts.speak (text.get (textIndex), TextToSpeech.QUEUE_ADD, null);
                 }
             } else {
@@ -368,7 +372,7 @@ public class ArticleFragment
 
         mFabMenuRight = (FloatingActionMenu) layout.findViewById (R.id.fab_menu);
 
-        if (!SettingsManager.getInstance ().retrieveShouldDisplayFabZoom ()) {
+        if (! SettingsManager.getInstance ().retrieveShouldDisplayFabZoom ()) {
             ((ViewGroup) layout).removeView (mFabMenuRight);
             mFabMenuRight = null;
         } else {
@@ -406,14 +410,14 @@ public class ArticleFragment
         mArticleWebView.setOnScrollDirectionListener (new ArticleWebView.OnScrollDirectionListener () {
             @Override
             public void onScrollUp () {
-                if (null != mFabMenuRight && !mFabMenuRight.isOpened ()) {
+                if (null != mFabMenuRight && ! mFabMenuRight.isOpened ()) {
                     mFabMenuRight.showMenu (true);
                 }
             }
 
             @Override
             public void onScrollDown () {
-                if (null != mFabMenuRight && !mFabMenuRight.isOpened ()) {
+                if (null != mFabMenuRight && ! mFabMenuRight.isOpened ()) {
                     mFabMenuRight.hideMenu (true);
                     mHandler.removeCallbacks (mLiftUpFabAction);
                     mHandler.postDelayed (mLiftUpFabAction, 3_000);
@@ -474,7 +478,7 @@ public class ArticleFragment
         // Check tts
         if (null != mTts && ! mIsTtsAvailable) {
             final int ttsLanguageResult = mTts.setLanguage (ttsLocale ());
-            mIsTtsAvailable = !(TextToSpeech.LANG_MISSING_DATA == ttsLanguageResult
+            mIsTtsAvailable = ! (TextToSpeech.LANG_MISSING_DATA == ttsLanguageResult
                     || TextToSpeech.LANG_NOT_SUPPORTED == ttsLanguageResult);
         }
     }
@@ -501,10 +505,11 @@ public class ArticleFragment
             }
         }
 
-        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && !mAllTextSelection.isEmpty ());
+        mMenuItemTtsAll.setEnabled (null != mAllTextSelection && ! mAllTextSelection.isEmpty ());
 
-        applyTextZoomPref ();
-        applyStylePref ();
+        // Wtf? Are you crazy? :3
+        // applyTextZoomPref ();
+        // applyStylePref ();
     }
 
     public void applyTextZoomPref () {
@@ -535,7 +540,7 @@ public class ArticleFragment
         final View actionCustomView = mode.getCustomView ();
         if (actionCustomView instanceof ViewGroup) {
             final ViewGroup actionCustomViewGroup = (ViewGroup) actionCustomView;
-            for (int viewIndex = 0; viewIndex < actionCustomViewGroup.getChildCount (); ++viewIndex) {
+            for (int viewIndex = 0; viewIndex < actionCustomViewGroup.getChildCount (); ++ viewIndex) {
                 final View subView = actionCustomViewGroup.getChildAt (viewIndex);
                 if (subView instanceof TextView) {
                     ((TextView) subView).setTextColor (getResources ().getColor (R.color.md_grey_600));
@@ -571,7 +576,7 @@ public class ArticleFragment
             public void run () {
                 mMenuItemTtsAll.setEnabled (true);
                 final AppCompatActivity scene = (AppCompatActivity) getActivity ();
-                if (null != scene && !scene.isFinishing ()) {
+                if (null != scene && ! scene.isFinishing ()) {
                     scene.supportInvalidateOptionsMenu ();
                 }
             }
@@ -582,7 +587,7 @@ public class ArticleFragment
     public void onPartialTextSelection (String selection) {
         mPartialTextSelection = ToolStrings.grabTtsWords (selection);
 
-        if (! (! TextUtils.isEmpty(selection) && null != mActionMode && null != mArticleWebView)) {
+        if (! (! TextUtils.isEmpty (selection) && null != mActionMode && null != mArticleWebView)) {
             return;
         }
 
@@ -617,7 +622,7 @@ public class ArticleFragment
                     });
 
                     final AppCompatActivity scene = (AppCompatActivity) getActivity ();
-                    if (null != scene && !scene.isFinishing ()) {
+                    if (null != scene && ! scene.isFinishing ()) {
                         scene.supportInvalidateOptionsMenu ();
                     }
                 } else {
@@ -626,40 +631,5 @@ public class ArticleFragment
             }
         });
     }
-
-//    private final UtteranceProgressListener mTtsProgressListener = new UtteranceProgressListener () {
-//        @Override
-//        public void onStart (String utteranceId) {
-//            showPlayer ();
-//        }
-//
-//        @Override
-//        public void onDone (String utteranceId) {
-//            hidePlayer ();
-//        }
-//
-//        @Override
-//        public void onError (String utteranceId) {
-//            hidePlayer ();
-//        }
-//
-//        private void hidePlayer () {
-//            NotificationManager notificationManager = (NotificationManager) getActivity ().getSystemService(Context.NOTIFICATION_SERVICE);
-//            notificationManager.cancel (-1024);
-//        }
-//
-//        private void showPlayer () {
-//            Intent notificationIntent = new Intent(getActivity (), TtsNotificationBroadcastReceiver.class);
-//            PendingIntent np = PendingIntent.getBroadcast (getActivity (), 0, notificationIntent, 0);
-//            final android.support.v4.app.NotificationCompat.Builder mNotificationBuilder =
-//                    new NotificationCompat.Builder (getActivity ())
-//                            .setSmallIcon (R.mipmap.ic_launcher)
-//                            .addAction (android.R.drawable.ic_media_play, "Stop", np)
-//                            .setContentTitle(mArticleTitle);
-//
-//            NotificationManager notificationManager = (NotificationManager) getActivity ().getSystemService(Context.NOTIFICATION_SERVICE);
-//            notificationManager.notify(-1024, mNotificationBuilder.build());
-//        }
-//    };
 
 }

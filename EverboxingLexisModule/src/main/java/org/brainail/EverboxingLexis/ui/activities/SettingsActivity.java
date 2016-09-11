@@ -22,6 +22,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.oauth.api.ClientApi;
@@ -33,6 +34,7 @@ import org.brainail.EverboxingLexis.ui.views.preference.SwitchPreferenceCompat;
 import org.brainail.EverboxingLexis.utils.manager.SettingsManager;
 import org.brainail.EverboxingLexis.utils.navigator.Navigator;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 import org.brainail.EverboxingTools.utils.tool.ToolTts;
 
 import java.util.List;
@@ -49,6 +51,7 @@ import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_info_outline;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_palette;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_refresh_sync;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_remote_control;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_swap_vertical;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_zoom_in;
 
 /**
@@ -164,7 +167,7 @@ public class SettingsActivity
     // dependent on the type of preference.
     private static void bindPreferenceSummary (
             final Preference preference,
-            final String defSummary,
+            final CharSequence defSummary,
             final boolean useDef) {
 
         // Set the listener to watch for value changes.
@@ -173,7 +176,7 @@ public class SettingsActivity
         // Trigger the listener immediately with the preference's current value.
         if (! useDef) {
             final SharedPreferences preferences = SettingsManager.getInstance ().defaultPreferences ();
-            final String value = preferences.getString (preference.getKey (), defSummary);
+            final String value = preferences.getString (preference.getKey (), defSummary.toString ());
 
             SUMMARY_BINDER.onPreferenceChange (preference, value);
         } else {
@@ -213,7 +216,7 @@ public class SettingsActivity
     @TargetApi (Build.VERSION_CODES.HONEYCOMB)
     public static class SettingsFragment
             extends PreferenceFragment
-            implements Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+            implements Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener, View.OnClickListener {
 
         public static final String MANAGER_TAG = "org.brainail.Everboxing.tag#settings.fragment";
 
@@ -275,6 +278,20 @@ public class SettingsActivity
                     = findPreference (getString (R.string.settings_long_tap_scroll_to_bottom_key));
             scrollToBottomWhenLongTapOnTabPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_format_valign_bottom));
 
+            // Volume navigation for articles
+            final Preference volumeNavigationPf
+                    = findPreference (getString (R.string.settings_volume_navigation_key));
+            volumeNavigationPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_swap_vertical));
+            volumeNavigationPf.setSummary (ToolStrings.createTextWithLink (
+                    getActivity (),
+                    R.string.settings_volume_navigation_summary,
+                    R.color.md_light_blue_700,
+                    R.string.settings_volume_navigation_summary_info,
+                    true,
+                    ". ",
+                    this
+            ));
+
             // Scroll to bottom when long tap on tab
             final Preference articleInFullscreenPf
                     = findPreference (getString (R.string.settings_article_in_fullscreen_key));
@@ -305,6 +322,7 @@ public class SettingsActivity
             setOnClickListener (getString (R.string.settings_fab_zoom_key));
             setOnClickListener (getString (R.string.settings_double_tap_scroll_to_top_key));
             setOnClickListener (getString (R.string.settings_long_tap_scroll_to_bottom_key));
+            setOnClickListener (getString (R.string.settings_volume_navigation_key));
             setOnClickListener (getString (R.string.settings_article_in_fullscreen_key));
             setOnClickListener (getString (R.string.settings_speech_language_key));
             setOnClickListener (getString (R.string.settings_random_lookup_key));
@@ -345,6 +363,11 @@ public class SettingsActivity
 
             // Scroll to bottom when long tap on tab
             if (getString (R.string.settings_long_tap_scroll_to_bottom_key).equals (preference.getKey ())) {
+                // ...
+            } else
+
+            // Scroll to bottom when long tap on tab
+            if (getString (R.string.settings_volume_navigation_key).equals (preference.getKey ())) {
                 // ...
             } else
 
@@ -451,6 +474,17 @@ public class SettingsActivity
                 ArticleCollectionActivity.updateFullscreenMode (
                         SettingsManager.getInstance ().retrieveShouldShowArticleInFullscreen ()
                 );
+            }
+        }
+
+        @Override
+        public void onClick (View v) {
+            if (android.R.id.summary == v.getId ()) {
+                // Check that it is click on url for volume navigation (_How?_)
+                final Object tag = v.getTag (R.string.settings_volume_navigation_summary);
+                if (tag instanceof Integer && R.string.settings_volume_navigation_summary_info == (Integer) tag) {
+                    LexisPaperHardyDialogs.volumeNavigationHowTo ().show (getActivity ());
+                }
             }
         }
 

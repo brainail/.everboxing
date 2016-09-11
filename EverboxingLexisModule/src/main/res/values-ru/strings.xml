@@ -68,6 +68,10 @@
     <string name="custom_tab_action_email">Отправить по почте</string>
     <string name="custom_tab_action_email_mail_title">Оцени!</string>
 
+    <string name="dialog_help_us_title">Помоги Нам</string>
+    <string name="drawer_item_help_us">Помоги Нам</string>
+    <string name="share_app_text">Салют!\n\nОбрати свое внимание на это приложение \n%s\nЭто действительно что-то интересное!\nСкачай и наслаждайся!</string>
+
     <!-- ||||||||||||||||||||||| Slob prj ||||||||||||||||||||||| -->
     <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
     <!-- ||||||||||||||||||||||| |||||||| ||||||||||||||||||||||| -->
@@ -185,4 +189,20 @@
     <string name="article_style_night_style_title">Темная</string>
     <string name="article_style_global_lightwood_style_title">Освещенный лес (глобальная)</string>
     <string name="article_style_global_nighty_style_title">Ночнушка (глобальная)</string>
+
+    <string name="dialog_volume_navigation_how_to_message">
+        <![CDATA[
+        &#9679; Длительное нажатие на кнопку <i><b>Увеличения Звука</b></i> прокрутит страницу к ее концу.<br/>
+        &#9679; Длительное нажатие на кнопку <i><b>Уменьшения Звука</b></i> прокрутит страницу к ее началу.<br/>
+        &#9679; Нажатие на кнопку <i><b>Увеличения Звука</b></i> прокрутит страницу к ее предыдущей части.<br/>
+        &#9679; Нажатие на кнопку <i><b>Уменьшения Звука</b></i> прокрутит страницу к ее следующей части.<br/>
+        &#9679; Если Вы уже видите начало страницы,
+        то нажатие на кнопку <i><b>Увеличения Звука</b></i> откроет предыдущую статью.<br/>
+        &#9679; Если Вы уже видите конец страницы,
+        то нажатие на кнопку <i><b>Уменьшения Звука</b></i> откроет следующую статью.
+        ]]>
+    </string>
+    <string name="settings_volume_navigation_summary">Используйте кнопки управления звуком для навигации между статьями и внутри них</string>
+    <string name="settings_volume_navigation_summary_info">Как?</string>
+    <string name="settings_volume_navigation_title">Навигация кнопками звука</string>
 </resources>

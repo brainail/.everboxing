@@ -94,6 +94,16 @@ public final class Sdk {
      */
     public static final int LOLLIPOP_MR1 = Build.VERSION_CODES.LOLLIPOP_MR1;
 
+    /**
+     * @see android.os.Build.VERSION_CODES#M
+     */
+    public static final int M = Build.VERSION_CODES.M;
+
+    /**
+     * @see android.os.Build.VERSION_CODES#N
+     */
+    public static final int N = Build.VERSION_CODES.N;
+
     public static boolean isSdkSupported(final int sdkVersion) {
         return Build.VERSION.SDK_INT >= sdkVersion;
     }

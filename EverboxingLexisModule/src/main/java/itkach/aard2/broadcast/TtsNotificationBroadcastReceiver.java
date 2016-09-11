@@ -30,6 +30,7 @@ import android.speech.tts.TextToSpeech;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
+@SuppressWarnings ("Unused")
 public class TtsNotificationBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive (Context context, Intent intent) {
@@ -37,3 +38,40 @@ public class TtsNotificationBroadcastReceiver extends BroadcastReceiver {
         tts.stop ();
     }
 }
+
+// ArticleFragment
+// ...
+//    private final UtteranceProgressListener mTtsProgressListener = new UtteranceProgressListener () {
+//        @Override
+//        public void onStart (String utteranceId) {
+//            showPlayer ();
+//        }
+//
+//        @Override
+//        public void onDone (String utteranceId) {
+//            hidePlayer ();
+//        }
+//
+//        @Override
+//        public void onError (String utteranceId) {
+//            hidePlayer ();
+//        }
+//
+//        private void hidePlayer () {
+//            NotificationManager notificationManager = (NotificationManager) getActivity ().getSystemService(Context.NOTIFICATION_SERVICE);
+//            notificationManager.cancel (-1024);
+//        }
+//
+//        private void showPlayer () {
+//            Intent notificationIntent = new Intent(getActivity (), TtsNotificationBroadcastReceiver.class);
+//            PendingIntent np = PendingIntent.getBroadcast (getActivity (), 0, notificationIntent, 0);
+//            final android.support.v4.app.NotificationCompat.Builder mNotificationBuilder =
+//                    new NotificationCompat.Builder (getActivity ())
+//                            .setSmallIcon (R.mipmap.ic_launcher)
+//                            .addAction (android.R.drawable.ic_media_play, "Stop", np)
+//                            .setContentTitle(mArticleTitle);
+//
+//            NotificationManager notificationManager = (NotificationManager) getActivity ().getSystemService(Context.NOTIFICATION_SERVICE);
+//            notificationManager.notify(-1024, mNotificationBuilder.build());
+//        }
+//    }

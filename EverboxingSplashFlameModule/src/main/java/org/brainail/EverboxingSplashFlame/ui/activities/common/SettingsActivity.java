@@ -117,7 +117,7 @@ public class SettingsActivity
     // dependent on the type of preference.
     public static void bindPreferenceSummary (
             final Preference preference,
-            final String defSummary,
+            final CharSequence defSummary,
             final boolean useDef) {
 
         // Set the listener to watch for value changes.
@@ -126,7 +126,7 @@ public class SettingsActivity
         // Trigger the listener immediately with the preference's current value.
         if (! useDef) {
             final SharedPreferences preferences = SettingsManager.getInstance ().defaultPreferences ();
-            final String value = preferences.getString (preference.getKey (), defSummary);
+            final String value = preferences.getString (preference.getKey (), defSummary.toString ());
 
             SUMMARY_BINDER.onPreferenceChange (preference, value);
         } else {

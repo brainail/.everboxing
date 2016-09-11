@@ -54,6 +54,7 @@ public final class SettingsManager {
     private String mDisplayFabZoomPfKey;
     private String mScrollToTopWhenDoubleTapOnTabPfKey;
     private String mScrollToBottomWhenLongTapOnTabPfKey;
+    private String mVolumeNavigationPfKey;
     private String mArticleInFullscreenPfKey;
 
     private String mShouldIntroducePfKey;
@@ -84,6 +85,7 @@ public final class SettingsManager {
         mDisplayFabZoomPfKey = ToolResources.string (R.string.settings_fab_zoom_key);
         mScrollToTopWhenDoubleTapOnTabPfKey = ToolResources.string (R.string.settings_double_tap_scroll_to_top_key);
         mScrollToBottomWhenLongTapOnTabPfKey = ToolResources.string (R.string.settings_long_tap_scroll_to_bottom_key);
+        mVolumeNavigationPfKey = ToolResources.string (R.string.settings_volume_navigation_key);
         mArticleInFullscreenPfKey = ToolResources.string (R.string.settings_article_in_fullscreen_key);
 
         mShouldUseFavouriteToRandomLookupPfKey = ToolResources.string (R.string.settings_random_lookup_key);
@@ -202,6 +204,10 @@ public final class SettingsManager {
 
     public boolean retrieveShouldScrollToBottomWhenLongTapOnTab () {
         return mDefaultPreferences.getBoolean (mScrollToBottomWhenLongTapOnTabPfKey, true);
+    }
+
+    public boolean retrieveShouldUseVolumeNavigation () {
+        return mDefaultPreferences.getBoolean (mVolumeNavigationPfKey, false);
     }
 
     public boolean retrieveShouldShowArticleInFullscreen () {

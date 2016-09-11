@@ -10,6 +10,7 @@ import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsHandlers.ArticleLoadRemoteContentMode;
 import org.brainail.EverboxingLexis.ui.views.dialogs.hardy.LexisPaperHardyDialogsHandlers.SpeechLanguage;
 import org.brainail.EverboxingLexis.utils.tool.ToolResources;
+import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,6 +123,13 @@ public final class LexisPaperHardyDialogs {
                         R.string.dialog_button_share_with_friends,
                         R.string.dialog_button_feedback_suggestion})
                 .cancelable (true);
+    }
+
+    public static BaseDialogSpecification.Builder<?> volumeNavigationHowTo () {
+        final String body = ToolResources.string (R.string.dialog_volume_navigation_how_to_message);
+        return BaseDialogSpecification.create ()
+                .code (LexisPaperHardyDialogsCode.D_VOLUME_NAVIGATION_HOW_TO)
+                .body (ToolStrings.fromHtmlCompat (body));
     }
 
 }
