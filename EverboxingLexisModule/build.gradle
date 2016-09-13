@@ -1,7 +1,7 @@
 // Version stuff for auto generated versionName and versionCode
 def appVersionMajor = 1
-def appVersionMinor = 0
-def appVersionPatch = 4
+def appVersionMinor = 1
+def appVersionPatch = 0
 
 // Git hash and build time for app's BuildConfig
 def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
