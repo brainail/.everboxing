@@ -1,0 +1,18 @@
+// Dex
+android.defaultConfig.multiDexEnabled true
+android.dexOptions.dexInProcess true
+android.dexOptions.jumboMode true
+android.dexOptions.javaMaxHeapSize "2g"
+
+android {
+    productFlavors {
+        // The actual minSdkVersion for the application.
+        normal { minSdkVersion 15 }
+        // Utilizes minSdkVersion = 21 to allow the Android gradle plugin
+        // to pre-dex each module and produce an APK that can be tested on
+        // Android Lollipop without time consuming dex merging processes.
+        lollipop { minSdkVersion 21 }
+    }
+}
+
+

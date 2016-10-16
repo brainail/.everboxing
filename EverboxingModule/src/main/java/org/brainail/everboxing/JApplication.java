@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -66,6 +67,13 @@ public class JApplication extends Application {
         fontBuilder.setFontAttrId (R.attr.fontPath);
 
         CalligraphyConfig.initDefault (fontBuilder.build ());
+    }
+
+    @Override
+    protected void attachBaseContext (final Context baseContext) {
+        super.attachBaseContext (baseContext);
+        // Enable multiDex
+        MultiDex.install(this);
     }
 
     private void initFabric() {

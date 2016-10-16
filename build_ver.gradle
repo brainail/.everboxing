@@ -1,0 +1,8 @@
+// Git hash and build time for app's BuildConfig
+def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def appBuildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
+
+android.defaultConfig.buildConfigField "String", "GIT_SHA_KEY", "\"Git SHA\""
+android.defaultConfig.buildConfigField "String", "GIT_SHA", "\"${appGitSha}\""
+android.defaultConfig.buildConfigField "String", "BUILD_TIME_KEY", "\"Build TIME\""
+android.defaultConfig.buildConfigField "String", "BUILD_TIME", "\"${appBuildTime}\""

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 import com.squareup.leakcanary.LeakCanary;
@@ -107,6 +108,8 @@ public class JApplication extends Application {
     protected void attachBaseContext (final Context baseContext) {
         // Attach the Calligraphy
         super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
+        // Enable multiDex
+        MultiDex.install (this);
     }
 
     @Override

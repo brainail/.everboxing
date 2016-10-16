@@ -3,10 +3,6 @@ def appVersionMajor = 1
 def appVersionMinor = 0
 def appVersionPatch = 0
 
-// Git hash and build time for app's BuildConfig
-def appGitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
-def appBuildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
-
 buildscript {
     ext.kotlin_version = '1.0.0'
 
@@ -32,6 +28,12 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
+// Some App version stuff
+if (new File('build_ver.gradle').exists()) { apply from: '../build_ver.gradle' }
+// Local
+if (new File('local.gradle').exists()) { apply from: '../local.gradle' }
+// Dex stuff
+if (new File('build_dex.gradle').exists()) { apply from: '../build_dex.gradle' }
 
 repositories {
     // Snapshots
@@ -76,12 +78,6 @@ android {
 
         // Build config fields
         buildConfigField "String", "MODULE_NAME", "\"$project.name\""
-
-        buildConfigField "String", "GIT_SHA_KEY", "\"Git SHA\""
-        buildConfigField "String", "GIT_SHA", "\"${appGitSha}\""
-
-        buildConfigField "String", "BUILD_TIME_KEY", "\"Build TIME\""
-        buildConfigField "String", "BUILD_TIME", "\"${appBuildTime}\""
     }
 
     sourceSets {
@@ -173,10 +169,6 @@ android {
         // ButterKnife
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
-
-    dexOptions {
-        jumboMode = true
-    }
 }
 
 //
@@ -188,6 +180,9 @@ android {
 dependencies {
     // Libs folder
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // MultiDex
+    compile "com.android.support:multidex:${multiDexVersion}"
 
     // Support libraries
     compile "com.android.support:design:${supportLibVersion}"

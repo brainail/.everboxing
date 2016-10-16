@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
@@ -183,6 +184,8 @@ public class JApplication extends Application implements HasComponent<AppCompone
     protected void attachBaseContext (final Context baseContext) {
         // Attach the Calligraphy
         super.attachBaseContext (CalligraphyContextWrapper.wrap (baseContext));
+        // Enable multiDex
+        MultiDex.install(this);
     }
 
     @Override
