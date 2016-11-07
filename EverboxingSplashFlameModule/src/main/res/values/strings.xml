@@ -97,4 +97,6 @@
     <string name="flame_properties_second_dimension_hint">Second dimension</string>
     <string name="flame_properties_style_type_hint">Style type</string>
 
+    <string name="action_set_wallpaper_as">Set wallpaper as</string>
+
 </resources>

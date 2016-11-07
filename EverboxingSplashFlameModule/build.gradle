@@ -225,7 +225,7 @@ dependencies {
     // ... Retrolambda > java8
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:+'
     // ... Rx > java, android, binding, lifecycle, etc ...
-    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'io.reactivex:rxjava:1.2.0'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     // ... Dagger2 > injection

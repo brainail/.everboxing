@@ -27,6 +27,12 @@ package org.brainail.EverboxingSplashFlame.navigator;
  */
 public final class NavigatorConstants {
 
+    public static final class ToolbarTunerExtraKey {
+        public static final String TITLE = "org.brainail.Everboxing.extra#toolbar_tuner.title";
+        public static final String SUBTITLE = "org.brainail.Everboxing.extra#toolbar_tuner.subtitle";
+        public static final String COLOR = "org.brainail.Everboxing.extra#toolbar_tuner.color";
+    }
+
     public static final class ExternalSources {
         public static final String MEDIUM = "https://medium.com/@brainail";
     }

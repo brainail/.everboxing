@@ -249,7 +249,7 @@
 -dontwarn android.support.**
 
 # Warnings from Gps
--dontwarn sun.misc.Unsafe
+-dontwarn sun.misc.**
 
 # Crashlytics
 -keep class com.crashlytics.** { *; }

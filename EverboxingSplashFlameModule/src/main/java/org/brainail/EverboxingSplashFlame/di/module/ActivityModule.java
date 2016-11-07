@@ -7,6 +7,7 @@ import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.di.ActivityContext;
 import org.brainail.EverboxingSplashFlame.di.PerActivity;
 import org.brainail.EverboxingSplashFlame.navigator.Navigator;
+import org.brainail.EverboxingSplashFlame.navigator.NavigatorConstants.ToolbarTunerExtraKey;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolToolbar;
 
@@ -67,8 +68,9 @@ public class ActivityModule {
     ToolToolbar provideToolToolbar () {
         return new ToolToolbar (
                 mScene,
-                DrawerSection.ExtraKey.TITLE,
-                DrawerSection.ExtraKey.COLOR,
+                new String [] {DrawerSection.ExtraKey.TITLE, ToolbarTunerExtraKey.TITLE},
+                new String [] {ToolbarTunerExtraKey.SUBTITLE},
+                new String [] {DrawerSection.ExtraKey.COLOR, ToolbarTunerExtraKey.COLOR},
                 R.attr.toolbarDefaultStyle,
                 R.id.app_content,
                 R.string.app_name);

@@ -11,19 +11,20 @@ import org.brainail.EverboxingHardyDialogs.BaseDialogSpecification;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingSplashFlame.BuildConfig;
 import org.brainail.EverboxingSplashFlame.R;
+import org.brainail.EverboxingSplashFlame._app.features.flame_preview.FlamePreviewActivity;
+import org.brainail.EverboxingSplashFlame._app.features.flame_preview.FlamePreviewFragment;
 import org.brainail.EverboxingSplashFlame.di.PerActivity;
 import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorAction;
 import org.brainail.EverboxingSplashFlame.navigator.action.NavigatorActionFactory;
-import org.brainail.EverboxingSplashFlame._app.features.flame_preview.FlamePreviewActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.AboutActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.HomeActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.SettingsActivity;
 import org.brainail.EverboxingSplashFlame.utils.tool.ToolResources;
 import org.brainail.EverboxingTools.utils.tool.ToolEmail;
 
-import javax.inject.Singleton;
+import java.io.File;
 
-import static org.brainail.EverboxingSplashFlame._app.features.flame_preview.FlamePreviewFragment.Extras.PREV_FLAME_FILE_PATH;
+import javax.inject.Singleton;
 
 /**
  * Helper class to navigate through the app (like opening of different parts/pages/screens) <br/>
@@ -49,7 +50,7 @@ public class Navigator {
     @CheckResult
     public NavigatorAction flameFilePreview (final String filePath) {
         final Intent intent = new Intent (mContext, FlamePreviewActivity.class);
-        intent.putExtra (PREV_FLAME_FILE_PATH, filePath);
+        intent.putExtra (FlamePreviewFragment.Extras.FILE_PATH, filePath);
         return NavigatorActionFactory.create (mContext, intent);
     }
 
@@ -136,6 +137,18 @@ public class Navigator {
         actionIntent.putExtra (Intent.EXTRA_TEXT, ToolResources.string (mContext, R.string.share_app_text, playUrl));
         actionIntent.setType("text/plain");
         return NavigatorActionFactory.create (mContext, actionIntent);
+    }
+
+    @CheckResult
+    public NavigatorAction openSetAsWallpaperChooser (final String filePath) {
+        final Intent actionIntent = new Intent(Intent.ACTION_ATTACH_DATA);
+        actionIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        actionIntent.setDataAndType(Uri.fromFile (new File (filePath)), "image/*");
+
+        final String chooserTitle = ToolResources.string (mContext, R.string.action_set_wallpaper_as);
+        final Intent chooserIntent = Intent.createChooser(actionIntent, chooserTitle);
+
+        return NavigatorActionFactory.create (mContext, chooserIntent);
     }
 
     @CheckResult

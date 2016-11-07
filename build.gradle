@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
         // Required for tests
@@ -36,7 +36,7 @@ ext {
 
     multiDexVersion = '1.0.1'
 
-    supportLibVersion = '24.2.0'
+    supportLibVersion = '25.0.0'
     playServicesLibVersion = '9.6.1'
     leakCanaryLibVersion = '1.4-beta2'
     butterKnifeLibVersion = '8.1.0'

@@ -1,0 +1,10 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/set_as_wallpaper"
+        android:title="@string/action_set_wallpaper_as"
+        android:icon="@drawable/ic_menu_wallpaper"
+        app:showAsAction="always"/>
+</menu>

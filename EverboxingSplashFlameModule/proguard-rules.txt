@@ -249,7 +249,7 @@
 -dontwarn android.support.**
 
 # Warnings from Gps
--dontwarn sun.misc.Unsafe
+-dontwarn sun.misc.**
 
 # Crashlytics
 -keep class com.crashlytics.** { *; }
@@ -345,6 +345,20 @@
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
+}
+
+# RxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRxRx
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+   long producerIndex;
+   long consumerIndex;
+}
+
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
 
 

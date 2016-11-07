@@ -334,6 +334,7 @@ public abstract class BaseActivity
         // Restore some data for toolbar
         updateToolbarColor ();
         updateToolbarTitle ();
+        updateToolbarSubtitle ();
         // We should update here options menu
         // to refresh self after recreate (change theme)
         // noinspection ConstantConditions
@@ -347,6 +348,7 @@ public abstract class BaseActivity
         // Restore some data for toolbar
         updateToolbarColor ();
         updateToolbarTitle ();
+        updateToolbarSubtitle ();
         // We should update here options menu
         // to refresh self after recreate (change theme)
         if (null != getSupportActionBar ()) {
@@ -360,6 +362,10 @@ public abstract class BaseActivity
 
     protected void updateToolbarTitle () {
         mToolbarTuner.updateToolbarTitle (null);
+    }
+
+    protected void updateToolbarSubtitle () {
+        mToolbarTuner.updateToolbarSubtitle (null);
     }
 
     @Override

@@ -58,6 +58,7 @@ public abstract class SectionedDrawerActivity
         // Restore some data for toolbar
         updateToolbarColor ();
         updateToolbarTitle ();
+        updateToolbarSubtitle ();
     }
 
     @Override
