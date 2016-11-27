@@ -36,7 +36,7 @@ ext {
 
     multiDexVersion = '1.0.1'
 
-    supportLibVersion = '25.0.0'
+    supportLibVersion = '25.0.1'
     playServicesLibVersion = '9.6.1'
     leakCanaryLibVersion = '1.4-beta2'
     butterKnifeLibVersion = '8.1.0'
