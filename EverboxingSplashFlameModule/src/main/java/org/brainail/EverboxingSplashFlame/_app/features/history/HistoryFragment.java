@@ -57,14 +57,14 @@ public class HistoryFragment
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated (savedInstanceState);
 
-        mFilesHistoryAdapter = new FilesHistoryRecyclerViewAdapter<File> (getContext (), this);
+        mFilesHistoryAdapter = new FilesHistoryRecyclerViewAdapter<> (getContext (), this);
         mFilesHistory.setAdapter (mFilesHistoryAdapter);
 
         bindSubscription (
                 RxToolFiles.files (new File (Constants.APP_MEDIA_DIR_PATH))
-                        .observeOn (AndroidSchedulers.mainThread ())
                         .subscribeOn (Schedulers.io ())
                         .buffer (50)
+                        .observeOn (AndroidSchedulers.mainThread ())
                         .subscribe (this :: onFilesBunch)
         );
     }

@@ -30,7 +30,12 @@ import rx.Observable;
  * THE SOFTWARE.
  */
 public final class RxToolFiles {
+
     public static Observable<File> files (final File file) {
+        return Observable.defer (() -> obtainFiles (file));
+    }
+
+    private static Observable<File> obtainFiles (final File file) {
         if (null == file) {
             return Observable.empty ();
         }
@@ -41,4 +46,5 @@ public final class RxToolFiles {
             return Observable.just (file);
         }
     }
+
 }
