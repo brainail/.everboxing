@@ -1,23 +1,11 @@
-/*
- * This code may be freely redistributed under the 
- * terms of the GPL
- *
- * James McCarty 
- *
- * 2012
- */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-/* #include <malloc.h> */
 #include <malloc.h>
 #include <pthread.h>
-/* #include <libtiff/tiffio.h> */
 #include <string.h>
 #include <time.h>
 #include "fractal.h"
-// #include "inc/tiffio.h"
 #include "jpeglib.h"
 
 #define RANDR(lo, hi) ((lo) + (((hi)-(lo)) * drand48()))
@@ -26,7 +14,6 @@ int random_bit (void) {
     return random () & 01;
 }
 
-/* from Paul Bourke */
 void ContractiveMapping (coeff * coeff) {
     double a, b, d, e;
 
@@ -52,7 +39,6 @@ void ContractiveMapping (coeff * coeff) {
     coeff->fc = RANDR (-2, 2);
 }
 
-/* initialize the coefficient values */
 void coeff_init (flame *fractal) {
     int i;
     int file_r, file_g, file_b;
@@ -60,7 +46,6 @@ void coeff_init (flame *fractal) {
 
     fractal->coarray = malloc (fractal->n * sizeof (coeff));
     if (fractal->coarray == NULL) {
-        // printf ("Error: malloc() failed in buffer_init(). Tried to malloc %d * %ld bytes.\n", fractal->n, (long) sizeof (coeff));
         LOGES("coeff_init", "Error: malloc() failed\n");
         exit (EXIT_FAILURE);
     }
@@ -96,15 +81,10 @@ void coeff_init (flame *fractal) {
 
     if (fractal->pallete != NULL) {
         i = 0;
-        while ((fscanf
-                        (fractal->pallete, "%d %d %d\n", &file_r, &file_g,
-                         &file_b) != EOF) && i < fractal->n) {
-
+        while ((fscanf(fractal->pallete, "%d %d %d\n", &file_r, &file_g, &file_b) != EOF) && i < fractal->n) {
             fractal->coarray[i].r = (unsigned char) file_r;
             fractal->coarray[i].g = (unsigned char) file_g;
             fractal->coarray[i].b = (unsigned char) file_b;
-            //printf ("Setting index %d to %d,%d,%d.\n", i, file_r, file_g,
-            //        file_b);
             i++;
         }
         (void) fclose (fractal->pallete);
@@ -112,37 +92,20 @@ void coeff_init (flame *fractal) {
 
     if (fractal->cofile != NULL) {
         i = 0;
-        while ((fscanf (fractal->cofile, "%lf %lf %lf %lf %lf %lf\n",
-                        &fa, &fb, &fc, &fd, &fe, &ff) != EOF) && i < fractal->n) {
+        while ((fscanf (fractal->cofile, "%lf %lf %lf %lf %lf %lf\n", &fa, &fb, &fc, &fd, &fe, &ff) != EOF) && i < fractal->n) {
             fractal->coarray[i].ac = fa;
             fractal->coarray[i].bc = fb;
             fractal->coarray[i].cc = fc;
             fractal->coarray[i].dc = fd;
             fractal->coarray[i].ec = fe;
             fractal->coarray[i].fc = ff;
-            // printf ("Setting index coeffs at index %d\n", i);
             i++;
         }
         (void) fclose (fractal->cofile);
     }
-
-    for (i = 0; i < fractal->n; i++) {
-        printf ("%f %f %f %f %f %f\n",
-                fractal->coarray[i].ac,
-                fractal->coarray[i].bc,
-                fractal->coarray[i].cc,
-                fractal->coarray[i].dc,
-                fractal->coarray[i].ec, fractal->coarray[i].fc);
-    }
-
 }
 
-/* takes a flame structure and sets all initial values. */
-void
-fractal_init (flame *fractal) {
-
-    /* change default values set in fractal.h */
-
+void fractal_init (flame *fractal) {
     fractal->xres = XRES;
     fractal->yres = YRES;
     fractal->xmax = XMAX;
@@ -168,21 +131,15 @@ fractal_init (flame *fractal) {
     fractal->coarray = NULL;
     fractal->choice = malloc (fractal->count * sizeof (int));
     if (fractal->choice == NULL) {
-        // printf
-        //          ("Error: malloc() failed in fractal_init.  Tried to malloc %d * %ld bytes.\n",
-        //          fractal->count, sizeof (int));
-                 LOGES("fractal_init", "Error: malloc() failed\n");
+        LOGES("fractal_init", "Error: malloc() failed\n");
         exit (EXIT_FAILURE);
     }
     fractal->choice[0] = 0;
 }
 
-/* allocate memory for the image buffer */
-void
-buffer_init (flame *fractal) {
+void buffer_init (flame *fractal) {
 
     int y;
-    /* last minute sanity checks */
     fractal->xres = fractal->xres <= 0 ? XRES : fractal->xres;
     fractal->yres = fractal->yres <= 0 ? YRES : fractal->yres;
 
@@ -204,47 +161,32 @@ buffer_init (flame *fractal) {
     fractal->xres *= fractal->sup;
     fractal->yres *= fractal->sup;
 
-    /* malloc new memory array for the image */
-    /* then memory can be freed after being written to disk */
-
-    //printf ("Size of pixel structure is %ld bytes.\n", sizeof (pixel));
-    //printf ("Attempting to allocate %ld MiB of RAM.\n",
-    //        ((fractal->yres * fractal->xres * sizeof (pixel))) / (1024 * 1024));
-
     fractal->pixels = malloc (fractal->yres * sizeof (pixel *));
     if (fractal->pixels == NULL) {
-        // printf ("malloc() in buffer_init () failed.\n");
         LOGES("buffer_init", "Error: malloc() failed\n");
         exit (EXIT_FAILURE);
     }
     fractal->lock = malloc (fractal->yres * sizeof (pthread_mutex_t));
     if (fractal->lock == NULL) {
-        // printf ("malloc() in buffer_init () failed.\n");
         LOGES("buffer_init", "Error: malloc() failed\n");
         exit (EXIT_FAILURE);
     }
     for (y = 0; y < fractal->yres; y++) {
         fractal->pixels[y] = malloc (fractal->xres * sizeof (pixel));
         if (fractal->pixels[y] == NULL) {
-            // printf ("malloc() failed\n");
             LOGES("buffer_init", "Error: malloc() failed\n");
             exit (EXIT_FAILURE);
         }
         memset (fractal->pixels[y], '\0', fractal->xres * sizeof (pixel));
         if (0 != pthread_mutex_init (&(fractal->lock[y]), NULL)) {
-            // printf ("Error: mutex init failed.\n");
             LOGES("buffer_init", "Error: malloc() failed\n");
         }
     }
 
-    // printf ("Done!\n");
     LOGIS("buffer_init", "Done!\n");
 }
 
-void
-print_usage () {
-    /* print program use */
-
+void print_usage () {
     printf ("fractal usage:\n");
     printf ("fractal [-options ...]\n\n");
     printf ("options include:\n");
@@ -306,8 +248,7 @@ print_usage () {
     fflush (stdout);
 }
 
-void
-parse_args (int argc, char **argv, flame *fractal) {
+void parse_args (int argc, char **argv, flame *fractal) {
     int i = 1;
     int override = 0;
 
@@ -377,7 +318,6 @@ parse_args (int argc, char **argv, flame *fractal) {
         }
         else if (!strcmp (argv[i], "-p")) {
             if (((fractal->pallete = fopen (argv[i + 1], "r")) == NULL)) {
-                // printf ("Error reading input file %s.\n", argv[i + 1]);
                 LOGES("parse_args", "Error reading input file\n");
                 exit (EXIT_FAILURE);
             }
@@ -385,7 +325,6 @@ parse_args (int argc, char **argv, flame *fractal) {
         }
         else if (!strcmp (argv[i], "-c")) {
             if (((fractal->cofile = fopen (argv[i + 1], "r")) == NULL)) {
-                // printf ("Error reading input file %s.\n", argv[i + 1]);
                 LOGES("parse_args", "Error reading input file\n");
                 exit (EXIT_FAILURE);
             }
@@ -414,7 +353,7 @@ parse_args (int argc, char **argv, flame *fractal) {
             i += 2;
         }
         else if (!strcmp (argv[i], "-v")) {
-            if (!override && fractal->count == 1) {            /* first user supplied param overrides default */
+            if (!override && fractal->count == 1) {
                 fractal->choice[0] = atoi (argv[i + 1]);
                 override = 1;
             }
@@ -423,16 +362,12 @@ parse_args (int argc, char **argv, flame *fractal) {
                         realloc (fractal->choice,
                                  ((fractal->count + 1) * sizeof (int)));
                 if (fractal->choice == NULL) {
-                    // printf
-                    //        ("Error: malloc() failed in parse_args. Tried to allocate %d * %ld bytes.\n",
-                    //         fractal->count, sizeof (int));
                     LOGES("parse_args", "Error: malloc() failed in parse_args\n");
                     exit (EXIT_FAILURE);
                 }
                 fractal->choice[fractal->count] = atoi (argv[i + 1]);
                 fractal->count++;
             }
-            // printf ("using trasformation number %d\n", atoi (argv[i + 1]));
             i += 2;
         }
         else {
@@ -442,8 +377,7 @@ parse_args (int argc, char **argv, flame *fractal) {
     }
 }
 
-double
-modulus (double a, double b) {
+double modulus (double a, double b) {
     int cast;
     cast = (int) (a / b);
     return a - ((double) cast * b);
@@ -476,7 +410,6 @@ void write_to_raw (flame *fractal) {
 
     char * colors = malloc (fractal->xres * 3 * sizeof (char));
     if (colors == NULL) {
-        // printf ("malloc() failed in write_to_raw for color.\n");
         LOGES("write_to_raw", "malloc() failed in write_to_raw for color.\n");
         exit (EXIT_FAILURE);
     }
@@ -486,7 +419,6 @@ void write_to_raw (flame *fractal) {
             int cr = invert == 1 ? ~((*fractal).pixels[row][col].r) : (*fractal).pixels[row][col].r;
             int cg = invert == 1 ? ~((*fractal).pixels[row][col].g) : (*fractal).pixels[row][col].g;
             int cb = invert == 1 ? ~((*fractal).pixels[row][col].b) : (*fractal).pixels[row][col].b;
-            // color [col] = ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + (cb & 0xff);
             colors [col * 3] = (char) cr;
             colors [col * 3 + 1] = (char) cg;
             colors [col * 3 + 2] = (char) cb;
@@ -505,8 +437,7 @@ void write_to_raw (flame *fractal) {
     free (colors);
 }
 
-void *
-render (void *fract) {
+void * render (void *fract) {
     double r, theta, x, y, c, f, b, e;
     double newx, newy, pa1, pa2, pa3, pa4;
     double P0, P1, prefix, t;
@@ -834,10 +765,7 @@ render (void *fract) {
     return NULL;
 }
 
-/* apply gamma color correction and log correction */
-void
-gamma_log (flame *fractal) {
-
+void gamma_log (flame *fractal) {
     float max;
     int row, col;
     double gamma = fractal->gamma;
@@ -873,9 +801,7 @@ gamma_log (flame *fractal) {
 }
 
 
-/* take a fractal rendered with larger bit bucket and shrink it */
-void
-reduce (flame *fractal) {
+void reduce (flame *fractal) {
     unsigned int R, G, B, count, y, x;
     int sx, sy;
     int old_yres;
@@ -892,14 +818,10 @@ reduce (flame *fractal) {
     for (y = 0; y < (*fractal).yres; y++) {
         reduction[y] = malloc ((*fractal).xres * sizeof (pixel));
         if (reduction[y] == NULL) {
-            // printf ("malloc() failed\n");
             LOGES("reduce", "malloc() failed\n");
             exit (EXIT_FAILURE);
         }
     }
-
-    /* simple grid algorithm anti-aliasing */
-    /* numerical average of colors in a square region */
 
     for (y = 0; y < (*fractal).yres; y++) {
         for (x = 0; x < (*fractal).xres; x++) {
@@ -924,8 +846,6 @@ reduce (flame *fractal) {
         }
     }
 
-    /* replace pixel array with new, smaller array */
-
     for (y = 0; y < old_yres; y++) {
         free ((*fractal).pixels[y]);
     }
@@ -933,7 +853,9 @@ reduce (flame *fractal) {
     (*fractal).pixels = reduction;
 }
 
-
+/*
+    Main entrance
+*/
 JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_ToolFractal_warmUp(
     JNIEnv * env,
     jobject obj,
@@ -947,11 +869,8 @@ JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_To
     LOGIS("warmUp", strPath);
 
     flame fractal;
-    // LOGIS("warmUp", "code line > flame fractal;");
     int i;
-    // LOGIS("warmUp", "code line > int i;");
     pthread_t *threads;
-    // LOGIS("warmUp", "code line > pthread_t *threads;");
 
     // >>> Init argv
     int argc;
@@ -972,17 +891,13 @@ JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_To
     // <<< Init argv
 
     /* initialize our Flame Fractal */
-    // printf ("Initializing...\n");
     LOGIS("warmUp", "Initializing...\n");
     fractal_init (&fractal);
-    // printf ("Initialized!\n");
     LOGIS("warmUp", "Initialized!\n");
 
     /* parse arguments from the command line */
-    // printf ("Parsing user arguments...\n");
     LOGIS("warmUp", "Parsing user arguments...\n");
     parse_args (argc, argv, &fractal);
-    // printf ("Done!\n");
     LOGIS("warmUp", "Done!\n");
 
     /* seed the randomizer */
@@ -990,18 +905,14 @@ JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_To
     srand48 (random ());
 
     /* initalize the random coefficients */
-    // printf ("Initialzing Coefficients and Colors...\n");
     LOGIS("warmUp", "Initialzing Coefficients and Colors...\n");
     coeff_init (&fractal);
-    // printf ("Done!\n");
     LOGIS("warmUp", "Done!\n");
 
     /* allocate our memory buffer */
-    // printf ("Allocating memory...\n");
     LOGIS("warmUp", "Allocating memory...\n");
     buffer_init (&fractal);
     LOGIS("warmUp", "Done!\n");
-    // printf ("Done!\n");
 
     /* correct for threads */
     if (fractal.num_threads <= 0) {
@@ -1009,7 +920,6 @@ JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_To
     }
     threads = (pthread_t *) malloc (fractal.num_threads * sizeof (pthread_t));
     if (threads == NULL) {
-        // printf ("Error: malloc() failed in main.\n");
         LOGES("warmUp", "Error: malloc() failed in main.\n");
         exit (EXIT_FAILURE);
     }
@@ -1017,14 +927,12 @@ JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_To
 
     /* render the image */
     for (i = 0; i < fractal.num_threads; i++) {
-        // printf ("Spawing thread %d\n", i);
         LOGIS("warmUp", "Spawing threads ...\n");
         if (0 != pthread_create (&threads[i], NULL, render, (void *) &fractal))
             exit (EXIT_FAILURE);
     }
 
     for (i = 0; i < fractal.num_threads; i++) {
-        // printf ("Joining thread %d\n", i);
         LOGIS("warmUp", "Joining threads ...\n");
         if (0 != pthread_join (threads[i], NULL))
             exit (EXIT_FAILURE);
@@ -1032,14 +940,12 @@ JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_To
 
     /* gamma and log correct */
     LOGIS("warmUp", "Finializing and writing out...\n");
-    // printf ("Finializing and writing out...\n");
     gamma_log (&fractal);
     if (fractal.sup > 1) {
         reduce (&fractal);
     }
 
     /* write out the file */
-    /*gamma_log (&fractal); */
     write_to_raw (&fractal);
     /* clean up */
     free (threads);
@@ -1047,7 +953,6 @@ JNIEXPORT jboolean JNICALL Java_org_brainail_EverboxingSplashFlame_utils_tool_To
     free (fractal.coarray);
     free (fractal.choice);
     free (fractal.pixels);
-    // printf ("Done!\n");
     LOGIS("warmUp", "Done!\n");
 
     (*env)->ReleaseStringUTFChars(env, filePath, strPath);

@@ -19,6 +19,7 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogsHelper;
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs;
+import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs.AppHardyDialogsDataProvider;
 import org.brainail.EverboxingSplashFlame.di.component.ActivityComponent;
 import org.brainail.EverboxingSplashFlame.files.FileCreator;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
@@ -27,6 +28,7 @@ import org.brainail.EverboxingTools.utils.PooLogger;
 import org.brainail.EverboxingTools.utils.tool.ToolNumber;
 import org.brainail.EverboxingTools.utils.tool.ToolNumber.ValidationStatus;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
+import org.brainail.EverboxingTools.utils.tool.ToolRandom;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -223,11 +225,17 @@ public class FlamePropertiesFragment
         final File filePath = mFileCreator.provideOrCreateFlamePreview ();
         PooLogger.debug ("warmUp: filePath = ?", filePath);
 
+        int type = styleTypeInt ();
+        if (type < 0) {
+            final String [] types = AppHardyDialogsDataProvider.flameStyleTypesDialogTags (getContext ());
+            type = Integer.parseInt (types [ToolRandom.random (1, types.length)]);
+        }
+
         ToolFractal.warmUp (
                 filePath.getAbsolutePath (),
                 firstSideSizeInt (),
                 secondSideSizeInt (),
-                styleTypeInt ());
+                type);
 
         return filePath.getAbsolutePath ();
     }

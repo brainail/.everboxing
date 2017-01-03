@@ -69,7 +69,7 @@ public final class AppHardyDialogs {
     public static ListDialogSpecification.Builder<?> flameStyleTypes (final @NonNull Context context) {
         return ListDialogSpecification.create ()
                 .items (context.getResources ().getStringArray (R.array.dialog_flame_style_types_body))
-                .tags (context.getResources ().getStringArray (R.array.dialog_flame_style_types_tags))
+                .tags (AppHardyDialogsDataProvider.flameStyleTypesDialogTags (context))
                 .fromBottom (true)
                 .title (R.string.dialog_flame_style_types_title)
                 .code (AppHardyDialogsCode.D_FLAME_STYLE_TYPES);
@@ -104,6 +104,15 @@ public final class AppHardyDialogs {
             return HardyDialogFragment.MANAGER_TAG_PREFIX + code;
         }
 
+    }
+
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓   DATA   ↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    public static final class AppHardyDialogsDataProvider {
+        public static String [] flameStyleTypesDialogTags(final @NonNull Context context) {
+            return context.getResources ().getStringArray (R.array.dialog_flame_style_types_tags);
+        }
     }
 
     // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓

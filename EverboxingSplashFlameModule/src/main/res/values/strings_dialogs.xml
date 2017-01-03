@@ -31,6 +31,7 @@
 
     <string name="dialog_flame_style_types_title">Types</string>
     <string-array name="dialog_flame_style_types_body">
+        <item>You are lucky</item> <!-- -1 -->
         <item>Linear</item> <!-- 0 -->
         <!-- <item>Sinusoidal</item> --> <!-- 1 -->
         <item>Spherical</item> <!-- 2 -->
@@ -69,6 +70,7 @@
         <item>Smth</item> <!-- 35 -->
     </string-array>
     <string-array name="dialog_flame_style_types_tags">
+        <item>-1</item>
         <item>0</item>
         <!-- <item>1</item> -->
         <item>2</item>
