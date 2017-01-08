@@ -2,12 +2,16 @@ package org.brainail.EverboxingSplashFlame._app.features.history;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.util.DiffUtil;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.brainail.EverboxingSplashFlame.Constants;
 import org.brainail.EverboxingSplashFlame.R;
+import org.brainail.EverboxingSplashFlame._app.features.history.FilesHistoryRecyclerViewAdapter.FilesListDiffCallback;
+import org.brainail.EverboxingSplashFlame.files.FileCreator;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.RxBaseFragment;
 import org.brainail.EverboxingSplashFlame.utils.tool.rx.RxToolFiles;
 import org.brainail.EverboxingTools.ui.views.AutoFitGridRecyclerView;
@@ -16,6 +20,7 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -51,26 +56,42 @@ public class HistoryFragment
     @BindView (R.id.files_history)
     protected AutoFitGridRecyclerView mFilesHistory;
 
-    protected FilesHistoryRecyclerViewAdapter<File> mFilesHistoryAdapter;
+    protected FilesHistoryRecyclerViewAdapter mFilesHistoryAdapter;
 
     @Override
     public void onActivityCreated (@Nullable Bundle savedInstanceState) {
         super.onActivityCreated (savedInstanceState);
 
-        mFilesHistoryAdapter = new FilesHistoryRecyclerViewAdapter<> (getContext (), this);
+        mFilesHistoryAdapter = new FilesHistoryRecyclerViewAdapter (getContext (), this);
         mFilesHistory.setAdapter (mFilesHistoryAdapter);
+    }
+
+    @Override
+    public void onResume () {
+        super.onResume ();
 
         bindSubscription (
-                RxToolFiles.files (new File (Constants.APP_MEDIA_DIR_PATH))
+                loadFilesDiff()
                         .subscribeOn (Schedulers.io ())
-                        .buffer (50)
                         .observeOn (AndroidSchedulers.mainThread ())
-                        .subscribe (this :: onFilesBunch)
+                        .subscribe (this :: onFilesDiff)
         );
     }
 
-    protected void onFilesBunch (final List<File> files) {
-        mFilesHistoryAdapter.addTailData (files);
+    protected Observable<Pair<List<File>, DiffUtil.DiffResult>> loadFilesDiff() {
+        return RxToolFiles.files (new File (Constants.APP_MEDIA_DIR_PATH), FileCreator.FLAME_PREVIEWS_FILES_FILTER)
+                .toList ()
+                .flatMap (files -> Observable.just (
+                        Pair.create (files, DiffUtil.calculateDiff (createFilesDiffCallback (files)))));
+    }
+
+    private DiffUtil.Callback createFilesDiffCallback(List<File> files) {
+        return new FilesListDiffCallback (mFilesHistoryAdapter.getData (), files);
+    }
+
+    protected void onFilesDiff (final Pair<List<File>, DiffUtil.DiffResult> result) {
+        mFilesHistoryAdapter.swapDataQuietly (result.first);
+        result.second.dispatchUpdatesTo(mFilesHistoryAdapter);
     }
 
     @Nullable

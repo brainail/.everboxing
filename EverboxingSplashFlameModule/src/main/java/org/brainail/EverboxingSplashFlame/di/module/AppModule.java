@@ -1,12 +1,14 @@
 package org.brainail.EverboxingSplashFlame.di.module;
 
 import android.content.Context;
+import android.os.FileObserver;
 
 import org.brainail.EverboxingSplashFlame.ConnectionManager;
-import org.brainail.EverboxingSplashFlame.files.FileCreator;
+import org.brainail.EverboxingSplashFlame._app.features.history.MediaPreviewsFileObserver;
 import org.brainail.EverboxingSplashFlame.bus.BusEventsLogger;
 import org.brainail.EverboxingSplashFlame.config.DeviceConfig;
 import org.brainail.EverboxingSplashFlame.di.AppContext;
+import org.brainail.EverboxingSplashFlame.files.FileCreator;
 import org.brainail.EverboxingSplashFlame.navigator.Navigator;
 import org.greenrobot.eventbus.EventBus;
 
@@ -78,6 +80,12 @@ public class AppModule {
     @Singleton
     static FileCreator provideFileCreator () {
         return new FileCreator ();
+    }
+
+    @Provides
+    @Singleton
+    static FileObserver provideMediaPreviewsFileObserver (EventBus globalBus) {
+        return new MediaPreviewsFileObserver (globalBus);
     }
 
 }

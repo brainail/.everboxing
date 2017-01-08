@@ -222,7 +222,7 @@ public class FlamePropertiesFragment
 
     @WorkerThread
     private String warmUp () {
-        final File filePath = mFileCreator.provideOrCreateFlamePreview ();
+        final File filePath = mFileCreator.provideOrCreateFlamePreviewFile ();
         PooLogger.debug ("warmUp: filePath = ?", filePath);
 
         int type = styleTypeInt ();

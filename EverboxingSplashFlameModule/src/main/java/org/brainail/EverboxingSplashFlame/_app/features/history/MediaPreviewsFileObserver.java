@@ -1,18 +1,19 @@
-package org.brainail.EverboxingSplashFlame.utils.tool.rx;
+package org.brainail.EverboxingSplashFlame._app.features.history;
 
+import android.os.FileObserver;
 import android.support.annotation.Nullable;
 
-import java.io.File;
-import java.io.FileFilter;
-
-import rx.Observable;
+import org.brainail.EverboxingSplashFlame.Constants;
+import org.brainail.EverboxingSplashFlame.bus.GlobalEvents;
+import org.brainail.EverboxingTools.utils.PooLogger;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p>
  * The MIT License (MIT) <br/><br/>
  * <p>
- * Copyright (c) 2014 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
+ * Copyright (c) 2016 Malyshev Yegor aka brainail at wsemirz@gmail.com <br/><br/>
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy <br/>
  * of this software and associated documentation files (the "Software"), to deal <br/>
@@ -32,30 +33,19 @@ import rx.Observable;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN <br/>
  * THE SOFTWARE.
  */
-public final class RxToolFiles {
+public final class MediaPreviewsFileObserver extends FileObserver {
+    private final @Nullable EventBus mEventBus;
 
-    public static Observable<File> files (final File file) {
-        return files (file, null);
+    public MediaPreviewsFileObserver (final @Nullable EventBus eventBus) {
+        super (Constants.APP_MEDIA_DIR_PATH, FileObserver.DELETE);
+        mEventBus = eventBus;
     }
 
-    public static Observable<File> files (final File file, final @Nullable FileFilter filter) {
-        return Observable.defer (() -> obtainFiles (file, filter));
-    }
-
-    private static Observable<File> obtainFiles (final File file) {
-        return obtainFiles (file, null);
-    }
-
-    private static Observable<File> obtainFiles (final File file, final @Nullable FileFilter filter) {
-        if (null == file) {
-            return Observable.empty ();
-        }
-
-        if (file.isDirectory ()) {
-            return Observable.from (file.listFiles (filter)).flatMap (RxToolFiles:: files);
-        } else {
-            return Observable.just (file);
+    @Override
+    public void onEvent (int event, String path) {
+        PooLogger.verb ("onEvent: event = ?, path = ?", event, path);
+        if (null != path && null != mEventBus) {
+            mEventBus.post (new GlobalEvents.MediaPreviewFileStateChanged (path, event));
         }
     }
-
 }

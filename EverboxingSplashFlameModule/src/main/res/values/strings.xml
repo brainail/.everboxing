@@ -98,5 +98,6 @@
     <string name="flame_properties_style_type_hint">Style type</string>
 
     <string name="action_set_wallpaper_as">Set wallpaper as</string>
+    <string name="action_delete_file">Delete</string>
 
 </resources>

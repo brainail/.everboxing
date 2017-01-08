@@ -20,6 +20,7 @@ import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
 import org.brainail.EverboxingTools.ui.views.PhotoView;
 import org.brainail.EverboxingTools.utils.PooLogger;
+import org.brainail.EverboxingTools.utils.tool.ToolFile;
 
 import butterknife.BindView;
 
@@ -85,6 +86,10 @@ public class FlamePreviewFragment extends BaseFragment {
         switch (item.getItemId ()) {
             case R.id.set_as_wallpaper:
                 mNavigator.openSetAsWallpaperChooser (mFilePath).start ();
+                return true;
+            case R.id.delete_file:
+                ToolFile.deleteFile (mFilePath);
+                getActivity ().finish ();
                 return true;
         }
 

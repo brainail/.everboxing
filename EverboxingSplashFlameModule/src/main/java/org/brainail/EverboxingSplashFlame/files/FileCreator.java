@@ -3,8 +3,10 @@ package org.brainail.EverboxingSplashFlame.files;
 import android.support.annotation.CheckResult;
 
 import org.brainail.EverboxingSplashFlame.Constants;
+import org.brainail.EverboxingTools.utils.tool.ToolFile;
 
 import java.io.File;
+import java.io.FileFilter;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -32,14 +34,26 @@ import java.io.File;
  * THE SOFTWARE.
  */
 public final class FileCreator {
-    public @CheckResult File provideOrCreateFlamePreview() {
-        final File filePath = new File (Constants.APP_MEDIA_DIR_PATH, "fpf_" + System.currentTimeMillis () + ".jpeg");
+    private static final String FLAME_PREVIEW_FILE_PREFIX = "fpf_";
+
+    public static final FileFilter FLAME_PREVIEWS_FILES_FILTER
+            = file -> file.getAbsolutePath ().contains (FLAME_PREVIEW_FILE_PREFIX);
+
+    public @CheckResult File provideOrCreateFlamePreviewFile () {
+        final File filePath = new File (Constants.APP_MEDIA_DIR_PATH, provideFlamePreviewFileName ());
 
         if (! filePath.getParentFile ().exists ()) {
             // noinspection ResultOfMethodCallIgnored
             filePath.getParentFile ().mkdirs ();
         }
 
+        // we don't wanna show these files in a gallery
+        ToolFile.createNomediaFile (filePath.getParentFile ().getAbsolutePath ());
+
         return filePath;
+    }
+
+    public String provideFlamePreviewFileName () {
+        return FLAME_PREVIEW_FILE_PREFIX + System.currentTimeMillis () + ".jpeg";
     }
 }

@@ -57,4 +57,28 @@ public final class GlobalEvents {
         }
     }
 
+    public static abstract class FileStateChanged {
+        public final int mask;
+        public final String path;
+
+        public FileStateChanged (final String path, final int mask) {
+            this.path = path;
+            this.mask = mask;
+        }
+    }
+
+    public static final class MediaPreviewFileStateChanged extends FileStateChanged {
+        public MediaPreviewFileStateChanged (String path, int mask) {
+            super (path, mask);
+        }
+
+        @Override
+        public String toString () {
+            return "MediaPreviewFileStateChaged{" +
+                    "mask=" + mask +
+                    ", path='" + path + '\'' +
+                    '}';
+        }
+    }
+
 }
