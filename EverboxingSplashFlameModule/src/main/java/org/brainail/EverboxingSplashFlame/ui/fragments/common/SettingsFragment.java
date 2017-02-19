@@ -11,8 +11,9 @@ import android.preference.PreferenceScreen;
 
 import org.brainail.EverboxingSplashFlame.R;
 import org.brainail.EverboxingSplashFlame.api.ClientApi;
-import org.brainail.EverboxingSplashFlame.ui.fragments.base.BasePreferenceFragment;
+import org.brainail.EverboxingSplashFlame.ui.activities.base.BaseActivity;
 import org.brainail.EverboxingSplashFlame.ui.activities.common.SettingsActivity;
+import org.brainail.EverboxingSplashFlame.ui.fragments.base.BasePreferenceFragment;
 import org.brainail.EverboxingSplashFlame.ui.views.BaseIcon;
 import org.brainail.EverboxingSplashFlame.ui.views.dialogs.ThemeChooser;
 import org.brainail.EverboxingSplashFlame.ui.views.preference.SwitchPreferenceCompat;
@@ -22,6 +23,7 @@ import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_email;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_info_outline;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_palette;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_refresh_sync;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_shield_security;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -82,9 +84,13 @@ public class SettingsFragment
         changeThemePf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_palette));
         SettingsActivity.bindPreferenceSummary (changeThemePf, defChangeThemeSummary, true);
 
-        // About
+        // Feedback
         final Preference feedbackPf = findPreference (getString (R.string.settings_feedback_key));
         feedbackPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_email));
+
+        // Privacy Policy
+        final Preference privacyPolicyPf = findPreference (getString (R.string.settings_open_privacy_policy_key));
+        privacyPolicyPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_shield_security));
 
         // About
         final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
@@ -94,6 +100,7 @@ public class SettingsFragment
         setOnClickListener (getString (R.string.settings_sync_account_key));
         setOnClickListener (getString (R.string.settings_change_theme_key));
         setOnClickListener (getString (R.string.settings_feedback_key));
+        setOnClickListener (getString (R.string.settings_open_privacy_policy_key));
         setOnClickListener (getString (R.string.settings_open_about_key));
     }
 
@@ -104,7 +111,9 @@ public class SettingsFragment
             final Activity scene = getActivity ();
             if ((scene instanceof ClientApi.Supportable) && ((SwitchPreferenceCompat) preference).isChecked ()) {
                 final ClientApi api = ((ClientApi.Supportable) scene).getPlayServices ();
-                if (null != api) api.connect ();
+                if (null != api) {
+                    api.connect ();
+                }
             }
         } else if (getString (R.string.settings_change_theme_key).equals (preference.getKey ())) {
             // Theme
@@ -112,6 +121,9 @@ public class SettingsFragment
         } else if (getString (R.string.settings_feedback_key).equals (preference.getKey ())) {
             // Feedback
             mNavigator.sendFeedbackOrSuggestion ().start ();
+        }  else if (getString (R.string.settings_open_privacy_policy_key).equals (preference.getKey ())) {
+            // Privacy Policy
+            ((BaseActivity) getActivity ()).openUrl (getString (R.string.privacy_policy_url));
         } else if (getString (R.string.settings_open_about_key).equals (preference.getKey ())) {
             // About
             mNavigator.aboutScreen ().start ();
@@ -140,6 +152,8 @@ public class SettingsFragment
     }
 
     @Override
-    public void onSharedPreferenceChanged (SharedPreferences sharedPreferences, String key) {}
+    public void onSharedPreferenceChanged (SharedPreferences sharedPreferences, String key) {
+        // No-impl
+    }
 
 }

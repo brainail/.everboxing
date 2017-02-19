@@ -88,6 +88,10 @@
             android:title="@string/settings_feedback_title"/>
 
         <org.brainail.EverboxingLexis.ui.views.preference.Preference
+            android:key="@string/settings_open_privacy_policy_key"
+            android:title="@string/settings_open_privacy_policy_title"/>
+
+        <org.brainail.EverboxingLexis.ui.views.preference.Preference
             android:key="@string/settings_open_about_key"
             android:title="@string/settings_open_about_title"/>
 

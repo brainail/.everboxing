@@ -33,6 +33,7 @@
 
     <string name="settings_misc_header">Разное</string>
     <string name="settings_open_about_title">О приложении</string>
+    <string name="settings_open_privacy_policy_title">Политика конфиденциальности</string>
     <string name="settings_feedback_title">Оставить отзыв/предложение</string>
     <string name="settings_feedback_summary">Оставьте отзыв об этом приложении или предложение об улучшениях</string>
 

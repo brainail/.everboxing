@@ -35,6 +35,8 @@
     <string name="settings_misc_header">Misc</string>
     <string name="settings_open_about_title">About</string>
     <string name="settings_open_about_key" translatable="false">settings_open_about</string>
+    <string name="settings_open_privacy_policy_title">Privacy Policy</string>
+    <string name="settings_open_privacy_policy_key" translatable="false">settings_open_privacy_policy</string>
     <string name="settings_feedback_title">Send feedback/suggestion</string>
     <string name="settings_feedback_summary">Provide a feedback about this app or make a suggestion about improvements</string>
     <string name="settings_feedback_key" translatable="false">settings_feedback</string>
@@ -100,4 +102,5 @@
     <string name="action_set_wallpaper_as">Set wallpaper as</string>
     <string name="action_delete_file">Delete</string>
 
+    <string name="privacy_policy_url" translatable="false">https://cdn.rawgit.com/brainail/.everboxing/dev/EverboxingSplashFlameModule/privacypolicy.html</string>
 </resources>

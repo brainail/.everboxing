@@ -51,6 +51,7 @@ import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_info_outline;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_palette;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_refresh_sync;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_remote_control;
+import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_shield_security;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_swap_vertical;
 import static com.malinskiy.materialicons.Iconify.IconValue.zmdi_zoom_in;
 
@@ -307,9 +308,13 @@ public class SettingsActivity
             final Preference isRandomLookupViaFavPf = findPreference (getString (R.string.settings_random_lookup_key));
             isRandomLookupViaFavPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_favorite));
 
-            // About
+            // Feedback
             final Preference feedbackPf = findPreference (getString (R.string.settings_feedback_key));
             feedbackPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_email));
+
+            // About
+            final Preference privacyPolicyPf = findPreference (getString (R.string.settings_open_privacy_policy_key));
+            privacyPolicyPf.setIcon (BaseIcon.controlIcon (getActivity (), zmdi_shield_security));
 
             // About
             final Preference aboutPf = findPreference (getString (R.string.settings_open_about_key));
@@ -327,6 +332,7 @@ public class SettingsActivity
             setOnClickListener (getString (R.string.settings_speech_language_key));
             setOnClickListener (getString (R.string.settings_random_lookup_key));
             setOnClickListener (getString (R.string.settings_feedback_key));
+            setOnClickListener (getString (R.string.settings_open_privacy_policy_key));
             setOnClickListener (getString (R.string.settings_open_about_key));
         }
 
@@ -389,6 +395,11 @@ public class SettingsActivity
             // Feedback
             if (getString (R.string.settings_feedback_key).equals (preference.getKey ())) {
                 mNavigator.sendFeedbackOrSuggestion ().start ();
+            }
+
+            // About
+            if (getString (R.string.settings_open_privacy_policy_key).equals (preference.getKey ())) {
+                ((BaseActivity) getActivity ()).openUrl (getString (R.string.privacy_policy_url));
             }
 
             // About
