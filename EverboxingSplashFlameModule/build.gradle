@@ -1,7 +1,7 @@
 // Version stuff for auto generated versionName and versionCode
 def appVersionMajor = 1
 def appVersionMinor = 0
-def appVersionPatch = 0
+def appVersionPatch = 2
 
 buildscript {
     repositories {
@@ -118,6 +118,8 @@ android {
             ext.enableCrashlytics = true
 
             buildConfigField "boolean", "USE_LEAKCANARY", "false"
+
+            ndk { abiFilters "x86", "armeabi", "armeabi-v7a", "mips" }
         }
 
         release {
@@ -134,6 +136,8 @@ android {
             buildConfigField "boolean", "USE_LEAKCANARY", "false"
 
             signingConfig signingConfigs.release
+
+            ndk { abiFilters "x86", "armeabi", "armeabi-v7a", "mips" }
         }
     }
 
