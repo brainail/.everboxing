@@ -78,8 +78,10 @@
     <string name="custom_tab_action_email">Email</string>
     <string name="custom_tab_action_email_mail_title">Check this out</string>
 
-    <string name="app_intro_slide_no_00_title">Intro</string>
-    <string name="app_intro_slide_no_00_description">Intro description</string>
+    <string name="app_intro_slide_no_01_title">Easy</string>
+    <string name="app_intro_slide_no_01_description">Just open and create!</string>
+    <string name="app_intro_slide_no_02_title">Colorful</string>
+    <string name="app_intro_slide_no_02_description">Have you ever seen all rainbow\'s colors? Open your eyes wider!</string>
 
     <string name="feedback_suggestion_mail_start_body">Yo!\n\n</string>
     <string name="feedback_suggestion_email_title">Feedback/suggestion (%1$s)</string>

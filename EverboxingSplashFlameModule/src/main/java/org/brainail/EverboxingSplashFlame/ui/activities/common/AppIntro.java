@@ -48,23 +48,16 @@ public class AppIntro extends com.github.paolorotolo.appintro.AppIntro2 {
         setScrollDurationFactor (mScrollDurationFactor);
 
         addSlide (AppIntroFragment.newInstance (
-                getResources ().getString (R.string.app_intro_slide_no_00_title),
-                getResources ().getString (R.string.app_intro_slide_no_00_description),
-                R.mipmap.ic_launcher,
+                getResources ().getString (R.string.app_intro_slide_no_01_title),
+                getResources ().getString (R.string.app_intro_slide_no_01_description),
+                R.drawable.ic_app_intro_slide_no_01,
                 getResources ().getColor (R.color.md_pink_900)
         ));
 
         addSlide (AppIntroFragment.newInstance (
-                getResources ().getString (R.string.app_intro_slide_no_00_title),
-                getResources ().getString (R.string.app_intro_slide_no_00_description),
-                R.mipmap.ic_launcher,
-                getResources ().getColor (R.color.md_pink_900)
-        ));
-
-        addSlide (AppIntroFragment.newInstance (
-                getResources ().getString (R.string.app_intro_slide_no_00_title),
-                getResources ().getString (R.string.app_intro_slide_no_00_description),
-                R.mipmap.ic_launcher,
+                getResources ().getString (R.string.app_intro_slide_no_02_title),
+                getResources ().getString (R.string.app_intro_slide_no_02_description),
+                R.drawable.ic_app_intro_slide_no_02,
                 getResources ().getColor (R.color.md_pink_900)
         ));
 

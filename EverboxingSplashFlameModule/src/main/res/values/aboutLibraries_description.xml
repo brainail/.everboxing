@@ -4,16 +4,6 @@
     <string name="aboutLibraries_description_showIcon" translatable="false">true</string>
     <string name="aboutLibraries_description_showVersion" translatable="false">true</string>
     <string name="aboutLibraries_description_text">
-        <![CDATA[<b>App description. Enjoy!</b>]]>
+        <![CDATA[<b>Create your own masterpieces and use it as your rainbow app!</b>]]>
     </string>
-
-    <!--
-    <string name="aboutLibraries_description_special1_name">Successor</string>
-    <string name="aboutLibraries_description_special1_text">
-        <![CDATA[Based on <br/>
-        <a href="http://aarddict.org/">Aard Dictionary for Android</a>,<br/>
-        <a href="https://medium.com/@brainail/my-skeleton-for-android-app-start-kit-with-source-code-plus-flexible-gradle-configuration-and-95e30c26e788">Everboxing Start Kit</a><br/>
-        and comes with some redesigned user interface. Enjoy!]]>
-    </string>
-    -->
 </resources>

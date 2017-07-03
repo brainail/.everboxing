@@ -59,7 +59,8 @@ public class AboutActivity extends LibsActivity {
                 .withExcludedLibraries (
                         "AboutLibraries", "jackson", "Crashlytics", "appintro",
                         "calligraphy", "Butterknife", "androidIconify", "materialicons",
-                        "LeakCanary", "fastadapter", "AndroidIconics"
+                        "LeakCanary", "fastadapter", "AndroidIconics", "Dagger2",
+                        "RxBinding", "rxjava", "rxandroid", "rxJavaAndroid", "glide"
                 )
                 .withLibraryComparator (new LibraryComparator ())
                 .intent (this)

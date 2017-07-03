@@ -2,7 +2,7 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name_about">О LexisPaper</string>
+    <string name="app_name_about">О SplashFlame</string>
     <string name="action_settings">Настройки</string>
 
     <!-- Settings window -->
@@ -47,9 +47,25 @@
 
     <string name="settings_ringtone_silent_summary">Тишина</string>
 
-    <string name="app_intro_slide_no_00_title">Интро</string>
-    <string name="app_intro_slide_no_00_description">Интро описание.</string>
+    <string name="app_intro_slide_no_01_title">Легко</string>
+    <string name="app_intro_slide_no_01_description">Просто открой и твори!</string>
+    <string name="app_intro_slide_no_02_title">Красочно</string>
+    <string name="app_intro_slide_no_02_description">Не встречали все цвета радуги до этого? Открой глаза пошире!</string>
 
     <string name="feedback_suggestion_mail_start_body">Привет!\n\n</string>
     <string name="feedback_suggestion_email_title">Отзыв/предложение (%1$s)</string>
+    <string name="action_delete_file">Удалить файл</string>
+    <string name="action_set_wallpaper_as">Установить изображение как</string>
+    <string name="dialog_flame_style_types_title">Виды</string>
+    <string name="dialog_help_us_title">Помоги Нам</string>
+    <string name="dialog_popular_resolutions_title">Разрешения</string>
+    <string name="drawer_item_help_us">Помоги Нам</string>
+    <string name="flame_activity_title">Пламя</string>
+    <string name="flame_properties_first_dimension_hint">Первое измерение</string>
+    <string name="flame_properties_second_dimension_hint">Второе измерение</string>
+    <string name="flame_properties_style_type_hint">Стиль</string>
+    <string name="section_flamer">Разжигатель</string>
+    <string name="section_history">История</string>
+    <string name="side_size_incorrect_format">Значение должно быть от %1$d до %2$d</string>
+    <string name="share_app_text">Салют!\\n\\nОбрати свое внимание на это приложение \\n%s\\nЭто действительно что-то интересное!\\nСкачай и наслаждайся!</string>
 </resources>
