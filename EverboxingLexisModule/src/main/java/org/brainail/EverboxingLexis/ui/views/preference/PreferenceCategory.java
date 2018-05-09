@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
+import org.brainail.EverboxingLexis.utils.tool.ToolResources;
 import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingTools.utils.tool.ToolFonts;
-import org.brainail.EverboxingLexis.utils.tool.ToolResources;
-
-import butterknife.ButterKnife;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -60,7 +58,7 @@ public class PreferenceCategory extends android.preference.PreferenceCategory {
         final View view = super.onCreateView (parent);
 
         // Change title options
-        mTitleView = ButterKnife.findById (view, android.R.id.title);
+        mTitleView = view.findViewById(android.R.id.title);
 
         mTitleView.setAllCaps (false);
         mTitleView.setTextColor (ToolResources.retrieveAccentColor (getContext ()));

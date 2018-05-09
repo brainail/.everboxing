@@ -60,7 +60,7 @@ public class PreferenceCategory extends android.preference.PreferenceCategory {
         final View view = super.onCreateView (parent);
 
         // Change title options
-        mTitleView = ButterKnife.findById (view, android.R.id.title);
+        mTitleView = view.findViewById(android.R.id.title);
 
         mTitleView.setAllCaps (false);
         mTitleView.setTextColor (ToolResources.retrieveAccentColor (getContext ()));

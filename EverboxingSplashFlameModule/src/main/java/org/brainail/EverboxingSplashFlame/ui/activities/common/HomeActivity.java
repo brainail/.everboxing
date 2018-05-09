@@ -1,8 +1,13 @@
 package org.brainail.EverboxingSplashFlame.ui.activities.common;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,16 +17,16 @@ import org.brainail.EverboxingHardyDialogs.HardyDialogFragment;
 import org.brainail.EverboxingHardyDialogs.HardyDialogFragment.OnDialogListActionCallback;
 import org.brainail.EverboxingSplashFlame.BuildConfig;
 import org.brainail.EverboxingSplashFlame.R;
+import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs;
+import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode;
+import org.brainail.EverboxingSplashFlame._app.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingSplashFlame.api.UserInfoApi;
 import org.brainail.EverboxingSplashFlame.api.google.PlayServices;
 import org.brainail.EverboxingSplashFlame.ui.activities.base.SectionedDrawerActivity;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSection;
 import org.brainail.EverboxingSplashFlame.ui.drawer.DrawerSectionCallback;
-import org.brainail.EverboxingSplashFlame._app.drawer.DrawerSectionsOnSceneInitializer;
 import org.brainail.EverboxingSplashFlame.ui.drawer.IDrawerSectionInitializer;
 import org.brainail.EverboxingSplashFlame.ui.fragments.base.BaseFragment;
-import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs;
-import org.brainail.EverboxingSplashFlame._app.dialogs.hardy.AppHardyDialogs.AppHardyDialogsCode;
 import org.brainail.EverboxingSplashFlame.utils.LogScope;
 import org.brainail.EverboxingSplashFlame.utils.manager.SettingsManager;
 import org.brainail.EverboxingTools.utils.PooLogger;
@@ -96,6 +101,30 @@ public class HomeActivity
 
         // ...
     }
+    
+    public final void checkPermissions() {
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) ||
+                (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this,
+                    new String [] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    996);
+        }
+    }
+    
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 996) {
+            if ((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // yay
+            } else {
+                // boooo
+                finish();
+            }
+        }
+    }
 
     @Override
     protected Integer getLayoutResourceId () {
@@ -142,6 +171,8 @@ public class HomeActivity
             final UserInfoApi userInfo = PlayServices.formSettingsUserInfo ();
             return userInfo.email;
         });
+        
+        checkPermissions();
     }
 
     @Override

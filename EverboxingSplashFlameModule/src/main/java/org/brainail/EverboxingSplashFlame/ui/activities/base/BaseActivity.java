@@ -1,5 +1,6 @@
 package org.brainail.EverboxingSplashFlame.ui.activities.base;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -215,7 +216,7 @@ public abstract class BaseActivity
     private void initToolbar () {
         final Integer resourceId = getPrimaryToolbarLayoutResourceId ();
         if (null != resourceId) {
-            mPrimaryToolbar = ButterKnife.findById (this, resourceId);
+            mPrimaryToolbar = findViewById(resourceId);
         }
 
         if (null != mPrimaryToolbar) {
@@ -329,6 +330,7 @@ public abstract class BaseActivity
         finish ();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onBackStackChanged () {
         // Restore some data for toolbar
@@ -341,6 +343,7 @@ public abstract class BaseActivity
         getSupportActionBar ().invalidateOptionsMenu ();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onResumeFragments () {
         super.onResumeFragments ();

@@ -173,7 +173,7 @@ public abstract class BaseActivity
     private void initToolbar () {
         final Integer resourceId = getPrimaryToolbarLayoutResourceId ();
         if (null != resourceId) {
-            mPrimaryToolbar = ButterKnife.findById (this, resourceId);
+            mPrimaryToolbar = findViewById(resourceId);
         }
 
         if (null != mPrimaryToolbar) {
