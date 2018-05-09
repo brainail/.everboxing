@@ -16,6 +16,7 @@ repositories {
     maven { url 'http://repo1.maven.org/maven2' }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     mavenCentral()
+    google()
     flatDir { dirs 'libs' }
     maven { url 'file:' + System.getenv('HOME') + '/.m2/repository' }
 }
@@ -26,7 +27,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 27
 
         versionCode appVersionMajor * 10000 + appVersionMinor * 100 + appVersionPatch
         versionName "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
@@ -74,25 +75,22 @@ android {
             exclude 'META-INF/services/javax.annotation.processing.Processor'
         }
     }
-
-    publishNonDefault true
 }
 
 dependencies {
     // Libs folder
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Tests
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 
     // Support
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.android.support:support-annotations:${supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:support-annotations:${supportLibVersion}"
 
     // Tools
-    debugCompile project(path: ':EverboxingTools', configuration: 'debug')
-    releaseCompile project(path: ':EverboxingTools', configuration: 'release')
+    implementation project(':EverboxingTools')
 }
 
 

@@ -1,18 +1,22 @@
 // Version stuff for auto generated versionName and versionCode
 def appVersionMajor = 1
 def appVersionMinor = 1
-def appVersionPatch = 1
+def appVersionPatch = 2
 
 buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://jitpack.io" }
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        google()
     }
 
     dependencies {
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-SNAPSHOT'
     }
 }
 
@@ -35,6 +39,7 @@ if (new File('build_ver.gradle').exists()) { apply from: '../build_ver.gradle' }
 if (new File('local.gradle').exists()) { apply from: '../local.gradle' }
 // Dex stuff
 if (new File('build_dex.gradle').exists()) { apply from: '../build_dex.gradle' }
+apply plugin: 'com.jakewharton.butterknife'
 
 repositories {
     // Snapshots
@@ -44,6 +49,8 @@ repositories {
 
     // Maven Central
     mavenCentral()
+
+    google()
 
     // Jcenter is superset of Maven Central
     jcenter()
@@ -72,7 +79,7 @@ android {
         applicationId "org.brainail.EverboxingLexis"
 
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 27
 
         versionCode appVersionMajor * 10000 + appVersionMinor * 100 + appVersionPatch
         versionName "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
@@ -82,6 +89,8 @@ android {
 
         vectorDrawables.useSupportLibrary = true
     }
+
+    flavorDimensions "default"
 
 //    sourceSets {
 //        // Remapping the androidTest sourceSet to the test folder
@@ -140,8 +149,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
@@ -198,44 +207,42 @@ android {
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 dependencies {
+    implementation 'com.jakewharton:butterknife:9.0.0-SNAPSHOT'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-SNAPSHOT'
     // Libs folder
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // MultiDex
-    compile "com.android.support:multidex:${multiDexVersion}"
+    implementation "com.android.support:multidex:${multiDexVersion}"
     // Support libraries
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.android.support:customtabs:${supportLibVersion}"
-    compile "com.android.support:support-annotations:${supportLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:customtabs:${supportLibVersion}"
+    implementation "com.android.support:support-annotations:${supportLibVersion}"
     // Google play services
-    compile "com.google.android.gms:play-services-base:${playServicesLibVersion}"
-    compile "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
-    compile "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
+    implementation "com.google.android.gms:play-services-base:${playServicesLibVersion}"
+    implementation "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
+    implementation "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
     // Material stuff
-    compile 'com.malinskiy:materialicons:1.0.2'
-    compile 'com.github.clans:fab:1.6.2'
+    implementation 'com.malinskiy:materialicons:1.0.2'
+    implementation 'com.github.clans:fab:1.6.2'
     // Fonts
-    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    // Annotations
-    compile 'com.jakewharton:butterknife:6.1.0'
+    implementation 'uk.co.chrisjenx:calligraphy:2.1.0'
     // UI stuff
-    compile 'com.github.iammert:ProgressLayout:a2ac196500'
+    implementation 'com.github.iammert:ProgressLayout:a2ac196500'
     // Analytics
-    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') { transitive = true; }
+    implementation('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') { transitive = true; }
     // Slob stuff
-    compile 'com.ibm.icu:icu4j:52.1', 'org.tukaani:xz:1.5', 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
+    implementation 'com.ibm.icu:icu4j:53.1', 'org.tukaani:xz:1.5', 'com.fasterxml.jackson.core:jackson-databind:2.4.2'
     // About
-    compile('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
-    compile 'com.github.paolorotolo:appintro:3.3.0'
+    implementation('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
+    implementation 'com.github.paolorotolo:appintro:3.3.0'
     // Hardy dialogs
-    debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
-    releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
+    implementation project(':EverboxingHardyDialogs')
     // Tools
-    debugCompile project(path: ':EverboxingTools', configuration: 'debug')
-    releaseCompile project(path: ':EverboxingTools', configuration: 'release')
+    implementation project(':EverboxingTools')
     // Leaks
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
 }
 
 //
@@ -257,8 +264,8 @@ configurations.all {
 
 dependencies {
     // Tests
-    testCompile "junit:junit:4.12"
-    testCompile('org.robolectric:robolectric:3.1') {
+    testImplementation "junit:junit:4.12"
+    testImplementation('org.robolectric:robolectric:3.1') {
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
 
@@ -269,18 +276,18 @@ dependencies {
     }
 
     // Checks
-    testCompile ('com.squareup:fest-android:1.0.+') {
+    testImplementation ('com.squareup:fest-android:1.0.+') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    testCompile('com.squareup.assertj:assertj-android:1.1.0') {
+    testImplementation('com.squareup.assertj:assertj-android:1.1.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
     // Mocks
-    testCompile('org.powermock:powermock-module-junit4:1.6.4') {
+    testImplementation('org.powermock:powermock-module-junit4:1.6.4') {
         exclude group: 'org.hamcrest'
     }
-    testCompile('org.powermock:powermock-api-mockito:1.6.4') {
+    testImplementation('org.powermock:powermock-api-mockito:1.6.4') {
         exclude group: 'org.hamcrest'
     }
 }

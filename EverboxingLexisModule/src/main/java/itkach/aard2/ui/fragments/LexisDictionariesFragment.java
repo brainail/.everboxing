@@ -76,10 +76,6 @@ public class LexisDictionariesFragment extends BaseListFragment {
             fabStore = (FloatingActionButton) fabMenu.findViewById (R.id.fab_menu_item_store_two);
             fabStore.setOnClickListener (mFabStoreOnClickListener);
             fabStore.setTag (2);
-
-            fabStore = (FloatingActionButton) fabMenu.findViewById (R.id.fab_menu_item_store_three);
-            fabStore.setOnClickListener (mFabStoreOnClickListener);
-            fabStore.setTag (3);
         }
     }
 
@@ -143,8 +139,6 @@ public class LexisDictionariesFragment extends BaseListFragment {
             openStore (1);
         } else if (item.getItemId () == R.id.action_dic_store_mirror_two) {
             openStore (2);
-        } else if (item.getItemId () == R.id.action_dic_store_mirror_three) {
-            openStore (3);
         }
 
         return super.onOptionsItemSelected (item);

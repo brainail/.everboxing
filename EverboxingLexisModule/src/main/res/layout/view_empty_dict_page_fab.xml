@@ -19,10 +19,4 @@
         style="@style/FabMenuButtonSmallStyle"
         android:src="@drawable/ic_store_white_24dp"
         app:fab_label="@string/dictionaries_store_mirror_fab_label_two"/>
-
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab_menu_item_store_three"
-        style="@style/FabMenuButtonSmallStyle"
-        android:src="@drawable/ic_store_white_24dp"
-        app:fab_label="@string/dictionaries_store_mirror_fab_label_three"/>
 </com.github.clans.fab.FloatingActionMenu>

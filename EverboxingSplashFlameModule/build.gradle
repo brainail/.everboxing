@@ -1,25 +1,28 @@
 // Version stuff for auto generated versionName and versionCode
 def appVersionMajor = 1
 def appVersionMinor = 0
-def appVersionPatch = 2
+def appVersionPatch = 3
 
 buildscript {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://jitpack.io" }
+        google()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
     dependencies {
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0-SNAPSHOT'
     }
 }
 
 repositories {
     maven { url "https://jitpack.io" }
+    google()
 }
 
 //
@@ -34,14 +37,11 @@ apply plugin: 'com.android.application'
 if (new File('build_ver.gradle').exists()) { apply from: '../build_ver.gradle' }
 // Fabric (Crashlytics, ...)
 apply plugin: 'io.fabric'
-// Apt
-apply plugin: 'com.neenbedankt.android-apt'
 // Local
 if (new File('local.gradle').exists()) { apply from: '../local.gradle' }
 // Dex stuff
 if (new File('build_dex.gradle').exists()) { apply from: '../build_dex.gradle' }
-// Retrolambda (apply this plugin last)
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jakewharton.butterknife'
 
 repositories {
     // Snapshots
@@ -56,6 +56,7 @@ repositories {
     maven { url 'file:' + System.getenv('HOME') + '/.m2/repository' }
     // Fabric
     maven { url 'https://maven.fabric.io/public' }
+    google()
 }
 
 android {
@@ -66,7 +67,7 @@ android {
         applicationId "org.brainail.EverboxingSplashFlame"
 
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 27
 
         versionCode appVersionMajor * 10000 + appVersionMinor * 100 + appVersionPatch
         versionName "${appVersionMajor}.${appVersionMinor}.${appVersionPatch}"
@@ -80,6 +81,8 @@ android {
 
         vectorDrawables.useSupportLibrary = true
     }
+
+    flavorDimensions "default"
 
     sourceSets.main {
         jni.srcDirs = []
@@ -191,54 +194,51 @@ android {
 // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 dependencies {
+    implementation 'com.jakewharton:butterknife:9.0.0-SNAPSHOT'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-SNAPSHOT'
     // ... Libs folder > local
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // MultiDex
-    compile "com.android.support:multidex:${multiDexVersion}"
+    implementation "com.android.support:multidex:${multiDexVersion}"
     // ... Support libraries > backward compatibility
-    compile "com.android.support:design:${supportLibVersion}"
-    compile "com.android.support:customtabs:${supportLibVersion}"
-    compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:percent:${supportLibVersion}"
-    compile "com.android.support:support-annotations:${supportLibVersion}"
-    compile "com.android.support.constraint:constraint-layout:${constraintLayoutLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:customtabs:${supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:percent:${supportLibVersion}"
+    implementation "com.android.support:support-annotations:${supportLibVersion}"
+    implementation "com.android.support.constraint:constraint-layout:${constraintLayoutLibVersion}"
     // ... Google play services > google features
-    compile "com.google.android.gms:play-services-base:${playServicesLibVersion}"
-    compile "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
-    compile "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
+    implementation "com.google.android.gms:play-services-base:${playServicesLibVersion}"
+    implementation "com.google.android.gms:play-services-drive:${playServicesLibVersion}"
+    implementation "com.google.android.gms:play-services-plus:${playServicesLibVersion}"
     // ... Fabric > crashes
-    compile("com.crashlytics.sdk.android:crashlytics:${crashlyticsLibVersion}@aar") { transitive = true; }
-    compile("com.crashlytics.sdk.android:crashlytics-ndk:${crashlyticsNdkLibVersion}@aar") { transitive = true; }
+    implementation("com.crashlytics.sdk.android:crashlytics:${crashlyticsLibVersion}@aar") { transitive = true; }
+    implementation("com.crashlytics.sdk.android:crashlytics-ndk:${crashlyticsNdkLibVersion}@aar") { transitive = true; }
     // ... Leakcanary > leaks
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
-    // ... Butterknife > view binding
-    compile "com.jakewharton:butterknife:${butterKnifeLibVersion}"
-    apt "com.jakewharton:butterknife-compiler:${butterKnifeLibVersion}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakCanaryLibVersion}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryLibVersion}"
     // ... Glide > load images
-    compile "com.github.bumptech.glide:glide:${glideLibVersion}"
+    implementation "com.github.bumptech.glide:glide:${glideLibVersion}"
     // ... Material stuff > icons, fab
-    compile 'com.malinskiy:materialicons:1.0.2'
-    compile 'com.github.clans:fab:1.6.2'
+    implementation 'com.malinskiy:materialicons:1.0.2'
+    implementation 'com.github.clans:fab:1.6.2'
     // ... Fonts
-    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    implementation 'uk.co.chrisjenx:calligraphy:2.1.0'
     // ... About > intro, about
-    compile('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
-    compile 'com.github.paolorotolo:appintro:3.3.0'
-    // ... Retrolambda > java8
-    retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:+'
+    implementation('com.mikepenz:aboutlibraries:5.5.7@aar') { transitive = true }
+    implementation 'com.github.paolorotolo:appintro:3.3.0'
     // ... Rx > java, android, binding, lifecycle, etc ...
-    compile 'io.reactivex:rxjava:1.2.0'
-    compile 'io.reactivex:rxandroid:1.2.0'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    implementation 'io.reactivex:rxjava:1.2.0'
+    implementation 'io.reactivex:rxandroid:1.2.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     // ... Dagger2 > injection
-    compile "com.google.dagger:dagger:${dagger2LibVersion}"
-    apt "com.google.dagger:dagger-compiler:${dagger2LibVersion}"
-    provided 'org.glassfish:javax.annotation:10.0-b28' // Required by Dagger2
+    implementation "com.google.dagger:dagger:${dagger2LibVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger2LibVersion}"
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28' // Required by Dagger2
     // ... Bus > events, communication
     // compile 'org.simple:androideventbus:1.0.5.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
     // ... Icepick > args, bundle, saved state
     // compile "frankiesardo:icepick:${icepickVersion}"
     // provided "frankiesardo:icepick-processor:${icepickVersion}"
@@ -246,11 +246,9 @@ dependencies {
     // compile 'com.parse.bolts:bolts-tasks:1.4.0'
 
     // Hardy dialogs > custom
-    debugCompile project(path: ':EverboxingHardyDialogs', configuration: 'debug')
-    releaseCompile project(path: ':EverboxingHardyDialogs', configuration: 'release')
+    implementation project(':EverboxingHardyDialogs')
     // Tools > custom
-    debugCompile project(path: ':EverboxingTools', configuration: 'debug')
-    releaseCompile project(path: ':EverboxingTools', configuration: 'release')
+    implementation project(':EverboxingTools')
 }
 
 // Ndk reports
@@ -279,8 +277,8 @@ configurations.all {
 
 dependencies {
     // Tests
-    testCompile "junit:junit:4.12"
-    testCompile('org.robolectric:robolectric:3.1') {
+    testImplementation "junit:junit:4.12"
+    testImplementation('org.robolectric:robolectric:3.1') {
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
 
@@ -291,18 +289,18 @@ dependencies {
     }
 
     // Checks
-    testCompile ('com.squareup:fest-android:1.0.+') {
+    testImplementation ('com.squareup:fest-android:1.0.+') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
-    testCompile('com.squareup.assertj:assertj-android:1.1.0') {
+    testImplementation('com.squareup.assertj:assertj-android:1.1.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
     // Mocks
-    testCompile('org.powermock:powermock-module-junit4:1.6.4') {
+    testImplementation('org.powermock:powermock-module-junit4:1.6.4') {
         exclude group: 'org.hamcrest'
     }
-    testCompile('org.powermock:powermock-api-mockito:1.6.4') {
+    testImplementation('org.powermock:powermock-api-mockito:1.6.4') {
         exclude group: 'org.hamcrest'
     }
 }

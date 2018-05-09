@@ -11,17 +11,16 @@ import android.widget.TextView;
 
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.ui.activities.SectionedDrawerActivity;
-import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 import org.brainail.EverboxingTools.utils.callable.Tagable;
 import org.brainail.EverboxingTools.utils.tool.ToolColor;
+import org.brainail.EverboxingTools.utils.tool.ToolFragments;
 import org.brainail.EverboxingTools.utils.tool.ToolStrings;
 
 import java.util.LinkedList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -50,13 +49,13 @@ import butterknife.Optional;
  */
 final class DrawerSectionsController implements IDrawerSectionsController {
 
-    @Optional @InjectView(R.id.drawer_menu_primary_sections) LinearLayout mPrimarySections;
-    @Optional @InjectView(R.id.drawer_menu_help_sections) LinearLayout mHelpSections;
-    @Optional @InjectView(R.id.drawer_menu_help_sections_separator) View mHelpSectionsSeparator;
-    @Optional @InjectView(R.id.drawer_menu_primary) View mDrawerView;
-    @Optional @InjectView(R.id.drawer_menu_user_cover) View mUserCoverArea;
-    @Optional @InjectView(R.id.drawer_menu_user_name) TextView mUserName;
-    @Optional @InjectView(R.id.drawer_menu_user_email) TextView mUserEmail;
+    @BindView(R.id.drawer_menu_primary_sections) LinearLayout mPrimarySections;
+    @BindView(R.id.drawer_menu_help_sections) LinearLayout mHelpSections;
+    @BindView(R.id.drawer_menu_help_sections_separator) View mHelpSectionsSeparator;
+    @BindView(R.id.drawer_menu_primary) View mDrawerView;
+    @BindView(R.id.drawer_menu_user_cover) View mUserCoverArea;
+    @BindView(R.id.drawer_menu_user_name) TextView mUserName;
+    @BindView(R.id.drawer_menu_user_email) TextView mUserEmail;
 
     private DrawerSection mCurrentSection;
 
@@ -67,7 +66,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
 
     public DrawerSectionsController (final SectionedDrawerActivity scene) {
         mScene = scene;
-        ButterKnife.inject (this, scene);
+        ButterKnife.bind (this, scene);
     }
 
     @Override
@@ -78,7 +77,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     @Override
     public void addSubheader (final String titleText) {
         final View subheader = getInflater ().inflate (R.layout.drawer_section_subheader, mPrimarySections, false);
-        final TextView title = ButterKnife.findById (subheader, R.id.drawer_section_subheader_text);
+        final TextView title = subheader.findViewById(R.id.drawer_section_subheader_text);
         title.setText (titleText);
 
         addDivider (R.layout.drawer_section_divider_subheader);

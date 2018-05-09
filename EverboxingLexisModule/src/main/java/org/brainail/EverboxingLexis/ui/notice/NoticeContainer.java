@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import butterknife.ButterKnife;
-
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
@@ -394,9 +392,9 @@ public class NoticeContainer extends FrameLayout {
 
         private NoticeHolder(final Notice noticeData, final View noticeView) {
             this.noticeView = noticeView;
-            this.noticeBar = ButterKnife.findById(noticeView, R.id.notice_bar);
-            this.action = ButterKnife.findById(noticeView, R.id.notice_action);
-            this.body = ButterKnife.findById(noticeView, R.id.notice_message);
+            this.noticeBar = noticeView.findViewById(R.id.notice_bar);
+            this.action = noticeView.findViewById(R.id.notice_action);
+            this.body = noticeView.findViewById(R.id.notice_message);
 
             this.actionCallback = noticeData.actionCallback;
             noticeData.actionCallback = null;

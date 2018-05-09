@@ -141,7 +141,6 @@ public class JApplication extends Application implements HasComponent<AppCompone
 
         // Logging settings of other libraries
         // Icepick.setDebug(BuildConfig.DEBUG);
-        // ButterKnife.setDebug (BuildConfig.DEBUG);
     }
 
     private void initDialogs () {

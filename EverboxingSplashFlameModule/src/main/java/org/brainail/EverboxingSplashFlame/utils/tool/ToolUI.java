@@ -26,8 +26,6 @@ import org.brainail.EverboxingSplashFlame.ui.notice.NoticeController;
 import org.brainail.EverboxingTools.utils.Sdk;
 import org.brainail.EverboxingTools.utils.tool.ToolPhone;
 
-import butterknife.ButterKnife;
-
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>
@@ -116,7 +114,7 @@ public final class ToolUI {
 
     public static void fixSettingsPaddingWorkaround (final AppCompatActivity activity) {
         try {
-            final ListView allPreferences = ButterKnife.findById (activity, android.R.id.list);
+            final ListView allPreferences = activity.findViewById(android.R.id.list);
             allPreferences.setPadding (0, 0, 0, 0);
             final ViewGroup parent = (ViewGroup) allPreferences.getParent ();
             parent.setPadding (parent.getPaddingLeft (), 0, parent.getPaddingRight (), 0);
@@ -127,7 +125,7 @@ public final class ToolUI {
 
     public static void fixSettingsSelectorWorkaround (final AppCompatActivity activity) {
         try {
-            final ListView allPreferences = ButterKnife.findById (activity, android.R.id.list);
+            final ListView allPreferences = activity.findViewById(android.R.id.list);
             if (!Sdk.isSdkSupported (Sdk.LOLLIPOP)) {
                 allPreferences.setSelector (ToolResources.retrieveListDefaultSelector(activity));
             }
@@ -138,7 +136,7 @@ public final class ToolUI {
 
     public static void fixSettingsDividersWorkaround (final AppCompatActivity activity) {
         try {
-            final ListView allPreferences = ButterKnife.findById (activity, android.R.id.list);
+            final ListView allPreferences = activity.findViewById(android.R.id.list);
             allPreferences.setDivider (null);
             allPreferences.setDividerHeight (0);
         } catch (Exception exception) {

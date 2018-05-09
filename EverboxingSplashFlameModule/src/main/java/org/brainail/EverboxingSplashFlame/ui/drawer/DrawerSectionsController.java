@@ -84,7 +84,7 @@ final class DrawerSectionsController implements IDrawerSectionsController {
     @Override
     public void addSubheader (final String titleText) {
         final View subheader = getInflater ().inflate (R.layout.drawer_section_subheader, mPrimarySections, false);
-        final TextView title = ButterKnife.findById (subheader, R.id.drawer_section_subheader_text);
+        final TextView title = subheader.findViewById(R.id.drawer_section_subheader_text);
         title.setText (titleText);
 
         addDivider (R.layout.drawer_section_divider_subheader);
