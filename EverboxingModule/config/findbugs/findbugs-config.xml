@@ -1,9 +1,0 @@
-<FindBugsFilter>
-    <Match>
-        <!-- Ignore generated *.R and *.Manifest classes -->
-        <Or>
-            <Class name="~.*\.R\$.*" />
-            <Class name="~.*\.Manifest\$.*" />
-        </Or>
-    </Match>
-</FindBugsFilter>

@@ -1,9 +1,14 @@
 package org.brainail.EverboxingLexis.ui.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,8 +96,19 @@ public class HomeActivity
     @Override
     public void onStart () {
         super.onStart ();
-
+        
         // ...
+    }
+    
+    public final void checkPermissions() {
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) ||
+                (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this,
+                    new String [] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    996);
+        }
     }
 
     @Override
@@ -148,6 +164,8 @@ public class HomeActivity
     @Override
     protected void onResume () {
         super.onResume ();
+        
+        checkPermissions();
 
         // For the first time get info about user from settings
         updateUserInfo (new DrawerUser.UserProvider () {
@@ -158,7 +176,20 @@ public class HomeActivity
             }
         });
     }
-
+    
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 996) {
+            if ((grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // yay
+            } else {
+                // boooo
+                finish();
+            }
+        }
+    }
+    
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments ();

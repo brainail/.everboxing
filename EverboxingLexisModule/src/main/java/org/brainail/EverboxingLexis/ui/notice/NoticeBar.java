@@ -11,8 +11,6 @@ import android.widget.TextView;
 import org.brainail.EverboxingLexis.JApplication;
 import org.brainail.EverboxingLexis.R;
 
-import butterknife.ButterKnife;
-
 /**
  * This file is part of Everboxing modules. <br/><br/>
  * <p/>
@@ -74,7 +72,7 @@ public class NoticeBar {
     public NoticeBar(final NoticeOnSceneController controller, final Activity activity) {
         mNoticesController = controller;
 
-        final ViewGroup container = ButterKnife.findById(activity, android.R.id.content);
+        final ViewGroup container = activity.findViewById(android.R.id.content);
         final View notice = activity.getLayoutInflater().inflate(R.layout.notice, container, false);
 
         init(container, notice);
@@ -93,11 +91,11 @@ public class NoticeBar {
     private void init(final ViewGroup container, final View noticeView) {
         mNoticeView = noticeView;
 
-        mContainer = ButterKnife.findById(container, R.id.notice_container);
+        mContainer = container.findViewById(R.id.notice_container);
         if (null == mContainer) mContainer = new NoticeContainer(container);
         mContainer.attachController(mNoticesController);
 
-        final TextView actionText = ButterKnife.findById(noticeView, R.id.notice_action);
+        final TextView actionText = noticeView.findViewById(R.id.notice_action);
         actionText.setOnClickListener(mInternalOnActionCallback);
     }
 

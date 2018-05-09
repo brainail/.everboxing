@@ -8,9 +8,8 @@ import android.widget.TextView;
 import org.brainail.EverboxingLexis.R;
 import org.brainail.EverboxingLexis.utils.tool.ToolUI;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
 
 /**
  * This file is part of Everboxing modules. <br/><br/>
@@ -40,15 +39,15 @@ import butterknife.Optional;
 public class DrawerSectionHolder {
 
     View selfView;
-    @Optional @InjectView(R.id.drawer_section_text) TextView selfText;
-    @Optional @InjectView(R.id.drawer_section_icon) ImageView selfIcon;
-    @Optional @InjectView(R.id.drawer_section_notification) TextView selfNotifications;
+    @BindView(R.id.drawer_section_text) TextView selfText;
+    @BindView(R.id.drawer_section_icon) ImageView selfIcon;
+    @BindView(R.id.drawer_section_notification) TextView selfNotifications;
 
     public static DrawerSectionHolder inflate (final Context context, final DrawerSection.LayoutType type) {
         final DrawerSectionHolder viewHolder = new DrawerSectionHolder ();
 
         viewHolder.selfView = ToolUI.linearWrapper (context, type.layoutId);
-        ButterKnife.inject (viewHolder, viewHolder.selfView);
+        ButterKnife.bind (viewHolder, viewHolder.selfView);
 
         return viewHolder;
     }
