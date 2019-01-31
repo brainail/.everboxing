@@ -50,7 +50,7 @@ public final class BlobDescriptorList extends AbstractList<BlobDescriptor> {
     private Handler handler;
 
     public BlobDescriptorList(DescriptorStore<BlobDescriptor> store) {
-        this(store, 100);
+        this(store, 1000);
     }
 
     public BlobDescriptorList(DescriptorStore<BlobDescriptor> store, int maxSize) {

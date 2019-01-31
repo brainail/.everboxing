@@ -34,7 +34,6 @@ task clean(type: Delete) {
 
 ext {
     compileSdkVersionExt = 27
-    buildToolsVersionExt = '27.0.3'
 
     multiDexVersion = '1.0.1'
 

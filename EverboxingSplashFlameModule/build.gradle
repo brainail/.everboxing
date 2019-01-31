@@ -61,7 +61,6 @@ repositories {
 
 android {
     compileSdkVersion compileSdkVersionExt
-    buildToolsVersion "${buildToolsVersionExt}"
 
     defaultConfig {
         applicationId "org.brainail.EverboxingSplashFlame"

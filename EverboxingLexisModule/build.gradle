@@ -1,7 +1,7 @@
 // Version stuff for auto generated versionName and versionCode
 def appVersionMajor = 1
-def appVersionMinor = 1
-def appVersionPatch = 2
+def appVersionMinor = 2
+def appVersionPatch = 0
 
 buildscript {
     repositories {
@@ -73,7 +73,6 @@ repositories {
 
 android {
     compileSdkVersion compileSdkVersionExt
-    buildToolsVersion "${buildToolsVersionExt}"
 
     defaultConfig {
         applicationId "org.brainail.EverboxingLexis"
@@ -259,6 +258,8 @@ dependencies {
 configurations.all {
     resolutionStrategy {
         force "com.android.support:support-v4:${supportLibVersion}"
+        force "com.android.support:appcompat-v7:${supportLibVersion}"
+        force "com.android.support:support-compat:${supportLibVersion}"
     }
 }
 
