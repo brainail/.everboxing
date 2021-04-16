@@ -9,7 +9,7 @@
 APP_CPPFLAGS := -std=gnu++11
 # LOCAL_CPPFLAGS += -std=c++11
 
-# APP_ABI := all
+APP_ABI := all
 
 APP_STL := stlport_static
-APP_ABI := x86 armeabi armeabi-v7a mips
+# APP_ABI := x86 armeabi armeabi-v7a mips
